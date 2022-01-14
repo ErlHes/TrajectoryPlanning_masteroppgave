@@ -1,0 +1,1 @@
+% load('/home/emilht/MATLAB/simulator_multiAgent/envionments/piren_frame_static_env_trondheim_harbour.mat')

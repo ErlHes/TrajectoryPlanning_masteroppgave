@@ -1,0 +1,21 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\babel@toc {british}{}\relax 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Preface}{i}{section*.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Abstract}{iii}{section*.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{List of Figures}{vi}{section*.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1}Introduction}{1}{section.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2}Background}{2}{section.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3}Method}{3}{section.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4}Results}{4}{section.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5}Conclusion}{5}{section.5}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{References}{6}{section*.4}%
+\contentsfinish 

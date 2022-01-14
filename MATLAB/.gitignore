@@ -1,0 +1,51 @@
+
+# Windows default autosave extension
+*.asv
+
+# OSX / *nix default autosave extension
+*.m~
+
+# Compiled MEX binaries (all platforms)
+*.mex*
+
+# Packaged app and toolbox files
+*.mlappinstall
+*.mltbx
+
+# Video files form matlab simulations
+*.avi
+# Generated helpsearch foldersa
+helpsearch*/
+
+# Simulink code generation folders
+**slprj/
+**sccprj/
+
+trajectory_generation/slprj/
+path_velocity_decomposition/slprj/
+azimuth_linearization_control_system/slprj/
+3DOF_sim_milliAmpere/slprj/ 
+
+# Matlab code generation folders
+codegen/
+
+# Matlab figures
+*.fig
+*.eps
+
+# Mat file from simulations
+simulations/**/*.mat
+simulations/**/**/*.mat
+
+simulations/**/data/*.mat
+simulations/**/**/data/*.mat
+
+
+# Simulink autosave extension
+*.autosave
+
+# Simulink cache files
+*.slxc
+
+# Octave session info
+octave-workspace

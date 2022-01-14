@@ -1,0 +1,18 @@
+# File containing all parameters used in the dynamic_positioning package
+node_name: 'dynamic_positioning'
+active_modes: ['dp', 'docking', 'aferry_dp', 'transit']
+
+controller:
+    Kp: [200., 200., 800]
+    Kd: [700., 700., 1600.]
+    Ki: [10., 10., 15.]
+    tau_i_windup: [150., 150., 200.]
+    dt: 0.1
+    k_ff_vel: 0.7
+    k_ff_acc: 0.7
+#Decoupled 3DOF model. These vectors are the diagonals of the mass and damping matrices    
+model:
+    M: [2390.0, 2448.0, 4862.0]
+    D_lin: [106.6, 29.44, 142.7]
+    D_quad: [21.39, 172.9, 831.7]
+    D_cub: [37.43, 1.338, 0.]
