@@ -119,7 +119,7 @@ if(parameters.system.make_video)
     disp('Saving video...')       
     
     fig_filename = strcat('video_', simulation);
-    video_filepos = strcat('C:\Users\erlen\Documents\GitHub\Fordypnings-rapport\multiAgent_simulator-master/', simulation,'/');
+    video_filepos = strcat('C:\Users\erlen\Documents\GitHub\TrajectoryPlanning_masteroppave\MATLAB/', simulation,'/');
 
     % create the video writer with 1 fps
     writerObj = VideoWriter( strcat(video_filepos, fig_filename,'.avi'));

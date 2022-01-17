@@ -40,7 +40,7 @@ clc;
 %simulation = 'islands_HO';
 
 %% MPC with assist ENV SCENARIOS:
-% simulation = 'Walk_in_the_park';
+ simulation = 'Walk_in_the_park';
 % simulation = 'Local_minimum';
 % simulation = 'Blocked_path';
 
@@ -50,7 +50,7 @@ clc;
 % simulation = 'Simple_HO'; % OUTDATED
 
 % simulation = 'StraitCross'; %non compliant TS from port side
-simulation = 'StraitCross_HO';
+%simulation = 'StraitCross_HO';
 % simulation = 'StraitCross_OT';
 
 %% MPC WITH ASSIST TRAFFIC PATTERN DIFFERENCE:
@@ -89,7 +89,7 @@ simulation = 'StraitCross_HO';
 
 run('get_combined_parameter_struct.m');
 
-home_dir = 'C:\Users\erlen\Documents\GitHub\Fordypnings-rapport\multiAgent_simulator-master\';
+home_dir = 'C:\Users\erlen\Documents\GitHub\TrajectoryPlanning_masteroppgave\MATLAB\';
 % Define all simulator parameters
 run(strcat(home_dir,'simulations/', simulation,'/sim_settings.m'));
 % Define all agents
