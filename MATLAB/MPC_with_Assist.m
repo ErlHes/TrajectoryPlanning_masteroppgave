@@ -60,33 +60,90 @@ import casadi.*
     
     % System matrices.
     x = SX.sym('x',3); % x = [N, E, psi]'
-    u = SX.sym('u',2); % u = [Surge, psi_dot]'
+    u = SX.sym('u',3); % u = [u, v, r]'
     xref = SX.sym('xref',2); % xref = [Nref, Eref]'
-    uref = SX.sym('uref',2); % uref = [Surge_ref, Psi_dot_ref]'
-    % There is no need for a heading reference.
+    uref = SX.sym('uref',3); % uref = [Surge_ref, sway_ref, Psi_dot_ref]'
     
-    % System dynamics.    
-    R = [cos(x(3))   0;...
-         sin(x(3))   0;...
-            0       1];
-    xdot = R*u;
+    % Model Parameters.
+    m11 = 2131.80;  % Kg
+    m12 = 1.00;     % Kg
+    m13 = 141.02;   % Kgm
+    m21 = -15.87;   % Kg
+    m22 = 2231.89;  % Kg
+    m23 = -1244.35; % Kgm
+    m31 = -423.76;  % Kgm
+    m32 = -397.64;  % Kgm
+    m33 = 4351.56;  % Kg(m^2)
+    Xu = -68.676;   % Kg/s
+    Xuu = -50.08;   % Kg/m
+    xuuu = -14.93;  % Kgs/(m^2)
+    Xv = -25.20;    % Kg/s
+    Xr = -145.3;    % Kgm/s
+    Yu = 90.15;     % Kg/s
+    Yv = -8.69;     % Kg/s
+    Yvv = -189.08;  % Kg/m
+    Yvvv = -0.00613;% Kgs/(s^2) ? Kgs/(m^2)?
+    Yrv = -3086.95; % Kg
+    Yr = -24.09;    % Kgm/s
+    Yvr = -338.32;  % Kg
+    Yrr = 1372.06;  % Kg(m^2)
+    Nu = -38.00;    % Kgm/s
+    Nv = -97.26;    % Kgm/s
+    Nvv = -18.85;   % Kg
+    Nrv = 5552.23;  % Kgm
+    Nr = -230.19;   % Kg(m^2)/s
+    Nrr = -0.0063;  % Kg(m^2)
+    Nrrr = -0.00067;% Kgms
+    Nvr = -5888.89; % Kgm
+    
+    c13 = -m22*u(2); % should be -m22 * sway.
+    c23 = m11*u(1);
+    c31 = -c13;
+    c32 = -c23*u(2); % should be -c23 * sway.
+    
+    d11 = -Xu - Xuu * abs(u(1)) - Xuuu*u(1)^2;
+    d22 = -Yv - Yvv*abs(u(2)) - Yvvv*u(2)^2;
+    d23 = d22;
+    d32 = -Nvv*abs(u(2)) - Nrv *abs(u(3));
+    d33 = -Nr - Nrr*abs(u(3)) - Nrrr*u(3)^2;
+    
+    
+    % System dynamics.
+    R = [cos(x3)    -sin(x3)    0;...
+         sin(x3)    cos(x3)     0;...
+            0           0       1];    
+    M = [m11   m12     m13;...
+         m21   m22     m23;...
+         m31   m32     m33];
+    C = [0    0   c13;...
+         0    0   c23;...
+         c31 c32    0];
+    D = [d11     0        0;...
+         0      d22     d23;...
+         0      d32     d33];
+    
+    
     
     % Objective function.
     P = [x(1), x(2)]'; % Position in NED.
     Kp = diag([10, 10]); % Tuning parameter for positional reference deviation.
     Ku = 1; % Tuning parameter for surge reference deviation.
     Kr = 0.1; % Tuning parameter for yaw rate reference deviation.
-    L = Kp * norm(P - xref)^2 + Ku  * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
+    %L = Kp * norm(P - xref)^2 + Ku  * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
+    %L = (P - xref)'* Kp * (P - xref) + Ku * (u_0'*u_0 - uref(1)'*uref(1))^2;
+    %L = (P - xref)'* Kp * (P - xref) + Ku * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
+    
     % Continous time dynamics.
     f = Function('f', {x, u, xref, uref}, {xdot, L});
     
     % Discrete time dynamics.
     M = 4; %RK4 steps per interval
     DT = T/N/M;
+    f = Function('f', {x, u, xref, uref}, {xdot, L});
     X0 = MX.sym('X0',3);
-    U = MX.sym('U',2);
+    U = MX.sym('U',3);
     Xd = MX.sym('Xd',2);
-    Ud = MX.sym('Ud',2);
+    Ud = MX.sym('Ud',3);
     X = X0;
     Q = 0;
     for j=1:M
@@ -117,9 +174,9 @@ import casadi.*
     ubw = [ubw; inf; inf; inf];
     w0 = [w0; 0; 0; 0];
 
-    %g = [g, {initial_pos - Xk(1:2)}];
-    %lbg = [lbg; 0; 0];
-    %ubg = [ubg; 0; 0];
+    g = [g, {initial_pos - Xk(1:2)}];
+    lbg = [lbg; 0; 0];
+    ubg = [ubg; 0; 0];
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% MAIN LOOP
@@ -127,15 +184,15 @@ import casadi.*
 
     for k = 0:N-1
         % New NLP variable for control.
-        Uk = MX.sym(['U_' num2str(k)], 2);
+        Uk = MX.sym(['U_' num2str(k)], 3);
         w = {w{:}, Uk};
-        lbw = [lbw; -10; -deg2rad(30)];
-        ubw = [ubw; 10; deg2rad(30)];
-        w0 = [w0; 0; 0];
+        lbw = [lbw; -10; -10; -deg2rad(30)];
+        ubw = [ubw; 10; 10; deg2rad(30)];
+        w0 = [w0; 0; 0; 0];
         
         % Integrate until the end of the interval.
         xref_i = reference_trajectory_los(1:2,k+2); % Positional reference.
-        uref_i = [norm(reference_trajectory_los(3:4,k+2));...
+        uref_i = [reference_trajectory_los(3:4,k+2);...
                   (atan2(reference_trajectory_los(4,k+3),reference_trajectory_los(3,k+3)) - ...
                    atan2(reference_trajectory_los(4,k+2),reference_trajectory_los(3,k+2))) / h]; % Surge and yaw rate reference.
         Fk = F('x0', Xk, 'u', Uk, 'Xd', xref_i, 'Ud', uref_i);
@@ -210,9 +267,10 @@ import casadi.*
     %stairs(tgrid, [u_opt; nan], '-.')
     %xlabel('t')
     %legend('x1','x2','u')
-
-    vessel.eta(1:2) = w_opt(5:6);
-    vessel.eta_dot(1:2) = w_opt(3:4);
+    
+    %More work is needed here, please fix.
+    vessel.eta = w_opt(6:8);
+    vessel.eta_dot(1:2) = w_opt(4:5);
     vessel.eta_dot(3) = 0;
     vessel.eta(3) = atan2(vessel.eta_dot(2),vessel.eta_dot(1));
     vessel.nu = rotZ(vessel.eta(3))*vessel.eta_dot;
