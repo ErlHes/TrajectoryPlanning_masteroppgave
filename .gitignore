@@ -1,0 +1,7 @@
+
+*.fls
+*.log
+Rapport/main.fls
+*.fdb_latexmk
+*.aux
+*.gz
