@@ -122,8 +122,13 @@ import casadi.*
          0      d22     d23;...
          0      d32     d33];
     
+    tau = [cos(theta_front)         cos(theta_rear);...
+           sin(theta_front)         sin(theta_rear);...
+           -l_TA*sin(theta_front)   -l_TA*sin(theta_rear)] * [F_front;F_rear];
     
-    
+    nu_dot = M\(tau -(C+D)*nu); 
+     
+    xdot = R*nu; 
     % Objective function.
     P = [x(1), x(2)]'; % Position in NED.
     Kp = diag([10, 10]); % Tuning parameter for positional reference deviation.
