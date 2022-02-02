@@ -2,6 +2,8 @@
 \begin{itemize}
     \item Skal prøve å skrive med litt bedre rød tråd denne gangen
 \end{itemize}
+Before diving into the main matter of this thesis, some groundwork is neccessary to explain the fundamental theories that the thesis is built upon.
+This section will provide a structured overview of the concepts and terminology that will be used later.
 
 \subsection{Vessel Model}
 \begin{itemize}
@@ -11,9 +13,72 @@
     \item Hvordan brukes modellen. 
 \end{itemize}
 
+In this thesis, the terms \textit{vessel}, \textit{ship}, and \textit{boat} will all be used interchangably to refer to the same thing: a hollow structure that floats
+on water for the purpose of navigation. Exactly how the vessel behaves as it floats depends on a multitude of factors which can be modelled mathematically. There are many
+ways to model a vessel, but not every model is useful for every purpose. Just like how not every tool is fit as a hammer. To create a useful model for
+navigation and control specifically, we separate the modelling problem into two categories: Kinematics and Kinetics.
+
+\subsubsection{Kinematics}
+Kinematics is the aspect of the problem concerned only with the geometrical aspect of motion. When modelling our hollow structure is not enough to simply 
+describe the velocity which with it floats. If the vessel has it's own actuator to generate thrust we must know which direction the force generated is pointing, and
+if there are external forces acting upon the vessel we must know which direction those forces are pointing. But what is the reference point for these directions? and where
+even is our vessel floating?   ...\textit{Dette er ikke hvordan jeg ønsker å skrive dette avsnittet, men jeg lar det stå slik som det for nå...}
+
+What we need is a reference frame, in fact we need multiple reference frames. A reference frame is simply a origin point and some defined direction or axis that together
+come to define a coordinate system. One such frame is called Earth Centered Inetrial (ECI), this is an inertial frame where the z-axis is aligned with the axis which Earth
+rotates around while the x and y axis are fixed in space. An observer using this reference frame would see the Earth spinning around the z-axis, the solar system would appear
+to rotate around Earth, and objects which would be considered stationary on Earth's surface would have an angular velocity. Another useful frame is called
+Earth Centered Earth Fixed (ECEF) and is very similar to ECI except that the x and y axis now rotate with Earth's rotation. Objects which are considered to be stationary on
+the surface of Earth are also considered to be stationary to an observer using ECEF. EFEC is the frame in which Longitude, Latitude and Altitude are used to describe
+a position and heigh, and this frame is widely used in satellite based global navigation systems such as Global Positioning System (GPS).
+\\
+There are two more reference frames which are very useful for modelling our vessel:
+\begin{itemize}
+    \item \textbf{NED} or North-East-Down is a flat plane projection of some area on Earth. The origin point for a NED frame is generally some Longitude-Latitude
+    position from ECEF with the x-axis poiting towards true North, y-axis pointing east and the z-axis ponting down towards the center of the Earth. NED will be denoted as
+    {n} from here on.
+    \item \textbf{BODY} is a frame affixed to the body of the vessel with the x-axis aligned with the longitudal axis of the vessel from aft to fore, 
+    the y-axis is the transversal axis pointing towards starboard, and the z-axis is the normal axis from top to bottom. BODY will be denoted as {b} from here on.
+\end{itemize}
+
+The reason for all these frames is that motion described by one frame can be transformed to be expressed in another, meaning that we can define the forces of our
+vessels actuators in {b} and transform this to motion in {n}. Consider that the z-axis for {b} and {n} are parallel, rotating from {b} to {n} becomes
+a principal rotation about the z-axis:
+\begin{equation}
+    \label{eq:principal rotation}
+    J_{\Theta}(\eta) = R_{z,\psi} = \begin{bmatrix}
+        cos(\psi) & -sin(\psi) & 0\\
+        sin(\psi) & cos(\psi) & 0\\
+        0 & 0  & 1\\
+    \end{bmatrix} 
+\end{equation}
+
+This rotation is the relationship between body velocities and positional change:
+
+\begin{equation}
+    \label{eq:eta dot}
+    \dot{\eta} = R(\psi) \nu
+\end{equation}
+
+where $R(\psi) := R_{z,\psi}$, $\nu = [u,v,r]'$ are the surge, sway and heave velocities of our vessel. And $\eta = [N, E, \psi]'$ is the north east position and heading orientation of our vessel.
+
+\subsubsection{Kinetics}
+\begin{itemize}
+    \item Kinetics is the model for turning forces into motion.
+    \item Degrees of Freedom explained
+    \item 3DOF rigid body kinetics from Fossen 2011
+    \item Explain added mass, coriolis, dampening.
+    \item explain thrust?
+\end{itemize}
+Kinetics is the aspect of the modelling problem that is concerned with converting forces to motion.
+something something 3DOF. something something mass, corriolis, dampening, thrust matrices.
+
+
+
 \subsection{Collision Avoidance}
 \begin{itemize}
     \item liten introsnutt om hva jeg mener går under paraplyen "Collision avoidance".
+    \item Denne blir vel egentlig ganske lik som i fordypningsoppgaven.
 \end{itemize}
 
 \subsubsection{COLREGs}
