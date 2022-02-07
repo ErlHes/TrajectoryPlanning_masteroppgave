@@ -61,22 +61,14 @@ import casadi.*
     % System matrices.
     x = SX.sym('x',3); % x = [N, E, psi]'
     u = SX.sym('u',3); % u = [u, v, r]'
+    tau = SX.sym('tau',3); % tau = [Fx, Fy, Fn];
     xref = SX.sym('xref',2); % xref = [Nref, Eref]'
-    uref = SX.sym('uref',3); % uref = [Surge_ref, sway_ref, Psi_dot_ref]'
+    uref = SX.sym('uref',3); % uref = [Surge_ref, sway_ref, r_ref]'
     
     % Model Parameters.
-    m11 = 2131.80;  % Kg
-    m12 = 1.00;     % Kg
-    m13 = 141.02;   % Kgm
-    m21 = -15.87;   % Kg
-    m22 = 2231.89;  % Kg
-    m23 = -1244.35; % Kgm
-    m31 = -423.76;  % Kgm
-    m32 = -397.64;  % Kgm
-    m33 = 4351.56;  % Kg(m^2)
     Xu = -68.676;   % Kg/s
     Xuu = -50.08;   % Kg/m
-    xuuu = -14.93;  % Kgs/(m^2)
+    Xuuu = -14.93;  % Kgs/(m^2)
     Xv = -25.20;    % Kg/s
     Xr = -145.3;    % Kgm/s
     Yu = 90.15;     % Kg/s
@@ -96,6 +88,16 @@ import casadi.*
     Nrrr = -0.00067;% Kgms
     Nvr = -5888.89; % Kgm
     
+    m11 = 2131.80;  % Kg
+    m12 = 1.00;     % Kg
+    m13 = 141.02;   % Kgm
+    m21 = -15.87;   % Kg
+    m22 = 2231.89;  % Kg
+    m23 = -1244.35; % Kgm
+    m31 = -423.76;  % Kgm
+    m32 = -397.64;  % Kgm
+    m33 = 4351.56;  % Kg(m^2)
+    
     c13 = -m22*u(2); % should be -m22 * sway.
     c23 = m11*u(1);
     c31 = -c13;
@@ -109,8 +111,8 @@ import casadi.*
     
     
     % System dynamics.
-    R = [cos(x3)    -sin(x3)    0;...
-         sin(x3)    cos(x3)     0;...
+    R = [cos(x(3))    -sin(x(3))    0;...
+         sin(x(3))    cos(x(3))     0;...
             0           0       1];    
     M = [m11   m12     m13;...
          m21   m22     m23;...
@@ -122,44 +124,49 @@ import casadi.*
          0      d22     d23;...
          0      d32     d33];
     
-    tau = [cos(theta_front)         cos(theta_rear);...
-           sin(theta_front)         sin(theta_rear);...
-           -l_TA*sin(theta_front)   -l_TA*sin(theta_rear)] * [F_front;F_rear];
+%     tau = [cos(theta_front)         cos(theta_rear);...
+%            sin(theta_front)         sin(theta_rear);...
+%            -l_TA*sin(theta_front)   -l_TA*sin(theta_rear)] * [F_front;F_rear];
     
-    nu_dot = M\(tau -(C+D)*nu); 
-     
-    xdot = R*nu; 
+    nudot = M\(tau -(C+D)*u); 
+    %Mangler å oppdatere Nu, altså u, for å fullføre overgangen: 
+    %nudot (udot) -> Nu -> etadot(xdot)
+    nu = u + h*nudot;
+    xdot = R*nu;  % eta_dot
     % Objective function.
     P = [x(1), x(2)]'; % Position in NED.
     Kp = diag([10, 10]); % Tuning parameter for positional reference deviation.
     Ku = 1; % Tuning parameter for surge reference deviation.
     Kr = 0.1; % Tuning parameter for yaw rate reference deviation.
+    Kt = 2;
     %L = Kp * norm(P - xref)^2 + Ku  * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
     %L = (P - xref)'* Kp * (P - xref) + Ku * (u_0'*u_0 - uref(1)'*uref(1))^2;
     %L = (P - xref)'* Kp * (P - xref) + Ku * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
+    L = (P - xref)'* Kp * (P - xref) + Kt * abs(tau'*tau);
     
     % Continous time dynamics.
-    f = Function('f', {x, u, xref, uref}, {xdot, L});
+    f = Function('f', {x, u, tau, xref, uref}, {xdot, L});
     
     % Discrete time dynamics.
     M = 4; %RK4 steps per interval
     DT = T/N/M;
-    f = Function('f', {x, u, xref, uref}, {xdot, L});
+    f = Function('f', {x, u, tau, xref, uref}, {xdot, L});
     X0 = MX.sym('X0',3);
     U = MX.sym('U',3);
+    Tau = MX.sym('Tau',3);
     Xd = MX.sym('Xd',2);
     Ud = MX.sym('Ud',3);
     X = X0;
     Q = 0;
     for j=1:M
-        [k1, k1_q] = f(X, U, Xd, Ud);
-        [k2, k2_q] = f(X + DT/2 * k1, U, Xd, Ud);
-        [k3, k3_q] = f(X + DT/2 * k2, U, Xd, Ud);
-        [k4, k4_q] = f(X + DT * k3, U, Xd, Ud);
+        [k1, k1_q] = f(X, U, Tau, Xd, Ud);
+        [k2, k2_q] = f(X + DT/2 * k1, U, Tau, Xd, Ud);
+        [k3, k3_q] = f(X + DT/2 * k2, U, Tau, Xd, Ud);
+        [k4, k4_q] = f(X + DT * k3, U, Tau, Xd, Ud);
         X=X+DT/6*(k1 +2*k2 +2*k3 +k4);
         Q = Q + DT/6*(k1_q + 2*k2_q + 2*k3_q + k4_q);
     end
-    F = Function('F', {X0, U, Xd, Ud}, {X, Q}, {'x0','u', 'Xd', 'Ud'}, {'xf', 'qf'});
+    F = Function('F', {X0, U, Tau, Xd, Ud}, {X, Q}, {'x0','u', 'tau' 'Xd', 'Ud'}, {'xf', 'qf'});
     
     %% NLP initialization.
     % Start with empty NLP.
@@ -175,13 +182,13 @@ import casadi.*
     % "lift" initial conditions.
     Xk = MX.sym('X0',3);
     w = {w{:}, Xk};
-    lbw = [lbw; -inf; -inf; -inf];
-    ubw = [ubw; inf; inf; inf];
+    lbw = [lbw; -inf; -inf; 0];
+    ubw = [ubw; inf; inf; 2*pi];
     w0 = [w0; 0; 0; 0];
 
-    g = [g, {initial_pos - Xk(1:2)}];
-    lbg = [lbg; 0; 0];
-    ubg = [ubg; 0; 0];
+%     g = [g, {initial_pos - Xk(1:2)}];
+%     lbg = [lbg; 0; 0];
+%     ubg = [ubg; 0; 0];
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% MAIN LOOP
@@ -191,24 +198,31 @@ import casadi.*
         % New NLP variable for control.
         Uk = MX.sym(['U_' num2str(k)], 3);
         w = {w{:}, Uk};
-        lbw = [lbw; -10; -10; -deg2rad(30)];
-        ubw = [ubw; 10; 10; deg2rad(30)];
+        lbw = [lbw; -10; -10; -pi];
+        ubw = [ubw; 10; 10; pi];
+        w0 = [w0; 0; 0; 0];
+        
+        Tauk = MX.sym(['Tau_' num2str(k)], 3);
+        w = {w{:}, Tauk};
+        lbw = [lbw; -100; -60; -40];
+        ubw = [ubw; 100; 60; 40];
         w0 = [w0; 0; 0; 0];
         
         % Integrate until the end of the interval.
         xref_i = reference_trajectory_los(1:2,k+2); % Positional reference.
         uref_i = [reference_trajectory_los(3:4,k+2);...
                   (atan2(reference_trajectory_los(4,k+3),reference_trajectory_los(3,k+3)) - ...
-                   atan2(reference_trajectory_los(4,k+2),reference_trajectory_los(3,k+2))) / h]; % Surge and yaw rate reference.
-        Fk = F('x0', Xk, 'u', Uk, 'Xd', xref_i, 'Ud', uref_i);
+                   atan2(reference_trajectory_los(4,k+2),reference_trajectory_los(3,k+2))) / h]; % Surge, sway and yaw rate reference.
+        %uref_i = R\uref_i;
+        Fk = F('x0', Xk, 'u', Uk, 'tau', Tauk, 'Xd', xref_i, 'Ud', uref_i);
         Xk_end = Fk.xf;
         J = J + Fk.qf;
         
         % New NLP variable for state at the end of interval.
         Xk = MX.sym(['X_' num2str(k+1)], 3);
         w = [w, {Xk}];
-        lbw = [lbw; -inf; -inf; -inf];
-        ubw = [ubw; inf; inf; inf];
+        lbw = [lbw; -inf; -inf; 0];
+        ubw = [ubw; inf; inf; 2*pi];
         w0 = [w0; 0; 0; 0];
         
         % Add constraints.
@@ -225,9 +239,9 @@ import casadi.*
         if ~isempty(interpolated_static_obs)
             [~, cols] = size(interpolated_static_obs);
             for i=1:cols
-                g = [g, {(Xk(1:2) - interpolated_static_obs(:,i))'*(Xk(1:2) - interpolated_static_obs(:,i)) - 16^2}];
-                lbg = [lbg; 0];
-                ubg = [ubg; inf];
+%                 g = [g, {(Xk(1:2) - interpolated_static_obs(:,i))'*(Xk(1:2) - interpolated_static_obs(:,i)) - 16^2}];
+%                 lbg = [lbg; 0];
+%                 ubg = [ubg; inf];
             end
         end
         
@@ -253,11 +267,10 @@ import casadi.*
     previous_w_opt = w_opt;
     firsttime = 0;
 
-    % Plot the solution
     figure(999);
     clf;
-    north_opt = w_opt(1:5:end);
-    east_opt = w_opt(2:5:end);
+    north_opt = w_opt(1:9:end);
+    east_opt = w_opt(2:9:end);
     hold on
     plot(east_opt, north_opt, '*');
     plot(vessel.wp(2,:),vessel.wp(1,:),'g');
@@ -268,18 +281,15 @@ import casadi.*
     ylabel('North [m]');
     legend('W_{opt}', 'Transit path', 'reference trajectory');
     grid;
-    %plot(tgrid, east_opt, '-')
-    %stairs(tgrid, [u_opt; nan], '-.')
-    %xlabel('t')
-    %legend('x1','x2','u')
+%     plot(tgrid, east_opt, '-') ?????
+%     stairs(tgrid, [u_opt; nan], '-.') ????
+%     xlabel('t') ?????
+%     %legend('x1','x2','u') ?????? 
     
-    %More work is needed here, please fix.
-    vessel.eta = w_opt(6:8);
-    vessel.eta_dot(1:2) = w_opt(4:5);
-    vessel.eta_dot(3) = 0;
-    vessel.eta(3) = atan2(vessel.eta_dot(2),vessel.eta_dot(1));
-    vessel.nu = rotZ(vessel.eta(3))*vessel.eta_dot;
-    resulting_trajectory = zeros(6,100);    
+    vessel.eta = w_opt(10:12);
+    vessel.nu = w_opt(4:6);
+    vessel.eta_dot = rotZ(vessel.eta(3))*vessel.nu;
+    resulting_trajectory = zeros(6,100);     %  TODO
 
         
         
