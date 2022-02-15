@@ -62,7 +62,7 @@ import casadi.*
     x = SX.sym('x',3); % x = [N, E, psi]'
     u = SX.sym('u',3); % u = [u, v, r]'
     tau = SX.sym('tau',3); % tau = [Fx, Fy, Fn];
-    xref = SX.sym('xref',2); % xref = [Nref, Eref]'
+    xref = SX.sym('xref',3); % xref = [Nref, Eref, Psi_ref]'
     uref = SX.sym('uref',3); % uref = [Surge_ref, sway_ref, r_ref]'
     
     % Model Parameters.
@@ -134,15 +134,15 @@ import casadi.*
     nu = u + h*nudot;
     xdot = R*nu;  % eta_dot
     % Objective function.
-    P = [x(1), x(2)]'; % Position in NED.
-    Kp = diag([10, 10]); % Tuning parameter for positional reference deviation.
+    %P = [x(1), x(2)]'; % Position in NED.
+    Kp = diag([10, 10, 1]); % Tuning parameter for positional reference deviation.
     Ku = 1; % Tuning parameter for surge reference deviation.
     Kr = 0.1; % Tuning parameter for yaw rate reference deviation.
     Kt = 2;
     %L = Kp * norm(P - xref)^2 + Ku  * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
     %L = (P - xref)'* Kp * (P - xref) + Ku * (u_0'*u_0 - uref(1)'*uref(1))^2;
     %L = (P - xref)'* Kp * (P - xref) + Ku * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
-    L = (P - xref)'* Kp * (P - xref) + Kt * abs(tau'*tau);
+    L = (x - xref)'* Kp * (x - xref) + Kt * abs(tau'*tau) + Ku * (u'*u - uref'*uref)^2;
     
     % Continous time dynamics.
     f = Function('f', {x, u, tau, xref, uref}, {xdot, L});
@@ -154,7 +154,7 @@ import casadi.*
     X0 = MX.sym('X0',3);
     U = MX.sym('U',3);
     Tau = MX.sym('Tau',3);
-    Xd = MX.sym('Xd',2);
+    Xd = MX.sym('Xd',3);
     Ud = MX.sym('Ud',3);
     X = X0;
     Q = 0;
@@ -193,7 +193,8 @@ import casadi.*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% MAIN LOOP
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+loopdata = zeros(N+1,7);
+%loopdata = [k xref_N xref_E uref_i]
     for k = 0:N-1
         % New NLP variable for control.
         Uk = MX.sym(['U_' num2str(k)], 3);
@@ -209,10 +210,14 @@ import casadi.*
         w0 = [w0; 0; 0; 0];
         
         % Integrate until the end of the interval.
-        xref_i = reference_trajectory_los(1:2,k+2); % Positional reference.
-        uref_i = [reference_trajectory_los(3:4,k+2);...
+%         xref_i(1:2) = reference_trajectory_los(1:2,k+2); % Positional reference.
+        eta_dot_ref = [reference_trajectory_los(3:4,k+2);...
                   (atan2(reference_trajectory_los(4,k+3),reference_trajectory_los(3,k+3)) - ...
-                   atan2(reference_trajectory_los(4,k+2),reference_trajectory_los(3,k+2))) / h]; % Surge, sway and yaw rate reference.
+                   atan2(reference_trajectory_los(4,k+2),reference_trajectory_los(3,k+2))) / h];
+        
+        uref_i = [sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2); 0; eta_dot_ref(3)];
+%         xref_i(3) = atan2(uref_i(2),uref_i(1));
+        xref_i = [reference_trajectory_los(1:2,k+2); atan2(eta_dot_ref(2),eta_dot_ref(1))];
         %uref_i = R\uref_i;
         Fk = F('x0', Xk, 'u', Uk, 'tau', Tauk, 'Xd', xref_i, 'Ud', uref_i);
         Xk_end = Fk.xf;
@@ -245,12 +250,14 @@ import casadi.*
             end
         end
         
+        loopdata(k+1,:) = [k, xref_i' uref_i'];
+        
     end
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Optimal solution and updating states
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+    loopdata(end,:) = [k+1, xref_i' uref_i']; %off by one error hack.
     % Create an NLP solver.
     prob = struct('f', J, 'x', vertcat(w{:}), 'g', vertcat(g{:}));
     solver = nlpsol('solver', 'ipopt', prob);
@@ -266,12 +273,25 @@ import casadi.*
     
     previous_w_opt = w_opt;
     firsttime = 0;
-
+    
+    t = loopdata(:,1);
+    xref_N = loopdata(:,2);
+    xref_E = loopdata(:,3);
+    psi_ref = loopdata(:,4);
+    surge_ref = loopdata(:,5);
+    sway_ref = loopdata(:,6);
+    r_ref = loopdata(:,7);
+    
+    
     figure(999);
     clf;
     north_opt = w_opt(1:9:end);
     east_opt = w_opt(2:9:end);
-    hold on
+    psi_opt = w_opt(3:9:end);
+    surge_opt = w_opt(4:9:end);
+    sway_opt = w_opt(5:9:end);
+    r_opt = w_opt(6:9:end);
+    hold on;
     plot(east_opt, north_opt, '*');
     plot(vessel.wp(2,:),vessel.wp(1,:),'g');
     plot(reference_trajectory_los(2,:),reference_trajectory_los(1,:) , 'r-.');
@@ -281,6 +301,77 @@ import casadi.*
     ylabel('North [m]');
     legend('W_{opt}', 'Transit path', 'reference trajectory');
     grid;
+    
+    figure(10);
+    clf;
+    subplot(3,1,1);
+    plot(t,xref_N);
+    hold on;
+    plot(t,north_opt,'*');
+    hold off;
+    grid;
+    title('North ref and North Opt');
+    xlabel('Discretized time [k]');
+    ylabel('North [m]');
+    legend('North ref','North Opt');
+    
+    subplot(3,1,2);
+    plot(t,xref_E);
+    hold on;
+    plot(t,east_opt,'*');
+    hold off;
+    grid;
+    title('East ref and East opt');
+    xlabel('Discretized Time [k]');
+    ylabel('East [m]');
+    legend('East ref','East opt');
+    
+    subplot(3,1,3);
+    plot(t,psi_ref);
+    hold on;
+    plot(t,psi_opt,'*');
+    hold off;
+    grid;
+    title('psi ref and psi opt');
+    xlabel('Discretized time [k]');
+    ylabel('Psi (rad)');
+    legend('Psi ref','Psi opt');
+    
+    figure(11);
+    clf;
+    subplot(3,1,1);
+    plot(t,surge_ref);
+    hold on;
+    plot(t(2:end),surge_opt,'*');
+    hold off;
+    grid;
+    title('surge ref and surge Opt');
+    xlabel('Discretized time [k]');
+    ylabel('Surge [m/s]');
+    legend('Surge ref','Surge Opt');
+
+    subplot(3,1,2);
+    plot(t,sway_ref);
+    hold on;
+    plot(t(2:end),sway_opt,'*');
+    hold off;
+    grid;
+    title('sway ref and sway Opt');
+    xlabel('Discretized time [k]');
+    ylabel('sway [m/s]');
+    legend('sway ref','sway Opt');
+
+    subplot(3,1,3);
+    plot(t,r_ref);
+    hold on;
+    plot(t(2:end),r_opt,'*');
+    hold off;
+    grid;
+    title('yaw rate ref and yaw rate Opt');
+    xlabel('Discretized time [k]');
+    ylabel('yaw rate [rad/s]');
+    legend('Yaw rate ref','Yaw Rate Opt');
+    
 %     plot(tgrid, east_opt, '-') ?????
 %     stairs(tgrid, [u_opt; nan], '-.') ????
 %     xlabel('t') ?????
