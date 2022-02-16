@@ -8,7 +8,7 @@ import casadi.*
     persistent cflags
     persistent firsttime
     
-    N = 80;
+    N = 40;
     h = 0.5;
     T = N * h;
     
@@ -23,7 +23,8 @@ import casadi.*
     end
     
     %Initialize position and reference trajectory.
-    initial_pos = vessel.eta(1:2);
+    initial_pos = vessel.eta;
+    initial_vel = vessel.nu;
     [reference_trajectory_los, ~] = reference_trajectory_from_dynamic_los_guidance(vessel, parameters);
     
     %% Static obstacles
@@ -122,7 +123,7 @@ import casadi.*
          c31 c32    0];
     D = [d11     0        0;...
          0      d22     d23;...
-         0      d32     d33];
+         0      d32     50*d33];
     
 %     tau = [cos(theta_front)         cos(theta_rear);...
 %            sin(theta_front)         sin(theta_rear);...
@@ -136,16 +137,16 @@ import casadi.*
     % Objective function.
     %P = [x(1), x(2)]'; % Position in NED.
     Kp = diag([10, 10, 1]); % Tuning parameter for positional reference deviation.
-    Ku = 1; % Tuning parameter for surge reference deviation.
-    Kr = 0.1; % Tuning parameter for yaw rate reference deviation.
+    Ku = 10^6; % Tuning parameter for surge reference deviation.
+    %Kr = 0.1; % Tuning parameter for yaw rate reference deviation.
     Kt = 2;
     %L = Kp * norm(P - xref)^2 + Ku  * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
     %L = (P - xref)'* Kp * (P - xref) + Ku * (u_0'*u_0 - uref(1)'*uref(1))^2;
     %L = (P - xref)'* Kp * (P - xref) + Ku * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
-    L = (x - xref)'* Kp * (x - xref) + Kt * abs(tau'*tau) + Ku * (u'*u - uref'*uref)^2;
+    L = (x - xref)'* Kp * (x - xref) + Kt * abs(tau'*tau) +Ku * (u(1) - uref(1))^2;
     
     % Continous time dynamics.
-    f = Function('f', {x, u, tau, xref, uref}, {xdot, L});
+    f = Function('f', {x, u, tau, xref, uref}, {xdot, udot, L});
     
     % Discrete time dynamics.
     M = 4; %RK4 steps per interval
@@ -164,6 +165,7 @@ import casadi.*
         [k3, k3_q] = f(X + DT/2 * k2, U, Tau, Xd, Ud);
         [k4, k4_q] = f(X + DT * k3, U, Tau, Xd, Ud);
         X=X+DT/6*(k1 +2*k2 +2*k3 +k4);
+      %  U=U+DT/6*() TODO.
         Q = Q + DT/6*(k1_q + 2*k2_q + 2*k3_q + k4_q);
     end
     F = Function('F', {X0, U, Tau, Xd, Ud}, {X, Q}, {'x0','u', 'tau' 'Xd', 'Ud'}, {'xf', 'qf'});
@@ -186,9 +188,19 @@ import casadi.*
     ubw = [ubw; inf; inf; 2*pi];
     w0 = [w0; 0; 0; 0];
 
-%     g = [g, {initial_pos - Xk(1:2)}];
-%     lbg = [lbg; 0; 0];
-%     ubg = [ubg; 0; 0];
+    g = [g, {initial_pos - Xk}];
+    lbg = [lbg; 0; 0; 0];
+    ubg = [ubg; 0; 0; 0];
+
+    Uk = MX.sym('U0',3);
+    w = {w{:}, Uk};
+    lbw = [lbw; -2.5; -2.5; -pi/4];
+    ubw = [ubw; 2.5; 2.5; pi/4];
+    w0 = [w0; 0; 0; 0];
+
+    g = [g, {initial_vel - Uk}];
+    lbg = [lbg; 0; 0; 0];
+    ubg = [ubg; 0; 0; 0];
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% MAIN LOOP
@@ -197,41 +209,46 @@ loopdata = zeros(N+1,7);
 %loopdata = [k xref_N xref_E uref_i]
     for k = 0:N-1
         % New NLP variable for control.
-        Uk = MX.sym(['U_' num2str(k)], 3);
-        w = {w{:}, Uk};
-        lbw = [lbw; -10; -10; -pi];
-        ubw = [ubw; 10; 10; pi];
-        w0 = [w0; 0; 0; 0];
         
         Tauk = MX.sym(['Tau_' num2str(k)], 3);
         w = {w{:}, Tauk};
-        lbw = [lbw; -100; -60; -40];
-        ubw = [ubw; 100; 60; 40];
+        lbw = [lbw; -800; 800; -800];
+        ubw = [ubw; 800; 800; 800];
         w0 = [w0; 0; 0; 0];
         
         % Integrate until the end of the interval.
 %         xref_i(1:2) = reference_trajectory_los(1:2,k+2); % Positional reference.
-        eta_dot_ref = [reference_trajectory_los(3:4,k+2);...
-                  (atan2(reference_trajectory_los(4,k+3),reference_trajectory_los(3,k+3)) - ...
-                   atan2(reference_trajectory_los(4,k+2),reference_trajectory_los(3,k+2))) / h];
+        eta_dot_ref = [reference_trajectory_los(3:4,k+1);...
+                  (atan2(reference_trajectory_los(4,k+2),reference_trajectory_los(3,k+2)) - ...
+                   atan2(reference_trajectory_los(4,k+1),reference_trajectory_los(3,k+1))) / h];
         
         uref_i = [sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2); 0; eta_dot_ref(3)];
-%         xref_i(3) = atan2(uref_i(2),uref_i(1));
-        xref_i = [reference_trajectory_los(1:2,k+2); atan2(eta_dot_ref(2),eta_dot_ref(1))];
-        %uref_i = R\uref_i;
+%       xref_i(3) = atan2(uref_i(2),uref_i(1));
+        xref_i = [reference_trajectory_los(1:2,k+1); atan2(eta_dot_ref(2),eta_dot_ref(1))];
         Fk = F('x0', Xk, 'u', Uk, 'tau', Tauk, 'Xd', xref_i, 'Ud', uref_i);
         Xk_end = Fk.xf;
+        Uk_end = Fk.uf;
         J = J + Fk.qf;
         
         % New NLP variable for state at the end of interval.
         Xk = MX.sym(['X_' num2str(k+1)], 3);
         w = [w, {Xk}];
-        lbw = [lbw; -inf; -inf; 0];
-        ubw = [ubw; inf; inf; 2*pi];
+        lbw = [lbw; -inf; -inf; -inf];
+        ubw = [ubw; inf; inf; inf];
         w0 = [w0; 0; 0; 0];
         
         % Add constraints.
         g = [g, {Xk_end - Xk}];
+        lbg = [lbg; 0; 0; 0];
+        ubg = [ubg; 0; 0; 0];
+
+        Uk = MX.sym(['U_' num2str(k+1)], 3);
+        w = {w{:}, Uk};
+        lbw = [lbw; -2.5; -2.5; -pi/4];
+        ubw = [ubw; 2.5; 2.5; pi/4];
+        w0 = [w0; 0; 0; 0];
+
+        g = [g, {Uk_end - Uk}];
         lbg = [lbg; 0; 0; 0];
         ubg = [ubg; 0; 0; 0];
         
@@ -257,7 +274,6 @@ loopdata = zeros(N+1,7);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Optimal solution and updating states
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    loopdata(end,:) = [k+1, xref_i' uref_i']; %off by one error hack.
     % Create an NLP solver.
     prob = struct('f', J, 'x', vertcat(w{:}), 'g', vertcat(g{:}));
     solver = nlpsol('solver', 'ipopt', prob);
@@ -342,7 +358,7 @@ loopdata = zeros(N+1,7);
     subplot(3,1,1);
     plot(t,surge_ref);
     hold on;
-    plot(t(2:end),surge_opt,'*');
+    plot(t,surge_opt,'*');
     hold off;
     grid;
     title('surge ref and surge Opt');
@@ -353,7 +369,7 @@ loopdata = zeros(N+1,7);
     subplot(3,1,2);
     plot(t,sway_ref);
     hold on;
-    plot(t(2:end),sway_opt,'*');
+    plot(t,sway_opt,'*');
     hold off;
     grid;
     title('sway ref and sway Opt');
@@ -364,7 +380,7 @@ loopdata = zeros(N+1,7);
     subplot(3,1,3);
     plot(t,r_ref);
     hold on;
-    plot(t(2:end),r_opt,'*');
+    plot(t,r_opt,'*');
     hold off;
     grid;
     title('yaw rate ref and yaw rate Opt');
