@@ -6,7 +6,6 @@ import casadi.*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     persistent previous_w_opt
     persistent cflags
-    persistent firsttime
     
     N = 40;
     h = 0.5;
@@ -16,12 +15,7 @@ import casadi.*
     if(isempty(cflags)) % THIS CAN BE USED TO HARDCODE FLAGS IF NEEDED:
          cflags = zeros([1,size(tracks,2)]);
     end
-    
-    %Initialize firsttime variable.
-    if(isempty(firsttime))
-        firsttime = 1;
-    end
-    
+        
     %Initialize position and reference trajectory.
     initial_pos = vessel.eta;
     initial_vel = vessel.nu;
@@ -66,28 +60,32 @@ import casadi.*
     xref = SX.sym('xref',3); % xref = [Nref, Eref, Psi_ref]'
     uref = SX.sym('uref',3); % uref = [Surge_ref, sway_ref, r_ref]'
     
+    
+%     [R, M, C, D] = SystemDynamics(x, u); % Usikker på hvorvidt det funker
+%     å sende CasADi systemer inn i en subfunksjon. Burde jo gå, men lar
+%     være for nå.
     % Model Parameters.
     Xu = -68.676;   % Kg/s
     Xuu = -50.08;   % Kg/m
     Xuuu = -14.93;  % Kgs/(m^2)
-    Xv = -25.20;    % Kg/s
-    Xr = -145.3;    % Kgm/s
-    Yu = 90.15;     % Kg/s
+%     Xv = -25.20;    % Kg/s
+%     Xr = -145.3;    % Kgm/s
+%     Yu = 90.15;     % Kg/s
     Yv = -8.69;     % Kg/s
     Yvv = -189.08;  % Kg/m
     Yvvv = -0.00613;% Kgs/(s^2) ? Kgs/(m^2)?
-    Yrv = -3086.95; % Kg
-    Yr = -24.09;    % Kgm/s
-    Yvr = -338.32;  % Kg
-    Yrr = 1372.06;  % Kg(m^2)
-    Nu = -38.00;    % Kgm/s
-    Nv = -97.26;    % Kgm/s
+%     Yrv = -3086.95; % Kg
+%     Yr = -24.09;    % Kgm/s
+%     Yvr = -338.32;  % Kg
+%     Yrr = 1372.06;  % Kg(m^2)
+%     Nu = -38.00;    % Kgm/s
+%     Nv = -97.26;    % Kgm/s
     Nvv = -18.85;   % Kg
     Nrv = 5552.23;  % Kgm
     Nr = -230.19;   % Kg(m^2)/s
     Nrr = -0.0063;  % Kg(m^2)
     Nrrr = -0.00067;% Kgms
-    Nvr = -5888.89; % Kgm
+%     Nvr = -5888.89; % Kgm
     
     m11 = 2131.80;  % Kg
     m12 = 1.00;     % Kg
@@ -99,10 +97,10 @@ import casadi.*
     m32 = -397.64;  % Kgm
     m33 = 4351.56;  % Kg(m^2)
     
-    c13 = -m22*u(2); % should be -m22 * sway.
+    c13 = -m22*u(2);
     c23 = m11*u(1);
     c31 = -c13;
-    c32 = -c23*u(2); % should be -c23 * sway.
+    c32 = -c23*u(2);
     
     d11 = -Xu - Xuu * abs(u(1)) - Xuuu*u(1)^2;
     d22 = -Yv - Yvv*abs(u(2)) - Yvvv*u(2)^2;
@@ -123,20 +121,14 @@ import casadi.*
          c31 c32    0];
     D = [d11     0        0;...
          0      d22     d23;...
-         0      d32     50*d33];
-    
-%     tau = [cos(theta_front)         cos(theta_rear);...
-%            sin(theta_front)         sin(theta_rear);...
-%            -l_TA*sin(theta_front)   -l_TA*sin(theta_rear)] * [F_front;F_rear];
-    
+         0      d32     d33];
+     
     nudot = M\(tau -(C+D)*u); 
-    %Mangler å oppdatere Nu, altså u, for å fullføre overgangen: 
-    %nudot (udot) -> Nu -> etadot(xdot)
     nu = u + h*nudot;
-    xdot = R*nu;  % eta_dot
+    eta_dot = R*nu;
+    
     % Objective function.
-    %P = [x(1), x(2)]'; % Position in NED.
-    Kp = diag([10, 10, 1]); % Tuning parameter for positional reference deviation.
+    Kp = diag([10, 10, 10]); % Tuning parameter for positional reference deviation.
     Ku = 10^6; % Tuning parameter for surge reference deviation.
     %Kr = 0.1; % Tuning parameter for yaw rate reference deviation.
     Kt = 2;
@@ -146,12 +138,12 @@ import casadi.*
     L = (x - xref)'* Kp * (x - xref) + Kt * abs(tau'*tau) +Ku * (u(1) - uref(1))^2;
     
     % Continous time dynamics.
-    f = Function('f', {x, u, tau, xref, uref}, {xdot, udot, L});
+    f = Function('f', {x, u, tau, xref, uref}, {eta_dot, L});
     
     % Discrete time dynamics.
     M = 4; %RK4 steps per interval
     DT = T/N/M;
-    f = Function('f', {x, u, tau, xref, uref}, {xdot, L});
+    f = Function('f', {x, u, tau, xref, uref}, {eta_dot, L});
     X0 = MX.sym('X0',3);
     U = MX.sym('U',3);
     Tau = MX.sym('Tau',3);
@@ -165,7 +157,6 @@ import casadi.*
         [k3, k3_q] = f(X + DT/2 * k2, U, Tau, Xd, Ud);
         [k4, k4_q] = f(X + DT * k3, U, Tau, Xd, Ud);
         X=X+DT/6*(k1 +2*k2 +2*k3 +k4);
-      %  U=U+DT/6*() TODO.
         Q = Q + DT/6*(k1_q + 2*k2_q + 2*k3_q + k4_q);
     end
     F = Function('F', {X0, U, Tau, Xd, Ud}, {X, Q}, {'x0','u', 'tau' 'Xd', 'Ud'}, {'xf', 'qf'});
@@ -184,8 +175,8 @@ import casadi.*
     % "lift" initial conditions.
     Xk = MX.sym('X0',3);
     w = {w{:}, Xk};
-    lbw = [lbw; -inf; -inf; 0];
-    ubw = [ubw; inf; inf; 2*pi];
+    lbw = [lbw; -inf; -inf; -inf];
+    ubw = [ubw; inf; inf; inf];
     w0 = [w0; 0; 0; 0];
 
     g = [g, {initial_pos - Xk}];
@@ -206,7 +197,7 @@ import casadi.*
 %% MAIN LOOP
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 loopdata = zeros(N+1,7);
-%loopdata = [k xref_N xref_E uref_i]
+%loopdata = [k xref_i uref_i]
     for k = 0:N-1
         % New NLP variable for control.
         
@@ -217,17 +208,17 @@ loopdata = zeros(N+1,7);
         w0 = [w0; 0; 0; 0];
         
         % Integrate until the end of the interval.
-%         xref_i(1:2) = reference_trajectory_los(1:2,k+2); % Positional reference.
         eta_dot_ref = [reference_trajectory_los(3:4,k+1);...
                   (atan2(reference_trajectory_los(4,k+2),reference_trajectory_los(3,k+2)) - ...
                    atan2(reference_trajectory_los(4,k+1),reference_trajectory_los(3,k+1))) / h];
         
         uref_i = [sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2); 0; eta_dot_ref(3)];
-%       xref_i(3) = atan2(uref_i(2),uref_i(1));
+        
         xref_i = [reference_trajectory_los(1:2,k+1); atan2(eta_dot_ref(2),eta_dot_ref(1))];
+        
         Fk = F('x0', Xk, 'u', Uk, 'tau', Tauk, 'Xd', xref_i, 'Ud', uref_i);
         Xk_end = Fk.xf;
-        Uk_end = Fk.uf;
+%         Uk_end = Fk.uf;
         J = J + Fk.qf;
         
         % New NLP variable for state at the end of interval.
@@ -248,9 +239,9 @@ loopdata = zeros(N+1,7);
         ubw = [ubw; 2.5; 2.5; pi/4];
         w0 = [w0; 0; 0; 0];
 
-        g = [g, {Uk_end - Uk}];
-        lbg = [lbg; 0; 0; 0];
-        ubg = [ubg; 0; 0; 0];
+%         g = [g, {Uk_end - Uk}];
+%         lbg = [lbg; 0; 0; 0];
+%         ubg = [ubg; 0; 0; 0];
         
         % Her må det komme kode for dynamiske og statiske hindringer, men
         % det blir en jobb for litt senere. Få det grunnleggende til å
@@ -274,6 +265,15 @@ loopdata = zeros(N+1,7);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Optimal solution and updating states
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    %Det er en off-by-one forskjell mellom referanser og optimal løsning,
+    %legger til en ekstra input i loopdata for å gjøre det finere å plotte.
+    %Vit derfor at siste datapunkt for referanser i plots er feil og bør
+    %ses bort ifra.
+    loopdata(end,:) = [k+1, xref_i', uref_i'];
+
+
+
     % Create an NLP solver.
     prob = struct('f', J, 'x', vertcat(w{:}), 'g', vertcat(g{:}));
     solver = nlpsol('solver', 'ipopt', prob);
@@ -288,7 +288,6 @@ loopdata = zeros(N+1,7);
     w_opt = full(sol.x);
     
     previous_w_opt = w_opt;
-    firsttime = 0;
     
     t = loopdata(:,1);
     xref_N = loopdata(:,2);
@@ -298,15 +297,16 @@ loopdata = zeros(N+1,7);
     sway_ref = loopdata(:,6);
     r_ref = loopdata(:,7);
     
-    
-    figure(999);
-    clf;
     north_opt = w_opt(1:9:end);
     east_opt = w_opt(2:9:end);
     psi_opt = w_opt(3:9:end);
     surge_opt = w_opt(4:9:end);
     sway_opt = w_opt(5:9:end);
     r_opt = w_opt(6:9:end);
+    
+    
+    figure(999);
+    clf;
     hold on;
     plot(east_opt, north_opt, '*');
     plot(vessel.wp(2,:),vessel.wp(1,:),'g');
@@ -387,12 +387,7 @@ loopdata = zeros(N+1,7);
     xlabel('Discretized time [k]');
     ylabel('yaw rate [rad/s]');
     legend('Yaw rate ref','Yaw Rate Opt');
-    
-%     plot(tgrid, east_opt, '-') ?????
-%     stairs(tgrid, [u_opt; nan], '-.') ????
-%     xlabel('t') ?????
-%     %legend('x1','x2','u') ?????? 
-    
+        
     vessel.eta = w_opt(10:12);
     vessel.nu = w_opt(4:6);
     vessel.eta_dot = rotZ(vessel.eta(3))*vessel.nu;
