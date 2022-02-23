@@ -1,10 +1,10 @@
 transit_os = [
-    0, 75;...
+    90, 75;...
     190, 80]';
 
 velocity_os = [
-    7.0;...
-    7.0]';
+    2.0;...
+    2.0]';
 
 transit_ts = [
     75, 135;...
@@ -21,6 +21,8 @@ velocity_ts = [
     6.0;...
     6.0]';
 
+Heading = atan2(transit_os(2,2)-transit_os(2,1),transit_os(1,2)-transit_os(1,1));
+
 agents = [
     %get_agent(101,[75,135,-pi/2]',[0,0,0]',[20,3],2,2,velocity_ts,transit_ts,1),...
-    get_agent(100,[0,75,0]',[0,0,0]',[5,3],2,3,velocity_os, transit_os,1)];
+    get_agent(100,[transit_os(1,1),transit_os(2,1),Heading]',[2,0,0]',[5,3],2,3,velocity_os, transit_os,1)];

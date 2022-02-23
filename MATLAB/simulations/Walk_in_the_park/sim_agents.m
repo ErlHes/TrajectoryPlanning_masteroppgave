@@ -17,5 +17,6 @@ Velocity = [
     2.0;...
     2.0]';
 
+Heading = atan2(Transit(2,2)-Transit(2,1),Transit(1,2)-Transit(1,1));
 agents = [
-    get_agent(100, [50,100,-0.2450]',[2,0,0]',[5,3],2,3,Velocity,Transit,1)];
+    get_agent(100, [50,100,Heading]',[2,0,0]',[5,3],2,3,Velocity,Transit,1)];

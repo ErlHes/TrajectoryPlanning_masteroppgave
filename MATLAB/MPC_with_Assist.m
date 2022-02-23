@@ -8,7 +8,7 @@ import casadi.*
     persistent cflags
     
     N = 40;
-    h = 0.5;
+    h = 0.65;
     T = N * h;
     
     %Initialize COLREGs flag.
@@ -54,11 +54,9 @@ import casadi.*
     %% CasADi setup
     
     % System matrices.
-    x = SX.sym('x',3); % x = [N, E, psi]'
-    u = SX.sym('u',3); % u = [u, v, r]'
+    x = SX.sym('x',6); % x = [N, E, psi, u, v, r]'
     tau = SX.sym('tau',3); % tau = [Fx, Fy, Fn];
-    xref = SX.sym('xref',3); % xref = [Nref, Eref, Psi_ref]'
-    uref = SX.sym('uref',3); % uref = [Surge_ref, sway_ref, r_ref]'
+    xref = SX.sym('xref',6); % xref = [Nref, Eref, Psi_ref, Surge_ref, sway_ref, r_ref]'
     
     
 %     [R, M, C, D] = SystemDynamics(x, u); % Usikker på hvorvidt det funker
@@ -97,16 +95,16 @@ import casadi.*
     m32 = -397.64;  % Kgm
     m33 = 4351.56;  % Kg(m^2)
     
-    c13 = -m22*u(2);
-    c23 = m11*u(1);
+    c13 = -m22*x(5);
+    c23 = m11*x(4);
     c31 = -c13;
-    c32 = -c23*u(2);
+    c32 = -c23*x(5);
     
-    d11 = -Xu - Xuu * abs(u(1)) - Xuuu*u(1)^2;
-    d22 = -Yv - Yvv*abs(u(2)) - Yvvv*u(2)^2;
+    d11 = -Xu - Xuu * abs(x(4)) - Xuuu*(x(4)^2);
+    d22 = -Yv - Yvv*abs(x(5)) - Yvvv*(x(5)^2);
     d23 = d22;
-    d32 = -Nvv*abs(u(2)) - Nrv *abs(u(3));
-    d33 = -Nr - Nrr*abs(u(3)) - Nrrr*u(3)^2;
+    d32 = -Nvv*abs(x(5)) - Nrv *abs(x(6));
+    d33 = -Nr - Nrr*abs(x(6)) - Nrrr*(x(6)^2);
     
     
     % System dynamics.
@@ -122,44 +120,54 @@ import casadi.*
     D = [d11     0        0;...
          0      d22     d23;...
          0      d32     d33];
+
+%      M = eye(3)*1000;
+%      D = eye(3)*200;
+%      C = zeros(3);
      
-    nudot = M\(tau -(C+D)*u); 
-    nu = u + h*nudot;
+    nu_dot = M\(tau -(C+D)*x(4:6)); 
+    nu = x(4:6) + h*nu_dot;
     eta_dot = R*nu;
     
+    xdot = [eta_dot; nu_dot];
+    
+%     Funker bra:
+%     Kp = diag([8*10^-1, 8*10^-1]);
+%     Ku = 6*10^2;
+%     Kv = 8*10^2;
+    
     % Objective function.
-    Kp = diag([10, 10, 10]); % Tuning parameter for positional reference deviation.
-    Ku = 10^6; % Tuning parameter for surge reference deviation.
-    %Kr = 0.1; % Tuning parameter for yaw rate reference deviation.
-    Kt = 2;
+    Kp = diag([8*10^-1, 8*10^-1]); % Tuning parameter for positional reference deviation.
+    Ku = 6.7*10^2; % Tuning parameter for surge reference deviation.
+    Kv = 7.2*10^2;
+%     Kr = 3*10^2; % Tuning parameter for yaw rate reference deviation.
+%     Kt = 10^2;
     %L = Kp * norm(P - xref)^2 + Ku  * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
     %L = (P - xref)'* Kp * (P - xref) + Ku * (u_0'*u_0 - uref(1)'*uref(1))^2;
     %L = (P - xref)'* Kp * (P - xref) + Ku * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
-    L = (x - xref)'* Kp * (x - xref) + Kt * abs(tau'*tau) +Ku * (u(1) - uref(1))^2;
+    L = (x(1:2) - xref(1:2))'* Kp * (x(1:2) - xref(1:2)) + Ku * (x(4)-xref(4))^2 + Kv * (x(5)-xref(5))^2;% + Kr * (x(6) - xref(6))^2 + Kt * (tau'*tau) + Ku * (x(4) - xref(4))^2;
     
     % Continous time dynamics.
-    f = Function('f', {x, u, tau, xref, uref}, {eta_dot, L});
+    f = Function('f', {x, tau, xref}, {xdot, L});
     
     % Discrete time dynamics.
     M = 4; %RK4 steps per interval
     DT = T/N/M;
-    f = Function('f', {x, u, tau, xref, uref}, {eta_dot, L});
-    X0 = MX.sym('X0',3);
-    U = MX.sym('U',3);
+    f = Function('f', {x, tau, xref}, {xdot, L});
+    X0 = MX.sym('X0',6);
     Tau = MX.sym('Tau',3);
-    Xd = MX.sym('Xd',3);
-    Ud = MX.sym('Ud',3);
+    Xd = MX.sym('Xd',6);
     X = X0;
     Q = 0;
     for j=1:M
-        [k1, k1_q] = f(X, U, Tau, Xd, Ud);
-        [k2, k2_q] = f(X + DT/2 * k1, U, Tau, Xd, Ud);
-        [k3, k3_q] = f(X + DT/2 * k2, U, Tau, Xd, Ud);
-        [k4, k4_q] = f(X + DT * k3, U, Tau, Xd, Ud);
+        [k1, k1_q] = f(X, Tau, Xd);
+        [k2, k2_q] = f(X + DT/2 * k1, Tau, Xd);
+        [k3, k3_q] = f(X + DT/2 * k2, Tau, Xd);
+        [k4, k4_q] = f(X + DT * k3, Tau, Xd);
         X=X+DT/6*(k1 +2*k2 +2*k3 +k4);
         Q = Q + DT/6*(k1_q + 2*k2_q + 2*k3_q + k4_q);
     end
-    F = Function('F', {X0, U, Tau, Xd, Ud}, {X, Q}, {'x0','u', 'tau' 'Xd', 'Ud'}, {'xf', 'qf'});
+    F = Function('F', {X0, Tau, Xd}, {X, Q}, {'x0', 'tau', 'Xd'}, {'xf', 'qf'});
     
     %% NLP initialization.
     % Start with empty NLP.
@@ -173,25 +181,26 @@ import casadi.*
     ubg = [];
     
     % "lift" initial conditions.
-    Xk = MX.sym('X0',3);
+    Xk = MX.sym('X0',6);
     w = {w{:}, Xk};
-    lbw = [lbw; -inf; -inf; -inf];
-    ubw = [ubw; inf; inf; inf];
-    w0 = [w0; 0; 0; 0];
+    lbw = [lbw; -inf; -inf; -inf; -2.5; -2.5; -pi/4];
+    ubw = [ubw; inf; inf; inf; 2.5; 2.5; pi/4];
+    w0 = [w0; initial_pos(1); initial_pos(2); initial_pos(3); 2; 0; 0];
 
-    g = [g, {initial_pos - Xk}];
-    lbg = [lbg; 0; 0; 0];
-    ubg = [ubg; 0; 0; 0];
 
-    Uk = MX.sym('U0',3);
-    w = {w{:}, Uk};
-    lbw = [lbw; -2.5; -2.5; -pi/4];
-    ubw = [ubw; 2.5; 2.5; pi/4];
-    w0 = [w0; 0; 0; 0];
-
-    g = [g, {initial_vel - Uk}];
-    lbg = [lbg; 0; 0; 0];
-    ubg = [ubg; 0; 0; 0];
+%     Uk = MX.sym('U0',3);
+%     w = {w{:}, Uk};
+%     lbw = [lbw; -2.5; -2.5; -pi/4];
+%     ubw = [ubw; 2.5; 2.5; pi/4];
+%     w0 = [w0; 0; 0; 0];
+    
+    g = [g, {[initial_pos; initial_vel] - Xk}];
+    lbg = [lbg; 0; 0; 0; 0; 0; 0];
+    ubg = [ubg; 0; 0; 0; 0; 0; 0];
+    
+%     g = [g, {initial_vel - Xk}];
+%     lbg = [lbg; 0; 0; 0];
+%     ubg = [ubg; 0; 0; 0];
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% MAIN LOOP
@@ -203,7 +212,7 @@ loopdata = zeros(N+1,7);
         
         Tauk = MX.sym(['Tau_' num2str(k)], 3);
         w = {w{:}, Tauk};
-        lbw = [lbw; -800; 800; -800];
+        lbw = [lbw; -800; -800; -800];
         ubw = [ubw; 800; 800; 800];
         w0 = [w0; 0; 0; 0];
         
@@ -212,36 +221,33 @@ loopdata = zeros(N+1,7);
                   (atan2(reference_trajectory_los(4,k+2),reference_trajectory_los(3,k+2)) - ...
                    atan2(reference_trajectory_los(4,k+1),reference_trajectory_los(3,k+1))) / h];
         
-        uref_i = [sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2); 0; eta_dot_ref(3)];
+        nu_ref = [sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2); 0; eta_dot_ref(3)];
         
-        xref_i = [reference_trajectory_los(1:2,k+1); atan2(eta_dot_ref(2),eta_dot_ref(1))];
+        eta_ref = [reference_trajectory_los(1:2,k+1); atan2(eta_dot_ref(2),eta_dot_ref(1))];
         
-        Fk = F('x0', Xk, 'u', Uk, 'tau', Tauk, 'Xd', xref_i, 'Ud', uref_i);
+        xref_i = [eta_ref; nu_ref];
+        
+        Fk = F('x0', Xk, 'tau', Tauk, 'Xd', xref_i);
         Xk_end = Fk.xf;
-%         Uk_end = Fk.uf;
         J = J + Fk.qf;
         
         % New NLP variable for state at the end of interval.
-        Xk = MX.sym(['X_' num2str(k+1)], 3);
+        Xk = MX.sym(['X_' num2str(k+1)], 6);
         w = [w, {Xk}];
-        lbw = [lbw; -inf; -inf; -inf];
-        ubw = [ubw; inf; inf; inf];
-        w0 = [w0; 0; 0; 0];
+        lbw = [lbw; -inf; -inf; -inf; -2.3; -2.3; -pi/4];
+        ubw = [ubw; inf; inf; inf; 2.3; 2.3; pi/4];
+        w0 = [w0; xref_i(1); xref_i(2); xref_i(3); 2; 0; 0];
+        
+%         Uk = MX.sym(['U_' num2str(k+1)], 3);
+%         w = {w{:}, Uk};
+%         lbw = [lbw; -2.5; -2.5; -pi/4];
+%         ubw = [ubw; 2.5; 2.5; pi/4];
+%         w0 = [w0; 0; 0; 0];
         
         % Add constraints.
         g = [g, {Xk_end - Xk}];
-        lbg = [lbg; 0; 0; 0];
-        ubg = [ubg; 0; 0; 0];
-
-        Uk = MX.sym(['U_' num2str(k+1)], 3);
-        w = {w{:}, Uk};
-        lbw = [lbw; -2.5; -2.5; -pi/4];
-        ubw = [ubw; 2.5; 2.5; pi/4];
-        w0 = [w0; 0; 0; 0];
-
-%         g = [g, {Uk_end - Uk}];
-%         lbg = [lbg; 0; 0; 0];
-%         ubg = [ubg; 0; 0; 0];
+        lbg = [lbg; 0; 0; 0; 0; 0; 0];
+        ubg = [ubg; 0; 0; 0; 0; 0; 0];
         
         % Her må det komme kode for dynamiske og statiske hindringer, men
         % det blir en jobb for litt senere. Få det grunnleggende til å
@@ -252,13 +258,13 @@ loopdata = zeros(N+1,7);
         if ~isempty(interpolated_static_obs)
             [~, cols] = size(interpolated_static_obs);
             for i=1:cols
-%                 g = [g, {(Xk(1:2) - interpolated_static_obs(:,i))'*(Xk(1:2) - interpolated_static_obs(:,i)) - 16^2}];
-%                 lbg = [lbg; 0];
-%                 ubg = [ubg; inf];
+                g = [g, {(Xk(1:2) - interpolated_static_obs(:,i))'*(Xk(1:2) - interpolated_static_obs(:,i)) - 10^2}];
+                lbg = [lbg; 0];
+                ubg = [ubg; inf];
             end
         end
         
-        loopdata(k+1,:) = [k, xref_i' uref_i'];
+        loopdata(k+1,:) = [k, xref_i'];
         
     end
     
@@ -270,13 +276,15 @@ loopdata = zeros(N+1,7);
     %legger til en ekstra input i loopdata for å gjøre det finere å plotte.
     %Vit derfor at siste datapunkt for referanser i plots er feil og bør
     %ses bort ifra.
-    loopdata(end,:) = [k+1, xref_i', uref_i'];
+    loopdata(end,:) = [k+1, xref_i'];
 
 
 
     % Create an NLP solver.
     prob = struct('f', J, 'x', vertcat(w{:}), 'g', vertcat(g{:}));
-    solver = nlpsol('solver', 'ipopt', prob);
+    options = struct;
+    options.ipopt.max_iter = 800;
+    solver = nlpsol('solver', 'ipopt', prob, options);
     
     if(~isempty(previous_w_opt))
         w0 = previous_w_opt;
@@ -303,6 +311,12 @@ loopdata = zeros(N+1,7);
     surge_opt = w_opt(4:9:end);
     sway_opt = w_opt(5:9:end);
     r_opt = w_opt(6:9:end);
+    Fx_opt = w_opt(7:9:end);
+    Fy_opt = w_opt(8:9:end);
+    Fn_opt = w_opt(9:9:end);
+    
+    N_error = north_opt - xref_N;
+    E_error = east_opt - xref_E;
     
     
     figure(999);
@@ -387,6 +401,47 @@ loopdata = zeros(N+1,7);
     xlabel('Discretized time [k]');
     ylabel('yaw rate [rad/s]');
     legend('Yaw rate ref','Yaw Rate Opt');
+    
+    figure(12);
+    clf;
+    subplot(311)
+    plot(t(1:end-1),Fx_opt,'*');
+    grid;
+    title('Optimal Force Fx');
+    xlabel('Disctretised time [k]');
+    ylabel('Force [N]');
+    legend('Fx');
+    subplot(312)
+    plot(t(1:end-1),Fy_opt,'*');
+    grid;
+    title('Optimal Force Fy');
+    xlabel('Disctretised time [k]');
+    ylabel('Force [N]');
+    legend('Fy');
+    subplot(313)
+    plot(t(1:end-1),Fn_opt,'*');
+    grid;
+    title('Optimal Force Fn');
+    xlabel('Disctretised time [k]');
+    ylabel('Force [N]');
+    legend('Fn');
+     
+    figure(13);
+    clf;
+    subplot(211)
+    plot(t,N_error);
+    grid;
+    title('Positional error in North');
+    xlabel('Discretized time step [k]');
+    ylabel('error in meters [m]');
+    subplot(212);
+    plot(t,E_error);
+    grid;
+    title('Positional error in East');
+    xlabel('Discretized time step [k]');
+    ylabel('error in meters [m]');
+        
+        
         
     vessel.eta = w_opt(10:12);
     vessel.nu = w_opt(4:6);

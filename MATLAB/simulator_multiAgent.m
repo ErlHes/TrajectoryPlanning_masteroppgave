@@ -40,8 +40,8 @@ clc;
 %simulation = 'islands_HO';
 
 %% MPC with assist ENV SCENARIOS:
- simulation = 'Walk_in_the_park';
-% simulation = 'Local_minimum';
+%  simulation = 'Walk_in_the_park';
+simulation = 'Local_minimum';
 % simulation = 'Blocked_path';
 
 %% MPC WITH ASSIST COLREGs SCENARIOS:
