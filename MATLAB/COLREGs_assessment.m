@@ -11,6 +11,7 @@ b0_180 = ssa(b0, 'deg');
 
 a0 = rad2deg(ssa(atan2(vessel.eta(2)-tracks.eta(2),vessel.eta(1)-tracks.eta(1)) - tracks.eta(3))); % Relative from TS to OS
 
+dist = sqrt((tracks.eta(2) - vessel.eta(2))^2 + (tracks.eta(1) - vessel.eta(1))^2);
 %a0_360 = rad2deg(wrapTo2Pi(deg2rad(a0)));
 % 
 % 
@@ -25,7 +26,7 @@ a0 = rad2deg(ssa(atan2(vessel.eta(2)-tracks.eta(2),vessel.eta(1)-tracks.eta(1)) 
 % 3 = SO
 % 4 = OT
 % 5 = SF
-if cflag == 0
+if cflag == 0 && dist < 150
     if abs(b0_180) < phi_1 % TS is direcly ahead of OS
         if abs(a0) < phi_1 % TS is facing OS
             flag = 1;

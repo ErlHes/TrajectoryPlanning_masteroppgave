@@ -14,6 +14,7 @@ import casadi.*
     %Initialize COLREGs flag.
     if(isempty(cflags)) % THIS CAN BE USED TO HARDCODE FLAGS IF NEEDED:
          cflags = zeros([1,size(tracks,2)]);
+%          cflags = [1, 2];
     end
         
     %Initialize position and reference trajectory.
@@ -26,7 +27,7 @@ import casadi.*
     interpolated_static_obs = Interpolate_static_obs(static_obs);
     
     %% Dynamic obstacles
-    simple = 1; % Enable to discard all traffic pattern assistance.
+    simple = 0; % Enable to discard all traffic pattern assistance.
     
     if ~isempty(tracks)
         dynamic_obs(size(tracks,2)) = struct;
@@ -47,7 +48,7 @@ import casadi.*
         % Her må vi legge til litt mer logikk for å skjekke at det faktisk
         % er en situasjon å klassifisere. deretter trengs det logikk for å
         % skjekke når situasjonen er klarert slik at den kan bli safe.
-        dynamic_obs(i).cflag = COLREGs_assessment(vessel,tracks(i),clfags(i));
+        dynamic_obs(i).cflag = COLREGs_assessment(vessel,tracks(i),cflags(i));
         cflags(i) = dynamic_obs(i).cflag; % Save flag in persistent variable for next iteration.
     end
     
@@ -206,6 +207,8 @@ import casadi.*
 %% MAIN LOOP
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 loopdata = zeros(N+1,7);
+c_origins = [];
+c_radius = [];
 %loopdata = [k xref_i uref_i]
     for k = 0:N-1
         % New NLP variable for control.
@@ -252,7 +255,113 @@ loopdata = zeros(N+1,7);
         % Her må det komme kode for dynamiske og statiske hindringer, men
         % det blir en jobb for litt senere. Få det grunnleggende til å
         % fungere først!.
+        if ~isempty(dynamic_obs) %Fy faen så styggt dette ble as, gjør om til en funksjon please
         
+        for i = 1:size(dynamic_obs,2)
+            %% Constraint around every vessel.
+            offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/2;
+            offsetdir = [cos(offsetang);sin(offsetang)];
+            offsetdist = 3;
+            offsetvektor = offsetdist*offsetdir;
+            c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
+            c_rad = 13;
+            g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+            lbg = [lbg; c_rad^2];
+            ubg = [ubg; inf];
+            c_origins = [c_origins, c_orig];
+            c_radius = [c_radius, c_rad];
+            
+            if dynamic_obs(i).cflag == 1 % HEAD ON
+                %% Forbudt å være forran target ship
+                offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1));
+                offsetdir = [cos(offsetang);sin(offsetang)];
+                offsetdist = 5; % Should ideally be based some function of Involved vessel's speeds
+                offsetvektor = offsetdist*offsetdir;
+                c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
+                c_rad = 10;
+                g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                lbg = [lbg; c_rad^2];
+                ubg = [ubg; inf];
+                c_origins = [c_origins, c_orig];
+                c_radius = [c_radius, c_rad];
+                %% Vanskeligere å komme seg til target's styrbord
+                offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/2;
+                offsetdir = [cos(offsetang);sin(offsetang)];
+                offsetdist = 5; % Should ideally be based some function of Involved vessel's speeds
+                offsetvektor = offsetdist*offsetdir;
+                c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
+                c_rad = 10;
+                g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                lbg = [lbg; c_rad^2];
+                ubg = [ubg; inf];
+                c_origins = [c_origins, c_orig];
+                c_radius = [c_radius, c_rad];
+
+                %% Forbudt å være rett bak target ship, for komfort's skyld.
+                offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi;
+                offsetdir = [cos(offsetang);sin(offsetang)];
+                offsetdist = 5; % Should ideally be based some function of Involved vessel's speeds
+                offsetvektor = offsetdist*offsetdir;
+                c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
+                c_rad = 10;
+                g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                lbg = [lbg; c_rad^2];
+                ubg = [ubg; inf];
+                c_origins = [c_origins, c_orig];
+                c_radius = [c_radius, c_rad];
+                
+            elseif dynamic_obs(i).cflag == 2 % GIVE WAY
+                %% Forbudt å snike seg forbi forran target ship          
+                offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/6;
+                offsetdir = [cos(offsetang);sin(offsetang)];
+                offsetdist = 14; % Should ideally be based some function of Involved vessel's speeds
+                offsetvektor = offsetdist*offsetdir;
+                c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
+                c_rad = 16;
+                g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                lbg = [lbg; c_rad^2];
+                ubg = [ubg; inf];
+                c_origins = [c_origins, c_orig];
+                c_radius = [c_radius, c_rad];
+                
+%                 %% Liten constraint bak TS for å hindre å komme for nære når vi svinger tilbake mot vår opprinelige kurs
+%                 offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi;
+%                 offsetdir = [cos(offsetang);sin(offsetang)];
+%                 offsetdist = 3; % Should ideally be based some function of Involved vessel's speeds
+%                 offsetvektor = offsetdist*offsetdir;
+%                 c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
+%                 c_rad = 4;
+%                 g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+%                 lbg = [lbg; c_rad^2];
+%                 ubg = [ubg; inf];
+%                 c_origins = [c_origins, c_orig];
+%                 c_radius = [c_radius, c_rad];
+                                
+                
+            elseif dynamic_obs(i).cflag == 3 % STAND ON
+                %% Forbudt å endre heading?
+            elseif dynamic_obs(i).cflag == 4 % OVERTAKING
+                %% Forbudt å kjøre forbi target's babord
+                
+                %% Ikke vær for nære bakenden på TS
+                
+                %% Ikke sving inn forran TS for tidlig
+                
+            elseif dynamic_obs(i).cflag == 5 % SAFE
+                %% No additional constraints
+            end
+        end
+        end
+    
+    %    static obstacle constraints:
+        if ~isempty(interpolated_static_obs)
+            [~, cols] = size(interpolated_static_obs);
+            for i = 1:cols
+                g = [g, {(Xk(1:2) - interpolated_static_obs(:,i))'*(Xk(1:2) - interpolated_static_obs(:,i)) - 16^2}];
+                lbg = [lbg; 0];
+                ubg = [ubg; inf];
+            end
+        end
         
         
         if ~isempty(interpolated_static_obs)
@@ -284,6 +393,7 @@ loopdata = zeros(N+1,7);
     prob = struct('f', J, 'x', vertcat(w{:}), 'g', vertcat(g{:}));
     options = struct;
     options.ipopt.max_iter = 800;
+    options.ipopt.print_level = 3;
     solver = nlpsol('solver', 'ipopt', prob, options);
     
     if(~isempty(previous_w_opt))
@@ -291,12 +401,17 @@ loopdata = zeros(N+1,7);
     end
     
     % Solve the NLP.
+    clock = tic;
     sol = solver('x0', w0, 'lbx', lbw, 'ubx', ubw,...
                 'lbg', lbg, 'ubg', ubg);
+    Solvertime = toc(clock); %Check here to see how long it took to calculate w_opt. if Solvertime exceeds for example 6 seconds we know something might have went wrong.
     w_opt = full(sol.x);
     
     previous_w_opt = w_opt;
-    
+    if Solvertime > 6
+%         previous_w_opt = zeros(size(w_opt,2));
+    end
+    %% Variables for plotting
     t = loopdata(:,1);
     xref_N = loopdata(:,2);
     xref_E = loopdata(:,3);
@@ -318,14 +433,25 @@ loopdata = zeros(N+1,7);
     N_error = north_opt - xref_N;
     E_error = east_opt - xref_E;
     
-    
+
     figure(999);
     clf;
+    axis(settings.axis);
     hold on;
+    %plot trajectories
     plot(east_opt, north_opt, '*');
     plot(vessel.wp(2,:),vessel.wp(1,:),'g');
     plot(reference_trajectory_los(2,:),reference_trajectory_los(1,:) , 'r-.');
-    axis(settings.axis);
+    %plot constraint circles
+    if~isempty(c_radius)
+        for i = 1:10
+            th = 0:pi/50:2*pi;
+            xunit = c_radius(i) * cos(th) + c_origins(2,i);
+            yunit = c_radius(i) * sin(th) + c_origins(1,i);
+            plot(xunit,yunit);
+        end
+    end
+    %lables
     title('Projected future trajectory');
     xlabel('East [m]');
     ylabel('North [m]');
@@ -448,8 +574,29 @@ loopdata = zeros(N+1,7);
     vessel.eta_dot = rotZ(vessel.eta(3))*vessel.nu;
     resulting_trajectory = zeros(6,100);     %  TODO
 
-        
-        
+    figure(1);
+    clf;
+    axis(settings.axis);
+    grid;
+    hold on
+    for j = 1:size(tracks,2)
+    agent_eta = [tracks(j).eta(1:2,1);atan2(tracks(j).eta_dot(2,1), tracks(j).eta_dot(1,1))];
+    plot_os(agent_eta, 'r', 2); % Eta
+    end
+    agent_eta = [vessel.eta(1:2,1);atan2(vessel.eta_dot(2,1), vessel.eta_dot(1,1))];
+    plot_os(agent_eta, 'b', 2); % Eta
+    if~isempty(c_radius)
+        for i = 1:10
+            th = 0:pi/50:2*pi;
+            xunit = c_radius(i) * cos(th) + c_origins(2,i);
+            yunit = c_radius(i) * sin(th) + c_origins(1,i);
+            plot(xunit,yunit);
+        end
+    end
+    xlabel('East [m]');
+    ylabel('North [m]');
+    title('Simulation with constraint circles');
+            
         
         
         

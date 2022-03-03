@@ -41,7 +41,7 @@ clc;
 
 %% MPC with assist ENV SCENARIOS:
 %  simulation = 'Walk_in_the_park';
-simulation = 'Local_minimum';
+% simulation = 'Local_minimum';
 % simulation = 'Blocked_path';
 
 %% MPC WITH ASSIST COLREGs SCENARIOS:
@@ -50,7 +50,7 @@ simulation = 'Local_minimum';
 % simulation = 'Simple_HO'; % OUTDATED
 
 % simulation = 'StraitCross'; %non compliant TS from port side
-%simulation = 'StraitCross_HO';
+simulation = 'StraitCross_HO';
 % simulation = 'StraitCross_OT';
 
 %% MPC WITH ASSIST TRAFFIC PATTERN DIFFERENCE:
