@@ -7,7 +7,7 @@ import casadi.*
     persistent previous_w_opt
     persistent cflags
     
-    N = 40;
+    N = 120;
     h = 0.65;
     T = N * h;
     
@@ -143,10 +143,13 @@ import casadi.*
     Kv = 7.2*10^2;
 %     Kr = 3*10^2; % Tuning parameter for yaw rate reference deviation.
 %     Kt = 10^2;
+    R2 = [cos(x(3))    -sin(x(3));...
+         sin(x(3))    cos(x(3))];
+    Error = R2'*(x(1:2) - xref(1:2));
     %L = Kp * norm(P - xref)^2 + Ku  * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
     %L = (P - xref)'* Kp * (P - xref) + Ku * (u_0'*u_0 - uref(1)'*uref(1))^2;
     %L = (P - xref)'* Kp * (P - xref) + Ku * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
-    L = (x(1:2) - xref(1:2))'* Kp * (x(1:2) - xref(1:2)) + Ku * (x(4)-xref(4))^2 + Kv * (x(5)-xref(5))^2;% + Kr * (x(6) - xref(6))^2 + Kt * (tau'*tau) + Ku * (x(4) - xref(4))^2;
+    L = Error'* Kp * Error + Ku * (x(4)-xref(4))^2 + Kv * (x(5)-xref(5))^2;% + Kr * (x(6) - xref(6))^2 + Kt * (tau'*tau) + Ku * (x(4) - xref(4))^2;
     
     % Continous time dynamics.
     f = Function('f', {x, tau, xref}, {xdot, L});
@@ -273,42 +276,42 @@ c_radius = [];
             
             if dynamic_obs(i).cflag == 1 % HEAD ON
                 %% Forbudt å være forran target ship
-                offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1));
-                offsetdir = [cos(offsetang);sin(offsetang)];
-                offsetdist = 5; % Should ideally be based some function of Involved vessel's speeds
-                offsetvektor = offsetdist*offsetdir;
-                c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
-                c_rad = 10;
-                g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
-                lbg = [lbg; c_rad^2];
-                ubg = [ubg; inf];
-                c_origins = [c_origins, c_orig];
-                c_radius = [c_radius, c_rad];
+%                 offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1));
+%                 offsetdir = [cos(offsetang);sin(offsetang)];
+%                 offsetdist = 5; % Should ideally be based some function of Involved vessel's speeds
+%                 offsetvektor = offsetdist*offsetdir;
+%                 c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
+%                 c_rad = 10;
+%                 g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+%                 lbg = [lbg; c_rad^2];
+%                 ubg = [ubg; inf];
+%                 c_origins = [c_origins, c_orig];
+%                 c_radius = [c_radius, c_rad];
                 %% Vanskeligere å komme seg til target's styrbord
-                offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/2;
-                offsetdir = [cos(offsetang);sin(offsetang)];
-                offsetdist = 5; % Should ideally be based some function of Involved vessel's speeds
-                offsetvektor = offsetdist*offsetdir;
-                c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
-                c_rad = 10;
-                g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
-                lbg = [lbg; c_rad^2];
-                ubg = [ubg; inf];
-                c_origins = [c_origins, c_orig];
-                c_radius = [c_radius, c_rad];
+%                 offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/2;
+%                 offsetdir = [cos(offsetang);sin(offsetang)];
+%                 offsetdist = 5; % Should ideally be based some function of Involved vessel's speeds
+%                 offsetvektor = offsetdist*offsetdir;
+%                 c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
+%                 c_rad = 10;
+%                 g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+%                 lbg = [lbg; c_rad^2];
+%                 ubg = [ubg; inf];
+%                 c_origins = [c_origins, c_orig];
+%                 c_radius = [c_radius, c_rad];
 
                 %% Forbudt å være rett bak target ship, for komfort's skyld.
-                offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi;
-                offsetdir = [cos(offsetang);sin(offsetang)];
-                offsetdist = 5; % Should ideally be based some function of Involved vessel's speeds
-                offsetvektor = offsetdist*offsetdir;
-                c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
-                c_rad = 10;
-                g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
-                lbg = [lbg; c_rad^2];
-                ubg = [ubg; inf];
-                c_origins = [c_origins, c_orig];
-                c_radius = [c_radius, c_rad];
+%                 offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi;
+%                 offsetdir = [cos(offsetang);sin(offsetang)];
+%                 offsetdist = 5; % Should ideally be based some function of Involved vessel's speeds
+%                 offsetvektor = offsetdist*offsetdir;
+%                 c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
+%                 c_rad = 10;
+%                 g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+%                 lbg = [lbg; c_rad^2];
+%                 ubg = [ubg; inf];
+%                 c_origins = [c_origins, c_orig];
+%                 c_radius = [c_radius, c_rad];
                 
             elseif dynamic_obs(i).cflag == 2 % GIVE WAY
                 %% Forbudt å snike seg forbi forran target ship          
@@ -408,8 +411,8 @@ c_radius = [];
     w_opt = full(sol.x);
     
     previous_w_opt = w_opt;
-    if Solvertime > 6
-%         previous_w_opt = zeros(size(w_opt,2));
+    if Solvertime > 15
+        previous_w_opt = [];
     end
     %% Variables for plotting
     t = loopdata(:,1);
