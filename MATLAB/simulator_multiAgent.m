@@ -2,6 +2,8 @@
 clear;
 clear MPC_with_Assist.m;    % Need to clear some persistent variables.
 clc;
+%% OLD SIMULATIONS
+for d = 1
 % simulation = 'pid_controller_tesiting';
 % simulation = 'test';
 % simulation = 'panama_south_to_north';
@@ -40,7 +42,6 @@ clc;
 %simulation = 'islands_HO';
 
 %% MPC with assist ENV SCENARIOS:
-%  simulation = 'Walk_in_the_park';
 % simulation = 'Local_minimum';
 % simulation = 'Blocked_path';
 
@@ -50,7 +51,7 @@ clc;
 % simulation = 'Simple_HO'; % OUTDATED
 
 % simulation = 'StraitCross'; %non compliant TS from port side
-simulation = 'StraitCross_HO';
+% simulation = 'StraitCross_HO';
 % simulation = 'StraitCross_OT';
 
 %% MPC WITH ASSIST TRAFFIC PATTERN DIFFERENCE:
@@ -84,6 +85,13 @@ simulation = 'StraitCross_HO';
 % simulation = 'sandefjord_02';
 % simulation = 'sandefjord_03';
 
+end
+
+%% Useful parameter tuning sims
+ simulation = 'Walk_in_the_park';
+ 
+%% Head-on Testing
+% simulation = 'HO1';
 
 %% Gather simulation parameters
 

@@ -26,7 +26,7 @@ dist = sqrt((tracks.eta(2) - vessel.eta(2))^2 + (tracks.eta(1) - vessel.eta(1))^
 % 3 = SO
 % 4 = OT
 % 5 = SF
-if cflag == 0 && dist < 150
+if cflag == 0 && dist < 150 %% TODO: MAKE PROPER FUNCTION TO CHECK WHEN IT'S TIME TO CHECK COLREGs FLAG
     if abs(b0_180) < phi_1 % TS is direcly ahead of OS
         if abs(a0) < phi_1 % TS is facing OS
             flag = 1;
