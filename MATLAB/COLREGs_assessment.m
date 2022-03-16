@@ -1,8 +1,9 @@
-function flag = COLREGs_assessment(vessel,tracks, cflag)
+function [flag, dCPA, tCPA] = COLREGs_assessment(vessel,tracks, cflag,simple)
 % a13 = 112.5; % Overtaking tolerance
 % a14 = rad2deg(pi/8); % head-on tolerance
 % a15 = rad2deg(pi/8); % crossing aspect limit
 
+%% Angles between OS and TS
 phi_1 = rad2deg(pi/8);
 phi_2 = 112.5;
 
@@ -11,7 +12,7 @@ b0_180 = ssa(b0, 'deg');
 
 a0 = rad2deg(ssa(atan2(vessel.eta(2)-tracks.eta(2),vessel.eta(1)-tracks.eta(1)) - tracks.eta(3))); % Relative from TS to OS
 
-dist = sqrt((tracks.eta(2) - vessel.eta(2))^2 + (tracks.eta(1) - vessel.eta(1))^2);
+% dist = sqrt((tracks.eta(2) - vessel.eta(2))^2 + (tracks.eta(1) - vessel.eta(1))^2);
 %a0_360 = rad2deg(wrapTo2Pi(deg2rad(a0)));
 % 
 % 
@@ -21,12 +22,35 @@ dist = sqrt((tracks.eta(2) - vessel.eta(2))^2 + (tracks.eta(1) - vessel.eta(1))^
 % phi_TS = wrapTo2Pi(phi_TS);
 % psi_TSR = wrapTo2Pi(psi_TSR);
 
+%% Calculate dCPA and tCPA, check if COLREGs assessment is needed:
+if(simple) % Assume all vessels maintain constant course and speed
+    %Egentlig burde vi fortsatt ta hensyn til vår egen bane. Altså først
+    %finne ut hvor i vår bane vi kommer til å krysse den rettlinja prediksjonen av TS.
+vel_AB = vessel.eta_dot(1:2) - tracks.eta_dot(1:2);
+pos_BA = tracks.eta(1:2) - vessel.eta(1:2);
+
+tCPA = 0;
+if norm(vel_AB,2)
+    tCPA = dot(pos_BA,vel_AB) / norm(vel_AB,2)^2;
+end
+
+dCPAfunc = (vessel.eta(1:2) + tCPA * vessel.eta_dot(1:2)) - (tracks.eta(1:2) + tCPA * tracks.eta_dot(1:2));
+dCPA = norm(dCPAfunc,2);
+
+else % Utilize the power of KNAWLEDGE
+
+tCPA = 0;
+dCPA = 0;
+end
+
+
+%% Conduct COLREGs assessment
 % 1 = HO
 % 2 = GW
 % 3 = SO
 % 4 = OT
 % 5 = SF
-if cflag == 0 && dist < 150 %% TODO: MAKE PROPER FUNCTION TO CHECK WHEN IT'S TIME TO CHECK COLREGs FLAG
+if cflag == 0 %%
     if abs(b0_180) < phi_1 % TS is direcly ahead of OS
         if abs(a0) < phi_1 % TS is facing OS
             flag = 1;

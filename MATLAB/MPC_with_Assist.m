@@ -1,48 +1,18 @@
 function [vessel, resulting_trajectory] = MPC_with_Assist(vessel, tracks, parameters, settings)
 import casadi.*
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% INITIAL CONDITIONS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    persistent previous_w_opt
+%% Preliminary checks and setup
+
     persistent cflags
-    persistent F
-    persistent firsttime
-    
-%     N = 40;
-%     h = 0.65;
-    [N,h] = DynamicHorizon(vessel, tracks);
-    T = N * h;
-    
     %Initialize COLREGs flag.
     if(isempty(cflags)) % THIS CAN BE USED TO HARDCODE FLAGS IF NEEDED:
          cflags = zeros([1,size(tracks,2)]);
-%          cflags = [2, 1];
     end
-    %Initialize CasADi
-    if(isempty(F))
-        F = CasadiSetup(h,T,N);
-    end
-    
-    if(isempty(firsttime))
-        firsttime = 1;
-    end
-        
-    %Initialize position and reference trajectory.
-    initial_pos = vessel.eta;
-    initial_vel = vessel.nu;
-    [reference_trajectory_los, ~] = reference_trajectory_from_dynamic_los_guidance(vessel, parameters, h, N);
-    
-    %% Static obstacles
-    static_obs = get_global_map_data();
-    interpolated_static_obs = Interpolate_static_obs(static_obs);
-    
-    %% Dynamic obstacles
+
     simple = 0; % Enable to discard all traffic pattern assistance.
     
     if ~isempty(tracks)
         dynamic_obs(size(tracks,2)) = struct;
-        tracks2 = tracks;
     else
         dynamic_obs = []; % Failsafe in case there are no dynamic obstacles present.
     end
@@ -55,13 +25,43 @@ import casadi.*
                 1000 * [cos(tracks2(i).eta(3)) , sin(tracks2(i).eta(3))]';
             tracks(i).wp = [tracks(i).wp(1:2)' tracks(i).wp(3:4)']; % Truncate excess waypoints.
         end
-        dynamic_obs(i).traj = reference_trajectory_from_dynamic_los_guidance(tracks(i),parameters, h, N);
-        % Her må vi legge til litt mer logikk for å skjekke at det faktisk
-        % er en situasjon å klassifisere. deretter trengs det logikk for å
-        % skjekke når situasjonen er klarert slik at den kan bli safe.
-        dynamic_obs(i).cflag = COLREGs_assessment(vessel,tracks(i),cflags(i));
+    
+        [dynamic_obs(i).cflag, dynamic_obs(i).dcpa, dynamic_obs(i).tcpa] = COLREGs_assessment(vessel,tracks(i),cflags(i),simple);
         cflags(i) = dynamic_obs(i).cflag; % Save flag in persistent variable for next iteration.
     end
+
+    [N,h] = DynamicHorizon(vessel, tracks);
+    T = N * h;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% INITIAL CONDITIONS and persistent variables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    persistent previous_w_opt
+    persistent F
+    persistent firsttime
+       
+    % Initialize CasADi
+    if(isempty(F))
+        F = CasadiSetup(h,T,N);
+    end
+    
+    if(isempty(firsttime))
+        firsttime = 1;
+    end
+        
+    % Initialize position and reference trajectory.
+    initial_pos = vessel.eta;
+    initial_vel = vessel.nu;
+
+    % reference LOS for OS and TS
+    [reference_trajectory_los, ~] = reference_trajectory_from_dynamic_los_guidance(vessel, parameters, h, N);
+    for i = 1:size(tracks,2)
+    dynamic_obs(i).traj = reference_trajectory_from_dynamic_los_guidance(tracks(i),parameters, h, N);
+    end
+    
+    %% Static obstacles
+    static_obs = get_global_map_data();
+    interpolated_static_obs = Interpolate_static_obs(static_obs);
+    
         
     %% NLP initialization.
     % Start with empty NLP.

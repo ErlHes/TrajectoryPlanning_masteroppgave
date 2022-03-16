@@ -89,14 +89,14 @@ import casadi.*
     % Objective function.
     Kp = diag([8*10^-1, 8*10^-1]); % Tuning parameter for positional reference deviation.
     Ku = 6.7*10^2; % Tuning parameter for surge reference deviation.
-%     Kv = 7.2*10^2;
-    Kv = 0;
+    Kv = 7.2*10^2;
+%     Kv = 0;
 %     Kr = 3*10^2; % Tuning parameter for yaw rate reference deviation.
 %     Kt = 10^2;
     R2 = [cos(x(3))    -sin(x(3));...
          sin(x(3))    cos(x(3))];
     Error = R2'*(x(1:2) - xref(1:2));
-    Kfy = 2 * 10^-3;
+    Kfy = 0 * 10^-3;
     %L = Kp * norm(P - xref)^2 + Ku  * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
     %L = (P - xref)'* Kp * (P - xref) + Ku * (u_0'*u_0 - uref(1)'*uref(1))^2;
     %L = (P - xref)'* Kp * (P - xref) + Ku * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;

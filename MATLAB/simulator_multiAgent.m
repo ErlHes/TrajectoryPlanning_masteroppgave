@@ -88,10 +88,10 @@ for d = 1
 end
 
 %% Useful parameter tuning sims
- simulation = 'Walk_in_the_park';
+%  simulation = 'Walk_in_the_park';
  
 %% Head-on Testing
-% simulation = 'HO1';
+simulation = 'HO1';
 
 %% Gather simulation parameters
 
