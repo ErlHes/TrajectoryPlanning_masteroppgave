@@ -23,25 +23,48 @@ a0 = rad2deg(ssa(atan2(vessel.eta(2)-tracks.eta(2),vessel.eta(1)-tracks.eta(1)) 
 % psi_TSR = wrapTo2Pi(psi_TSR);
 
 %% Calculate dCPA and tCPA, check if COLREGs assessment is needed:
-if(simple) % Assume all vessels maintain constant course and speed
-    %Egentlig burde vi fortsatt ta hensyn til vår egen bane. Altså først
-    %finne ut hvor i vår bane vi kommer til å krysse den rettlinja prediksjonen av TS.
-vel_AB = vessel.eta_dot(1:2) - tracks.eta_dot(1:2);
-pos_BA = tracks.eta(1:2) - vessel.eta(1:2);
+% [dCPA, tCPA] = ClosestApproach(vessel.eta(1:2), tracks.eta(1:2), vessel.eta_dot(1:2), tracks.eta_dot(1:2));
+dCPAlist = zeros((size(vessel.wp,2)-1),(size(tracks.wp,2)-1));
+tCPAlist = zeros(size(dCPAlist));
+wptstimer = 0;
+for i = vessel.current_wp:size(vessel.wp,2)-1
+            % NAIV APPROACH
+% % % % % % % %     %For each OS transit waypoint, check the dCPA and tCPA for each TS trasit
+% % % % % % % %     %waypoint.
+% % % % % % % %     [pos_OS, vel_OS] = VesselReadout(vessel,i);
+% % % % % % % %     for j = tracks.current_wp:size(tracks.wp,2)-1
+% % % % % % % %         [pos_TS, vel_TS] = VesselReadout(tracks,j);
+% % % % % % % %         [dCPA, tCPA] = ClosestApproach(pos_OS, pos_TS, vel_OS, vel_TS);
+% % % % % % % %         dCPAlist(i,j) = dCPA;
+% % % % % % % %         tCPAlist(i,j) = tCPA;
+% % % % % % % %     end
+            % NAIV APPROACH ^
 
-tCPA = 0;
-if norm(vel_AB,2)
-    tCPA = dot(pos_BA,vel_AB) / norm(vel_AB,2)^2;
+%Fra vessel.eta, hvor lang tid tar det å nå neste wpt?
+%Fra neste wpt, hvor lang tid tar det å nå neste wpt? <- repeat for alle
+%wpts. Anta konstant fart hele veien.
+    [pos_OS, vel_OS] = VesselReadout(vessel,i);
+    distancetonextWP = sqrt((vessel.wp(1,i+1) - pos_OS(1))^2 + ((vessel.wp(2,i+1) - pos_OS(2))^2));
+    timetonextWP = distancetonextWP / norm(vessel.nu(1:2),2);
+    [pos_TS, vel_TS] = whereisTS(tracks,wptstimer); % Find where TS is when OS is at current position
+    % Find out which future TS waypoints are relevant
+    % Find each position pair of OS position and TS position for all
+    % relevant TS waypoints.
+    % check dCPA and tCPA for each position pair.
+    % Keep the shortest dCPA.
+    % repeat for all OS wpts.
+
+    wptstimer = wptstimer + timetonextWP;
+
+
+
+  
 end
+%Keep the lowest dCPA found, this is the only dCPA we're interested in
+[dCPA, CPAindex] = min(dCPAlist);
+tCPA = tCPAlist(CPAindex);
 
-dCPAfunc = (vessel.eta(1:2) + tCPA * vessel.eta_dot(1:2)) - (tracks.eta(1:2) + tCPA * tracks.eta_dot(1:2));
-dCPA = norm(dCPAfunc,2);
 
-else % Utilize the power of KNAWLEDGE
-
-tCPA = 0;
-dCPA = 0;
-end
 
 
 %% Conduct COLREGs assessment

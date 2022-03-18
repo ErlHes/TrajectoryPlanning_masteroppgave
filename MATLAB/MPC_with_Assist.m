@@ -1,15 +1,27 @@
 function [vessel, resulting_trajectory] = MPC_with_Assist(vessel, tracks, parameters, settings)
 import casadi.*
 
-%% Preliminary checks and setup
-
-    persistent cflags
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% INITIAL CONDITIONS and persistent variables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    persistent previous_w_opt
+    persistent F
+    persistent firsttime
+       
+    % Initialize CasADi
+    
+    if(isempty(firsttime))
+        firsttime = 1;
+    end
+    
+        persistent cflags
     %Initialize COLREGs flag.
     if(isempty(cflags)) % THIS CAN BE USED TO HARDCODE FLAGS IF NEEDED:
-         cflags = zeros([1,size(tracks,2)]);
+%          cflags = zeros([1,size(tracks,2)]);
+         cflags = [2, 1];
     end
 
-    simple = 0; % Enable to discard all traffic pattern assistance.
+    simple = 1; % Enable to discard all traffic pattern assistance.
     
     if ~isempty(tracks)
         dynamic_obs(size(tracks,2)) = struct;
@@ -21,8 +33,8 @@ import casadi.*
         
         if simple
             tracks(i).wp(1:2) = [tracks(i).eta(1);tracks(i).eta(2)];
-            tracks(i).wp(3:4) = [tracks2(i).eta(1);tracks2(i).eta(2)] +...
-                1000 * [cos(tracks2(i).eta(3)) , sin(tracks2(i).eta(3))]';
+            tracks(i).wp(3:4) = [tracks(i).eta(1);tracks(i).eta(2)] +...
+                1000 * [cos(tracks(i).eta(3)) , sin(tracks(i).eta(3))]';
             tracks(i).wp = [tracks(i).wp(1:2)' tracks(i).wp(3:4)']; % Truncate excess waypoints.
         end
     
@@ -32,22 +44,12 @@ import casadi.*
 
     [N,h] = DynamicHorizon(vessel, tracks);
     T = N * h;
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% INITIAL CONDITIONS and persistent variables
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    persistent previous_w_opt
-    persistent F
-    persistent firsttime
-       
-    % Initialize CasADi
+
     if(isempty(F))
         F = CasadiSetup(h,T,N);
     end
-    
-    if(isempty(firsttime))
-        firsttime = 1;
-    end
-        
+
+
     % Initialize position and reference trajectory.
     initial_pos = vessel.eta;
     initial_vel = vessel.nu;
@@ -207,19 +209,19 @@ c_radius = [];
 
             elseif dynamic_obs(i).cflag == 2 % GIVE WAY
                 %% Forbudt å snike seg forbi forran target ship          
-%                 offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/6;
-%                 offsetdir = [cos(offsetang);sin(offsetang)];
-%                 offsetdist = 14; % Should ideally be based some function of Involved vessel's speeds
-%                 offsetvektor = offsetdist*offsetdir;
-%                 c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
-%                 c_rad = 16;
-%                 g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
-%                 lbg = [lbg; c_rad^2];
-%                 ubg = [ubg; inf];
-%                 c_origins = [c_origins, c_orig];
-%                 c_radius = [c_radius, c_rad];
-%                 
-%                 %% Liten constraint bak TS for å hindre å komme for nære når vi svinger tilbake mot vår opprinelige kurs
+                offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/6;
+                offsetdir = [cos(offsetang);sin(offsetang)];
+                offsetdist = 15; % Should ideally be based some function of Involved vessel's speeds
+                offsetvektor = offsetdist*offsetdir;
+                c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
+                c_rad = 18;
+                g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                lbg = [lbg; c_rad^2];
+                ubg = [ubg; inf];
+                c_origins = [c_origins, c_orig];
+                c_radius = [c_radius, c_rad];
+                
+                %% Liten constraint bak TS for å hindre å komme for nære når vi svinger tilbake mot vår opprinelige kurs
 %                 offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi;
 %                 offsetdir = [cos(offsetang);sin(offsetang)];
 %                 offsetdist = 3; % Should ideally be based some function of Involved vessel's speeds
