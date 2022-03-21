@@ -46,13 +46,14 @@ for i = vessel.current_wp:size(vessel.wp,2)-1
     [pos_OS, vel_OS] = VesselWPReadout(vessel,i);
     distancetonextWP = sqrt((vessel.wp(1,i+1) - pos_OS(1))^2 + ((vessel.wp(2,i+1) - pos_OS(2))^2));
     timetonextWP = distancetonextWP / norm(vessel.nu(1:2),2);
-    [pos_TS, vel_TS] = whereisTS(tracks,wptstimer); % Find where TS is when OS is at current position
+    [pos_TS, vel_T] = whereisTS(tracks,wptstimer,timetonextWP); % Find where TS is when OS is at current position
 
     %%TODO: Skjekk *alle* relevante TS waypoints når OS følger en veldig
     %%lang bane.
 
     wptstimer = wptstimer + timetonextWP;
     [dCPA, tCPA] = ClosestApproach(pos_OS, pos_TS, vel_OS, vel_TS);
+    tCPA = tCPA + wptstimer; % Blir dette rett? hvem vet.
     dCPAlist = [dCPAlist, dCPA];
     tCPAlist = [tCPAlist, tCPA];
 
