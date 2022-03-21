@@ -1,4 +1,4 @@
-function [pos_OS, vel_OS] = VesselReadout(vessel,i)
+function [pos_OS, vel_OS] = VesselWPReadout(vessel,i)
 %Reads out the position and velocity of the vessel at each waypoint in it's
 %transit. If the index of the wpt we're reading is the same as current wpt
 %we instead read out current position and velocity.

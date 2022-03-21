@@ -21,7 +21,7 @@ import casadi.*
          cflags = [2, 1];
     end
 
-    simple = 1; % Enable to discard all traffic pattern assistance.
+    simple = 0; % Enable to discard all traffic pattern assistance.
     
     if ~isempty(tracks)
         dynamic_obs(size(tracks,2)) = struct;
