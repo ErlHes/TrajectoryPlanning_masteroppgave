@@ -22,7 +22,7 @@ function [pos_TS, vel_TS] = whereisTS(tracks,wptstimer,timetonextOSwp)
                 distancetonextWP = 0;
                 pos_TS = pos;
                 vel_TS = [0,0]';
-                distance = -1;
+                distance = 0;
             end
         else
             %Beveg oss (distane) langs banen til neste WP
@@ -35,16 +35,6 @@ function [pos_TS, vel_TS] = whereisTS(tracks,wptstimer,timetonextOSwp)
             distance = 0;
         end
     end
-    % Vi har nå hvor TS er i det OS 'starter' turen fra nåværende WP
-    % Vil nå vite om TS passerer gjennom flere WPTS mens OS er på tur
-    newdist = timetonextOSwp * norm(tracks.nu(1:2),2);
-    if WPindex < WPlim
-        distancetonextWP = sqrt((tracks.wp(1,WPindex+1) - pos_TS(1))^2 + ((tracks.wp(2,WPindex+1) - pos_TS(2))^2));
-    end
-    relWPs = 1;
-    while newdist > 0
-        if newdist > distancetonextWP
-
 end
 
 

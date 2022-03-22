@@ -6,7 +6,7 @@ function [pos_OS, vel_OS] = VesselWPReadout(vessel,i)
     Heading_OS = atan2(vessel.wp(2,i+1)-vessel.wp(2,i),vessel.wp(1,i+1)-vessel.wp(1,i));
     vel_OS = rotZ(Heading_OS)*vessel.nu;
     vel_OS = vel_OS(1:2);
-    if i == vessel.current_wp %instead of start of current wp, use current location.
+    if i == vessel.current_wp %When we examine the current actie wp; use current location instead.
         pos_OS = vessel.eta(1:2);
         vel_OS = vessel.eta_dot(1:2);
     end

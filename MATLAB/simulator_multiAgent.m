@@ -89,9 +89,12 @@ end
 
 %% Useful parameter tuning sims
 %  simulation = 'Walk_in_the_park';
+
+%% COLREGs Classification Testing
+simulation = 'Classificationtest';
  
 %% Head-on Testing
-simulation = 'HO1';
+% simulation = 'HO1';
 
 %% Gather simulation parameters
 

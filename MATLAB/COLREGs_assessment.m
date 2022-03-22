@@ -1,9 +1,36 @@
-function [flag, dCPA, tCPA] = COLREGs_assessment(vessel,tracks, cflag,simple)
+function [flag, dCPA, tCPA] = COLREGs_assessment(vessel,tracks, cflag)
+%% THIS FUNCTION EVALUATES ONE TARGET SHIP ONLY. TO EVALUATE MORE THE FUNCTION MUST BE CALLED FOR EACH TARGET SHIP IN YOUR SITUATION.
 % a13 = 112.5; % Overtaking tolerance
 % a14 = rad2deg(pi/8); % head-on tolerance
 % a15 = rad2deg(pi/8); % crossing aspect limit
 
-%% Angles between OS and TS
+%% Calculate dCPA and tCPA, check if COLREGs assessment is needed:
+% [dCPA, tCPA] = ClosestApproach(vessel.eta(1:2), tracks.eta(1:2), vessel.eta_dot(1:2), tracks.eta_dot(1:2));
+[dCPAlist, tCPAlist] = getCPAlist(vessel,tracks);
+
+%Keep the lowest dCPA found, this is the only dCPA we're interested in
+dCPA = min(dCPAlist);
+dCPAminlist = find(dCPAlist == dCPA);
+tCPA = tCPAlist(dCPAminlist(1));
+
+[TSdCPAlist, TStCPAlist] = getCPAlist(tracks,vessel);
+TSdCPA = min(TSdCPAlist);
+TSdCPAminlist = find(TSdCPAlist == TSdCPA);
+TStCPA = TStCPAlist(TSdCPAminlist(1));
+
+if TSdCPA < dCPA
+    dCPA = TSdCPA;
+    tCPA = TStCPA;
+end
+
+
+
+
+
+
+%% Conduct COLREGs assessment
+
+% Angles between OS and TS
 phi_1 = rad2deg(pi/8);
 phi_2 = 112.5;
 
@@ -22,51 +49,6 @@ a0 = rad2deg(ssa(atan2(vessel.eta(2)-tracks.eta(2),vessel.eta(1)-tracks.eta(1)) 
 % phi_TS = wrapTo2Pi(phi_TS);
 % psi_TSR = wrapTo2Pi(psi_TSR);
 
-%% Calculate dCPA and tCPA, check if COLREGs assessment is needed:
-% [dCPA, tCPA] = ClosestApproach(vessel.eta(1:2), tracks.eta(1:2), vessel.eta_dot(1:2), tracks.eta_dot(1:2));
-dCPAlist = [];
-tCPAlist = [];
-wptstimer = 0;
-for i = vessel.current_wp:size(vessel.wp,2)-1
-            % NAIV APPROACH
-% % % % % % % %     %For each OS transit waypoint, check the dCPA and tCPA for each TS trasit
-% % % % % % % %     %waypoint.
-% % % % % % % %     [pos_OS, vel_OS] = VesselReadout(vessel,i);
-% % % % % % % %     for j = tracks.current_wp:size(tracks.wp,2)-1
-% % % % % % % %         [pos_TS, vel_TS] = VesselReadout(tracks,j);
-% % % % % % % %         [dCPA, tCPA] = ClosestApproach(pos_OS, pos_TS, vel_OS, vel_TS);
-% % % % % % % %         dCPAlist(i,j) = dCPA;
-% % % % % % % %         tCPAlist(i,j) = tCPA;
-% % % % % % % %     end
-            % NAIV APPROACH ^
-
-%Fra vessel.eta, hvor lang tid tar det å nå neste wpt?
-%Fra neste wpt, hvor lang tid tar det å nå neste wpt? <- repeat for alle
-%wpts. Anta konstant fart hele veien.
-    [pos_OS, vel_OS] = VesselWPReadout(vessel,i);
-    distancetonextWP = sqrt((vessel.wp(1,i+1) - pos_OS(1))^2 + ((vessel.wp(2,i+1) - pos_OS(2))^2));
-    timetonextWP = distancetonextWP / norm(vessel.nu(1:2),2);
-    [pos_TS, vel_T] = whereisTS(tracks,wptstimer,timetonextWP); % Find where TS is when OS is at current position
-
-    %%TODO: Skjekk *alle* relevante TS waypoints når OS følger en veldig
-    %%lang bane.
-
-    wptstimer = wptstimer + timetonextWP;
-    [dCPA, tCPA] = ClosestApproach(pos_OS, pos_TS, vel_OS, vel_TS);
-    tCPA = tCPA + wptstimer; % Blir dette rett? hvem vet.
-    dCPAlist = [dCPAlist, dCPA];
-    tCPAlist = [tCPAlist, tCPA];
-
-  
-end
-%Keep the lowest dCPA found, this is the only dCPA we're interested in
-[dCPA, CPAindex] = min(dCPAlist);
-tCPA = tCPAlist(CPAindex);
-
-
-
-
-%% Conduct COLREGs assessment
 % 1 = HO
 % 2 = GW
 % 3 = SO
