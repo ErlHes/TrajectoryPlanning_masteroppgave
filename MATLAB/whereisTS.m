@@ -1,4 +1,4 @@
-function [pos_TS, vel_TS] = whereisTS(tracks,wptstimer,timetonextOSwp)
+function [pos_TS, vel_TS] = whereisTS(tracks,wptstimer)
     pos_TS = tracks.eta(1:2);
     vel_TS = tracks.eta_dot(1:2);
     WPlim = size(tracks.wp,2);

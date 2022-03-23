@@ -51,7 +51,7 @@ for d = 1
 % simulation = 'Simple_HO'; % OUTDATED
 
 % simulation = 'StraitCross'; %non compliant TS from port side
-% simulation = 'StraitCross_HO';
+simulation = 'StraitCross_HO';
 % simulation = 'StraitCross_OT';
 
 %% MPC WITH ASSIST TRAFFIC PATTERN DIFFERENCE:
@@ -91,7 +91,7 @@ end
 %  simulation = 'Walk_in_the_park';
 
 %% COLREGs Classification Testing
-simulation = 'Classificationtest';
+% simulation = 'Classificationtest';
  
 %% Head-on Testing
 % simulation = 'HO1';

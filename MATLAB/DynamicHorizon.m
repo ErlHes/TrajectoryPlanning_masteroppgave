@@ -1,4 +1,4 @@
-function [N, h] = DynamicHorizon(vessel, tracks)
+function [N, h] = DynamicHorizon(vessel, dynamic_obs)
 % Calculate an appropriate number of time steps and step length based on
 % distance to goal and other vessels.
 
@@ -16,14 +16,19 @@ Timetogoal = distancetogoal / vessel.nu(1);
 %Getting past relevant TS:
 %some function
 %return TimetopassTS
+maxtCPA = max(dynamic_obs.tcpa);
 
 %compare time to pass goal and time to pass TS, we want to keep the
 %smallest of theese two
 
 %max time of n minutes:
-maxminutes = 3; 
+maxminutes = 5; 
 maxseconds = maxminutes * 60;
-finaltime = min([Timetogoal, maxseconds]);
+minminutes = 3;
+minseconds = minminutes * 60;
+
+minstetid = max(minseconds, maxtCPA);
+finaltime = min([Timetogoal, maxseconds, minstetid]);
 
 h = 0.65; % statisk for nå.
 N = ceil(finaltime / h);

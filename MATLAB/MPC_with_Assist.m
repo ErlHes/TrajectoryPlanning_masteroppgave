@@ -17,11 +17,11 @@ import casadi.*
         persistent cflags
     %Initialize COLREGs flag.
     if(isempty(cflags)) % THIS CAN BE USED TO HARDCODE FLAGS IF NEEDED:
-%          cflags = zeros([1,size(tracks,2)]);
-         cflags = [2, 1];
+         cflags = zeros([1,size(tracks,2)]);
+%          cflags = [2, 1];
     end
 
-    simple = 0; % Enable to discard all traffic pattern assistance.
+    simple = 1; % Enable to discard all traffic pattern assistance.
     
     if ~isempty(tracks)
         dynamic_obs(size(tracks,2)) = struct;
@@ -36,13 +36,14 @@ import casadi.*
             tracks(i).wp(3:4) = [tracks(i).eta(1);tracks(i).eta(2)] +...
                 1000 * [cos(tracks(i).eta(3)) , sin(tracks(i).eta(3))]';
             tracks(i).wp = [tracks(i).wp(1:2)' tracks(i).wp(3:4)']; % Truncate excess waypoints.
+            tracks(i).current_wp = 1;
         end
     
         [dynamic_obs(i).cflag, dynamic_obs(i).dcpa, dynamic_obs(i).tcpa] = COLREGs_assessment(vessel,tracks(i),cflags(i));
         cflags(i) = dynamic_obs(i).cflag; % Save flag in persistent variable for next iteration.
     end
 
-    [N,h] = DynamicHorizon(vessel, tracks);
+    [N,h] = DynamicHorizon(vessel, dynamic_obs);
     T = N * h;
 
     if(isempty(F))

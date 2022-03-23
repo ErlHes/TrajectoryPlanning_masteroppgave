@@ -71,7 +71,7 @@ import casadi.*
 %          0      d32     50*d33];
 % 
 %      M = eye(3)*1000;
-     D = eye(3)*200;
+     D = diag([200, 200, 1000]);
 %      C = zeros(3);
     
 %     Tau = pickthree(tau); %failed experiement.
