@@ -16,7 +16,9 @@ Timetogoal = distancetogoal / vessel.nu(1);
 %Getting past relevant TS:
 %some function
 %return TimetopassTS
+if(~isempty(dynamic_obs))
 maxtCPA = max(dynamic_obs.tcpa);
+end
 
 %compare time to pass goal and time to pass TS, we want to keep the
 %smallest of theese two

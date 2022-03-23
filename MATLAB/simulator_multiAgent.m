@@ -14,24 +14,18 @@ for d = 1
 % simulation = 'head_on_02';
 % simulation = 'overtaking_02';
 % simulation = 'head_on_east_west';
-
-
 % simulation = 'brattora_ranvkloa_along_canal_7';
-
 % simulation = 'exit_to_open_waters_1';
 % simulation = 'exit_to_open_waters_2';
-
 % simulation = 'harbour_exit';
 % simulation = 'star_maneuver_01';
 % simulation = 'star_maneuver_02';
-
 % simulation = 'traffic_junction_01';
 
 %% MPC WITH ASSIST TESTS
 %simulation = 'COLREGs_flagtest';
 %simulation = 'Test1';
 %simulation = 'Test2';
-
 %simulation = 'open_sea';
 %simulation = 'constrained_strait';
 %simulation = 'local_min_strait';
@@ -49,17 +43,14 @@ for d = 1
 % simulation = 'islands_GWcrossing'; % OUTDATED
 % simulation = 'islands_SOcrossing'; % OUTDATED
 % simulation = 'Simple_HO'; % OUTDATED
-
 % simulation = 'StraitCross'; %non compliant TS from port side
-simulation = 'StraitCross_HO';
+% simulation = 'StraitCross_HO';
 % simulation = 'StraitCross_OT';
 
 %% MPC WITH ASSIST TRAFFIC PATTERN DIFFERENCE:
 % simulation = 'island_heavy_turn'; % This shit don't work.
 
-
 %% Velocity Obstacle scenarios
-
 % simulation = 'VO_head_on_east_west';
 % simulation = 'VO_c_shaped_path_testing_filtered_referece_ocp';
 %% OCP scenarios
@@ -72,15 +63,12 @@ simulation = 'StraitCross_HO';
 % simulation = 'brattora_ranvkloa_along_canal_4_ocp';
 % simulation = 'brattora_ranvkloa_along_canal_5_ocp';
 % simulation = 'brattora_ranvkloa_along_canal_7_ocp';
-
 % simulation = 'kristiansund_01';
 %  simulation = 'kristiansund_02';
 % simulation = 'kristiansund_03';
 % simulation = 'kristiansund_04';
 % simulation = 'straight_north_debug';
 % simulation = 'c_shaped_path_testing_filtered_referece_ocp';
-
-
 % simulation = 'sandefjord_01';
 % simulation = 'sandefjord_02';
 % simulation = 'sandefjord_03';
@@ -95,6 +83,12 @@ end
  
 %% Head-on Testing
 % simulation = 'HO1';
+
+%% With and without prediction sims
+simulation = 'Havn1';
+% simulation = 'Havn2';
+% simulation = 'Trheimfjord';
+% simulation = 'Ferjekryss';
 
 %% Gather simulation parameters
 
@@ -127,6 +121,7 @@ controller_param.delta_t = settings.dt;
 visualization = true;
 sys_parameters.run_visualization = true;
 sys_parameters.plot_barriers = true;
+sys_parameters.line_of_sight_visibility = 0;
 
 if(parameters.system.make_video)
     visualization_interval = 10;

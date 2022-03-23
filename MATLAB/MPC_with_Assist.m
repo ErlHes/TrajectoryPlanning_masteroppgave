@@ -301,7 +301,7 @@ c_radius = [];
 % 				  "acceptable_obj_change_tol": 1e20,
 % 				  "diverging_iterates_tol": 1e20}
     if(~isempty(previous_w_opt))
-        w0 = previous_w_opt(1:size(lbw,1));
+        w0 = previous_w_opt(1:size(lbw,1)); % somehow: Index exceeds the number of array elements. Index must not exceed 1095. TODO fix this.
     end
     
     % Solve the NLP.
