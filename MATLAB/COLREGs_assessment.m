@@ -9,6 +9,8 @@ function [flag, dCPA, tCPA] = COLREGs_assessment(vessel,tracks, cflag)
 [dCPAlist, tCPAlist,pos_OS_list, pos_TS_list] = getCPAlist(vessel,tracks);
 
 %Keep the lowest dCPA found, this is the only dCPA we're interested in
+%If there should ever be multiple equally low dCPAs we are in a unsupported
+%special case that needs more development.
 dCPA = min(dCPAlist);
 dCPAminlist = find(dCPAlist == dCPA);
 tCPA = tCPAlist(dCPAminlist(1));
@@ -20,6 +22,9 @@ TSdCPA = min(TSdCPAlist);
 TSdCPAminlist = find(TSdCPAlist == TSdCPA);
 
 %HACKJOB
+%This is a failsafe to prevent MATLAB from throwing an error and halting
+%the program should any of the Target Ships in the simulation be at their
+%final destination.
 if(~isempty(TStCPAlist))
     TStCPA = TStCPAlist(TSdCPAminlist(1));
     tspos_OS = ts_pos_OS_list(1:3,TSdCPAminlist);
@@ -55,7 +60,7 @@ tCPAgrense = 3 * dCPAgrense;
 
 
 %% Conduct COLREGs assessment
-if (dCPA < dCPAgrense) && (tCPA < tCPAgrense) %TODO: The limit values should both be functions of vessel sizes and speeds.
+if (dCPA < dCPAgrense) && (tCPA < tCPAgrense) 
     % Angles between OS and TS
     phi_1 = rad2deg(pi/8);
     phi_2 = 112.5;

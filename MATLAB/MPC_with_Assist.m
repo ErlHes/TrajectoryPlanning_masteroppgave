@@ -120,7 +120,7 @@ c_radius = [];
                   (atan2(reference_trajectory_los(4,k+2),reference_trajectory_los(3,k+2)) - ...
                    atan2(reference_trajectory_los(4,k+1),reference_trajectory_los(3,k+1))) / h];
         
-        nu_ref = [2;0;eta_dot_ref(3)];
+        nu_ref = [2;0;eta_dot_ref(3)]; %Burde være vessel.speed som referanse.
 %         nu_ref = [sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2); 0; eta_dot_ref(3)];
 %         nu_ref = vessel.eta_dot_ref;
         
