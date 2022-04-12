@@ -96,7 +96,7 @@ import casadi.*
     R2 = [cos(x(3))    -sin(x(3));...
          sin(x(3))    cos(x(3))];
     Error = R2'*(x(1:2) - xref(1:2));
-    Kfy = 0 * 10^-3;
+    Kfy = 1 * 10^-5;
     %L = Kp * norm(P - xref)^2 + Ku  * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
     %L = (P - xref)'* Kp * (P - xref) + Ku * (u_0'*u_0 - uref(1)'*uref(1))^2;
     %L = (P - xref)'* Kp * (P - xref) + Ku * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;

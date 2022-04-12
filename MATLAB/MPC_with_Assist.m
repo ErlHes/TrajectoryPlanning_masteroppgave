@@ -21,7 +21,7 @@ import casadi.*
 %          cflags = [2, 1];
     end
 
-    simple = 1; % Enable to discard all traffic pattern assistance.
+    simple = 0; % Enable to discard all traffic pattern assistance.
     
     if ~isempty(tracks)
         dynamic_obs(size(tracks,2)) = struct;
@@ -161,10 +161,10 @@ c_radius = [];
                 %% Constraint rundt båten, origo offset til styrbord
                 offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/2;
                 offsetdir = [cos(offsetang);sin(offsetang)];
-                offsetdist = 3;
+                offsetdist = 5;
                 offsetvektor = offsetdist*offsetdir;
                 c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
-                c_rad = 13;
+                c_rad = 15;
                 g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                 lbg = [lbg; c_rad^2];
                 ubg = [ubg; inf];
@@ -215,7 +215,7 @@ c_radius = [];
                 offsetdist = 15; % Should ideally be based some function of Involved vessel's speeds
                 offsetvektor = offsetdist*offsetdir;
                 c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
-                c_rad = 18;
+                c_rad = 20;
                 g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                 lbg = [lbg; c_rad^2];
                 ubg = [ubg; inf];
@@ -237,10 +237,33 @@ c_radius = [];
                                 
                 
             elseif dynamic_obs(i).cflag == 3 % STAND ON
+                %% Contraint rundt TS som sikkerhetsmargin
+                offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/6;
+                offsetdir = [cos(offsetang);sin(offsetang)];
+                offsetdist = 0; % Should ideally be based some function of Involved vessel's speeds
+                offsetvektor = offsetdist*offsetdir;
+                c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
+                c_rad = sqrt(tracks(i).size*tracks(i).size');
+                g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                lbg = [lbg; c_rad^2];
+                ubg = [ubg; inf];
+                c_origins = [c_origins, c_orig];
+                c_radius = [c_radius, c_rad];
+                
                 %% Forbudt å endre heading?
             elseif dynamic_obs(i).cflag == 4 % OVERTAKING
-                %% Forbudt å kjøre forbi target's babord
-                
+                %% Constraint rundt TS som sikkerhetsmargin
+                offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/6;
+                offsetdir = [cos(offsetang);sin(offsetang)];
+                offsetdist = 0; % Should ideally be based some function of Involved vessel's speeds
+                offsetvektor = offsetdist*offsetdir;
+                c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
+                c_rad = tracks(i).size'*tracks(i).size;
+                g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                lbg = [lbg; c_rad^2];
+                ubg = [ubg; inf];
+                c_origins = [c_origins, c_orig];
+                c_radius = [c_radius, c_rad];
                 %% Ikke vær for nære bakenden på TS
                 
                 %% Ikke sving inn forran TS for tidlig
