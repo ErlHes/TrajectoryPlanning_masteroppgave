@@ -86,8 +86,8 @@ end
 
 %% With and without prediction sims
 % simulation = 'Havn1';
-% simulation = 'Havn2';
-simulation = 'Trheimfjord';
+simulation = 'Havn2';
+% simulation = 'Trheimfjord';
 % simulation = 'Ferjekryss';
 
 %% Gather simulation parameters
