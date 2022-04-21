@@ -22,6 +22,7 @@ import casadi.*
     end
 
     simple = 0; % Enable to discard all traffic pattern assistance.
+    enable_Static_obs = 1; % Set static obs constraints on or off
     
     if ~isempty(tracks)
         dynamic_obs(size(tracks,2)) = struct;
@@ -63,7 +64,8 @@ import casadi.*
     
     %% Static obstacles
     static_obs = get_global_map_data();
-    interpolated_static_obs = Interpolate_static_obs(static_obs);
+%     interpolated_static_obs = Interpolate_static_obs(static_obs);
+    Static_obs_constraints = Static_obstacles_check(static_obs, reference_trajectory_los, vessel);
     
         
     %% NLP initialization.
@@ -274,15 +276,15 @@ c_radius = [];
         end
         end
     
-    %    static obstacle constraints:
-%         if ~isempty(interpolated_static_obs)
-%             [~, cols] = size(interpolated_static_obs);
-%             for i = 1:cols
-%                 g = [g, {(Xk(1:2) - interpolated_static_obs(:,i))'*(Xk(1:2) - interpolated_static_obs(:,i)) - 16^2}];
-%                 lbg = [lbg; 0];
-%                 ubg = [ubg; inf];
-%             end
-%         end
+       %static obstacle constraints:
+        if(enable_Static_obs)
+            [~, cols] = size(Static_obs_constraints);
+            for i = 1:cols
+                g = [g, {(Xk(1:2) - Static_obs_constraints(:,i))'*(Xk(1:2) - Static_obs_constraints(:,i)) - 5^2}];
+                lbg = [lbg; 0];
+                ubg = [ubg; inf];
+            end
+        end
         
         
         loopdata(k+1,:) = [k, xref_i'];
@@ -324,7 +326,15 @@ c_radius = [];
 % 				  "acceptable_obj_change_tol": 1e20,
 % 				  "diverging_iterates_tol": 1e20}
     if(~isempty(previous_w_opt))
-        w0 = previous_w_opt(1:size(lbw,1)); % somehow: Index exceeds the number of array elements. Index must not exceed 1095. TODO fix this.
+        endindex = min(size(lbw,1),size(previous_w_opt,1));
+        temp = w0;
+        w0 = previous_w_opt(1:endindex);
+        if endindex < size(lbw,1)
+            differentialindex = size(lbw,1)-size(previous_w_opt,1);
+%             w0 = [w0' zeros(1,differentialindex)]';
+            temp = w0(end-differentialindex+1:end,:);
+            w0 = [w0;temp];
+        end
     end
     
     % Solve the NLP.
