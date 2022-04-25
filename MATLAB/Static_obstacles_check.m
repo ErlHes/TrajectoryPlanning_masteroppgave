@@ -1,4 +1,4 @@
-function Static_obs_constraints = Static_obstacles_check(obsmatrix, trajectory, vessel)
+function Static_obs_constraints = Static_obstacles_check(obsmatrix, trajectory)
 % Check for static obstacles within a circular area around each waypoint in
 % the reference trajectory, We only care about obstacles that occur "in
 % front of" the vessel, and thus in turn in front of the waypoint.
@@ -13,11 +13,11 @@ function Static_obs_constraints = Static_obstacles_check(obsmatrix, trajectory, 
     ybox = obsmatrix(1,:);
 
     %% LOOP
-    for i = 2:25:length(trajectory)
+    for i = 2:100:length(trajectory)
         pos = trajectory(1:2,i);
         heading = atan2(trajectory(2,i)-trajectory(2,i-1),trajectory(1,i)-trajectory(1,i-1));
 
-        for j = -pi/3:0.2:pi/3
+        for j = -pi:pi/6:pi
             ang = heading + j;
             dir = [cos(ang);sin(ang)];
             %% RADIUS OF SCAN HERE

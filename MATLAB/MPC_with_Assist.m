@@ -65,7 +65,8 @@ import casadi.*
     %% Static obstacles
     static_obs = get_global_map_data();
 %     interpolated_static_obs = Interpolate_static_obs(static_obs);
-    Static_obs_constraints = Static_obstacles_check(static_obs, reference_trajectory_los, vessel);
+%     Static_obs_constraints = Static_obstacles_check(static_obs, reference_trajectory_los); 
+%     THIS CHECK IS HANDELED IN THE MAIN LOOP NOW
     
         
     %% NLP initialization.
@@ -278,12 +279,17 @@ c_radius = [];
     
        %static obstacle constraints:
         if(enable_Static_obs)
-            [~, cols] = size(Static_obs_constraints);
-            for i = 1:cols
-                g = [g, {(Xk(1:2) - Static_obs_constraints(:,i))'*(Xk(1:2) - Static_obs_constraints(:,i)) - 5^2}];
-                lbg = [lbg; 0];
-                ubg = [ubg; inf];
+            selected_trajectory = reference_trajectory_los;
+            if(~isempty(previous_w_opt))
+                selected_trajectory = previous_w_opt;
             end
+            static_obs_constraints = Static_obstacles_check_Iterative(static_obs, selected_trajectory, k);
+%             [~, cols] = size(static_obs_constraints);
+%             for i = 1:cols
+% %                 g = [g, {(Xk(1:2) - Static_obs_constraints(:,i))'*(Xk(1:2) - Static_obs_constraints(:,i)) - 5^2}]; % Endre constraints
+%                 lbg = [lbg; 0];
+%                 ubg = [ubg; inf];
+%             end
         end
         
         

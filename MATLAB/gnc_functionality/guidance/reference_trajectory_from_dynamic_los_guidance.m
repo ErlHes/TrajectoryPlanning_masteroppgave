@@ -1,5 +1,5 @@
 function [reference_trajectory_los,end_of_path_index] = reference_trajectory_from_dynamic_los_guidance(OS, parameters, h, N)
-N = N;   %number of samples (-)
+% N = N;   %number of samples (-)
 dt = h;    %sampling time (s)
 T = N * dt;
 
