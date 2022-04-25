@@ -42,6 +42,8 @@ function static_obs_constraints = Static_obstacles_check_Iterative(obsmatrix, tr
     end
 
     [xi, yi, ii] = polyxpoly(x,y,xbox,ybox);
+    constraintindex = 1;
+    intersect =  [];
 
 %     heading = atan2(trajectory(2,i)-trajectory(2,i-1),trajectory(1,i)-trajectory(1,i-1));
     
