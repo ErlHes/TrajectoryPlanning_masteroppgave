@@ -42,11 +42,42 @@ function static_obs_constraints = Static_obstacles_check_Iterative(obsmatrix, tr
     end
 
     [xi, yi, ii] = polyxpoly(x,y,xbox,ybox);
-    constraintindex = 1;
-    intersect =  [];
-
-%     heading = atan2(trajectory(2,i)-trajectory(2,i-1),trajectory(1,i)-trajectory(1,i-1));
+    % Keep first hit:
+    A = [xi, yi, ii];
+    [~,uidx] = unique(A(:,3),'stable');
+    A_without_dup = A(uidx,:);
+    xi = A_without_dup(:,1);
+    yi = A_without_dup(:,2);
+    ii = A_without_dup(:,3:4);
     
-
-static_obs_constraints = 0;
+    %% TEST CODE
+%     testx = [];
+%     testy = [];
+%     mapshow(xbox,ybox,'DisplayType','polygon','LineStyle','none')
+%     mapshow(x,y,'Marker','+')
+%     mapshow(xi,yi,'DisplayType','point','Marker','o')
+%     for i = 1:length(xi)
+%         testpoint = [yi(i);xi(i)];
+%         line = testpoint - pos;
+%         line = [-line(2); line(1)];
+%         point1 = testpoint + line;
+%         point2 = testpoint - line;
+%         testx = [testx, point1(2), point2(2), NaN];
+%         testy = [testy, point1(1), point2(1), NaN];
+%         mapshow(testx,testy,'Marker','x')
+%     end
+%%
+    %% Generate lines:
+    static_obs_constraints = zeros(3,length(xi));
+    for i = 1:length(xi)
+        intersectionpoint = [yi(i); xi(i)];
+        %horrible 2am spaghetti:
+        line = pos - intersectionpoint; % The vector that takes us from intersection point current position
+        transposedline = [-line(2);line(1)]; % Get Orthogonal of said vector.
+        tangent = intersectionpoint + transposedline; % create point along orthogonal vector
+        
+        pi_p = atan2(tangent(1) - intersectionpoint(1), tangent(2) - intersectionpoint(2)); % THIS COULD BE OPTIMIZED WITH A TABLE, 
+                                                                                            % check line ID -> lookup corresponding angle :)
+        static_obs_constraints(:,i) = [intersectionpoint(1); intersectionpoint(2); pi_p];
+    end
 end

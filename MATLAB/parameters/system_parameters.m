@@ -13,4 +13,4 @@ sys_parameters.line_of_sight_visibility = false;
 
 
 % Parameters for making video from simulation
-sys_parameters.make_video = false;
+sys_parameters.make_video = true;

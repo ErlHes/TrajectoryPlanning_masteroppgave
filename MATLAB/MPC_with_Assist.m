@@ -284,9 +284,21 @@ c_radius = [];
                 selected_trajectory = previous_w_opt;
             end
             static_obs_constraints = Static_obstacles_check_Iterative(static_obs, selected_trajectory, k);
-%             [~, cols] = size(static_obs_constraints);
+            for i = 1:size(static_obs_constraints,2)
+                static_obs_y1 = static_obs_constraints(1,i);
+                static_obs_x1 = static_obs_constraints(2,i);
+                pi_p = static_obs_constraints(3,i);
+                
+                y_e = -(Xk(2)-static_obs_x1) * sin(pi_p) + (Xk(1) - static_obs_y1) * cos(pi_p);
+                g = [g, {y_e}];
+                lbg = [lbg; 5];
+                ubg = [ubg; inf];
+            end
+            
+% %             OLD CODE:
+%             [~, cols] = size(Static_obs_constraints);
 %             for i = 1:cols
-% %                 g = [g, {(Xk(1:2) - Static_obs_constraints(:,i))'*(Xk(1:2) - Static_obs_constraints(:,i)) - 5^2}]; % Endre constraints
+%                 g = [g, {(Xk(1:2) - Static_obs_constraints(:,i))'*(Xk(1:2) - Static_obs_constraints(:,i)) - 5^2}]; % Endre constraints
 %                 lbg = [lbg; 0];
 %                 ubg = [ubg; inf];
 %             end

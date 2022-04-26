@@ -79,12 +79,17 @@ while time < settings.t_sim
         if(vizualization_counter==0 && visualization)
             if(j==size(agents,2))
                 agent_eta = [agents(j).eta(1:2,1);atan2(agents(j).eta_dot(2,1), agents(j).eta_dot(1,1))];
+                agent_eta_dot = [agents(j).eta_dot];
                 handle_ = plot_os(agent_eta, 'b', 2); % Eta
+                graph_handles = [graph_handles;handle_];
+                handle_ = quiver(agent_eta(2), agent_eta(1), agent_eta_dot(2),agent_eta_dot(1),10,'b','filled');
                 graph_handles = [graph_handles;handle_];
 
             else
-                handle_ = plot_os(agents(j).eta, 'r',2); 
-               graph_handles = [graph_handles;handle_];
+                handle_ = plot_os(agents(j).eta, 'r',2);
+                graph_handles = [graph_handles;handle_];
+                handle_= quiver(agents(j).eta(2), agents(j).eta(1), agents(j).eta_dot(2),agents(j).eta_dot(1),10,'r','filled');
+                graph_handles = [graph_handles;handle_];
             end
         end
    end
@@ -96,10 +101,12 @@ while time < settings.t_sim
     figure(600)
     hold on
     plot(agents(size(agents,2)).eta(2,1),agents(size(agents,2)).eta(1,1),'*b');
-    
+    hold off
     if(parameters.system.make_video) && (vizualization_counter==0 && visualization)
         frame_number = frame_number +1;
-        F(frame_number ) = getframe(gcf) ;
+        F(frame_number ) = getframe(gcf);
+        F2(frame_number ) = getframe(1);
+        F3(frame_number) = getframe(999);
         drawnow
     end
     vizualization_counter = vizualization_counter +1;
@@ -119,7 +126,7 @@ if(parameters.system.make_video)
     disp('Saving video...')       
     
     fig_filename = strcat('video_', simulation);
-    video_filepos = strcat('C:\Users\erlen\Documents\GitHub\TrajectoryPlanning_masteroppave\MATLAB/', simulation,'/');
+    video_filepos = strcat('C:\Users\erlen\Documents\GitHub\TrajectoryPlanning_masteroppgave\MATLAB\simulations/', simulation,'/');
 
     % create the video writer with 1 fps
     writerObj = VideoWriter( strcat(video_filepos, fig_filename,'.avi'));
@@ -135,6 +142,27 @@ if(parameters.system.make_video)
     end
     % close the writer object
     close(writerObj);
+    
+    writerObj2 = VideoWriter( strcat(video_filepos, fig_filename,'2.avi'));
+    writerObj2.FrameRate = 20;
+    
+    open(writerObj2);
+    for i = 1:length(F2)
+        frame = F2(i);
+        writeVideo(writerObj2, frame);
+    end
+    close(writerObj2);
+    
+        writerObj3 = VideoWriter( strcat(video_filepos, fig_filename,'3.avi'));
+    writerObj3.FrameRate = 20;
+    
+    open(writerObj3);
+    for i = 1:length(F3)
+        frame = F3(i);
+        writeVideo(writerObj3, frame);
+    end
+    close(writerObj3);
+    
     disp('Video saved.')
 end
 
