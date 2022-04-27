@@ -22,6 +22,7 @@ import casadi.*
     end
 
     simple = 0; % Enable to discard all traffic pattern assistance.
+    chaos = 0; % Do not use
     enable_Static_obs = 1; % Set static obs constraints on or off
     
     if ~isempty(tracks)
@@ -289,7 +290,7 @@ c_radius = [];
                 static_obs_x1 = static_obs_constraints(2,i);
                 pi_p = static_obs_constraints(3,i);
                 
-                y_e = -(Xk(2)-static_obs_x1) * sin(pi_p) + (Xk(1) - static_obs_y1) * cos(pi_p);
+                y_e = abs(-(Xk(2)-static_obs_x1) * sin(pi_p) + (Xk(1) - static_obs_y1) * cos(pi_p));
                 g = [g, {y_e}];
                 lbg = [lbg; 5];
                 ubg = [ubg; inf];
@@ -343,7 +344,7 @@ c_radius = [];
 % 				  "acceptable_compl_inf_tol": 0.01,
 % 				  "acceptable_obj_change_tol": 1e20,
 % 				  "diverging_iterates_tol": 1e20}
-    if(~isempty(previous_w_opt))
+    if(~isempty(previous_w_opt) && ~chaos)
         endindex = min(size(lbw,1),size(previous_w_opt,1));
         temp = w0;
         w0 = previous_w_opt(1:endindex);

@@ -76,8 +76,9 @@ function static_obs_constraints = Static_obstacles_check_Iterative(obsmatrix, tr
         transposedline = [-line(2);line(1)]; % Get Orthogonal of said vector.
         tangent = intersectionpoint + transposedline; % create point along orthogonal vector
         
-        pi_p = atan2(tangent(1) - intersectionpoint(1), tangent(2) - intersectionpoint(2)); % THIS COULD BE OPTIMIZED WITH A TABLE, 
-                                                                                            % check line ID -> lookup corresponding angle :)
+%         pi_p = atan2(tangent(1) - intersectionpoint(1), tangent(2) - intersectionpoint(2)); % THIS COULD BE OPTIMIZED WITH A TABLE, 
+        pi_p = atan2(tangent(2) - intersectionpoint(2), tangent(1) - intersectionpoint(1));
+        % check line ID -> lookup corresponding angle :)
         static_obs_constraints(:,i) = [intersectionpoint(1); intersectionpoint(2); pi_p];
     end
 end
