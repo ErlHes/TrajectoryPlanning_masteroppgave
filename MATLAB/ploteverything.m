@@ -1,6 +1,4 @@
 function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajectory_los, c_origins, c_radius, settings, static_obs_collection)
-persistent static_obs_handles
-static_obs_handles = [];
 
     t = loopdata(:,1);
     xref_N = loopdata(:,2);

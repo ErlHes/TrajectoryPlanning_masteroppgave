@@ -56,19 +56,11 @@ import casadi.*
     % Initialize position and reference trajectory.
     initial_pos = vessel.eta;
     initial_vel = vessel.nu;
-    
-    %% Feasibility check 
-    %experimental
-    if ~isempty(previous_w_opt)
-        feasibility = feasibility_check(previous_w_opt);
-    else
-        feasibility = 1;
-    end
 
-    %% reference LOS for OS and TS
-    [reference_trajectory_los, ~] = reference_trajectory_from_dynamic_los_guidance(vessel, parameters, h, N, feasibility);
+    % reference LOS for OS and TS
+    [reference_trajectory_los, ~] = reference_trajectory_from_dynamic_los_guidance(vessel, parameters, h, N);
     for i = 1:size(tracks,2)
-    dynamic_obs(i).traj = reference_trajectory_from_dynamic_los_guidance(tracks(i),parameters, h, N, feasibility);
+    dynamic_obs(i).traj = reference_trajectory_from_dynamic_los_guidance(tracks(i),parameters, h, N);
     end
     
     %% Static obstacles
@@ -134,8 +126,7 @@ c_radius = [];
                   (atan2(reference_trajectory_los(4,k+2),reference_trajectory_los(3,k+2)) - ...
                    atan2(reference_trajectory_los(4,k+1),reference_trajectory_los(3,k+1))) / h];
         
-        surge_ref = sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2);
-        nu_ref = [surge_ref;0;eta_dot_ref(3)]; %Burde være vessel.speed som referanse.
+        nu_ref = [2;0;eta_dot_ref(3)]; %Burde være vessel.speed som referanse.
 %         nu_ref = [sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2); 0; eta_dot_ref(3)];
 %         nu_ref = vessel.eta_dot_ref;
         
@@ -152,15 +143,7 @@ c_radius = [];
         w = [w, {Xk}];
         lbw = [lbw; -inf; -inf; -inf; -2.3; -2.3; -pi/4];
         ubw = [ubw; inf; inf; inf; 2.3; 2.3; pi/4];
-        if ~isempty(previous_w_opt)
-            if ~feasibility
-                w0 = [w0; xref_i(1); xref_i(2); xref_i(3); 0.3; 0; 0];
-            else
-                w0 = [w0; xref_i(1); xref_i(2); xref_i(3); 2; 0; 0];
-            end
-        else
-            w0 = [w0; xref_i(1); xref_i(2); xref_i(3); 2; 0; 0];
-        end
+        w0 = [w0; xref_i(1); xref_i(2); xref_i(3); 2; 0; 0];
         
 %         Uk = MX.sym(['U_' num2str(k+1)], 3);
 %         w = {w{:}, Uk};
@@ -242,7 +225,7 @@ c_radius = [];
                 end
             elseif dynamic_obs(i).cflag == 5 % SAFE
                 if dynamic_obs(i).dcpa < 20
-                    if (k > (floor(dynamic_obs(i).tcpa/h) - floor(20/h))) && (k < (floor(dynamic_obs(i).tcpa/h) + floor(20/h)))
+                    if (k > (floor(dynamic_obs(i).tcpa/h) - floor(10/h))) && (k < (floor(dynamic_obs(i).tcpa/h) + floor(10/h)))
                         offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/6;
                         offsetdir = [cos(offsetang);sin(offsetang)];
                         offsetdist = 0; % Should ideally be based some function of Involved vessel's speeds
@@ -328,7 +311,7 @@ c_radius = [];
 % 				  "acceptable_compl_inf_tol": 0.01,
 % 				  "acceptable_obj_change_tol": 1e20,
 % 				  "diverging_iterates_tol": 1e20}
-    if(~isempty(previous_w_opt) && ~chaos && feasibility)
+    if(~isempty(previous_w_opt) && ~chaos)
         endindex = min(size(lbw,1),size(previous_w_opt,1));
         temp = w0;
         w0 = previous_w_opt(1:endindex);

@@ -8,9 +8,57 @@ sys_parameters.num_dyn_obstacle_attributes = 8; %[ID, N,E,Psi,Speed,Length,Witdh
 sys_parameters.run_visualization = 0;
 sys_parameters.plot_barriers = 0;
 
-sys_parameters.line_of_sight_visibility = true;
-
-
 
 % Parameters for making video from simulation
 sys_parameters.make_video = false;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sys_parameters.line_of_sight_visibility = false; % NEVER TOUCH THIS, ALWAYS FALSE.
