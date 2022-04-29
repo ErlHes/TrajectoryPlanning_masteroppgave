@@ -20,7 +20,6 @@ reference_trajectory_los(:,1) = [OS.eta(1:2,1);...
 
 OS.eta_ref = OS.eta;
 OS.eta_dot_ref = OS.eta_dot;
-
 dt_refinement = round((T/N)/0.1);
 parameters.guidance.dt = (T/N)/dt_refinement;
 
