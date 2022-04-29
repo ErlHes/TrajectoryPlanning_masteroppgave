@@ -1,4 +1,4 @@
-function [reference_trajectory_los,end_of_path_index] = reference_trajectory_from_dynamic_los_guidance(OS, parameters, h, N)
+function [reference_trajectory_los,end_of_path_index] = reference_trajectory_from_dynamic_los_guidance(OS, parameters, h, N, feasibility)
 % N = N;   %number of samples (-)
 dt = h;    %sampling time (s)
 T = N * dt;
@@ -20,6 +20,9 @@ reference_trajectory_los(:,1) = [OS.eta(1:2,1);...
 
 OS.eta_ref = OS.eta;
 OS.eta_dot_ref = OS.eta_dot;
+if OS.id == 100 && ~feasibility
+    OS.speed = 0.15 * OS.speed;
+end
 
 dt_refinement = round((T/N)/0.1);
 parameters.guidance.dt = (T/N)/dt_refinement;

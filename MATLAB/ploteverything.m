@@ -1,4 +1,7 @@
-function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajectory_los, c_origins, c_radius, settings)
+function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajectory_los, c_origins, c_radius, settings, static_obs_collection)
+persistent static_obs_handles
+static_obs_handles = [];
+
     t = loopdata(:,1);
     xref_N = loopdata(:,2);
     xref_E = loopdata(:,3);
@@ -20,6 +23,35 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
     N_error = north_opt - xref_N;
     E_error = east_opt - xref_E;
     
+    if~isempty(static_obs_collection)
+        [~,c] = find(isnan(static_obs_collection(1,:)));
+        static_obs = get_global_map_data();
+    end
+    
+%     figure(600);
+%     previous_linex = [];
+%     previous_liney = [];
+%     for k = 1:c(1)-1
+%         pos = static_obs_collection(1:2,k);
+%         ang = static_obs_collection(3,k);
+%         dir = [cos(ang);sin(ang)];
+%         point = pos + 1000*dir;
+%         point2 = pos - 1000*dir;
+%         linex = [point2(2), point(2), NaN];
+%         liney = [point2(1), point(1), NaN];
+%         
+%         if ~isempty(previous_linex)
+%             [xi, yi] = polyxpoly(linex, liney, previous_linex, previous_liney);
+%             linex = [xi(1), point2(2), NaN];
+%             liney = [yi(1), point2(1), NaN];
+%         end
+%         previous_linex = [previous_linex, linex];
+%         previous_liney = [previous_liney, liney];
+%     end
+%     delete(static_obs_handles);
+%     h1 = mapshow(previous_linex, previous_liney,'linewidth',1.2);
+%     h2 = mapshow(static_obs(2,:),static_obs(1,:),'DisplayType','polygon','LineStyle','none');
+%     static_obs_handles = [static_obs_handles; h1; h2];
 
     figure(999);
     clf;
@@ -30,13 +62,17 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
     plot(vessel.wp(2,:),vessel.wp(1,:),'g');
     plot(reference_trajectory_los(2,:),reference_trajectory_los(1,:) , 'r-.');
     %plot constraint circles
-    if~isempty(c_radius)
-        for i = 1:10
-            th = 0:pi/50:2*pi;
-            xunit = c_radius(i) * cos(th) + c_origins(2,i);
-            yunit = c_radius(i) * sin(th) + c_origins(1,i);
-            plot(xunit,yunit);
-        end
+%     if~isempty(c_radius)
+%         for i = 1:10
+%             th = 0:pi/50:2*pi;
+%             xunit = c_radius(i) * cos(th) + c_origins(2,i);
+%             yunit = c_radius(i) * sin(th) + c_origins(1,i);
+%             plot(xunit,yunit);
+%         end
+%     end
+    %plot constraint centers
+    if ~isempty(c_origins)
+        plot(c_origins(2,:),c_origins(1,:),'r*'); 
     end
     %lables
     title('Projected future trajectory');
@@ -172,6 +208,29 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
             yunit = c_radius(i) * sin(th) + c_origins(1,i);
             plot(xunit,yunit);
         end
+    end
+    if ~isempty(static_obs_collection)
+        previous_linex = [];
+        previous_liney = [];
+        for k = 1:c(1)-1
+            pos = static_obs_collection(1:2,k);
+            ang = static_obs_collection(3,k);
+            dir = [cos(ang);sin(ang)];
+            point = pos + 1000*dir;
+            point2 = pos - 1000*dir;
+            linex = [point2(2), point(2), NaN];
+            liney = [point2(1), point(1), NaN];
+
+            if ~isempty(previous_linex)
+                [xi, yi] = polyxpoly(linex, liney, previous_linex, previous_liney);
+                linex = [xi(1), point2(2), NaN];
+                liney = [yi(1), point2(1), NaN];
+            end
+            previous_linex = [previous_linex, linex];
+            previous_liney = [previous_liney, liney];
+        end
+        mapshow(previous_linex, previous_liney,'linewidth',1.2);
+        mapshow(static_obs(2,:),static_obs(1,:),'DisplayType','polygon','LineStyle','none');
     end
     xlabel('East [m]');
     ylabel('North [m]');
