@@ -22,7 +22,7 @@ OS.eta_ref = OS.eta;
 OS.eta_dot_ref = OS.eta_dot;
 
 if OS.id == 100 && ~feasibility
-    OS.speed = 0.4* OS.speed;
+    OS.speed = 0.35* OS.speed;
 end
 
 dt_refinement = round((T/N)/0.1);

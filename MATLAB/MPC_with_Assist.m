@@ -7,11 +7,15 @@ import casadi.*
     persistent previous_w_opt
     persistent F
     persistent firsttime
+    persistent obstacle_state
+    persistent previous_feasibility
        
     % Initialize CasADi
     
     if(isempty(firsttime))
         firsttime = 1;
+        obstacle_state = false; % No obstacles on first iteration
+        previous_feasibility = 0;
     end
     
         persistent cflags
@@ -21,9 +25,10 @@ import casadi.*
 %          cflags = [2, 1];
     end
 
+    %% Settings
     simple = 0; % Enable to discard all traffic pattern assistance.
     chaos = 0; % Do not use
-    enable_Static_obs = 1; % Set static obs constraints on or off
+    %%
     
     if ~isempty(tracks)
         dynamic_obs(size(tracks,2)) = struct;
@@ -54,11 +59,36 @@ import casadi.*
     
     
     %% Feasibility check
+%     if N < 180
+%         fixed_feas = 1;
+%     else
+%         feasibility = 1;
+%     end
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % previous feas. | Feasibility | obstacle state %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %       1        |      1      |        1       %
+    %       0        |      1      |        0       %
+    %       1        |      0      |        0       %
+    %       0        |      0      |        0       %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
     if ~isempty(previous_w_opt)
         feasibility = feasibility_check(previous_w_opt);
     else
         feasibility = 1;
     end
+    
+%     obstacle_state = false;    
+%     if previous_feasibility && feasibility
+%         obstacle_state = true;
+%     end
+%     previous_feasibility = feasibility;
+
+%     feasibility = 1;
+
+    %%
     
     % Initialize position and reference trajectory.
     initial_pos = vessel.eta;
@@ -70,7 +100,9 @@ import casadi.*
     dynamic_obs(i).traj = reference_trajectory_from_dynamic_los_guidance(tracks(i),parameters, h, N, feasibility);
     end
     
-    %% Static obstacles
+    %% Obstacles
+    enable_Static_obs = obstacle_state;
+    enable_dynamic_obs = obstacle_state;
     static_obs = get_global_map_data();
 %     interpolated_static_obs = Interpolate_static_obs(static_obs);
 %     Static_obs_constraints = Static_obstacles_check(static_obs, reference_trajectory_los); 
@@ -93,7 +125,7 @@ import casadi.*
     w = {w{:}, Xk};
     lbw = [lbw; -inf; -inf; -inf; -2.5; -2.5; -pi/4];
     ubw = [ubw; inf; inf; inf; 2.5; 2.5; pi/4];
-    w0 = [w0; initial_pos(1); initial_pos(2); initial_pos(3); 2; 0; 0];
+    w0 = [w0; initial_pos(1); initial_pos(2); initial_pos(3); initial_vel(1); initial_vel(2); initial_vel(3)];
 
 
 %     Uk = MX.sym('U0',3);
@@ -129,7 +161,7 @@ c_radius = [];
         w0 = [w0; 0; 0; 0];
         
         % Integrate until the end of the interval.
-        eta_dot_ref = [reference_trajectory_los(3:4,k+2);...
+        eta_dot_ref = [reference_trajectory_los(3:4,k+1);...
                   (atan2(reference_trajectory_los(4,k+2),reference_trajectory_los(3,k+2)) - ...
                    atan2(reference_trajectory_los(4,k+1),reference_trajectory_los(3,k+1))) / h];
         
@@ -151,7 +183,7 @@ c_radius = [];
         w = [w, {Xk}];
         lbw = [lbw; -inf; -inf; -inf; -2.3; -2.3; -pi/4];
         ubw = [ubw; inf; inf; inf; 2.3; 2.3; pi/4];
-        w0 = [w0; xref_i(1); xref_i(2); xref_i(3); surge_ref; 0; 0];
+        w0 = [w0; xref_i(1); xref_i(2); xref_i(3); xref_i(4); xref_i(5); xref_i(6)];
         
 %         Uk = MX.sym(['U_' num2str(k+1)], 3);
 %         w = {w{:}, Uk};
@@ -167,7 +199,7 @@ c_radius = [];
         % Her må det komme kode for dynamiske og statiske hindringer, men
         % det blir en jobb for litt senere. Få det grunnleggende til å
         % fungere først!.
-        if ~isempty(dynamic_obs) && ~firsttime %Fy faen så styggt dette ble as, gjør om til en funksjon please
+        if ~isempty(dynamic_obs) && ~firsttime && enable_dynamic_obs
         
         for i = 1:size(dynamic_obs,2)
            
@@ -179,7 +211,7 @@ c_radius = [];
                     offsetdist = 15;
                     offsetvektor = offsetdist*offsetdir;
                     c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
-                    c_rad = 20;
+                    c_rad = 18;
                     g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                     lbg = [lbg; c_rad^2];
                     ubg = [ubg; inf];
@@ -194,7 +226,7 @@ c_radius = [];
                     offsetdist = 15; % Should ideally be based some function of Involved vessel's speeds
                     offsetvektor = offsetdist*offsetdir;
                     c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
-                    c_rad = 20;
+                    c_rad = 18;
                     g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                     lbg = [lbg; c_rad^2];
                     ubg = [ubg; inf];
@@ -209,7 +241,8 @@ c_radius = [];
                     offsetdist = 0; % Should ideally be based some function of Involved vessel's speeds
                     offsetvektor = offsetdist*offsetdir;
                     c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
-                    c_rad = sqrt(tracks(i).size*tracks(i).size');
+%                     c_rad = sqrt(tracks(i).size*tracks(i).size');
+                    c_rad = 8;
                     g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                     lbg = [lbg; c_rad^2];
                     ubg = [ubg; inf];
@@ -224,7 +257,7 @@ c_radius = [];
                     offsetdist = 0; % Should ideally be based some function of Involved vessel's speeds
                     offsetvektor = offsetdist*offsetdir;
                     c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
-                    c_rad = sqrt(tracks(i).size'*tracks(i).size);
+                    c_rad = 8;
                     g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                     lbg = [lbg; c_rad^2];
                     ubg = [ubg; inf];
@@ -239,7 +272,7 @@ c_radius = [];
                         offsetdist = 0; % Should ideally be based some function of Involved vessel's speeds
                         offsetvektor = offsetdist*offsetdir;
                         c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
-                        c_rad = 10;
+                        c_rad = 8;
                         g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                         lbg = [lbg; c_rad^2];
                         ubg = [ubg; inf];
@@ -264,7 +297,7 @@ c_radius = [];
                 static_obs_x1 = static_obs_constraints(2,i);
                 pi_p = static_obs_constraints(3,i);
                 
-                Static_obs_crosstrack_distance = abs(-(Xk(2)-static_obs_x1) * sin(pi_p) + (Xk(1) - static_obs_y1) * cos(pi_p));
+                Static_obs_crosstrack_distance = abs(-(Xk(2)-static_obs_x1) * cos(pi_p) + (Xk(1) - static_obs_y1) * sin(pi_p));
                 g = [g, {Static_obs_crosstrack_distance}];
                 lbg = [lbg; 5];
                 ubg = [ubg; inf];
@@ -324,9 +357,9 @@ c_radius = [];
         w0 = previous_w_opt(1:endindex);
         if endindex < size(lbw,1)
             differentialindex = size(lbw,1)-size(previous_w_opt,1);
-%             w0 = [w0' zeros(1,differentialindex)]';
-            temp = w0(end-differentialindex+1:end,:);
-            w0 = [w0;temp];
+            w0 = [w0' zeros(1,differentialindex)]';
+%             temp = w0(end-differentialindex+1:end,:);
+%             w0 = [w0;temp];
         end
     end
     
@@ -344,8 +377,11 @@ c_radius = [];
     %% Variables for plotting
     ploteverything(loopdata,w_opt, vessel, tracks, reference_trajectory_los, c_origins, c_radius, settings, static_obs_collection);
     
+    obstacle_state = true;
+    
     %% Update vessel states  
     vessel.eta = w_opt(10:12);
-    vessel.nu = w_opt(4:6);
+%     vessel.nu = w_opt(4:6);
+    vessel.nu = w_opt(13:15);
     vessel.eta_dot = rotZ(vessel.eta(3))*vessel.nu;
     resulting_trajectory = zeros(6,100);     %  TODO
