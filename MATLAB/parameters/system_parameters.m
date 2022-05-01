@@ -12,7 +12,7 @@ sys_parameters.plot_barriers = 0;
 
 
 % Parameters for making video from simulation
-sys_parameters.make_video = true;
+sys_parameters.make_video = false;
 
 
 

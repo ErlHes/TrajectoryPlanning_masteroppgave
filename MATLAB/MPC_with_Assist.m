@@ -384,4 +384,4 @@ c_radius = [];
 %     vessel.nu = w_opt(4:6);
     vessel.nu = w_opt(13:15);
     vessel.eta_dot = rotZ(vessel.eta(3))*vessel.nu;
-    resulting_trajectory = zeros(6,100);     %  TODO
+    resulting_trajectory = [w_opt(10:9:end), w_opt(11:9:end), w_opt(12:9:end), w_opt(13:9:end), w_opt(14:9:end), w_opt(15:9:end)]';     %  TODO

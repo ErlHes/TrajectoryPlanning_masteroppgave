@@ -108,13 +108,17 @@ if(iteration_counter > mid_level_period/dt) % Time to run mid level colav
     iteration_counter = 1;
     
     [vessel, resulting_trajectory] = MPC_with_Assist(vessel, tracks, parameters, settings); % YEP WORK TO DO
-
+ 
+    
 %   [vessel, resulting_trajectory] = MPC_with_Assist...
 %   (vessel, tracks, static_obs, ocp_parameters);
 
 %[ocp_eta_ref, ocp_eta_dot_ref,ocp_eta_ddot_ref] = interpolate_optimal_states_from_ocp(vessel.eta, vessel.eta_dot, w_opt, mid_level_period, opc_period, dt,6);
 
-
+% else
+%     vessel.eta = resulting_trajectory(1:3,iteration_counter);
+%     vessel.nu = resulting_trajectory(4:6,iteration_counter);
+%     vessel.eta_dot = rotZ(vessel.eta(3))*vessel.nu;
 end
 
 
