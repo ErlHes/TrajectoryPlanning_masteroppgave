@@ -8,14 +8,14 @@ import casadi.*
     persistent F
     persistent firsttime
     persistent obstacle_state
-    persistent previous_feasibility
+%     persistent previous_feasibility
        
     % Initialize CasADi
     
     if(isempty(firsttime))
         firsttime = 1;
         obstacle_state = false; % No obstacles on first iteration
-        previous_feasibility = 0;
+%         previous_feasibility = 0;
     end
     
         persistent cflags
