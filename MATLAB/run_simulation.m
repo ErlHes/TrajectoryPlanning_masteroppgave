@@ -31,6 +31,7 @@ if(visualization)
     draw_custom_legend(settings, agents(1,1));
     
     graph_handles = [];
+
     
 end
 
@@ -101,7 +102,6 @@ while time < settings.t_sim
     figure(600)
     hold on
     plot(agents(size(agents,2)).eta(2,1),agents(size(agents,2)).eta(1,1),'*b');
-    hold off
     if(parameters.system.make_video) && (vizualization_counter==0 && visualization)
         frame_number = frame_number +1;
         F(frame_number ) = getframe(gcf);

@@ -196,9 +196,7 @@ c_radius = [];
         lbg = [lbg; 0; 0; 0; 0; 0; 0];
         ubg = [ubg; 0; 0; 0; 0; 0; 0];
         
-        % Her må det komme kode for dynamiske og statiske hindringer, men
-        % det blir en jobb for litt senere. Få det grunnleggende til å
-        % fungere først!.
+        
         if ~isempty(dynamic_obs) && ~firsttime && enable_dynamic_obs
         
         for i = 1:size(dynamic_obs,2)
@@ -208,10 +206,10 @@ c_radius = [];
                     %% Constraint rundt båten, origo offset til styrbord
                     offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/2;
                     offsetdir = [cos(offsetang);sin(offsetang)];
-                    offsetdist = 15;
+                    offsetdist = 18;
                     offsetvektor = offsetdist*offsetdir;
                     c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
-                    c_rad = 18;
+                    c_rad = 21;
                     g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                     lbg = [lbg; c_rad^2];
                     ubg = [ubg; inf];
