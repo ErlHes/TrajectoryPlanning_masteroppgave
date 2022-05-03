@@ -221,16 +221,16 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
             linex = [point2(2), point(2), NaN];
             liney = [point2(1), point(1), NaN];
 
-            if ~isempty(previous_linex)
-                [xi, yi] = polyxpoly(linex, liney, previous_linex, previous_liney);
-                if ~isempty(xi)
-                    linex = [xi(1), point2(2), NaN];
-                    liney = [yi(1), point2(1), NaN];
-                else
-                    linex = [NaN, NaN, NaN];
-                    liney = [NaN, NaN, NaN];
-                end
-            end
+%             if ~isempty(previous_linex)
+%                 [xi, yi] = polyxpoly(linex, liney, previous_linex, previous_liney);
+%                 if ~isempty(xi)
+%                     linex = [xi(1), point2(2), NaN];
+%                     liney = [yi(1), point2(1), NaN];
+%                 else
+%                     linex = [NaN, NaN, NaN];
+%                     liney = [NaN, NaN, NaN];
+%                 end
+%             end
             previous_linex = [previous_linex, linex];
             previous_liney = [previous_liney, liney];
         end

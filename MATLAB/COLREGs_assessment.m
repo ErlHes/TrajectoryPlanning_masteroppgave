@@ -63,6 +63,7 @@ tCPAgrense = 3 * dCPAgrense;
 if (dCPA < dCPAgrense) && (tCPA < tCPAgrense) 
     % Angles between OS and TS
     phi_1 = rad2deg(pi/8);
+%     phi_1 = rad2deg(pi/15);
     phi_2 = 112.5;
     
     b0 = rad2deg(wrapTo2Pi(atan2(pos_TS(2)-pos_OS(2),pos_TS(1)-pos_OS(1))) - ssa(pos_OS(3))); % Relative from OS to TS
