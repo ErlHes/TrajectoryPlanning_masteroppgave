@@ -91,7 +91,7 @@ end
 % simulation = 'Ferjekryss';
 
 %% The scenario list!!
-simulation = 'Havn1';
+% simulation = 'Havn1';
 % simulation = 'Trheimfjord';
 % simulation = 'enkel_HO';
 % simulation = 'enkel_GW';
@@ -99,8 +99,7 @@ simulation = 'Havn1';
 % simulation = 'sving_HO';
 % simulation = 'sving_GW';
 % simulation = 'sving_SO';
-% simulation = 'skjergard_u_trafikk';
-% simulation = 'skjergard_m_trafikk';
+simulation = 'skjergard_m_trafikk';
 
 %% Gather simulation parameters
 

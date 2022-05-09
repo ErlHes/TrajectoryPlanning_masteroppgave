@@ -1,0 +1,61 @@
+\section{Background}
+\begin{itemize}
+    \item Husk rød tråd.
+    \item Vær generisk.
+    \item Bare inkluder konsept som blir relevante senere, eller som er brukt i nødvendige antagelser.
+\end{itemize}
+
+\subsection{Target Ship prediction}
+\begin{itemize}
+    \item Gjenfortelling fra fordypningsprosjekt, da kalt traffic pattern
+    \item Fant en annen artikkel fra Kina som skrev om nogenlunde det samme, AIS data -> prediksjon
+    \item Skiller seg fra fordypningsprosjekt fordi det er egentlig ikke traffic pattern som er den viktige antagelsen,
+    Det er heller viktig at vi antar det finnes en måte å gjette/vite hvor andre båter vil være fremover i tid.
+    \item Andre metoder for target ship prediction kan være f.eks utvidelse av AIS som inkluderer autonav data for de neste 5 minuttene eller noe lignende.
+\end{itemize}
+
+\subsection{ASV modelling}
+Jeg tenker det er best å skrive om modellering i sammenheng med hvordan trajectory planning problemet blir satt opp i MATLAB med CasADi.
+\begin{itemize}
+    \item Kinematics \& Kinetics -> Begge brukes i CasADi setup
+    %\item Munk moment -> Potensielt relevant hvis jeg skriver om modellerings problemer
+    \item Her kan det også skrives om de spesifike tallverdiene som blir brukt i Masse, coriolis og dempnings -matrisene.
+    de er spesifike til Milliampere, funnet gjennom en rekke forsøk utfort av Anders Pedersen.
+\end{itemize}
+
+\subsection{Trajectory Planning}
+\begin{itemize}
+    \item How to get from A to B.
+    \item Multiple methods, all with pros and cons, skriv liten oversikt.
+    \subitem LOS, OCP, Machine Learning, osv.
+    \subitem Kanskje ikke så veldig viktig å snakke om andre metoder enn OCP.  
+    \item Important factors to consider:
+    \subitem Time horizon / length of planning period.
+    \subitem Trajectory safety with respect to ship capabilities.
+    \subitem COLREGs compliance with respect to expected behaviour.
+    \subitem osv.
+    \item Litt dypere inn i numerisk optimalisering og MPC, og LOS ettersom det kommer til å bli brukt igjen senere.
+   % \item Først oversikt, deretter enten nytt kapittel eller delkapittel om 
+   % den spesifikke metoden jeg skal bruke, forklar numerisk optimalisering, MPC, LOS guidance, hvordan alt kombineres til å bli min algoritme, in theory.
+\end{itemize}
+
+
+\subsection{Collision Avoidance}
+\begin{itemize}
+    \item COLREGs
+    \subitem Expected behaviour, situation classification, etc etc.
+    \item dCPA / tCPA
+    \item Other risk assessment? Situation complexity? Det er mer som inngår i "collisions avoidance" som jeg kanskje ikke dekker så veldig bra med min algoritme.
+\end{itemize}
+
+\subsection{'The complete system'}
+\begin{itemize}
+    \item Vet ikke helt om dette kapittelet er nødvendig, men jeg lurer på om det er en god ide å skrive litt om nøyaktig hvor i ett fult funksjonelt
+    system jeg forventer at min algoritme passer inn. Hva de andre delene jeg ikke kommer til å skrive om har ansvar for, og hva som forventes av systemene
+    rundt mitt eget.
+    \item Hvis systemet mitt var en sort boks, hvilke inputs og outputs ville det hatt.
+\end{itemize}
+
+
+
+\newpage
