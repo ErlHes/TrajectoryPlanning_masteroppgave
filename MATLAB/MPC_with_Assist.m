@@ -8,6 +8,7 @@ import casadi.*
     persistent F
     persistent firsttime
     persistent obstacle_state
+    persistent cflags
 %     persistent previous_feasibility
        
     % Initialize CasADi
@@ -15,10 +16,13 @@ import casadi.*
     if(isempty(firsttime))
         firsttime = 1;
         obstacle_state = false; % No obstacles on first iteration
+        previous_w_opt = [];
+        cflags = [];
+        F = 0;
 %         previous_feasibility = 0;
     end
     
-        persistent cflags
+
     %Initialize COLREGs flag.
     if(isempty(cflags)) % THIS CAN BE USED TO HARDCODE FLAGS IF NEEDED:
          cflags = zeros([1,size(tracks,2)]);
@@ -51,10 +55,10 @@ import casadi.*
     end
 
     [N,h] = DynamicHorizon(vessel, dynamic_obs);
-    T = N * h;
+%     T = N * h;
 
     if(isempty(F))
-        F = CasadiSetup(h,T,N);
+        F = CasadiSetup(h,N);
     end
     
     

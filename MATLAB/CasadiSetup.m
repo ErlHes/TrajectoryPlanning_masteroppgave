@@ -1,5 +1,8 @@
-function F = CasadiSetup(h, T, N)
+function F = CasadiSetup(h, N)
 import casadi.*
+
+T = h * N;
+
     %% CasADi setup
     
     % System matrices.

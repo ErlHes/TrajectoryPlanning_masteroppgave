@@ -18,4 +18,61 @@
     \item forklar informasjonsflyt, kanskje som eget delkapittel. 
 \end{itemize}
 
+\subsection{Dataflow}
+\begin{itemize}
+    \item Begin by explaining the idea behind how the algorithm should work.
+    \item This chapter will need diagrams.
+    \subitem input $\rightarrow$ ??? $\rightarrow$ output
+    \subitem show how the internal functions parse data
+    \item Serves as a good overview of the whole algorithm.
+\end{itemize}
+
+\subsection{Setup}
+\begin{itemize}
+    \item All the stuff before main loop
+    \item subsubsection for each 'block' as outlined by the dataflow
+\end{itemize}
+
+\subsubsection{COLREGs assessment}
+
+\subsubsection{Simplify Prediction}
+
+\subsubsection{Dynamic Horizon}
+
+\subsubsection{CasADi setup}
+
+\subsubsection{Feasibility check}
+
+\subsubsection{Reference from LOS}
+
+
+\subsection{NLP: construction and solver}
+\begin{itemize}
+    \item inputs\: vessel, ref\_trajectory, static\_obs, dynamic\_obs, F, settings, h, N, previous\_w\_opt.
+    \item sub funksjoner\:
+    \subitem Dynamic Obs.
+    \subitem Static Obs.
+    \subitem step.
+    \item output\: w\_opt
+\end{itemize}
+
+\subsubsection{NLP initialization}
+
+\subsubsection{Integration step}
+
+\subsubsection{Dynamic Obstacles constraints}
+
+\subsubsection{Static Obstacles constraints}
+
+\subsubsection{Solver}
+
+\subsection{Alternative ideas and lessons}
+Burde kanskje heller gå under discussion, og igjen i future work.
+\begin{itemize}
+    \item Change w0 based on previous solution runtime.
+    \item Gamle versioner av Static\_obs.
+    \item eksperimenter med feasibility check.
+    \item Masse styr med COLREGs assessment, tcpa og dcpa.
+    \item ipopt innstillinger.
+\end{itemize}
 \newpage
