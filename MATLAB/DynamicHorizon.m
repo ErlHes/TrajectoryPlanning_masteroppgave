@@ -36,7 +36,7 @@ minseconds = minminutes * 60;
 minstetid = max(minseconds, maxtCPA);
 finaltime = min([Timetogoal, maxseconds, minstetid]);
 
-h = 0.7; % statisk for nå.
+h = 0.5; % statisk for nå.
 N = ceil(finaltime / h);
 
 end

@@ -101,7 +101,7 @@ if(isempty(iteration_counter) || iteration == 1)
     resulting_trajectory = zeros(6,100);
 end
 
-mid_level_period = 0.7;
+mid_level_period = 0.5;
 
 if(iteration_counter >= mid_level_period/dt) % Time to run mid level colav
 
