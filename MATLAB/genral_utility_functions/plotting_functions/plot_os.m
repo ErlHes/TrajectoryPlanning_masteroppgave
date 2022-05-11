@@ -1,7 +1,7 @@
 function handle = plot_os(eta, option, scale)
 trc = zeros(2,7);
-l = 3*scale;   %half length of ferry
-b = 2.5*scale; %half width of ferry
+l = 1.75*scale;   %half length of ferry
+b = 1.25*scale; %half width of ferry
 n = eta(1);
 e = eta(2);
 p = eta(3);

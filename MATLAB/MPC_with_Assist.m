@@ -18,7 +18,6 @@ import casadi.*
         obstacle_state = false; % No obstacles on first iteration
         previous_w_opt = [];
         cflags = [];
-        F = 0;
 %         previous_feasibility = 0;
     end
     
@@ -206,14 +205,26 @@ c_radius = [];
         for i = 1:size(dynamic_obs,2)
            
             if dynamic_obs(i).cflag == 1 % HEAD ON
-                if (k > (floor(dynamic_obs(i).tcpa/h) - floor(20/h))) && (k < (floor(dynamic_obs(i).tcpa/h) + floor(20/h)))
+                if (k > (floor(dynamic_obs(i).tcpa/h) - floor(30/h))) && (k < (floor(dynamic_obs(i).tcpa/h) + floor(30/h)))
                     %% Constraint rundt båten, origo offset til styrbord
+                    %Constraint 1:
                     offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/2;
                     offsetdir = [cos(offsetang);sin(offsetang)];
-                    offsetdist = 18;
+                    offsetdist = 13;
                     offsetvektor = offsetdist*offsetdir;
                     c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
-                    c_rad = 21;
+                    c_rad = 20;
+                    g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                    lbg = [lbg; c_rad^2];
+                    ubg = [ubg; inf];
+                    c_origins = [c_origins, c_orig];
+                    c_radius = [c_radius, c_rad];
+                    
+                    %Constraint 2:
+                    offsetdist = 38;
+                    offsetvektor = offsetdist*offsetdir;
+                    c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
+                    c_rad = 5;
                     g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                     lbg = [lbg; c_rad^2];
                     ubg = [ubg; inf];
@@ -222,13 +233,19 @@ c_radius = [];
                 end
             elseif dynamic_obs(i).cflag == 2 % GIVE WAY
                 if (k > (floor(dynamic_obs(i).tcpa/h) - floor(20/h))) && (k < (floor(dynamic_obs(i).tcpa/h) + floor(20/h)))
-                    %% Forbudt å snike seg forbi forran target ship          
-                    offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/6;
-                    offsetdir = [cos(offsetang);sin(offsetang)];
-                    offsetdist = 15; % Should ideally be based some function of Involved vessel's speeds
-                    offsetvektor = offsetdist*offsetdir;
-                    c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
+                    %% Forbudt å snike seg forbi forran target ship  
+                    
+                    c_orig = place_dyn_constraint(dynamic_obs, k, i, pi/8, 10);
                     c_rad = 18;
+                    g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                    lbg = [lbg; c_rad^2];
+                    ubg = [ubg; inf];
+                    c_origins = [c_origins, c_orig];
+                    c_radius = [c_radius, c_rad];
+                    
+                    %Constraint 2:
+                    c_orig = place_dyn_constraint(dynamic_obs, k, i, pi/12, 33);
+                    c_rad = 10;
                     g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                     lbg = [lbg; c_rad^2];
                     ubg = [ubg; inf];
@@ -287,7 +304,7 @@ c_radius = [];
         end
     
        %static obstacle constraints:
-        if(enable_Static_obs) && ~firsttime
+        if(enable_Static_obs) && ~firsttime && (~isempty(static_obs))
             selected_trajectory = reference_trajectory_los;
             if(~isempty(previous_w_opt))
                 selected_trajectory = previous_w_opt;

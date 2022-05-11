@@ -94,12 +94,12 @@ end
 % simulation = 'Havn1';
 % simulation = 'Trheimfjord';
 % simulation = 'enkel_HO';
-% simulation = 'enkel_GW';
+simulation = 'enkel_GW';
 % simulation = 'enkel_SO';
 % simulation = 'sving_HO';
 % simulation = 'sving_GW';
 % simulation = 'sving_SO';
-simulation = 'skjergard_m_trafikk';
+% simulation = 'skjergard_m_trafikk';
 
 %% Gather simulation parameters
 

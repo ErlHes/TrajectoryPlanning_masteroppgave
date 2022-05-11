@@ -28,6 +28,8 @@ end
 dt_refinement = round((T/N)/0.1);
 parameters.guidance.dt = (T/N)/dt_refinement;
 
+% parameters.guidance.dt = h;
+
 for i=1:ceil((N-subtraction_from_ocp_period)*dt_refinement)
     if(i/dt_refinement==(N+1-subtraction_from_ocp_period))
         break;

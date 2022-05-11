@@ -30,6 +30,6 @@ blokk4 = [...
     ]';
 
 separator = [nan;nan];
-static_obs = [separator,separator];
+% static_obs = [separator,separator];
 
-% static_obs = [];
+static_obs = [];
