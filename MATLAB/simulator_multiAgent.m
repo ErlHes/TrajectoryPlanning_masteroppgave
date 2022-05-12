@@ -138,7 +138,7 @@ sys_parameters.plot_barriers = true;
 sys_parameters.line_of_sight_visibility = 0;
 
 if(parameters.system.make_video)
-    visualization_interval = 10;
+    visualization_interval = 9;
 else
     visualization_interval = 50;
 end

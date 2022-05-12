@@ -103,7 +103,7 @@ end
 
 mid_level_period = 0.5;
 
-if(iteration_counter >= mid_level_period/dt) % Time to run mid level colav
+if(iteration_counter > mid_level_period/dt) % Time to run mid level colav
 
     iteration_counter = 1;
     

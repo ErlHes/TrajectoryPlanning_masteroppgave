@@ -1,4 +1,5 @@
 function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajectory_los, c_origins, c_radius, settings, static_obs_collection)
+    graph_handles = [];
     t = loopdata(:,1);
     xref_N = loopdata(:,2);
     xref_E = loopdata(:,3);
@@ -53,7 +54,7 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
     figure(999);
     clf;
     axis(settings.axis);
-    hold on;
+    hold on; 
     %plot trajectories
     plot(east_opt, north_opt, '*');
     plot(vessel.wp(2,:),vessel.wp(1,:),'g');
@@ -71,18 +72,20 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
     if ~isempty(c_origins)
         plot(c_origins(2,:),c_origins(1,:),'r*'); 
     end
+    hold off;
     %lables
     title('Projected future trajectory');
     xlabel('East [m]');
     ylabel('North [m]');
     legend('W_{opt}', 'Transit path', 'reference trajectory');
     grid;
+     
     
     figure(10);
     clf;
     subplot(3,1,1);
-    plot(t,xref_N);
     hold on;
+    plot(t,xref_N);
     plot(t,north_opt,'*');
     hold off;
     grid;
@@ -92,8 +95,8 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
     legend('North ref','North Opt');
     
     subplot(3,1,2);
-    plot(t,xref_E);
     hold on;
+    plot(t,xref_E);
     plot(t,east_opt,'*');
     hold off;
     grid;
@@ -103,8 +106,8 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
     legend('East ref','East opt');
     
     subplot(3,1,3);
-    plot(t,psi_ref);
     hold on;
+    plot(t,psi_ref);
     plot(t,psi_opt,'*');
     hold off;
     grid;
@@ -113,13 +116,14 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
     ylabel('Psi (rad)');
     legend('Psi ref','Psi opt');
     
+    
     figure(11);
     clf;
     subplot(3,1,1);
-    plot(t,surge_ref);
     hold on;
+    plot(t,surge_ref);
     plot(t,surge_opt,'*');
-    hold off;
+    hold off;     
     grid;
     title('surge ref and surge Opt');
     xlabel('Discretized time [k]');
@@ -127,10 +131,10 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
     legend('Surge ref','Surge Opt');
 
     subplot(3,1,2);
-    plot(t,sway_ref);
     hold on;
+    plot(t,sway_ref);     
     plot(t,sway_opt,'*');
-    hold off;
+    hold off;     
     grid;
     title('sway ref and sway Opt');
     xlabel('Discretized time [k]');
@@ -138,8 +142,8 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
     legend('sway ref','sway Opt');
 
     subplot(3,1,3);
-    plot(t,r_ref);
     hold on;
+    plot(t,r_ref);     
     plot(t,r_opt,'*');
     hold off;
     grid;
@@ -147,6 +151,7 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
     xlabel('Discretized time [k]');
     ylabel('yaw rate [rad/s]');
     legend('Yaw rate ref','Yaw Rate Opt');
+    
     
     figure(12);
     clf;
@@ -197,10 +202,13 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
     hold on
     for j = 1:size(tracks,2)
     agent_eta = [tracks(j).eta(1:2,1);atan2(tracks(j).eta_dot(2,1), tracks(j).eta_dot(1,1))];
-    plot_os(agent_eta, 'r', 2); % Eta
+    handle_ = plot_os(agent_eta, 'r', 2); % Eta
+    graph_handles = [graph_handles, handle_];
     end
     agent_eta = [vessel.eta(1:2,1);atan2(vessel.eta_dot(2,1), vessel.eta_dot(1,1))];
-    plot_os(agent_eta, 'b', 2); % Eta
+    handle_ = plot_os(agent_eta, 'b', 2); % Eta
+    graph_handles = [graph_handles, handle_];
+    
     if~isempty(c_radius)
         for i = 1:10
             th = 0:pi/50:2*pi;
@@ -209,7 +217,7 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
             plot(xunit,yunit);
         end
     end
-      if ~isempty(static_obs_collection)
+    if ~isempty(static_obs_collection)
         previous_linex = [];
         previous_liney = [];
         for k = 1:c(1)-1
@@ -237,8 +245,11 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
         mapshow(previous_linex, previous_liney,'linewidth',1.2);
         mapshow(static_obs(2,:),static_obs(1,:),'DisplayType','polygon','LineStyle','none');
     end
+    hold off;
     xlabel('East [m]');
     ylabel('North [m]');
     title('Simulation with constraint circles');
-    
-    plots = 0;
+     
+        
+    plots = [];
+end
