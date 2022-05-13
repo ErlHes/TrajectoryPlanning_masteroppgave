@@ -234,7 +234,9 @@ c_radius = [];
             elseif dynamic_obs(i).cflag == 2 % GIVE WAY
                 if (k > (floor(dynamic_obs(i).tcpa/h) - floor(20/h))) && (k < (floor(dynamic_obs(i).tcpa/h) + floor(20/h)))
                     %% Forbudt å snike seg forbi forran target ship  
-                    
+                    %c_orig = place_dyn_constraint(dynamic_obs, control
+                    %                           interval, TS id, angle
+                    %                           offset, distance offset)
                     c_orig = place_dyn_constraint(dynamic_obs, k, i, pi/8, 10);
                     c_rad = 18;
                     g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
