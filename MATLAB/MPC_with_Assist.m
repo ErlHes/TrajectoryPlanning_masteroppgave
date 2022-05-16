@@ -44,7 +44,7 @@ import casadi.*
         if simple
             tracks(i).wp(1:2) = [tracks(i).eta(1);tracks(i).eta(2)];
             tracks(i).wp(3:4) = [tracks(i).eta(1);tracks(i).eta(2)] +...
-                1000 * [cos(tracks(i).eta(3)) , sin(tracks(i).eta(3))]';
+                1852 * [cos(tracks(i).eta(3)) , sin(tracks(i).eta(3))]';
             tracks(i).wp = [tracks(i).wp(1:2)' tracks(i).wp(3:4)']; % Truncate excess waypoints.
             tracks(i).current_wp = 1;
         end

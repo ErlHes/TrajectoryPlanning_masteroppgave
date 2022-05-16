@@ -1,4 +1,4 @@
-\section{Algorithm Development}
+\section{Trajectory planner}
 \begin{itemize}
     \item Tidligere kjent som 'Method'.
     \item Har lyst å skrive litt om tankegangen bak utviklingen, ikke bare om hvordan ting endte opp med å bli.
@@ -29,13 +29,67 @@
 
 \subsection{Setup}
 \begin{itemize}
-    \item All the stuff before main loop
-    \item subsubsection for each 'block' as outlined by the dataflow
+    \item All the stuff before main loop.
+    \item subsubsection for each 'block' as outlined by the dataflow.
 \end{itemize}
 
-\subsubsection{COLREGs assessment}
+\begin{itemize}
+    \item when the trajectory planner is called we need to run through some calculations before constructing the NLP problem
+    \item These calcualtions are a mix of situation analysis, simulation settings, and CasADi initialization.
+    \item Some of these calculations could be redundant in a complete control and navigation system,
+    where other modules of the system would calculate the same thing.
+    \item It's also important to remember that the value of many parameters are just guesswork, many of the subfunctions
+    would benefit from a more sophesticated design that are tuned based on the situation the vessel finds itself in.
+\end{itemize}
 
 \subsubsection{Simplify Prediction}
+%Avansert TS prediction må skrives om i background.
+%Tracks struct må forklares i background.
+This part of the setup is only required in simulations, the aim is to emulate the 'standard' way target ship (TS) prediction is conducted,
+which is to say constant course and velocity [Citation needed]. The TS trajectory is changed so that the first waypoint is the current position of the
+ship, and the next waypoint is one nautical mile in the direction of the ships heading. Ideally course over ground would be used instead of heading, however
+in the simulator crab angle and sideslip are not accounted for, therefor heading and course are the same angle.
+Excess waypoints stored in the TS struct are also truncated and the current waypoint index is forcefully set to 1 to prevent index out of range type errors.
+
+
+\subsubsection{COLREGs assessment}
+The COLREGs assessment function solves two problems; figuring out if\/when a TS vessel will be in close enough proximity that evasive maneuvers might be considered,
+and deciding which of the COLREGs rules will apply for the encounter. The design idea is to first find what the distance at closest point (dCPA) of approach with the TS is, and then
+time until cloest point of approach (tCPA) occurs. If both dCPA and tCPA values are under a set threshold we consider the encounter an active event and run the
+COLREGs situation assessment shown by [cite paper], COLREGs assessment is also explained in [fordypningsoppgaven].
+
+Finding the dCPA and tCPA between two vessels with constant velocity and course is easily done with a formula as shown by [cite paper]. However
+with our wish for more advanced target ship prediction this formula is not sufficient on it's own. In order to achieve 'full coverage' of our intended path,
+and the projected path of the target ship, we must check the dCPA and tCPA starting at each and every waypoint in the path of both vessels.
+A helper function 'getCPAlist' is constructed to get the list of all dCPAs and their respective tCPAs when given two agent structs (AGENT STRUCTS MÅ FORKLARES I BACKGROUND) as inputs.
+To achieve full coverage the getCPAlist function is ran twice so that the perspective of each agent is considered. 
+
+\begin{algorithm}[t]
+    \caption{getCPAlist}\label{alg:getCPAlist}
+    \begin{algorithmic}[1]
+    \Require{$Agent1. Agent2$}\Comment{Agent is a struct that includes path waypoints}
+    \State $dCPAlist \gets []$
+    \State $tCPAlist \gets []$
+    \State $pos\_OS\_list \gets []$
+    \State $pos\_TS\_list \gets []$
+    \State $timer \gets 0$ \Comment{Initialize timer used to calculate position of Agent2}
+    \For{$i \gets Agent1.current\_wp : agent\_wplist\_length - 1$}
+        \State $[pos_{OS}, vel_{OS}] \gets VesselReadout(Agent1, i)$ \Comment{VesselReadout explained in algorithm...}
+        \State $DisttonextWP \gets $Distance to Agent1's next waypoint
+        \State $TimetonextWP \gets DisttonextWP \div$ Agent1's speed over ground
+        \State $[pos_{TS}, vel_{TS}] \gets whereisTS(Agent2, Timer)$ \Comment{whereisTS explained in algorithm...}
+        \State $[dCPA, tCPA] \gets$ Equation for dCPA \& tCPA as shown by...
+        \State $tCPA \gets tCPA + timer$ \Comment{Add travel time to reach current wp}
+        \State $timer \gets timer + TimetonextWP$
+        \State $pos\_OS\_list \gets [pos\_OS\_list, pos_{OS}]$ \Comment{Append all values to respective list.}
+        \State $pos\_TS\_list \gets [pos\_TS\_list, pos_{TS}]$
+        \State $dCPAlist \gets [dCPAlist, dCPA]$ 
+        \State $tCPAlist \gets [tCPAlist, tCPA]$ 
+        \State $i \gets i + 1$
+    \EndFor
+    \State \textbf{return} $pos\_OS\_list, pos\_TS\_list, dCPAlist, tCPAlist$
+    \end{algorithmic}
+\end{algorithm}
 
 \subsubsection{Dynamic Horizon}
 
@@ -46,7 +100,7 @@
 \subsubsection{Reference from LOS}
 
 
-\subsection{NLP: construction and solver}
+\subsection{NLP construction and solver}
 \begin{itemize}
     \item inputs\: vessel, ref\_trajectory, static\_obs, dynamic\_obs, F, settings, h, N, previous\_w\_opt.
     \item sub funksjoner\:
