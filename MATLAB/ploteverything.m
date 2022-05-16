@@ -194,10 +194,10 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
        
     figure(1);
     clf;
-%     xaxis = [vessel.eta(2) - 200, vessel.eta(2) + 200];
-%     yaxis = [vessel.eta(1) - 200, vessel.eta(1) + 200];
-%     axis([xaxis, yaxis]); % FOR BIG SIMS
-    axis([settings.axis])
+    xaxis = [vessel.eta(2) - 200, vessel.eta(2) + 200];
+    yaxis = [vessel.eta(1) - 200, vessel.eta(1) + 200];
+    axis([xaxis, yaxis]); % FOR BIG SIMS
+%     axis([settings.axis])
     grid;
     hold on
     for j = 1:size(tracks,2)

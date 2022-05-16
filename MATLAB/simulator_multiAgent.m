@@ -99,10 +99,10 @@ end
 % simulation = 'sving_HO';
 % simulation = 'sving_GW';
 % simulation = 'sving_SO';
-% simulation = 'skjergard_m_trafikk';
+simulation = 'skjergard_m_trafikk';
 
 %% Discretization step length debugg
-simulation = 'Race';
+% simulation = 'Race';
 
 %% Gather simulation parameters
 
@@ -157,3 +157,4 @@ save(strcat(home_dir,'simulations/', simulation, '/sim_output.mat'), 'sim_output
 
 %% Clear variables
 clear('agent_data', 'agents', 'empty_agent', 'time','sim_output','iteration','dt','j','t_sim','settings');
+clear;
