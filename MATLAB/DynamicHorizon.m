@@ -21,7 +21,7 @@ end
 %return TimetopassTS
 if(~isempty(dynamic_obs))
     allTcpas = [dynamic_obs.tcpa];
-    maxtCPA = max(allTcpas);
+    maxtCPA = max(allTcpas) + 20; % Add time, we want to pass the encounter, not just reach it.
 end
 
 %compare time to pass goal and time to pass TS, we want to keep the

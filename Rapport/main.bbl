@@ -59,6 +59,48 @@
       \field{pages}{766\bibrangedash 772}
       \range{pages}{7}
     \endentry
+    \entry{Kufoalor2018}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=dcb1032d995329bd08637a499a2a9414}{%
+           family={Kufoalor},
+           familyi={K\bibinitperiod},
+           given={D.\bibnamedelimi K.M.},
+           giveni={D\bibinitperiod\bibinitdelim K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3c2b06c4191303e329db7584b4acf5e1}{%
+           family={Brekke},
+           familyi={B\bibinitperiod},
+           given={E.\bibnamedelimi F.},
+           giveni={E\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=aa3b29cb4e1f3e5378f658c9de12e537}{%
+           family={Johansen},
+           familyi={J\bibinitperiod},
+           given={T.\bibnamedelimi A.},
+           giveni={T\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{7c4b02dd3d0274a2c7b8a058dfcd407a}
+      \strng{fullhash}{a8707a374d78f48487d3cde2a221bf2e}
+      \strng{bibnamehash}{a8707a374d78f48487d3cde2a221bf2e}
+      \strng{authorbibnamehash}{a8707a374d78f48487d3cde2a221bf2e}
+      \strng{authornamehash}{7c4b02dd3d0274a2c7b8a058dfcd407a}
+      \strng{authorfullhash}{a8707a374d78f48487d3cde2a221bf2e}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2018 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)}
+      \field{title}{Proactive Collision Avoidance for ASVs using A Dynamic Reciprocal Velocity Obstacles Method}
+      \field{year}{2018}
+      \field{pages}{2402\bibrangedash 2409}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1109/IROS.2018.8594382
+      \endverb
+    \endentry
   \enddatalist
 \endrefsection
 \endinput
