@@ -25,55 +25,57 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.1}Target Ship prediction}{3}{subsection.2.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2}ASV modelling}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.2}ASV modelling}{4}{subsection.2.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.3}Trajectory Planning}{3}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.3}Trajectory Planning}{6}{subsection.2.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.4}Collision Avoidance}{4}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.4}Collision Avoidance}{6}{subsection.2.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.5}'The complete system'}{4}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.5}'The complete system'}{6}{subsection.2.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3}Trajectory planner}{5}{section.3}%
+\contentsline {subsection}{\numberline {2.6}Simulator setup}{7}{subsection.2.6}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.1}Dataflow}{5}{subsection.3.1}%
+\contentsline {section}{\numberline {3}Trajectory planner}{8}{section.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.2}Setup}{6}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.1}Dataflow}{8}{subsection.3.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.2.1}Simplify Prediction}{6}{subsubsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2}Setup}{9}{subsection.3.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.2.2}COLREGs assessment}{6}{subsubsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Simplify Prediction}{9}{subsubsection.3.2.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.2.3}Dynamic Horizon}{7}{subsubsection.3.2.3}%
+\contentsline {subsubsection}{\numberline {3.2.2}COLREGs assessment}{9}{subsubsection.3.2.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.2.4}CasADi setup}{8}{subsubsection.3.2.4}%
+\contentsline {subsubsection}{\numberline {3.2.3}Dynamic Horizon}{10}{subsubsection.3.2.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.2.5}Feasibility check}{9}{subsubsection.3.2.5}%
+\contentsline {subsubsection}{\numberline {3.2.4}CasADi setup}{11}{subsubsection.3.2.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.2.6}Reference from LOS}{9}{subsubsection.3.2.6}%
+\contentsline {subsubsection}{\numberline {3.2.5}Feasibility check}{12}{subsubsection.3.2.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3}NLP construction and solver}{9}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.2.6}Reference from LOS}{12}{subsubsection.3.2.6}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.3.1}NLP initialization}{9}{subsubsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3}NLP construction and solver}{12}{subsection.3.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.3.2}Integration step}{10}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.1}NLP initialization}{12}{subsubsection.3.3.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.3.3}Dynamic Obstacles constraints}{10}{subsubsection.3.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.2}Integration step}{13}{subsubsection.3.3.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.3.4}Static Obstacles constraints}{10}{subsubsection.3.3.4}%
+\contentsline {subsubsection}{\numberline {3.3.3}Dynamic Obstacles constraints}{13}{subsubsection.3.3.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.3.5}Solver}{10}{subsubsection.3.3.5}%
+\contentsline {subsubsection}{\numberline {3.3.4}Static Obstacles constraints}{13}{subsubsection.3.3.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.4}Alternative ideas and lessons}{10}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.3.5}Solver}{13}{subsubsection.3.3.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4}Simulation and Results}{12}{section.4}%
+\contentsline {subsection}{\numberline {3.4}Alternative ideas and lessons}{13}{subsection.3.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1}Situation overview}{12}{subsection.4.1}%
+\contentsline {section}{\numberline {4}Simulation and Results}{15}{section.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2}Simulation Results}{13}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.1}Situation overview}{15}{subsection.4.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3}Discussion}{13}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.2}Simulation Results}{16}{subsection.4.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5}Conclusion and Future Work}{14}{section.5}%
+\contentsline {subsection}{\numberline {4.3}Discussion}{16}{subsection.4.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{References}{15}{section*.4}%
+\contentsline {section}{\numberline {5}Conclusion and Future Work}{17}{section.5}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{References}{18}{section*.4}%
 \contentsfinish 
