@@ -117,7 +117,7 @@ Jeg tenker det er best å skrive om modellering i sammenheng med hvordan traject
 
 \begin{itemize}
     \item The D matrix can sometimes be a bit of a nuisance, a simplified D matrix can be employed to make
-    the model more computationally efficient, at the cost of model accuracy.
+    the model more computationally efficient, at the cost of accuracy.
 \end{itemize}
 
 \begin{equation}
@@ -145,7 +145,30 @@ Jeg tenker det er best å skrive om modellering i sammenheng med hvordan traject
    % den spesifikke metoden jeg skal bruke, forklar numerisk optimalisering, MPC, LOS guidance, hvordan alt kombineres til å bli min algoritme, in theory.
 \end{itemize}
 --------- /Genereal thoughts --------------------------
+\begin{subequations}
+    \label{eq:OCP description}
+\begin{align}
+    \textrm{Minimize} \quad & \textbf{F}(\boldsymbol{\eta}(t), \textbf{u}(t)) \label{eq:OCP-a} \\ 
+    \textrm{subject to} \quad & \dot{\boldsymbol{\eta}}(t) = \textbf{L}(\boldsymbol{\eta}(t), \textbf{u}(t)) \label{eq:OCP-b} \\
+    \quad & \textbf{h}(\boldsymbol{\eta}(t), \textbf{u}(t)) \leq \textbf{0} \label{eq:OCP-c}\\
+    \quad & \boldsymbol{\eta}(t_0) = \boldsymbol{\eta}_0 \label{eq:OCP-d}
+\end{align}
+\end{subequations}
+(TODO: Dette er kopiert rett fra fordypningsprosjekt)\\
+where $\textbf{F}$ is the objective function, $\boldsymbol{\eta}(t)$ is the position and attitude trajectory of the vehicle, $\textbf{u}(t)$
+is the control input trajectory and $\textbf{L}$ is the kinematic model of the vehicle. Though the OCP can be solved
+the way it is set up in (\ref{eq:OCP description}) it is more pratical to discretize it into a nonlinear program (NLP).
+With a method called direct multiple shooting, both state and control input are defined as decision variables, the NLP with
+$N$ control intervals is:
 
+\begin{subequations}
+    \label{EQ:NLP}
+    \begin{align}
+        \min_{\boldsymbol{\omega}} \quad & \textbf{F}(\boldsymbol{\omega}) \label{eq:NLP-1} \\
+        \textrm{subject to} \quad & \boldsymbol{\omega}_{lb} \leq \boldsymbol{\omega} \leq \boldsymbol{\omega}_{ub} \\ 
+        \quad & \textbf{g}_{lb} \leq \textbf{g} \leq \textbf{g}_{ub}
+    \end{align}
+\end{subequations}
 
 
 \subsection{Collision Avoidance}

@@ -60,4 +60,16 @@
     \item i tillegg til det resultatene viser kan jeg også skrive om det jeg kan se med debugging.
 \end{itemize}
 
+\subsection{Improvements over previous version}
+\begin{itemize}
+    \item Definite improvements in terms of computational efficiency. This greatly increases the likelyhood of finding an optimal solution 
+    \item Because of the better efficiency the algorithm is also able to handle more control intervals, This means it is better at handling both greater time horizon and shorter control interval steps.
+    \item The new method for handling static obstacles is much less prone to misplaced or inefficnet constraints. (her ta gjerne med figuren som viser problemer med sirkel constraints for statiske hindringer).
+    \item The new way of handling dynamic constraints should in theory make the algorithm better suited for more complex situations with more agents, however the placement of dynamic constraints remains largely unchanged.
+    Dynamic Constraint placement is bigger 'bottleneck' than agent culling for how complex situations are handled. 
+    \item More robust when an encounter leads to an infeasible solution.
+    \item Improved COLREGs assessment
+    \item But does it behave \textit{noticeably} better? 
+\end{itemize}
+
 \newpage

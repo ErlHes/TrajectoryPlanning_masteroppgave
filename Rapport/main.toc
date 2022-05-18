@@ -29,9 +29,9 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.3}Trajectory Planning}{6}{subsection.2.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.4}Collision Avoidance}{6}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.4}Collision Avoidance}{7}{subsection.2.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.5}'The complete system'}{6}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.5}'The complete system'}{7}{subsection.2.5}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.6}Simulator setup}{7}{subsection.2.6}%
 \defcounter {refsection}{0}\relax 
@@ -74,6 +74,8 @@
 \contentsline {subsection}{\numberline {4.2}Simulation Results}{16}{subsection.4.2}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.3}Discussion}{16}{subsection.4.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.4}Improvements over previous version}{16}{subsection.4.4}%
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {5}Conclusion and Future Work}{17}{section.5}%
 \defcounter {refsection}{0}\relax 
