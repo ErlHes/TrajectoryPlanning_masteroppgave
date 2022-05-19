@@ -99,7 +99,8 @@ end
 % simulation = 'sving_HO';
 % simulation = 'sving_GW';
 % simulation = 'sving_SO';
-simulation = 'skjergard_m_trafikk';
+% simulation = 'skjergard_m_trafikk';
+simulation = 'Helloya';
 
 %% Discretization step length debugg
 % simulation = 'Race';
