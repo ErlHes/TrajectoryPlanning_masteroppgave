@@ -24,8 +24,8 @@ import casadi.*
 
     %Initialize COLREGs flag.
     if(isempty(cflags)) % THIS CAN BE USED TO HARDCODE FLAGS IF NEEDED:
-         cflags = zeros([1,size(tracks,2)]);
-%          cflags = [2, 1];
+%          cflags = zeros([1,size(tracks,2)]);
+         cflags = [2, 1];
     end
 
     %% Settings
@@ -100,7 +100,7 @@ import casadi.*
     % reference LOS for OS and TS
     [reference_trajectory_los, ~] = reference_trajectory_from_dynamic_los_guidance(vessel, parameters, h, N, feasibility);
     for i = 1:size(tracks,2)
-    dynamic_obs(i).traj = reference_trajectory_from_dynamic_los_guidance(tracks(i),parameters, h, N, feasibility);
+    dynamic_obs(i).traj = reference_trajectory_from_dynamic_los_guidance(tracks(i),parameters, 0.1, N, feasibility);
     end
     
     %% Obstacles

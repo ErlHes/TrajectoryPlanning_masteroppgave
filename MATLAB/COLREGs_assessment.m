@@ -60,7 +60,7 @@ tCPAgrense = 3 * dCPAgrense;
 
 
 %% Conduct COLREGs assessment
-if (dCPA < dCPAgrense) && (tCPA < tCPAgrense) 
+if (dCPA < dCPAgrense) && (tCPA < tCPAgrense) && cflags == 0
     % Angles between OS and TS
     phi_1 = rad2deg(pi/8);
 %     phi_1 = rad2deg(pi/15);
@@ -148,6 +148,12 @@ if (dCPA < dCPAgrense) && (tCPA < tCPAgrense)
 % else
 %     flag = 'SO';
 else
+    flag = cflag;
+end
+
+if tCPA > (tCPAgrense+20)
     flag = 0;
 end
+
+
 end
