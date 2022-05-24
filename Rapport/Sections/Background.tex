@@ -12,21 +12,21 @@
 --------- Genereal thoughts --------------------------
 \begin{itemize}
     \item Gjenfortelling fra fordypningsprosjekt, da kalt traffic pattern
-    \item Fant en annen artikkel fra Kina som skrev om nogenlunde det samme, AIS data -> prediksjon
+    \item Fant en annen artikkel fra Kina som skrev om nogenlunde det samme, \gls{AIS} data -\> prediksjon
     \item Skiller seg fra fordypningsprosjekt fordi det er egentlig ikke traffic pattern som er den viktige antagelsen,
     Det er heller viktig at vi antar det finnes en måte å gjette/vite hvor andre båter vil være fremover i tid.
-    \item Andre metoder for target ship prediction kan være f.eks utvidelse av AIS som 
+    \item Andre metoder for target ship prediction kan være f.eks utvidelse av \gls{AIS} som 
     inkluderer autonav data for de neste 5 minuttene eller noe lignende.
 \end{itemize}
 ---------- /General Thoughts--------------------------- 
 \begin{itemize}
     \item Naval navigation is an 'active' task, always looking out for obstacles and making sure the way forward is clear.
-    \item There are no lanes, instead proper conduct is dictated by COLREGs, the rules are laid out so that different situations
+    \item There are no lanes, instead proper conduct is dictated by \gls{COLREGs}, the rules are laid out so that different situations
     have different rules
     \item Knowing which situation you are in is half the battle, therefor the ability to predict and estiamte how encounters will happen
     is a powerful tool. Human navigators do this by experience.
-    \item Autonomous vessels could also predict by experience, that would be the machine learning approach. AIS can already provide training data.
-    \item But it could be easier than that, what if AIS data packets were expanded to send out autonav data for where a vessel intends to traverse.
+    \item Autonomous vessels could also predict by experience, that would be the machine learning approach. \gls{AIS} can already provide training data.
+    \item But it could be easier than that, what if \gls{AIS} data packets were expanded to send out autonav data for where a vessel intends to traverse.
     The assumption here is that vessels using autonav will correct their course when spotting a conflict. Vessels not using autonav would still be able to observe
     the indended path of other vessels and adjust their plans 'manually'.
     \item Relying on fully predicting the transit of a target vessel is fragile, relying on a few known waypoints would be much more robust.
@@ -35,12 +35,12 @@
 \end{itemize}
 
 
-\subsection{ASV modelling}
+\subsection{Vessel modelling}
 --------- Genereal thoughts --------------------------
 
 Jeg tenker det er best å skrive om modellering i sammenheng med hvordan trajectory planning problemet blir satt opp i MATLAB med CasADi.
 \begin{itemize}
-    \item Kinematics \& Kinetics -> Begge brukes i CasADi setup
+    \item Kinematics \& Kinetics -\> Begge brukes i CasADi setup
     %\item Munk moment -> Potensielt relevant hvis jeg skriver om modellerings problemer
     \item Her kan det også skrives om de spesifike tallverdiene som blir brukt i Masse, coriolis og dempnings -matrisene.
     de er spesifike til Milliampere, funnet gjennom en rekke forsøk utfort av Anders Pedersen.
@@ -48,7 +48,7 @@ Jeg tenker det er best å skrive om modellering i sammenheng med hvordan traject
 ---------- /General Thoughts--------------------------- 
 
 \begin{itemize}
-    \item 3DOF non-linear model with thurster dynamics, very common for designing control systems.
+    \item 3 \gls{DOF} non-linear model with thurster dynamics, very common for designing control systems.
     \item The numerical values for the model will vary based on ship, and the complexity of the model change based on usage and the degrees of freedom included.
     \item The model used in this paper is based on Fossen's meneuvering theory with 3 degrees of freedom and no disturbances.
 \end{itemize}
@@ -83,7 +83,7 @@ Jeg tenker det er best å skrive om modellering i sammenheng med hvordan traject
 \end{equation}
 
 \begin{itemize}
-    \item $\eta$ is defined in NED, $\nu$ is defined in BODY, briefly explain what that means.
+    \item $\eta$ is defined in the \gls{NED} reference frame, $\nu$ is defined in BODY frame, briefly explain what that means.
     \item The M and C matrices are a combination of Rigid body and hydrodynamic added mass matrices
     \item Fully computing the M and C matrices is a lot of work, for milliampere the work has already been conducted
     by Andreas Pedersen.
@@ -138,7 +138,7 @@ Jeg tenker det er best å skrive om modellering i sammenheng med hvordan traject
     \item Important factors to consider:
     \subitem Time horizon / length of planning period.
     \subitem Trajectory safety with respect to ship capabilities.
-    \subitem COLREGs compliance with respect to expected behaviour.
+    \subitem \gls{COLREGs} compliance with respect to expected behaviour.
     \subitem osv.
     \item Litt dypere inn i numerisk optimalisering og MPC, og LOS ettersom det kommer til å bli brukt igjen senere.
    % \item Først oversikt, deretter enten nytt kapittel eller delkapittel om 
@@ -154,11 +154,11 @@ Jeg tenker det er best å skrive om modellering i sammenheng med hvordan traject
     \quad & \boldsymbol{\eta}(t_0) = \boldsymbol{\eta}_0 \label{eq:OCP-d}
 \end{align}
 \end{subequations}
-(TODO: Dette er kopiert rett fra fordypningsprosjekt)\\
+(TODO: REWRITE THIS, SOME PARTS MAKE LITTLE SENSE)\\
 where $\textbf{F}$ is the objective function, $\boldsymbol{\eta}(t)$ is the position and attitude trajectory of the vehicle, $\textbf{u}(t)$
 is the control input trajectory and $\textbf{L}$ is the kinematic model of the vehicle. Though the OCP can be solved
-the way it is set up in (\ref{eq:OCP description}) it is more pratical to discretize it into a nonlinear program (NLP).
-With a method called direct multiple shooting, both state and control input are defined as decision variables, the NLP with
+the way it is set up in (\ref{eq:OCP description}) it is more pratical to discretize it into a ( \gls{NLP}).
+With a method called direct multiple shooting, both state and control input are defined as decision variables, the  \gls{NLP} with
 $N$ control intervals is:
 
 \begin{subequations}
@@ -173,9 +173,9 @@ $N$ control intervals is:
 
 \subsection{Collision Avoidance}
 \begin{itemize}
-    \item COLREGs
+    \item \gls{COLREGs}
     \subitem Expected behaviour, situation classification, etc etc.
-    \item dCPA / tCPA
+    \item \gls{dCPA} / \gls{tCPA}
     \item Other risk assessment? Situation complexity? Det er mer som inngår i "collisions avoidance" som jeg kanskje ikke dekker så veldig bra med min algoritme.
 \end{itemize}
 

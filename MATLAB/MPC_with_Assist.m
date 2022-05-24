@@ -5,6 +5,7 @@ import casadi.*
 %% INITIAL CONDITIONS and persistent variables
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     persistent previous_w_opt
+    persistent previous_w_opt_F
     persistent F
     persistent firsttime
     persistent obstacle_state
@@ -18,6 +19,7 @@ import casadi.*
         obstacle_state = false; % No obstacles on first iteration
         previous_w_opt = [];
         cflags = [];
+        previous_w_opt_F = [];
 %         previous_feasibility = 0;
     end
     
@@ -77,8 +79,8 @@ import casadi.*
     %       0        |      0      |        0       %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    if ~isempty(previous_w_opt)
-        feasibility = feasibility_check(previous_w_opt);
+    if ~isempty(previous_w_opt_F)
+        feasibility = feasibility_check(previous_w_opt_F);
     else
         feasibility = 1;
     end
@@ -392,8 +394,9 @@ c_radius = [];
     w_opt = full(sol.x);
     
     previous_w_opt = w_opt;
+    previous_w_opt_F = w_opt;
     if Solvertime > 30
-%         previous_w_opt = [];
+        previous_w_opt = [];
     end
     %% Variables for plotting
     ploteverything(loopdata,w_opt, vessel, tracks, reference_trajectory_los, c_origins, c_radius, settings, static_obs_collection);

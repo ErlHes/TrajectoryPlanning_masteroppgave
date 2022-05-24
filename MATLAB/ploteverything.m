@@ -210,7 +210,7 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
     graph_handles = [graph_handles, handle_];
     
     if~isempty(c_radius)
-        for i = 1:10
+        for i = 1:min(10,length(c_radius))
             th = 0:pi/50:2*pi;
             xunit = c_radius(i) * cos(th) + c_origins(2,i);
             yunit = c_radius(i) * sin(th) + c_origins(1,i);

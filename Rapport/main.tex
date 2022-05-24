@@ -4,6 +4,8 @@
 % Importing document settings from our file "packages.sty"
 \usepackage{packages}
 
+\loadglsentries[acronym]{myglossaries}
+
 % Beginning of document
 \begin{document}
 \frontmatter
@@ -26,6 +28,8 @@
 \listoffigures
 %\newpage
 %\listoftables
+\newpage
+\printnoidxglossaries
 
 % Defining main matter settings (Norsk: innstillinger for hoveddelen av teksten)
 \mainmatter
