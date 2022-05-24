@@ -47,6 +47,13 @@ Jeg tenker det er best å skrive om modellering i sammenheng med hvordan traject
 \end{itemize}
 ---------- /General Thoughts--------------------------- 
 
+\begin{figure}
+    \centering
+    \label{FIG: Ship DOF}
+    \includegraphics[height=0.35\textheight]{Images/SHIPDOF_FOSSEN.png}
+    \caption{A ships 6 degrees of Freedom, from \cite{fossen2011handbook}}
+\end{figure}
+
 \begin{itemize}
     \item 3 \gls{DOF} non-linear model with thurster dynamics, very common for designing control systems.
     \item The numerical values for the model will vary based on ship, and the complexity of the model change based on usage and the degrees of freedom included.
@@ -161,6 +168,12 @@ the way it is set up in (\ref{eq:OCP description}) it is more pratical to discre
 With a method called direct multiple shooting, both state and control input are defined as decision variables, the  \gls{NLP} with
 $N$ control intervals is:
 
+\begin{figure}
+    \label{FIG: Shooting Gaps}
+    \includegraphics[width=\textwidth]{Images/MultipleShooting.pdf}
+    \caption{A physically feasible trajectory is formed by "pinching" the shooting gaps so they close. Reproduction of (TODO: CITER GROS), scale arbitrary.}
+\end{figure}
+
 \begin{subequations}
     \label{EQ:NLP}
     \begin{align}
@@ -178,6 +191,13 @@ $N$ control intervals is:
     \item \gls{dCPA} / \gls{tCPA}
     \item Other risk assessment? Situation complexity? Det er mer som inngår i "collisions avoidance" som jeg kanskje ikke dekker så veldig bra med min algoritme.
 \end{itemize}
+
+\begin{figure}
+    \centering
+    \label{FIG: ship CPA}
+    \includegraphics[width=\textwidth]{Images/shipCPA.pdf}
+    \caption{Visualizing dCPA and tCPA.}
+\end{figure}
 
 \subsection{'The complete system'}
 \begin{itemize}
