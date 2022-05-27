@@ -1,4 +1,4 @@
-\section{Simulation and Results}
+\section{Simulation Results}
 %\begin{itemize}
 %    \item Simulation Results
 %    \item Fullscale test Results
@@ -37,6 +37,982 @@
 \begin{itemize}
     \item 'Dårlig' resultat er fortsatt resultat
 \end{itemize}
+
+\begin{figure} %TODO: Skriv om bad prediction
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/BadPrediction_Caught_in_constraints.pdf}
+        \subcaption{TODO: SKriv. when prediction is poorly executed the risk of getting entangled in constraints increases.}
+    \end{subfigure}
+    \hfill 
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/BadPrediction_w_opt.pdf}
+        \subcaption{TODO: Skriv. When entangled in constraints the solver is unable to find a feasible solution.}
+    \end{subfigure}
+    \caption{TODO: Skriv om bad prediction}
+\end{figure}
+
+
+\begin{figure} %TODO: A blocked path event, and how the solution develops
+    \centering
+    \begin{subfigure}[b]{0.61\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Completely_Blocked.pdf}
+        \subcaption{TODO: SKriv. A Target ship is predicted to completely block our path}
+    \end{subfigure}
+    \hfill 
+    \begin{subfigure}[b]{0.61\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/Completely_blocked_wopt.pdf}
+        \subcaption{TODO: Skriv. When the path is blocked, the solution will never be feasible.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.61\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/Completely_blocked_wopt_next.pdf}
+        \subcaption{TODO: Skriv. The solution for the next iteration, when speed is reduced by a factor of 3}
+    \end{subfigure}
+    \caption{TODO: A blocked path event, and how the solution develops}
+\end{figure}
+
+\subsubsection{Canals}
+\begin{itemize}
+    \item blocked path
+    \item feasibility check
+    \item forskjell mellom prediction metoder
+\end{itemize}
+
+
+%% Canals With Prediction
+\begin{figure}[!b] %Canals simulation, shown with and without constraints
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple0_f1_Frame1}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple0_f600_Frame1}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple0_f1_Frame2}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple0_f600_Frame2}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple0_f1_Frame3}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple0_f600_Frame3}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+\end{figure}%
+\begin{figure}[ht]\ContinuedFloat
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple0_f1_Frame4}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple0_f600_Frame4}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple0_f1_Frame5}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple0_f600_Frame5}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \caption{Canals simulation, shown with and without constraints}
+\end{figure}
+
+\begin{figure} %Predicted path over the course of the Canals simulation
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple0_f999_Frame1}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple0_f999_Frame2}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple0_f999_Frame3}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple0_f999_Frame4}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple0_f999_Frame5}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple0_f999_Frame6}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \caption{Predicted path over the course of the Canals simulation}
+\end{figure}
+
+
+%%C Canals Without Prediction
+\begin{figure}[!b] %Canals simulation without prediction, shown with and without constraints
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple1_f1_Frame1}
+        \caption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple1_f600_Frame1}
+        \caption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple1_f1_Frame2}
+        \caption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple1_f600_Frame2}
+        \caption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple1_f1_Frame3}
+        \caption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple1_f600_Frame3}
+        \caption{mhm}
+    \end{subfigure}
+    \hfill
+\end{figure}%
+\begin{figure}[ht]\ContinuedFloat
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple1_f1_Frame5}
+        \subcaption{dsadada}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple1_f600_Frame5}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple1_f1_Frame6}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple1_f600_Frame6}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple1_f1_Frame7}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple1_f600_Frame7}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \caption{Canals simulation without prediction, shown with and without constraints}
+\end{figure}
+
+\begin{figure} % TODO: skriv. Havn1 w\_opt without prediction
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple1_f999_Frame1}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple1_f999_Frame2}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple1_f999_Frame3}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple1_f999_Frame5}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple1_f999_Frame6}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/Simple1_f999_Frame7}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \caption{TODO: skriv. Havn1 w\_opt without prediction}
+\end{figure}
+
+\subsubsection{Simple Head On}
+\begin{figure}[!b] %TODO: Skriv. Enkel HO sim med og uten constraints
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_HO/Simple0_f1_Frame1}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_HO/Simple0_f600_Frame1}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_HO/Simple0_f1_Frame2}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_HO/Simple0_f600_Frame2}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_HO/Simple0_f1_Frame3}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_HO/Simple0_f600_Frame3}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \caption{TODO: Skriv. Enkel HO sim med og uten constraints}
+\end{figure}% 
+
+\begin{figure}[!b]%TODO: Enkel HO w\_opt
+    \centering 
+    \begin{subfigure}[b]{0.61\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_HO/Simple0_f999_Frame1}
+        \subcaption{TODO: Skriv}
+    \end{subfigure}
+    \hfill 
+    \begin{subfigure}[b]{0.61\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_HO/Simple0_f999_Frame2}
+        \subcaption{TODO: Skriv.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.61\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_HO/Simple0_f999_Frame3}
+        \subcaption{TODO: Skriv.}
+    \end{subfigure}
+    \caption{TODO: Enkel HO w\_opt}
+\end{figure}
+
+\subsubsection{Simple Give Way}
+\begin{figure}[!b] %TODO: Skriv. Enkel GW sim med og uten constraints
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_GW/Simple0_f1_Frame1}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_GW/Simple0_f600_Frame1}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_GW/Simple0_f1_Frame2}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_GW/Simple0_f600_Frame2}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_GW/Simple0_f1_Frame3}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_GW/Simple0_f600_Frame3}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+\end{figure}% 
+\begin{figure}[ht]\ContinuedFloat
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_GW/Simple0_f1_Frame4}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_GW/Simple0_f600_Frame4}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_GW/Simple0_f1_Frame5}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_GW/Simple0_f600_Frame5}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \caption{TODO: Skriv. Enkel GW sim med og uten constraints}
+\end{figure}
+
+\begin{figure} %w\_opt for Enkel GW
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_GW/Simple0_f999_Frame1}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_GW/Simple0_f999_Frame2}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_GW/Simple0_f999_Frame3}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_GW/Simple0_f999_Frame4}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_GW/Simple0_f999_Frame5}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_GW/simple0_f999_Frame6}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \caption{w\_opt for Enkel GW}
+\end{figure}
+
+\subsubsection{Simple Stand On}
+\begin{figure}[!b] %Enkel SO
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_SO/Simple0_f1_Frame1}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_SO/Simple0_f600_Frame1}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_SO/Simple0_f1_Frame2}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_SO/Simple0_f600_Frame2}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_SO/Simple0_f1_Frame3}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_SO/Simple0_f600_Frame3}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \caption{Enkel SO}
+\end{figure}% 
+
+\begin{figure} %w\_opt for Enkel SO
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_SO/Simple0_f999_Frame1}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_SO/Simple0_f999_Frame2}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_SO/Simple0_f999_Frame3}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Enkel_SO/Simple0_f999_Frame4}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \caption{w\_opt for Enkel SO}
+\end{figure}
+
+
+\subsubsection{Turn Head On}
+\begin{figure}[!b]
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_HO/Simple0_f1_Frame1}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_HO/Simple0_f600_Frame1}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_HO/Simple0_f1_Frame2}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_HO/Simple0_f600_Frame2}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_HO/Simple0_f1_Frame3}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_HO/Simple0_f600_Frame3}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+\end{figure}% 
+\begin{figure}[ht]\ContinuedFloat
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_HO/Simple0_f1_Frame4}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_HO/Simple0_f600_Frame4}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_HO/Simple0_f1_Frame5}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_HO/Simple0_f600_Frame5}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \caption{TODO: Skriv. Sving HO sim med og uten constraints}
+\end{figure}
+
+\begin{figure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_HO/Simple0_f999_Frame1}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_HO/Simple0_f999_Frame2}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_HO/Simple0_f999_Frame3}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_HO/Simple0_f999_Frame4}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Sving_HO/simple0_f999_frame5}
+        \subcaption{mhm}
+    \end{subfigure}
+    \caption{w\_opt for Sving HO}
+\end{figure}
+
+
+\subsubsection{Turn Give Way}
+%% WITH PREDICTIOn
+\begin{figure}[!b] % TODO: Skriv. Sving GW sim med og uten constraints AND WITH PREDICTION
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple0_f1_Frame1}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple0_f600_Frame1}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple0_f1_Frame2}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple0_f600_Frame2}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple0_f1_Frame3}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple0_f600_Frame3}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+\end{figure}% 
+\begin{figure}[ht]\ContinuedFloat
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple0_f1_Frame4}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple0_f600_Frame4}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple0_f1_Frame5}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple0_f600_Frame5}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple0_f1_Frame6}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple0_f600_Frame6}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \caption{TODO: Skriv. Sving GW sim med og uten constraints AND WITH PREDICTION}
+\end{figure}
+
+\begin{figure} %w\_opt for Sving GW WITH PREDICTION
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple0_f999_Frame1}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple0_f999_Frame2}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple0_f999_Frame3}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple0_f999_Frame4}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/simple0_f999_frame5}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/simple0_f999_frame6}
+        \subcaption{mhm}
+    \end{subfigure}
+    \caption{w\_opt for Sving GW WITH PREDICTION}
+\end{figure} 
+
+
+%% WITHOUT PREDICTION
+
+\begin{figure}[!b] %TODO: Skriv. Sving GW sim med og uten constraints AND WITHOUT PREDICTION
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple1_f1_Frame1}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple1_f600_Frame1}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple1_f1_Frame2}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple1_f600_Frame2}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple1_f1_Frame3}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple1_f600_Frame3}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+\end{figure}% 
+\begin{figure}[ht]\ContinuedFloat
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple1_f1_Frame4}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple1_f600_Frame4}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple1_f1_Frame5}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple1_f600_Frame5}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple1_f1_Frame6}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple1_f600_Frame6}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \caption{TODO: Skriv. Sving GW sim med og uten constraints AND WITHOUT PREDICTION}
+\end{figure}
+
+\begin{figure} % w\_opt for Sving GW WITHOUT PREDICTION
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple1_f999_Frame1}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple1_f999_Frame2}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple1_f999_Frame3}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/Simple1_f999_Frame4}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/simple1_f999_frame5}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/simple1_f999_frame6}
+        \subcaption{mhm}
+    \end{subfigure}
+    \caption{w\_opt for Sving GW WITHOUT PREDICTION}
+\end{figure} 
+
+
+\subsubsection{Turn Stand On}
+\begin{figure}[!b] %TODO: Sving SO med og uten constraints
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_SO/Simple0_f1_Frame1}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_SO/Simple0_f600_Frame1}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_SO/Simple0_f1_Frame2}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_SO/Simple0_f600_Frame2}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_SO/Simple0_f1_Frame3}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_SO/Simple0_f600_Frame3}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+\end{figure}% 
+\begin{figure}[ht]\ContinuedFloat
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_SO/Simple0_f1_Frame4}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_SO/Simple0_f600_Frame4}
+        \subcaption{mhm}
+    \end{subfigure}
+    \caption{TODO: Sving SO med og uten constraints}
+\end{figure}
+
+\begin{figure} %w\_opt for Sving SO with prediction
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_SO/Simple0_f999_Frame1}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_SO/Simple0_f999_Frame2}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_SO/Simple0_f999_Frame3}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_SO/Simple0_f999_Frame4}
+        \subcaption{mhm}
+    \end{subfigure}
+    \caption{w\_opt for Sving SO with prediction}
+\end{figure}
 
 %\subsection{Fullscale Testing}
 %\begin{itemize}

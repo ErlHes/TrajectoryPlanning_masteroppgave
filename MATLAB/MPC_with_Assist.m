@@ -210,11 +210,7 @@ c_radius = [];
                 if (k > (floor(dynamic_obs(i).tcpa/h) - floor(30/h))) && (k < (floor(dynamic_obs(i).tcpa/h) + floor(30/h)))
                     %% Constraint rundt båten, origo offset til styrbord
                     %Constraint 1:
-                    offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/2;
-                    offsetdir = [cos(offsetang);sin(offsetang)];
-                    offsetdist = 13;
-                    offsetvektor = offsetdist*offsetdir;
-                    c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
+                    c_orig = place_dyn_constraint(dynamic_obs, k, i, pi/2, 13);
                     c_rad = 20;
                     g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                     lbg = [lbg; c_rad^2];
@@ -223,9 +219,7 @@ c_radius = [];
                     c_radius = [c_radius, c_rad];
                     
                     %Constraint 2:
-                    offsetdist = 38;
-                    offsetvektor = offsetdist*offsetdir;
-                    c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
+                    c_orig = place_dyn_constraint(dynamic_obs, k, i, pi/2, 38);
                     c_rad = 5;
                     g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                     lbg = [lbg; c_rad^2];
@@ -259,13 +253,8 @@ c_radius = [];
             elseif dynamic_obs(i).cflag == 3 % STAND ON
                 if (k > (floor(dynamic_obs(i).tcpa/h) - floor(20/h))) && (k < (floor(dynamic_obs(i).tcpa/h) + floor(20/h)))
                     %% Contraint rundt TS som sikkerhetsmargin
-                    offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/6;
-                    offsetdir = [cos(offsetang);sin(offsetang)];
-                    offsetdist = 0; % Should ideally be based some function of Involved vessel's speeds
-                    offsetvektor = offsetdist*offsetdir;
-                    c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
-%                     c_rad = sqrt(tracks(i).size*tracks(i).size');
-                    c_rad = 8;
+                    c_orig = place_dyn_constraint(dynamic_obs, k, i, pi, 10); 
+                    c_rad = 18;
                     g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                     lbg = [lbg; c_rad^2];
                     ubg = [ubg; inf];
@@ -275,11 +264,7 @@ c_radius = [];
             elseif dynamic_obs(i).cflag == 4 % OVERTAKING
                 if (k > (floor(dynamic_obs(i).tcpa/h) - floor(20/h))) && (k < (floor(dynamic_obs(i).tcpa/h) + floor(20/h)))
                     %% Constraint rundt TS som sikkerhetsmargin
-                    offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/6;
-                    offsetdir = [cos(offsetang);sin(offsetang)];
-                    offsetdist = 0; % Should ideally be based some function of Involved vessel's speeds
-                    offsetvektor = offsetdist*offsetdir;
-                    c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
+                    c_orig = place_dyn_constraint(dynamic_obs, k, i, 0, 0);
                     c_rad = 8;
                     g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                     lbg = [lbg; c_rad^2];
@@ -290,11 +275,7 @@ c_radius = [];
             elseif dynamic_obs(i).cflag == 5 % SAFE
                 if dynamic_obs(i).dcpa < 20
                     if (k > (floor(dynamic_obs(i).tcpa/h) - floor(20/h))) && (k < (floor(dynamic_obs(i).tcpa/h) + floor(20/h)))
-                        offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/6;
-                        offsetdir = [cos(offsetang);sin(offsetang)];
-                        offsetdist = 0; % Should ideally be based some function of Involved vessel's speeds
-                        offsetvektor = offsetdist*offsetdir;
-                        c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
+                        c_orig = place_dyn_constraint(dynamic_obs, k, i, 0, 0);
                         c_rad = 8;
                         g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                         lbg = [lbg; c_rad^2];

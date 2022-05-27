@@ -98,6 +98,8 @@ simulation = 'enkel_GW';
 % simulation = 'sving_HO';
 % simulation = 'sving_GW';
 % simulation = 'sving_SO';
+
+% Tweak theese
 % simulation = 'Trheimfjord';
 % simulation = 'skjergard_m_trafikk';
 % simulation = 'Helloya';
