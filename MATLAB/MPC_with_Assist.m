@@ -2,36 +2,41 @@ function [vessel, resulting_trajectory] = MPC_with_Assist(vessel, tracks, parame
 import casadi.*
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% INITIAL CONDITIONS
+%% INITIAL CONDITIONS and persistent variables
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     persistent previous_w_opt
+    persistent previous_w_opt_F
+    persistent F
+    persistent firsttime
+    persistent obstacle_state
     persistent cflags
+%     persistent previous_feasibility
+       
+    % Initialize CasADi
     
-    N = 120;
-    h = 0.65;
-    T = N * h;
+    if(isempty(firsttime))
+        firsttime = 1;
+        obstacle_state = false; % No obstacles on first iteration
+        previous_w_opt = [];
+        cflags = [];
+        previous_w_opt_F = [];
+%         previous_feasibility = 0;
+    end
     
+
     %Initialize COLREGs flag.
     if(isempty(cflags)) % THIS CAN BE USED TO HARDCODE FLAGS IF NEEDED:
          cflags = zeros([1,size(tracks,2)]);
-%          cflags = [1, 2];
+%          cflags = [2, 1];
     end
-        
-    %Initialize position and reference trajectory.
-    initial_pos = vessel.eta;
-    initial_vel = vessel.nu;
-    [reference_trajectory_los, ~] = reference_trajectory_from_dynamic_los_guidance(vessel, parameters);
-    
-    %% Static obstacles
-    static_obs = get_global_map_data();
-    interpolated_static_obs = Interpolate_static_obs(static_obs);
-    
-    %% Dynamic obstacles
+
+    %% Settings
     simple = 0; % Enable to discard all traffic pattern assistance.
+    chaos = 0; % Do not use
+    %%
     
     if ~isempty(tracks)
         dynamic_obs(size(tracks,2)) = struct;
-        tracks2 = tracks;
     else
         dynamic_obs = []; % Failsafe in case there are no dynamic obstacles present.
     end
@@ -40,139 +45,75 @@ import casadi.*
         
         if simple
             tracks(i).wp(1:2) = [tracks(i).eta(1);tracks(i).eta(2)];
-            tracks(i).wp(3:4) = [tracks2(i).eta(1);tracks2(i).eta(2)] +...
-                1000 * [cos(tracks2(i).eta(3)) , sin(tracks2(i).eta(3))]';
+            tracks(i).wp(3:4) = [tracks(i).eta(1);tracks(i).eta(2)] +...
+                1852 * [cos(tracks(i).eta(3)) , sin(tracks(i).eta(3))]';
             tracks(i).wp = [tracks(i).wp(1:2)' tracks(i).wp(3:4)']; % Truncate excess waypoints.
+            tracks(i).current_wp = 1;
         end
-        dynamic_obs(i).traj = reference_trajectory_from_dynamic_los_guidance(tracks(i),parameters);
-        % Her må vi legge til litt mer logikk for å skjekke at det faktisk
-        % er en situasjon å klassifisere. deretter trengs det logikk for å
-        % skjekke når situasjonen er klarert slik at den kan bli safe.
-        dynamic_obs(i).cflag = COLREGs_assessment(vessel,tracks(i),cflags(i));
+    
+        [dynamic_obs(i).cflag, dynamic_obs(i).dcpa, dynamic_obs(i).tcpa] = COLREGs_assessment(vessel,tracks(i),cflags(i));
         cflags(i) = dynamic_obs(i).cflag; % Save flag in persistent variable for next iteration.
     end
-    
-    %% CasADi setup
-    
-    % System matrices.
-    x = SX.sym('x',6); % x = [N, E, psi, u, v, r]'
-    tau = SX.sym('tau',3); % tau = [Fx, Fy, Fn];
-    xref = SX.sym('xref',6); % xref = [Nref, Eref, Psi_ref, Surge_ref, sway_ref, r_ref]'
-    
-    
-%     [R, M, C, D] = SystemDynamics(x, u); % Usikker på hvorvidt det funker
-%     å sende CasADi systemer inn i en subfunksjon. Burde jo gå, men lar
-%     være for nå.
-    % Model Parameters.
-    Xu = -68.676;   % Kg/s
-    Xuu = -50.08;   % Kg/m
-    Xuuu = -14.93;  % Kgs/(m^2)
-%     Xv = -25.20;    % Kg/s
-%     Xr = -145.3;    % Kgm/s
-%     Yu = 90.15;     % Kg/s
-    Yv = -8.69;     % Kg/s
-    Yvv = -189.08;  % Kg/m
-    Yvvv = -0.00613;% Kgs/(s^2) ? Kgs/(m^2)?
-%     Yrv = -3086.95; % Kg
-%     Yr = -24.09;    % Kgm/s
-%     Yvr = -338.32;  % Kg
-%     Yrr = 1372.06;  % Kg(m^2)
-%     Nu = -38.00;    % Kgm/s
-%     Nv = -97.26;    % Kgm/s
-    Nvv = -18.85;   % Kg
-    Nrv = 5552.23;  % Kgm
-    Nr = -230.19;   % Kg(m^2)/s
-    Nrr = -0.0063;  % Kg(m^2)
-    Nrrr = -0.00067;% Kgms
-%     Nvr = -5888.89; % Kgm
-    
-    m11 = 2131.80;  % Kg
-    m12 = 1.00;     % Kg
-    m13 = 141.02;   % Kgm
-    m21 = -15.87;   % Kg
-    m22 = 2231.89;  % Kg
-    m23 = -1244.35; % Kgm
-    m31 = -423.76;  % Kgm
-    m32 = -397.64;  % Kgm
-    m33 = 4351.56;  % Kg(m^2)
-    
-    c13 = -m22*x(5);
-    c23 = m11*x(4);
-    c31 = -c13;
-    c32 = -c23*x(5);
-    
-    d11 = -Xu - Xuu * abs(x(4)) - Xuuu*(x(4)^2);
-    d22 = -Yv - Yvv*abs(x(5)) - Yvvv*(x(5)^2);
-    d23 = d22;
-    d32 = -Nvv*abs(x(5)) - Nrv *abs(x(6));
-    d33 = -Nr - Nrr*abs(x(6)) - Nrrr*(x(6)^2);
-    
-    
-    % System dynamics.
-    R = [cos(x(3))    -sin(x(3))    0;...
-         sin(x(3))    cos(x(3))     0;...
-            0           0       1];    
-    M = [m11   m12     m13;...
-         m21   m22     m23;...
-         m31   m32     m33];
-    C = [0    0   c13;...
-         0    0   c23;...
-         c31 c32    0];
-    D = [d11     0        0;...
-         0      d22     d23;...
-         0      d32     d33];
 
-%      M = eye(3)*1000;
-%      D = eye(3)*200;
-%      C = zeros(3);
-     
-    nu_dot = M\(tau -(C+D)*x(4:6)); 
-    nu = x(4:6) + h*nu_dot;
-    eta_dot = R*nu;
-    
-    xdot = [eta_dot; nu_dot];
-    
-%     Funker bra:
-%     Kp = diag([8*10^-1, 8*10^-1]);
-%     Ku = 6*10^2;
-%     Kv = 8*10^2;
-    
-    % Objective function.
-    Kp = diag([8*10^-1, 8*10^-1]); % Tuning parameter for positional reference deviation.
-    Ku = 6.7*10^2; % Tuning parameter for surge reference deviation.
-    Kv = 7.2*10^2;
-%     Kr = 3*10^2; % Tuning parameter for yaw rate reference deviation.
-%     Kt = 10^2;
-    R2 = [cos(x(3))    -sin(x(3));...
-         sin(x(3))    cos(x(3))];
-    Error = R2'*(x(1:2) - xref(1:2));
-    %L = Kp * norm(P - xref)^2 + Ku  * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
-    %L = (P - xref)'* Kp * (P - xref) + Ku * (u_0'*u_0 - uref(1)'*uref(1))^2;
-    %L = (P - xref)'* Kp * (P - xref) + Ku * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
-    L = Error'* Kp * Error + Ku * (x(4)-xref(4))^2 + Kv * (x(5)-xref(5))^2;% + Kr * (x(6) - xref(6))^2 + Kt * (tau'*tau) + Ku * (x(4) - xref(4))^2;
-    
-    % Continous time dynamics.
-    f = Function('f', {x, tau, xref}, {xdot, L});
-    
-    % Discrete time dynamics.
-    M = 4; %RK4 steps per interval
-    DT = T/N/M;
-    f = Function('f', {x, tau, xref}, {xdot, L});
-    X0 = MX.sym('X0',6);
-    Tau = MX.sym('Tau',3);
-    Xd = MX.sym('Xd',6);
-    X = X0;
-    Q = 0;
-    for j=1:M
-        [k1, k1_q] = f(X, Tau, Xd);
-        [k2, k2_q] = f(X + DT/2 * k1, Tau, Xd);
-        [k3, k3_q] = f(X + DT/2 * k2, Tau, Xd);
-        [k4, k4_q] = f(X + DT * k3, Tau, Xd);
-        X=X+DT/6*(k1 +2*k2 +2*k3 +k4);
-        Q = Q + DT/6*(k1_q + 2*k2_q + 2*k3_q + k4_q);
+    [N,h] = DynamicHorizon(vessel, dynamic_obs);
+%     T = N * h;
+
+    if(isempty(F))
+        F = CasadiSetup(h,N);
     end
-    F = Function('F', {X0, Tau, Xd}, {X, Q}, {'x0', 'tau', 'Xd'}, {'xf', 'qf'});
     
+    
+    %% Feasibility check
+%     if N < 180
+%         fixed_feas = 1;
+%     else
+%         feasibility = 1;
+%     end
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % previous feas. | Feasibility | obstacle state %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %       1        |      1      |        1       %
+    %       0        |      1      |        0       %
+    %       1        |      0      |        0       %
+    %       0        |      0      |        0       %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    if ~isempty(previous_w_opt_F)
+        feasibility = feasibility_check(previous_w_opt_F);
+    else
+        feasibility = 1;
+    end
+    
+%     obstacle_state = false;    
+%     if previous_feasibility && feasibility
+%         obstacle_state = true;
+%     end
+%     previous_feasibility = feasibility;
+
+%     feasibility = 1;
+
+    %%
+    
+    % Initialize position and reference trajectory.
+    initial_pos = vessel.eta;
+    initial_vel = vessel.nu;
+
+    % reference LOS for OS and TS
+    [reference_trajectory_los, ~] = reference_trajectory_from_dynamic_los_guidance(vessel, parameters, h, N, feasibility);
+    for i = 1:size(tracks,2)
+    dynamic_obs(i).traj = reference_trajectory_from_dynamic_los_guidance(tracks(i),parameters, 0.5, N, feasibility);
+    end
+    
+    %% Obstacles
+    enable_Static_obs = obstacle_state;
+    enable_dynamic_obs = obstacle_state;
+    static_obs = get_global_map_data();
+%     interpolated_static_obs = Interpolate_static_obs(static_obs);
+%     Static_obs_constraints = Static_obstacles_check(static_obs, reference_trajectory_los); 
+%     THIS CHECK IS HANDELED IN THE MAIN LOOP NOW
+    
+        
     %% NLP initialization.
     % Start with empty NLP.
     w={};
@@ -189,7 +130,7 @@ import casadi.*
     w = {w{:}, Xk};
     lbw = [lbw; -inf; -inf; -inf; -2.5; -2.5; -pi/4];
     ubw = [ubw; inf; inf; inf; 2.5; 2.5; pi/4];
-    w0 = [w0; initial_pos(1); initial_pos(2); initial_pos(3); 2; 0; 0];
+    w0 = [w0; initial_pos(1); initial_pos(2); initial_pos(3); initial_vel(1); initial_vel(2); initial_vel(3)];
 
 
 %     Uk = MX.sym('U0',3);
@@ -210,6 +151,8 @@ import casadi.*
 %% MAIN LOOP
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 loopdata = zeros(N+1,7);
+static_obs_collection = [];
+NaNs = [NaN; NaN; NaN];
 c_origins = [];
 c_radius = [];
 %loopdata = [k xref_i uref_i]
@@ -218,8 +161,8 @@ c_radius = [];
         
         Tauk = MX.sym(['Tau_' num2str(k)], 3);
         w = {w{:}, Tauk};
-        lbw = [lbw; -800; -800; -800];
-        ubw = [ubw; 800; 800; 800];
+        lbw = [lbw; -800;  -800;   -800];
+        ubw = [ubw;  800;   800;    800];
         w0 = [w0; 0; 0; 0];
         
         % Integrate until the end of the interval.
@@ -227,7 +170,10 @@ c_radius = [];
                   (atan2(reference_trajectory_los(4,k+2),reference_trajectory_los(3,k+2)) - ...
                    atan2(reference_trajectory_los(4,k+1),reference_trajectory_los(3,k+1))) / h];
         
-        nu_ref = [sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2); 0; eta_dot_ref(3)];
+        surge_ref = sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2);
+        nu_ref = [surge_ref;0;eta_dot_ref(3)]; %Burde være vessel.speed som referanse.
+%         nu_ref = [sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2); 0; eta_dot_ref(3)];
+%         nu_ref = vessel.eta_dot_ref;
         
         eta_ref = [reference_trajectory_los(1:2,k+1); atan2(eta_dot_ref(2),eta_dot_ref(1))];
         
@@ -242,7 +188,7 @@ c_radius = [];
         w = [w, {Xk}];
         lbw = [lbw; -inf; -inf; -inf; -2.3; -2.3; -pi/4];
         ubw = [ubw; inf; inf; inf; 2.3; 2.3; pi/4];
-        w0 = [w0; xref_i(1); xref_i(2); xref_i(3); 2; 0; 0];
+        w0 = [w0; xref_i(1); xref_i(2); xref_i(3); xref_i(4); xref_i(5); xref_i(6)];
         
 %         Uk = MX.sym(['U_' num2str(k+1)], 3);
 %         w = {w{:}, Uk};
@@ -255,126 +201,121 @@ c_radius = [];
         lbg = [lbg; 0; 0; 0; 0; 0; 0];
         ubg = [ubg; 0; 0; 0; 0; 0; 0];
         
-        % Her må det komme kode for dynamiske og statiske hindringer, men
-        % det blir en jobb for litt senere. Få det grunnleggende til å
-        % fungere først!.
-        if ~isempty(dynamic_obs) %Fy faen så styggt dette ble as, gjør om til en funksjon please
+        
+        if ~isempty(dynamic_obs) && ~firsttime && enable_dynamic_obs
         
         for i = 1:size(dynamic_obs,2)
-            %% Constraint around every vessel.
-            offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/2;
-            offsetdir = [cos(offsetang);sin(offsetang)];
-            offsetdist = 3;
-            offsetvektor = offsetdist*offsetdir;
-            c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
-            c_rad = 13;
-            g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
-            lbg = [lbg; c_rad^2];
-            ubg = [ubg; inf];
-            c_origins = [c_origins, c_orig];
-            c_radius = [c_radius, c_rad];
-            
+           
             if dynamic_obs(i).cflag == 1 % HEAD ON
-                %% Forbudt å være forran target ship
-%                 offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1));
-%                 offsetdir = [cos(offsetang);sin(offsetang)];
-%                 offsetdist = 5; % Should ideally be based some function of Involved vessel's speeds
-%                 offsetvektor = offsetdist*offsetdir;
-%                 c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
-%                 c_rad = 10;
-%                 g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
-%                 lbg = [lbg; c_rad^2];
-%                 ubg = [ubg; inf];
-%                 c_origins = [c_origins, c_orig];
-%                 c_radius = [c_radius, c_rad];
-                %% Vanskeligere å komme seg til target's styrbord
-%                 offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/2;
-%                 offsetdir = [cos(offsetang);sin(offsetang)];
-%                 offsetdist = 5; % Should ideally be based some function of Involved vessel's speeds
-%                 offsetvektor = offsetdist*offsetdir;
-%                 c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
-%                 c_rad = 10;
-%                 g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
-%                 lbg = [lbg; c_rad^2];
-%                 ubg = [ubg; inf];
-%                 c_origins = [c_origins, c_orig];
-%                 c_radius = [c_radius, c_rad];
-
-                %% Forbudt å være rett bak target ship, for komfort's skyld.
-%                 offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi;
-%                 offsetdir = [cos(offsetang);sin(offsetang)];
-%                 offsetdist = 5; % Should ideally be based some function of Involved vessel's speeds
-%                 offsetvektor = offsetdist*offsetdir;
-%                 c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
-%                 c_rad = 10;
-%                 g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
-%                 lbg = [lbg; c_rad^2];
-%                 ubg = [ubg; inf];
-%                 c_origins = [c_origins, c_orig];
-%                 c_radius = [c_radius, c_rad];
-                
+                if (k > (floor(dynamic_obs(i).tcpa/h) - floor(30/h))) && (k < (floor(dynamic_obs(i).tcpa/h) + floor(30/h)))
+                    %% Constraint rundt båten, origo offset til styrbord
+                    %Constraint 1:
+                    c_orig = place_dyn_constraint(dynamic_obs, k, i, pi/2, 13);
+                    c_rad = 20;
+                    g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                    lbg = [lbg; c_rad^2];
+                    ubg = [ubg; inf];
+                    c_origins = [c_origins, c_orig];
+                    c_radius = [c_radius, c_rad];
+                    
+                    %Constraint 2:
+                    c_orig = place_dyn_constraint(dynamic_obs, k, i, pi/2, 38);
+                    c_rad = 5;
+                    g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                    lbg = [lbg; c_rad^2];
+                    ubg = [ubg; inf];
+                    c_origins = [c_origins, c_orig];
+                    c_radius = [c_radius, c_rad];
+                end
             elseif dynamic_obs(i).cflag == 2 % GIVE WAY
-                %% Forbudt å snike seg forbi forran target ship          
-                offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi/6;
-                offsetdir = [cos(offsetang);sin(offsetang)];
-                offsetdist = 14; % Should ideally be based some function of Involved vessel's speeds
-                offsetvektor = offsetdist*offsetdir;
-                c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
-                c_rad = 16;
-                g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
-                lbg = [lbg; c_rad^2];
-                ubg = [ubg; inf];
-                c_origins = [c_origins, c_orig];
-                c_radius = [c_radius, c_rad];
-                
-%                 %% Liten constraint bak TS for å hindre å komme for nære når vi svinger tilbake mot vår opprinelige kurs
-%                 offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + pi;
-%                 offsetdir = [cos(offsetang);sin(offsetang)];
-%                 offsetdist = 3; % Should ideally be based some function of Involved vessel's speeds
-%                 offsetvektor = offsetdist*offsetdir;
-%                 c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
-%                 c_rad = 4;
-%                 g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
-%                 lbg = [lbg; c_rad^2];
-%                 ubg = [ubg; inf];
-%                 c_origins = [c_origins, c_orig];
-%                 c_radius = [c_radius, c_rad];
-                                
-                
+                if (k > (floor(dynamic_obs(i).tcpa/h) - floor(20/h))) && (k < (floor(dynamic_obs(i).tcpa/h) + floor(20/h)))
+                    %% Forbudt å snike seg forbi forran target ship  
+                    %c_orig = place_dyn_constraint(dynamic_obs, control
+                    %                           interval, TS id, angle
+                    %                           offset, distance offset)
+                    c_orig = place_dyn_constraint(dynamic_obs, k, i, pi/8, 10);
+                    c_rad = 18;
+                    g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                    lbg = [lbg; c_rad^2];
+                    ubg = [ubg; inf];
+                    c_origins = [c_origins, c_orig];
+                    c_radius = [c_radius, c_rad];
+                    
+                    %Constraint 2:
+                    c_orig = place_dyn_constraint(dynamic_obs, k, i, pi/12, 33);
+                    c_rad = 10;
+                    g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                    lbg = [lbg; c_rad^2];
+                    ubg = [ubg; inf];
+                    c_origins = [c_origins, c_orig];
+                    c_radius = [c_radius, c_rad];
+                end                
             elseif dynamic_obs(i).cflag == 3 % STAND ON
-                %% Forbudt å endre heading?
+                if (k > (floor(dynamic_obs(i).tcpa/h) - floor(20/h))) && (k < (floor(dynamic_obs(i).tcpa/h) + floor(20/h)))
+                    %% Contraint rundt TS som sikkerhetsmargin
+                    c_orig = place_dyn_constraint(dynamic_obs, k, i, pi, 10); 
+                    c_rad = 18;
+                    g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                    lbg = [lbg; c_rad^2];
+                    ubg = [ubg; inf];
+                    c_origins = [c_origins, c_orig];
+                    c_radius = [c_radius, c_rad];
+                end
             elseif dynamic_obs(i).cflag == 4 % OVERTAKING
-                %% Forbudt å kjøre forbi target's babord
-                
-                %% Ikke vær for nære bakenden på TS
-                
-                %% Ikke sving inn forran TS for tidlig
-                
+                if (k > (floor(dynamic_obs(i).tcpa/h) - floor(20/h))) && (k < (floor(dynamic_obs(i).tcpa/h) + floor(20/h)))
+                    %% Constraint rundt TS som sikkerhetsmargin
+                    c_orig = place_dyn_constraint(dynamic_obs, k, i, 0, 0);
+                    c_rad = 8;
+                    g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                    lbg = [lbg; c_rad^2];
+                    ubg = [ubg; inf];
+                    c_origins = [c_origins, c_orig];
+                    c_radius = [c_radius, c_rad];
+                end
             elseif dynamic_obs(i).cflag == 5 % SAFE
-                %% No additional constraints
+                if dynamic_obs(i).dcpa < 20
+                    if (k > (floor(dynamic_obs(i).tcpa/h) - floor(20/h))) && (k < (floor(dynamic_obs(i).tcpa/h) + floor(20/h)))
+                        c_orig = place_dyn_constraint(dynamic_obs, k, i, 0, 0);
+                        c_rad = 8;
+                        g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                        lbg = [lbg; c_rad^2];
+                        ubg = [ubg; inf];
+                        c_origins = [c_origins, c_orig];
+                        c_radius = [c_radius, c_rad];
+                    end
+                end
             end
         end
         end
     
-    %    static obstacle constraints:
-        if ~isempty(interpolated_static_obs)
-            [~, cols] = size(interpolated_static_obs);
-            for i = 1:cols
-                g = [g, {(Xk(1:2) - interpolated_static_obs(:,i))'*(Xk(1:2) - interpolated_static_obs(:,i)) - 16^2}];
-                lbg = [lbg; 0];
+       %static obstacle constraints:
+        if(enable_Static_obs) && ~firsttime && (~isempty(static_obs))
+            selected_trajectory = reference_trajectory_los;
+            if(~isempty(previous_w_opt))
+                selected_trajectory = previous_w_opt;
+            end
+            static_obs_constraints = Static_obstacles_check_Iterative(static_obs, selected_trajectory, k);
+            static_obs_collection = [static_obs_collection, static_obs_constraints, NaNs];
+            for i = 1:size(static_obs_constraints,2)
+                static_obs_y1 = static_obs_constraints(1,i);
+                static_obs_x1 = static_obs_constraints(2,i);
+                pi_p = static_obs_constraints(3,i);
+                
+                Static_obs_crosstrack_distance = abs(-(Xk(2)-static_obs_x1) * cos(pi_p) + (Xk(1) - static_obs_y1) * sin(pi_p));
+                g = [g, {Static_obs_crosstrack_distance}];
+                lbg = [lbg; 5];
                 ubg = [ubg; inf];
             end
+            
+% %             OLD CODE:
+%             [~, cols] = size(Static_obs_constraints);
+%             for i = 1:cols
+%                 g = [g, {(Xk(1:2) - Static_obs_constraints(:,i))'*(Xk(1:2) - Static_obs_constraints(:,i)) - 5^2}]; % Endre constraints
+%                 lbg = [lbg; 0];
+%                 ubg = [ubg; inf];
+%             end
         end
         
-        
-        if ~isempty(interpolated_static_obs)
-            [~, cols] = size(interpolated_static_obs);
-            for i=1:cols
-                g = [g, {(Xk(1:2) - interpolated_static_obs(:,i))'*(Xk(1:2) - interpolated_static_obs(:,i)) - 10^2}];
-                lbg = [lbg; 0];
-                ubg = [ubg; inf];
-            end
-        end
         
         loopdata(k+1,:) = [k, xref_i'];
         
@@ -383,24 +324,47 @@ c_radius = [];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Optimal solution and updating states
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-    %Det er en off-by-one forskjell mellom referanser og optimal løsning,
-    %legger til en ekstra input i loopdata for å gjøre det finere å plotte.
-    %Vit derfor at siste datapunkt for referanser i plots er feil og bør
-    %ses bort ifra.
     loopdata(end,:) = [k+1, xref_i'];
-
-
 
     % Create an NLP solver.
     prob = struct('f', J, 'x', vertcat(w{:}), 'g', vertcat(g{:}));
     options = struct;
-    options.ipopt.max_iter = 800;
-    options.ipopt.print_level = 3;
+    options.ipopt.max_iter = 400;
+    options.ipopt.print_level = 4;
+%     options.ipopt.nlp_scaling_method = 'none';
+    options.ipopt.dual_inf_tol = 5;
+    options.ipopt.tol = 5e-3;
+    options.ipopt.constr_viol_tol = 1e-1;
+%     options.ipopt.hessian_approximation = 'limited-memory';
+
+    if(firsttime)
+        options.ipopt.max_iter = 200;
+        firsttime = 0;
+    end
     solver = nlpsol('solver', 'ipopt', prob, options);
     
-    if(~isempty(previous_w_opt))
-        w0 = previous_w_opt;
+
+%     			  "print_level": 0, 
+% 				  "tol": 5e-1, 
+% 				  "dual_inf_tol": 5.0, 
+% 				  "constr_viol_tol": 1e-1,
+% 				  "compl_inf_tol": 1e-1, 
+% 				  "acceptable_tol": 1e-2, 
+% 				  "acceptable_constr_viol_tol": 0.01, 
+% 				  "acceptable_dual_inf_tol": 1e10,
+% 				  "acceptable_compl_inf_tol": 0.01,
+% 				  "acceptable_obj_change_tol": 1e20,
+% 				  "diverging_iterates_tol": 1e20}
+    if(~isempty(previous_w_opt) && ~chaos && feasibility)
+        endindex = min(size(lbw,1),size(previous_w_opt,1));
+        temp = w0;
+        w0 = previous_w_opt(1:endindex);
+        if endindex < size(lbw,1)
+            differentialindex = size(lbw,1)-size(previous_w_opt,1);
+            w0 = [w0' zeros(1,differentialindex)]';
+%             temp = w0(end-differentialindex+1:end,:);
+%             w0 = [w0;temp];
+        end
     end
     
     % Solve the NLP.
@@ -411,201 +375,18 @@ c_radius = [];
     w_opt = full(sol.x);
     
     previous_w_opt = w_opt;
-    if Solvertime > 15
+    previous_w_opt_F = w_opt;
+    if Solvertime > 30
         previous_w_opt = [];
     end
     %% Variables for plotting
-    t = loopdata(:,1);
-    xref_N = loopdata(:,2);
-    xref_E = loopdata(:,3);
-    psi_ref = loopdata(:,4);
-    surge_ref = loopdata(:,5);
-    sway_ref = loopdata(:,6);
-    r_ref = loopdata(:,7);
+    ploteverything(loopdata,w_opt, vessel, tracks, reference_trajectory_los, c_origins, c_radius, settings, static_obs_collection);
     
-    north_opt = w_opt(1:9:end);
-    east_opt = w_opt(2:9:end);
-    psi_opt = w_opt(3:9:end);
-    surge_opt = w_opt(4:9:end);
-    sway_opt = w_opt(5:9:end);
-    r_opt = w_opt(6:9:end);
-    Fx_opt = w_opt(7:9:end);
-    Fy_opt = w_opt(8:9:end);
-    Fn_opt = w_opt(9:9:end);
+    obstacle_state = true;
     
-    N_error = north_opt - xref_N;
-    E_error = east_opt - xref_E;
-    
-
-    figure(999);
-    clf;
-    axis(settings.axis);
-    hold on;
-    %plot trajectories
-    plot(east_opt, north_opt, '*');
-    plot(vessel.wp(2,:),vessel.wp(1,:),'g');
-    plot(reference_trajectory_los(2,:),reference_trajectory_los(1,:) , 'r-.');
-    %plot constraint circles
-    if~isempty(c_radius)
-        for i = 1:10
-            th = 0:pi/50:2*pi;
-            xunit = c_radius(i) * cos(th) + c_origins(2,i);
-            yunit = c_radius(i) * sin(th) + c_origins(1,i);
-            plot(xunit,yunit);
-        end
-    end
-    %lables
-    title('Projected future trajectory');
-    xlabel('East [m]');
-    ylabel('North [m]');
-    legend('W_{opt}', 'Transit path', 'reference trajectory');
-    grid;
-    
-    figure(10);
-    clf;
-    subplot(3,1,1);
-    plot(t,xref_N);
-    hold on;
-    plot(t,north_opt,'*');
-    hold off;
-    grid;
-    title('North ref and North Opt');
-    xlabel('Discretized time [k]');
-    ylabel('North [m]');
-    legend('North ref','North Opt');
-    
-    subplot(3,1,2);
-    plot(t,xref_E);
-    hold on;
-    plot(t,east_opt,'*');
-    hold off;
-    grid;
-    title('East ref and East opt');
-    xlabel('Discretized Time [k]');
-    ylabel('East [m]');
-    legend('East ref','East opt');
-    
-    subplot(3,1,3);
-    plot(t,psi_ref);
-    hold on;
-    plot(t,psi_opt,'*');
-    hold off;
-    grid;
-    title('psi ref and psi opt');
-    xlabel('Discretized time [k]');
-    ylabel('Psi (rad)');
-    legend('Psi ref','Psi opt');
-    
-    figure(11);
-    clf;
-    subplot(3,1,1);
-    plot(t,surge_ref);
-    hold on;
-    plot(t,surge_opt,'*');
-    hold off;
-    grid;
-    title('surge ref and surge Opt');
-    xlabel('Discretized time [k]');
-    ylabel('Surge [m/s]');
-    legend('Surge ref','Surge Opt');
-
-    subplot(3,1,2);
-    plot(t,sway_ref);
-    hold on;
-    plot(t,sway_opt,'*');
-    hold off;
-    grid;
-    title('sway ref and sway Opt');
-    xlabel('Discretized time [k]');
-    ylabel('sway [m/s]');
-    legend('sway ref','sway Opt');
-
-    subplot(3,1,3);
-    plot(t,r_ref);
-    hold on;
-    plot(t,r_opt,'*');
-    hold off;
-    grid;
-    title('yaw rate ref and yaw rate Opt');
-    xlabel('Discretized time [k]');
-    ylabel('yaw rate [rad/s]');
-    legend('Yaw rate ref','Yaw Rate Opt');
-    
-    figure(12);
-    clf;
-    subplot(311)
-    plot(t(1:end-1),Fx_opt,'*');
-    grid;
-    title('Optimal Force Fx');
-    xlabel('Disctretised time [k]');
-    ylabel('Force [N]');
-    legend('Fx');
-    subplot(312)
-    plot(t(1:end-1),Fy_opt,'*');
-    grid;
-    title('Optimal Force Fy');
-    xlabel('Disctretised time [k]');
-    ylabel('Force [N]');
-    legend('Fy');
-    subplot(313)
-    plot(t(1:end-1),Fn_opt,'*');
-    grid;
-    title('Optimal Force Fn');
-    xlabel('Disctretised time [k]');
-    ylabel('Force [N]');
-    legend('Fn');
-     
-    figure(13);
-    clf;
-    subplot(211)
-    plot(t,N_error);
-    grid;
-    title('Positional error in North');
-    xlabel('Discretized time step [k]');
-    ylabel('error in meters [m]');
-    subplot(212);
-    plot(t,E_error);
-    grid;
-    title('Positional error in East');
-    xlabel('Discretized time step [k]');
-    ylabel('error in meters [m]');
-        
-        
-        
+    %% Update vessel states  
     vessel.eta = w_opt(10:12);
-    vessel.nu = w_opt(4:6);
+%     vessel.nu = w_opt(4:6);
+    vessel.nu = w_opt(13:15);
     vessel.eta_dot = rotZ(vessel.eta(3))*vessel.nu;
-    resulting_trajectory = zeros(6,100);     %  TODO
-
-    figure(1);
-    clf;
-    axis(settings.axis);
-    grid;
-    hold on
-    for j = 1:size(tracks,2)
-    agent_eta = [tracks(j).eta(1:2,1);atan2(tracks(j).eta_dot(2,1), tracks(j).eta_dot(1,1))];
-    plot_os(agent_eta, 'r', 2); % Eta
-    end
-    agent_eta = [vessel.eta(1:2,1);atan2(vessel.eta_dot(2,1), vessel.eta_dot(1,1))];
-    plot_os(agent_eta, 'b', 2); % Eta
-    if~isempty(c_radius)
-        for i = 1:10
-            th = 0:pi/50:2*pi;
-            xunit = c_radius(i) * cos(th) + c_origins(2,i);
-            yunit = c_radius(i) * sin(th) + c_origins(1,i);
-            plot(xunit,yunit);
-        end
-    end
-    xlabel('East [m]');
-    ylabel('North [m]');
-    title('Simulation with constraint circles');
-            
-        
-        
-        
-        
-    
-    
-    
-    
-    
+    resulting_trajectory = [w_opt(10:9:end), w_opt(11:9:end), w_opt(12:9:end), w_opt(13:9:end), w_opt(14:9:end), w_opt(15:9:end)]';     %  TODO
