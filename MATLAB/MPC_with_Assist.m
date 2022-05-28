@@ -167,15 +167,16 @@ c_radius = [];
         
         % Integrate until the end of the interval.
         eta_dot_ref = [reference_trajectory_los(3:4,k+1);...
-                  (atan2(reference_trajectory_los(4,k+2),reference_trajectory_los(3,k+2)) - ...
-                   atan2(reference_trajectory_los(4,k+1),reference_trajectory_los(3,k+1))) / h];
+                  ssa((atan2(reference_trajectory_los(4,k+2),reference_trajectory_los(3,k+2)) - ...
+                   atan2(reference_trajectory_los(4,k+1),reference_trajectory_los(3,k+1)))) / h];
         
         surge_ref = sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2);
         nu_ref = [surge_ref;0;eta_dot_ref(3)]; %Burde være vessel.speed som referanse.
 %         nu_ref = [sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2); 0; eta_dot_ref(3)];
 %         nu_ref = vessel.eta_dot_ref;
         
-        eta_ref = [reference_trajectory_los(1:2,k+1); ssa(atan2(eta_dot_ref(2),eta_dot_ref(1)))];
+        eta_ref = [reference_trajectory_los(1:2,k+1); atan2(eta_dot_ref(2),eta_dot_ref(1))];
+%         eta_ref = [reference_trajectory_los(1:2,k+1); 0];
         
         xref_i = [eta_ref; nu_ref];
         
