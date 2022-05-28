@@ -175,7 +175,7 @@ c_radius = [];
 %         nu_ref = [sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2); 0; eta_dot_ref(3)];
 %         nu_ref = vessel.eta_dot_ref;
         
-        eta_ref = [reference_trajectory_los(1:2,k+1); atan2(eta_dot_ref(2),eta_dot_ref(1))];
+        eta_ref = [reference_trajectory_los(1:2,k+1); ssa(atan2(eta_dot_ref(2),eta_dot_ref(1)))];
         
         xref_i = [eta_ref; nu_ref];
         

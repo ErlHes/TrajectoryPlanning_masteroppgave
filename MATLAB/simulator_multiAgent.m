@@ -93,7 +93,7 @@ end
 %% The scenario list!!
 % simulation = 'Havn1';
 % simulation = 'enkel_HO';
-simulation = 'enkel_GW';
+% simulation = 'enkel_GW';
 % simulation = 'enkel_SO';
 % simulation = 'sving_HO';
 % simulation = 'sving_GW';
@@ -103,9 +103,13 @@ simulation = 'enkel_GW';
 % simulation = 'Trheimfjord';
 % simulation = 'skjergard_m_trafikk';
 % simulation = 'Helloya';
+% simulation = 'Helloya_Rev';
 
 %% Discretization step length debugg
 % simulation = 'Race';
+
+%% Other debugging
+simulation = 'WrongTurn';
 
 %% Gather simulation parameters
 
