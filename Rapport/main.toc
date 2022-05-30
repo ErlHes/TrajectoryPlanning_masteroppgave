@@ -41,17 +41,17 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.2}Setup}{11}{subsection.3.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.2.1}Simplify Prediction}{11}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.1}Simplify Prediction}{12}{subsubsection.3.2.1}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {3.2.2}COLREGs assessment}{12}{subsubsection.3.2.2}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {3.2.3}Dynamic Horizon}{13}{subsubsection.3.2.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.2.4}CasADi setup}{13}{subsubsection.3.2.4}%
+\contentsline {subsubsection}{\numberline {3.2.4}CasADi setup}{14}{subsubsection.3.2.4}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {3.2.5}Feasibility check}{14}{subsubsection.3.2.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.2.6}Reference from LOS}{14}{subsubsection.3.2.6}%
+\contentsline {subsubsection}{\numberline {3.2.6}Reference from LOS}{15}{subsubsection.3.2.6}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.3}NLP construction and solver}{15}{subsection.3.3}%
 \defcounter {refsection}{0}\relax 
@@ -61,45 +61,45 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {3.3.3}Dynamic Obstacles constraints}{15}{subsubsection.3.3.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.3.4}Static Obstacles constraints}{15}{subsubsection.3.3.4}%
+\contentsline {subsubsection}{\numberline {3.3.4}Static Obstacles constraints}{16}{subsubsection.3.3.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.3.5}Solver}{17}{subsubsection.3.3.5}%
+\contentsline {subsubsection}{\numberline {3.3.5}Solver}{16}{subsubsection.3.3.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.4}Alternative ideas and lessons}{17}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.4}Alternative ideas and lessons}{16}{subsection.3.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4}Simulation Results}{18}{section.4}%
+\contentsline {section}{\numberline {4}Simulation Results}{19}{section.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1}scenario overview}{18}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.1}scenario overview}{19}{subsection.4.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2}Results}{20}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.2}Results}{21}{subsection.4.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.1}Simple Head On}{20}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.1}Simple Head On}{21}{subsubsection.4.2.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.2}Simple Give Way}{20}{subsubsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.2}Simple Give Way}{22}{subsubsection.4.2.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.3}Simple Stand On}{23}{subsubsection.4.2.3}%
+\contentsline {subsubsection}{\numberline {4.2.3}Simple Stand On}{25}{subsubsection.4.2.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.4}Turn Head On}{23}{subsubsection.4.2.4}%
+\contentsline {subsubsection}{\numberline {4.2.4}Turn Head On}{26}{subsubsection.4.2.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.5}Turn Give Way}{28}{subsubsection.4.2.5}%
+\contentsline {subsubsection}{\numberline {4.2.5}Turn Give Way}{30}{subsubsection.4.2.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.6}Turn Stand On}{34}{subsubsection.4.2.6}%
+\contentsline {subsubsection}{\numberline {4.2.6}Turn Stand On}{36}{subsubsection.4.2.6}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.7}Canals}{37}{subsubsection.4.2.7}%
+\contentsline {subsubsection}{\numberline {4.2.7}Canals}{39}{subsubsection.4.2.7}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.8}Helløya}{42}{subsubsection.4.2.8}%
+\contentsline {subsubsection}{\numberline {4.2.8}Helløya}{45}{subsubsection.4.2.8}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.9}Skjærgård}{42}{subsubsection.4.2.9}%
+\contentsline {subsubsection}{\numberline {4.2.9}Skjærgård}{46}{subsubsection.4.2.9}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.10}Trondheimsfjord}{43}{subsubsection.4.2.10}%
+\contentsline {subsubsection}{\numberline {4.2.10}Trondheimsfjord}{46}{subsubsection.4.2.10}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.11}Miscellaneous}{43}{subsubsection.4.2.11}%
+\contentsline {subsubsection}{\numberline {4.2.11}Miscellaneous}{46}{subsubsection.4.2.11}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3}Discussion}{43}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.3}Discussion}{46}{subsection.4.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.4}Improvements over previous version}{43}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.4}Improvements over previous version}{47}{subsection.4.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5}Conclusion and Future Work}{45}{section.5}%
+\contentsline {section}{\numberline {5}Conclusion and Future Work}{48}{section.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{References}{46}{section*.49}%
+\contentsline {section}{References}{49}{section*.49}%
 \contentsfinish 

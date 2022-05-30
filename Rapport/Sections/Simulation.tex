@@ -114,6 +114,12 @@ current iteration of the algorithm they are nonetheless important to showcase an
 
 
 \subsubsection{Simple Head On}
+\begin{itemize}
+    \item Very straight forward result, behaviour is exactly as one would expect given the placement of the constraint.
+    \item No difference between full and simple prediction because target ship holds steady course and velocity.
+    \item This is the behaviour we can expect every time a target ship is met directly head on and there are no other disturbances.
+\end{itemize}
+\clearpage
 \begin{figure}[!b] %TODO: Skriv. Enkel HO sim med og uten constraints
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
@@ -179,6 +185,11 @@ current iteration of the algorithm they are nonetheless important to showcase an
 \end{figure}
 
 \subsubsection{Simple Give Way}
+\begin{itemize}
+    \item It would be highly unusual to start using the trajectory planner when alredy this close to a situation
+    \item This is reflected in the strange behaviour where our path is completely blocked when dynamic obstacle constrains are enabled.
+    \item otherwise the behaviour ends up being exactly as expected considering the placements of the constraints.
+\end{itemize}
 \clearpage
 \begin{figure}[!b] %TODO: Skriv. Enkel GW sim med og uten constraints
     \begin{subfigure}[b]{0.49\textwidth}
@@ -292,6 +303,11 @@ current iteration of the algorithm they are nonetheless important to showcase an
 \end{figure}
 
 \subsubsection{Simple Stand On}
+\begin{itemize}
+    \item This scenario assumes that the \gls{Ts} plays nice and attempts to follow the \gls{COLREGs} rules.
+    \item when using full prediction we can observe a small prediction error over time as the \gls{Ts} is not able to
+    conduct the turn we exect it to take.
+\end{itemize}
 \begin{figure}[!b] %Enkel SO
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
@@ -365,6 +381,10 @@ current iteration of the algorithm they are nonetheless important to showcase an
 
 
 \subsubsection{Turn Head On}
+\begin{itemize}
+    \item THIS SCENARIO SHOULD BE MIRRORED HORIZONTALLY TO INCREASE THE CHANCES OF AN OBSERVABLE DIFFERENCE BETWEEN PREDICTIONS.
+    \item otherwise business as usual, turns aren't predicted quite right.
+\end{itemize}
 \clearpage
 \begin{figure}[!b] %TODO: Skriv. Sving HO sim med og uten constraints
     \begin{subfigure}[b]{0.49\textwidth}
@@ -471,6 +491,12 @@ current iteration of the algorithm they are nonetheless important to showcase an
 
 
 \subsubsection{Turn Give Way}
+\begin{itemize}
+    \item Here we finally observe a big differene between full and simple prediction.
+    \item due to how the situation plays out the \gls{OS} is dragged along by the constraints of the \gls{Ts}.
+    \item being dragged by constraints is not unique to this situation, and is one of the problems that can occur
+    with this method of collision avoidance.
+\end{itemize}
 %% WITH PREDICTIOn
 \clearpage
 \begin{figure}[!b] % TODO: Skriv. Sving GW sim med og uten constraints AND WITH PREDICTION
@@ -724,6 +750,9 @@ current iteration of the algorithm they are nonetheless important to showcase an
 
 
 \subsubsection{Turn Stand On}
+\begin{itemize}
+    \item Absolutely nothing happens here. move on.
+\end{itemize}
 \clearpage
 \begin{figure}[!b] %TODO: Sving SO med og uten constraints
     \begin{subfigure}[b]{0.49\textwidth}
@@ -813,8 +842,10 @@ current iteration of the algorithm they are nonetheless important to showcase an
     \item blocked path
     \item feasibility check
     \item forskjell mellom prediction metoder
+    \item not entirely clear to me which behaviour is the most 'COLREGs compliant'
+    \item When the path is blocked it takes a very very very long time to solve the NLP, users beware.
+    \item Get to see static obstacles in effect.
 \end{itemize}
-
 
 %% Canals With Prediction
 \clearpage
@@ -1056,14 +1087,35 @@ current iteration of the algorithm they are nonetheless important to showcase an
     \caption{TODO: skriv. Havn1 w\_opt without prediction}
 \end{figure}
 
-
+\iffalse
+Scenario der det er en statisk hindring midt i referanse banen.
+Scenario der vi mer tydelig blir 'dyttet' inn mot statisk hindring av annen båt.
+Scenario der det er overlap mellom forskjellige COLREGs situasjoner
+Scenario med flere båter i samme COLREGs situasion, kan kombineres med scenario over.
+Skjaergård MÅ inkludere en bane gjennom masse små skjær, ikke fordi det er vanlig men fordi det må testes.
+\fi
 \subsubsection{Helløya}
+\begin{itemize}
+    \item Ta med begge rettningene
+    \item ta med flere COLREGs situasjoner samtidig
+    \item her kanskje vi burde bli overtaken.
+\end{itemize}
 (TODO: Skriv og figurer)
 
 \subsubsection{Skjærgård}
-(TODO: Skriv og figurer)
+\begin{itemize}
+    \item Har lyst å endre denne.
+    \item Skjaergård bør inkludere en bane gjennom masse små skjær, ikke fordi det er vanlig men fordi det må testes.
+    \item kan gjerne gjøres kortere, det er allerede bevist at path following fungerer.... dette har jeg skrevet et annet sted også.
+    \item Kanskje ta med et skjær som står midt i referansebanen.
+\end{itemize}
 
 \subsubsection{Trondheimsfjord}
+\begin{itemize}
+    \item mer target ships takk
+    \item mer COLREGs situasjoner oppå hverandre
+    \item super stress test
+\end{itemize}
 (TODO: Skriv og figurer.)
 
 \subsubsection{Miscellaneous}
