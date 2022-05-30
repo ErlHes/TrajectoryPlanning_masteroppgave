@@ -10,6 +10,8 @@ import casadi.*
     persistent firsttime
     persistent obstacle_state
     persistent cflags
+    persistent previous_eta_ref
+%     persistent pimultiplier
 %     persistent previous_feasibility
        
     % Initialize CasADi
@@ -20,6 +22,8 @@ import casadi.*
         previous_w_opt = [];
         cflags = [];
         previous_w_opt_F = [];
+        previous_eta_ref = [];
+%         pimultiplier = 0;
 %         previous_feasibility = 0;
     end
     
@@ -33,6 +37,7 @@ import casadi.*
     %% Settings
     simple = 0; % Enable to discard all traffic pattern assistance.
     chaos = 0; % Do not use
+    pimultiplier = 0;
     %%
     
     if ~isempty(tracks)
@@ -97,6 +102,7 @@ import casadi.*
     
     % Initialize position and reference trajectory.
     initial_pos = vessel.eta;
+    initial_pos(3) = wrapTo2Pi(initial_pos(3));
     initial_vel = vessel.nu;
 
     % reference LOS for OS and TS
@@ -167,15 +173,28 @@ c_radius = [];
         
         % Integrate until the end of the interval.
         eta_dot_ref = [reference_trajectory_los(3:4,k+1);...
-                  ssa((atan2(reference_trajectory_los(4,k+2),reference_trajectory_los(3,k+2)) - ...
-                   atan2(reference_trajectory_los(4,k+1),reference_trajectory_los(3,k+1)))) / h];
+                  (atan2(reference_trajectory_los(4,k+2),reference_trajectory_los(3,k+2)) - ...
+                   atan2(reference_trajectory_los(4,k+1),reference_trajectory_los(3,k+1))) / h];
         
         surge_ref = sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2);
         nu_ref = [surge_ref;0;eta_dot_ref(3)]; %Burde være vessel.speed som referanse.
 %         nu_ref = [sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2); 0; eta_dot_ref(3)];
 %         nu_ref = vessel.eta_dot_ref;
         
-        eta_ref = [reference_trajectory_los(1:2,k+1); atan2(eta_dot_ref(2),eta_dot_ref(1))];
+        eta_ref = [reference_trajectory_los(1:2,k+1); wrapTo2Pi(atan2(eta_dot_ref(2),eta_dot_ref(1)))];
+        
+        %% Test greier
+        if k > 0
+            if wrapTo2Pi(previous_eta_ref(3)) > 23*pi/12 && wrapTo2Pi(eta_ref(3)) < 1*pi/6 
+                pimultiplier = pimultiplier + 2*pi;
+            end
+            if wrapTo2Pi(previous_eta_ref(3)) < 1*pi/6 && wrapTo2Pi(eta_ref(3)) > 23*pi/12
+                pimultiplier = pimultiplier - 2*pi;
+            end
+        end
+        eta_ref(3) = eta_ref(3) + pimultiplier;
+        previous_eta_ref = eta_ref;
+        %%
 %         eta_ref = [reference_trajectory_los(1:2,k+1); 0];
         
         xref_i = [eta_ref; nu_ref];

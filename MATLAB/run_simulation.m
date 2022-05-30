@@ -130,10 +130,10 @@ if(parameters.system.make_video)
     disp('Saving video...')       
     
     fig_filename = strcat('video_', simulation);
-    video_filepos = strcat('C:\Users\erlen\Documents\GitHub\TrajectoryPlanning_masteroppgave\MATLAB\videoresults\ACTUALRESULTS\WrongTurngreier/');
+    video_filepos = strcat('C:\Users\erlen\Documents\GitHub\TrajectoryPlanning_masteroppgave\MATLAB\videoresults\ACTUALRESULTS/');
 
     % create the video writer with 1 fps
-    writerObj = VideoWriter( strcat(video_filepos, fig_filename,'_Combo_fig600.avi'));
+    writerObj = VideoWriter( strcat(video_filepos, fig_filename,'_simple0_fig600.avi'));
     writerObj.FrameRate = 20;
     % set the seconds per image
     % open the video writer
@@ -147,7 +147,7 @@ if(parameters.system.make_video)
     % close the writer object
     close(writerObj);
     
-    writerObj2 = VideoWriter( strcat(video_filepos, fig_filename,'_Combo_fig1.avi'));
+    writerObj2 = VideoWriter( strcat(video_filepos, fig_filename,'_simple0_fig1.avi'));
     writerObj2.FrameRate = 20;
     
     open(writerObj2);
@@ -157,7 +157,7 @@ if(parameters.system.make_video)
     end
     close(writerObj2);
     
-        writerObj3 = VideoWriter( strcat(video_filepos, fig_filename,'_Combo_fig999.avi'));
+        writerObj3 = VideoWriter( strcat(video_filepos, fig_filename,'_simple0_fig999.avi'));
     writerObj3.FrameRate = 20;
     
     open(writerObj3);
