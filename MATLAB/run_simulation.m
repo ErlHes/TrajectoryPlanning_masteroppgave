@@ -35,24 +35,24 @@ if(visualization)
     
 end
 
-if(~exist('extrablock','var'))
-    extrablock = 0;
-end
+% if(~exist('extrablock','var'))
+%     extrablock = 0;
+% end
 
 
 
 while time < settings.t_sim
     
-    if time > 10 && (extrablock == 1)
-        run(strcat(home_dir,'simulations/','Blocked_path','/env2.m'));
-        set_global_map_data(static_obs);
-        plot_static_obs(static_obs,600);
-    end
-    if time > 25 && (extrablock == 1)
-        run(strcat(home_dir,'simulations/','Blocked_path','/env.m'));
-        set_global_map_data(static_obs);
-        plot_static_obs(static_obs,600);
-    end
+%     if time > 10 && (extrablock == 1)
+%         run(strcat(home_dir,'simulations/','Blocked_path','/env2.m'));
+%         set_global_map_data(static_obs);
+%         plot_static_obs(static_obs,600);
+%     end
+%     if time > 25 && (extrablock == 1)
+%         run(strcat(home_dir,'simulations/','Blocked_path','/env.m'));
+%         set_global_map_data(static_obs);
+%         plot_static_obs(static_obs,600);
+%     end
     
     if(visualization) && (vizualization_counter > visualization_interval)
            figure(600)
