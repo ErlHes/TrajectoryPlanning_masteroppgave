@@ -7,6 +7,8 @@ function [vessel] = simulate_agent_iteration...
         vessel = kinematic_model(vessel,settings,parameters);
     elseif(vessel.model == 2) && (vessel.gnc == 3) % MPC with assist
         vessel = autonomous_agent_trajectory_planner(vessel,tracks,settings,parameters,iteration);
+    elseif(vessel.model == 2) && (vessel.gnc == 4) % DIRECT PATH FOLLOWING
+        vessel = direct_path_follow(vessel, settings);
     end
 
 end
@@ -162,5 +164,32 @@ thruster_setpoints = thrust_allocation_novel(vessel.tau_d, last_thrust, last_alp
  vessel.ts_d = [thruster_setpoints(:,1);thruster_setpoints(:,2)];
  
  vessel = simulate_vessel_dynamics(vessel,settings);
+
+end
+
+function vessel = direct_path_follow(vessel, settings)
+dt = settings.dt;
+wpi = vessel.current_wp;
+pos = vessel.eta(1:2);
+dist_to_next_wpt = sqrt((vessel.wp(1,wpi+1) - pos(1))^2 + ((vessel.wp(2,wpi+1) - pos(2))^2));
+if dist_to_next_wpt < 1 && vessel.current_wp ~= (length(vessel.wp))
+    %switch waypoint
+    vessel.current_wp = vessel.current_wp + 1;
+    wpi = vessel.current_wp;
+end
+vessel.eta(3) = atan2((vessel.wp(2,wpi+1) - pos(2)),(vessel.wp(1,wpi+1)-pos(1)));
+
+if wpi >= length(vessel.speed)
+    vessel.nu(1) = vessel.speed(end);
+else
+    vessel.nu(1) = vessel.speed(wpi);
+end
+
+vessel.eta_dot_d = rotZ(vessel.eta(3))*vessel.nu;
+
+if vessel.current_wp ~= (length(vessel.wp))
+    vessel.eta = vessel.eta + vessel.eta_dot_d * dt;
+    vessel.eta_dot = vessel.eta_dot_d;
+end
 
 end

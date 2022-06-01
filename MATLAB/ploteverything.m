@@ -203,10 +203,12 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
     for j = 1:size(tracks,2)
     agent_eta = [tracks(j).eta(1:2,1);atan2(tracks(j).eta_dot(2,1), tracks(j).eta_dot(1,1))];
     handle_ = plot_os(agent_eta, 'r', 2); % Eta
-    graph_handles = [graph_handles, handle_];
+    handle__ = quiver(tracks(j).eta(2), tracks(j).eta(1), tracks(j).eta_dot(2),tracks(j).eta_dot(1),10,'r','filled');
+    graph_handles = [graph_handles, handle_, handle__];
     end
     agent_eta = [vessel.eta(1:2,1);atan2(vessel.eta_dot(2,1), vessel.eta_dot(1,1))];
-    handle_ = plot_os(agent_eta, 'b', 2); % Eta
+    handle_ = plot_os(agent_eta, 'b', 1); % Eta
+    handle__ = quiver(agent_eta(2), agent_eta(1), vessel.eta_dot(2),vessel.eta_dot(1),10,'b','filled');
     graph_handles = [graph_handles, handle_];
     
     if~isempty(c_radius)

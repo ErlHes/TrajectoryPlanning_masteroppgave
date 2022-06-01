@@ -102,6 +102,7 @@ end
 % Tweak theese
 % simulation = 'Trheimfjord';
 % simulation = 'skjergard_m_trafikk';
+simulation = 'skjergard_u_trafikk';
 % simulation = 'Helloya';
 % simulation = 'Helloya_Rev';
 
@@ -109,7 +110,7 @@ end
 % simulation = 'Race';
 
 %% Other debugging
-simulation = 'WrongTurn';
+% simulation = 'WrongTurn';
 
 %% Gather simulation parameters
 

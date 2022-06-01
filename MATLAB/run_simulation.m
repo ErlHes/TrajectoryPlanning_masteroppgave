@@ -83,7 +83,7 @@ while time < settings.t_sim
                 hold on;
                 agent_eta = [agents(j).eta(1:2,1);atan2(agents(j).eta_dot(2,1), agents(j).eta_dot(1,1))];
                 agent_eta_dot = [agents(j).eta_dot];
-                handle_ = plot_os(agent_eta, 'b', 2); % Eta
+                handle_ = plot_os(agent_eta, 'b', 1); % Eta
                 graph_handles = [graph_handles;handle_];
                 handle_ = quiver(agent_eta(2), agent_eta(1), agent_eta_dot(2),agent_eta_dot(1),10,'b','filled');
                 graph_handles = [graph_handles;handle_];
@@ -133,7 +133,7 @@ if(parameters.system.make_video)
     video_filepos = strcat('C:\Users\erlen\Documents\GitHub\TrajectoryPlanning_masteroppgave\MATLAB\videoresults\ACTUALRESULTS/');
 
     % create the video writer with 1 fps
-    writerObj = VideoWriter( strcat(video_filepos, fig_filename,'_simple0_fig600.avi'));
+    writerObj = VideoWriter( strcat(video_filepos, fig_filename,'_newest_fig600.avi'));
     writerObj.FrameRate = 20;
     % set the seconds per image
     % open the video writer
@@ -147,7 +147,7 @@ if(parameters.system.make_video)
     % close the writer object
     close(writerObj);
     
-    writerObj2 = VideoWriter( strcat(video_filepos, fig_filename,'_simple0_fig1.avi'));
+    writerObj2 = VideoWriter( strcat(video_filepos, fig_filename,'_newest_fig1.avi'));
     writerObj2.FrameRate = 20;
     
     open(writerObj2);
@@ -157,7 +157,7 @@ if(parameters.system.make_video)
     end
     close(writerObj2);
     
-        writerObj3 = VideoWriter( strcat(video_filepos, fig_filename,'_simple0_fig999.avi'));
+        writerObj3 = VideoWriter( strcat(video_filepos, fig_filename,'_newest_fig999.avi'));
     writerObj3.FrameRate = 20;
     
     open(writerObj3);

@@ -102,7 +102,9 @@ import casadi.*
     
     % Initialize position and reference trajectory.
     initial_pos = vessel.eta;
-    initial_pos(3) = wrapTo2Pi(initial_pos(3));
+    if abs(initial_pos(3)) > pi/2
+        initial_pos(3) = wrapTo2Pi(initial_pos(3));
+    end
     initial_vel = vessel.nu;
 
     % reference LOS for OS and TS
@@ -181,14 +183,15 @@ c_radius = [];
 %         nu_ref = [sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2); 0; eta_dot_ref(3)];
 %         nu_ref = vessel.eta_dot_ref;
         
+%         eta_ref = [reference_trajectory_los(1:2,k+1); atan2(eta_dot_ref(2),eta_dot_ref(1))]; 
         eta_ref = [reference_trajectory_los(1:2,k+1); wrapTo2Pi(atan2(eta_dot_ref(2),eta_dot_ref(1)))];
         
         %% Test greier
         if k > 0
-            if wrapTo2Pi(previous_eta_ref(3)) > 23*pi/12 && wrapTo2Pi(eta_ref(3)) < 1*pi/6 
+            if wrapTo2Pi(previous_eta_ref(3)) > 21*pi/12 && wrapTo2Pi(eta_ref(3)) < 3*pi/12 
                 pimultiplier = pimultiplier + 2*pi;
             end
-            if wrapTo2Pi(previous_eta_ref(3)) < 1*pi/6 && wrapTo2Pi(eta_ref(3)) > 23*pi/12
+            if wrapTo2Pi(previous_eta_ref(3)) < 3*pi/12 && wrapTo2Pi(eta_ref(3)) > 21*pi/12
                 pimultiplier = pimultiplier - 2*pi;
             end
         end
@@ -231,7 +234,7 @@ c_radius = [];
                     %% Constraint rundt båten, origo offset til styrbord
                     %Constraint 1:
                     c_orig = place_dyn_constraint(dynamic_obs, k, i, pi/2, 13);
-                    c_rad = 20;
+                    c_rad = 22;
                     g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                     lbg = [lbg; c_rad^2];
                     ubg = [ubg; inf];
@@ -273,8 +276,8 @@ c_radius = [];
             elseif dynamic_obs(i).cflag == 3 % STAND ON
                 if (k > (floor(dynamic_obs(i).tcpa/h) - floor(20/h))) && (k < (floor(dynamic_obs(i).tcpa/h) + floor(20/h)))
                     %% Contraint rundt TS som sikkerhetsmargin
-                    c_orig = place_dyn_constraint(dynamic_obs, k, i, pi, 10); 
-                    c_rad = 18;
+                    c_orig = place_dyn_constraint(dynamic_obs, k, i, pi, 0); 
+                    c_rad = 7;
                     g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                     lbg = [lbg; c_rad^2];
                     ubg = [ubg; inf];
@@ -285,7 +288,7 @@ c_radius = [];
                 if (k > (floor(dynamic_obs(i).tcpa/h) - floor(20/h))) && (k < (floor(dynamic_obs(i).tcpa/h) + floor(20/h)))
                     %% Constraint rundt TS som sikkerhetsmargin
                     c_orig = place_dyn_constraint(dynamic_obs, k, i, 0, 0);
-                    c_rad = 8;
+                    c_rad = 10;
                     g = [g, {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                     lbg = [lbg; c_rad^2];
                     ubg = [ubg; inf];
@@ -358,7 +361,8 @@ c_radius = [];
 %     options.ipopt.hessian_approximation = 'limited-memory';
 
     if(firsttime)
-        options.ipopt.max_iter = 200;
+        options.ipopt.max_iter = 1000;
+        options.ipopt.print_level = 5;
         firsttime = 0;
     end
     solver = nlpsol('solver', 'ipopt', prob, options);
