@@ -98,7 +98,7 @@ end
 % simulation = 'Ferjekryss';
 
 %% The scenario list!!
-simulation = 'Havn1';
+% simulation = 'Havn1';
 % simulation = 'enkel_HO';
 % simulation = 'enkel_GW';
 % simulation = 'enkel_SO';
@@ -109,7 +109,7 @@ simulation = 'Havn1';
 % Tweak theese
 % simulation = 'Trheimfjord';
 % simulation = 'skjergard_m_trafikk';
-% simulation = 'skjergard_u_trafikk';
+simulation = 'skjergard_u_trafikk';
 % simulation = 'Helloya';
 % simulation = 'Helloya_Rev';
 

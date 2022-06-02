@@ -403,7 +403,6 @@ persistent OS_traj_handle
 %     legend(legend_vector,legend_string)
 %     title('Simulation with constraint circles');
 
-    tic;
     figure(999);
     delete(graph_handles2)
     axis(settings.axis);
@@ -560,8 +559,6 @@ persistent OS_traj_handle
     xlabel('East [m]','FontSize',23);
     ylabel('North [m]','FontSize',23);
     set(gca,'color',sea);
-    toc
-
 
     plots = [];
     counter = counter + 1;
