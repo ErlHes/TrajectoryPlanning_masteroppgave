@@ -102,12 +102,12 @@ T = h * N;
     Kfy = 1 * 10^-5;
 
     %Test for heading
-    K_phi = 1*10^-5;
+    K_phi = 6*10^-5;
 
     %L = Kp * norm(P - xref)^2 + Ku  * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
     %L = (P - xref)'* Kp * (P - xref) + Ku * (u_0'*u_0 - uref(1)'*uref(1))^2;
     %L = (P - xref)'* Kp * (P - xref) + Ku * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
-    L = Error'* Kp * Error + Ku * (x(4)-xref(4))^2 + Kv * (x(5)-xref(5))^2 + Kfy * tau(2)^2 + K_phi * (x(3)-xref(3))^2;% + Kr * (x(6) - xref(6))^2 + Kt * (tau'*tau) + Ku * (x(4) - xref(4))^2;
+    L = Error'* Kp * Error + Ku * (x(4)-xref(4))^2 + Kv * (x(5)-xref(5))^2 + Kfy * tau(2)^2 + K_phi * (ssa(x(3)-xref(3)))^2;% + Kr * (x(6) - xref(6))^2 + Kt * (tau'*tau) + Ku * (x(4) - xref(4))^2;
     
     % Continous time dynamics.
     f = Function('f', {x, tau, xref}, {xdot, L});

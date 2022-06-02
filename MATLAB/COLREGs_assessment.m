@@ -66,9 +66,9 @@ if (dCPA < dCPAgrense) && (tCPA < tCPAgrense) && cflag == 0
 %     phi_1 = rad2deg(pi/15);
     phi_2 = 112.5;
     
-    b0 = rad2deg(wrapTo2Pi(atan2((pos_TS(2)-pos_OS(2)),(pos_TS(1)-pos_OS(1))) - ssa(pos_OS(3)))); % Relative from OS to TS
+    b0 = rad2deg(wrapTo2Pi(atan2((pos_TS(2)-pos_OS(2)),(pos_TS(1)-pos_OS(1))) - wrapToPi(pos_OS(3)))); % Relative from OS to TS
 
-    b0_180 = ssa(b0, 'deg');
+    b0_180 = rad2deg(wrapToPi(deg2rad(b0)));
     
     a0 = rad2deg(ssa(atan2(pos_OS(2)-pos_TS(2),pos_OS(1)-pos_TS(1)) - pos_TS(3))); % Relative from TS to OS
     

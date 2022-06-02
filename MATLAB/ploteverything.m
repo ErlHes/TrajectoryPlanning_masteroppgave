@@ -1,5 +1,19 @@
 function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajectory_los, c_origins, c_radius, settings, static_obs_collection)
-    graph_handles = [];
+persistent graph_handles
+persistent graph_handles2
+persistent counter
+persistent dontprintagain
+
+
+    if isempty(graph_handles)
+        graph_handles = [];
+        graph_handles2 = [];
+        counter = 0;
+        dontprintagain = 0;
+    end
+    
+    OS_Scale = 1;
+    
     t = loopdata(:,1);
     xref_N = loopdata(:,2);
     xref_E = loopdata(:,3);
@@ -51,34 +65,7 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
 %     h2 = mapshow(static_obs(2,:),static_obs(1,:),'DisplayType','polygon','LineStyle','none');
 %     static_obs_handles = [static_obs_handles; h1; h2];
 
-    figure(999);
-    clf;
-    axis(settings.axis);
-    hold on; 
-    %plot trajectories
-    plot(east_opt, north_opt, '*');
-    plot(vessel.wp(2,:),vessel.wp(1,:),'g');
-    plot(reference_trajectory_los(2,:),reference_trajectory_los(1,:) , 'r-.');
-    %plot constraint circles
-%     if~isempty(c_radius)
-%         for i = 1:10
-%             th = 0:pi/50:2*pi;
-%             xunit = c_radius(i) * cos(th) + c_origins(2,i);
-%             yunit = c_radius(i) * sin(th) + c_origins(1,i);
-%             plot(xunit,yunit);
-%         end
-%     end
-    %plot constraint centers
-    if ~isempty(c_origins)
-        plot(c_origins(2,:),c_origins(1,:),'r*'); 
-    end
-    hold off;
-    %lables
-    title('Projected future trajectory');
-    xlabel('East [m]');
-    ylabel('North [m]');
-    legend('W_{opt}', 'Transit path', 'reference trajectory');
-    grid;
+    
      
     
     figure(10);
@@ -193,30 +180,46 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
     ylabel('error in meters [m]');
        
     figure(1);
-    clf;
+    delete(graph_handles)
+%     clf;
 %     xaxis = [vessel.eta(2) - 200, vessel.eta(2) + 200];
 %     yaxis = [vessel.eta(1) - 200, vessel.eta(1) + 200];
 %     axis([xaxis, yaxis]); % FOR BIG SIMS
+%     graph_index = 1;
     axis([settings.axis])
-    grid;
+%     if isempty(graph_handles)
+%         grid;
+%     end
     hold on
     for j = 1:size(tracks,2)
     agent_eta = [tracks(j).eta(1:2,1);atan2(tracks(j).eta_dot(2,1), tracks(j).eta_dot(1,1))];
-    handle_ = plot_os(agent_eta, 'r', 2); % Eta
-    handle__ = quiver(tracks(j).eta(2), tracks(j).eta(1), tracks(j).eta_dot(2),tracks(j).eta_dot(1),10,'r','filled');
-    graph_handles = [graph_handles, handle_, handle__];
+    handle_TS = plot_os(agent_eta, 'r', OS_Scale); % Eta
+    handle_TS_Quiver = quiver(tracks(j).eta(2), tracks(j).eta(1), tracks(j).eta_dot(2),tracks(j).eta_dot(1),10,'r','filled');
+    graph_handles = [graph_handles, handle_TS];
+    graph_handles = [graph_handles, handle_TS_Quiver];
+    if counter > 2
+        plot_trajectory(tracks(j),'red'); % persistent_TS_traj
+    end
+
     end
     agent_eta = [vessel.eta(1:2,1);atan2(vessel.eta_dot(2,1), vessel.eta_dot(1,1))];
-    handle_ = plot_os(agent_eta, 'b', 1); % Eta
-    handle__ = quiver(agent_eta(2), agent_eta(1), vessel.eta_dot(2),vessel.eta_dot(1),10,'b','filled');
-    graph_handles = [graph_handles, handle_];
+    handle_OS = plot_os(agent_eta, 'b', OS_Scale); % Eta
+    handle_OS_Quiver = quiver(agent_eta(2), agent_eta(1), vessel.eta_dot(2),vessel.eta_dot(1),10,'b','filled');
+    graph_handles = [graph_handles, handle_OS];
+    graph_handles = [graph_handles, handle_OS_Quiver];
+    if counter > 2
+        plot_trajectory(vessel,'blue'); % persistent_OS_traj  
+        counter = 0;
+    end
+%     plot_trajectory(tracks(j),'blue');
     
     if~isempty(c_radius)
         for i = 1:min(10,length(c_radius))
             th = 0:pi/50:2*pi;
             xunit = c_radius(i) * cos(th) + c_origins(2,i);
             yunit = c_radius(i) * sin(th) + c_origins(1,i);
-            plot(xunit,yunit);
+            handle_D_constraints = plot(xunit,yunit,'r');
+            graph_handles = [graph_handles, handle_D_constraints];
         end
     end
     if ~isempty(static_obs_collection)
@@ -244,14 +247,72 @@ function plots = ploteverything(loopdata,w_opt, vessel, tracks, reference_trajec
             previous_linex = [previous_linex, linex];
             previous_liney = [previous_liney, liney];
         end
-        mapshow(previous_linex, previous_liney,'linewidth',1.2);
-        mapshow(static_obs(2,:),static_obs(1,:),'DisplayType','polygon','LineStyle','none');
+        handle_S_constraints = mapshow(previous_linex, previous_liney,'linewidth',1.2);
+        graph_handles = [graph_handles, handle_S_constraints];
+        if ~dontprintagain
+            mapshow(static_obs(2,:),static_obs(1,:),'DisplayType','polygon','LineStyle','-','FaceColor',get_rgb('land'),'EdgeColor','black','LineWidth',1);
+        end
     end
     hold off;
     xlabel('East [m]');
     ylabel('North [m]');
     title('Simulation with constraint circles');
-     
-        
+
+    tic;
+    figure(999);
+    delete(graph_handles2)
+    axis(settings.axis);
+    hold on; 
+    %plot trajectories
+    handle_wopt = plot(east_opt, north_opt, 'b*','LineWidth',0.3);
+    handle_path =  plot(vessel.wp(2,:),vessel.wp(1,:),'g');
+    handle_reftraj = plot(reference_trajectory_los(2,:),reference_trajectory_los(1,:) , 'r--');
+    graph_handles2 = [graph_handles2, handle_wopt, handle_path, handle_reftraj];
+    %plot constraint circles
+%     if~isempty(c_radius)
+%         for i = 1:10
+%             th = 0:pi/50:2*pi;
+%             xunit = c_radius(i) * cos(th) + c_origins(2,i);
+%             yunit = c_radius(i) * sin(th) + c_origins(1,i);
+%             plot(xunit,yunit);
+%         end
+%     end
+    %plot constraint centers
+    if ~isempty(c_origins)
+        handle_D_constraints = plot(c_origins(2,:),c_origins(1,:),'rx'); 
+        graph_handles2 = [graph_handles2, handle_D_constraints];
+    end
+    %lables
+    handle_OS_w = plot_os(agent_eta, 'b', OS_Scale); % Eta
+    graph_handles2 = [graph_handles2, handle_OS_w];
+    for j = 1:size(tracks,2)
+        agent_eta = [tracks(j).eta(1:2,1);atan2(tracks(j).eta_dot(2,1), tracks(j).eta_dot(1,1))];
+        handle_TS_w = plot_os(agent_eta, 'r', OS_Scale); % Eta
+        handle_TS_Quiver = quiver(tracks(j).eta(2), tracks(j).eta(1), tracks(j).eta_dot(2),tracks(j).eta_dot(1),10,'r','filled');
+        graph_handles2 = [graph_handles2, handle_TS_w, handle_TS_Quiver];
+    end
+    if ~isempty(static_obs_collection) && ~dontprintagain
+        mapshow(static_obs(2,:),static_obs(1,:),'DisplayType','polygon','LineStyle','-','FaceColor',get_rgb('land'),'EdgeColor','black','LineWidth',1);
+        dontprintagain = 1;
+    end
+    
+    hold off;
+    title('Projected future trajectory');
+    xlabel('East [m]');
+    ylabel('North [m]');
+    legend('off')
+    if ~isempty(c_origins)
+        legend('','W_{opt}', 'Transit path', 'reference trajectory','Dynamic Constraint origin');
+    else
+        if dontprintagain
+        legend('','W_{opt}', 'Transit path', 'reference trajectory','');
+        else
+        legend('W_{opt}', 'Transit path', 'reference trajectory','');
+        end
+    end
+    toc
+
+
     plots = [];
+    counter = counter + 1;
 end

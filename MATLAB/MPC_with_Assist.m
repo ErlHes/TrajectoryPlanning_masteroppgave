@@ -102,8 +102,15 @@ import casadi.*
     
     % Initialize position and reference trajectory.
     initial_pos = vessel.eta;
-    if abs(initial_pos(3)) > pi/2
-        initial_pos(3) = wrapTo2Pi(initial_pos(3));
+    if wrapTo2Pi(initial_pos(3)) < pi/6
+%         initial_pos(3) = wrapTo2Pi(initial_pos(3)); % THIS NEEDS MORE WORK
+        if ~isempty(previous_w_opt) && ssa(initial_pos(3)-previous_w_opt(3)) > pi
+            if initial_pos(3) > previous_w_opt(3)
+                initial_pos(3) = wrapTo2Pi(initial_pos(3));
+            end
+        elseif ~isempty(previous_w_opt)
+            initial_pos(3) = wrapTo2Pi(initial_pos(3));
+        end
     end
     initial_vel = vessel.nu;
 
@@ -183,20 +190,43 @@ c_radius = [];
 %         nu_ref = [sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2); 0; eta_dot_ref(3)];
 %         nu_ref = vessel.eta_dot_ref;
         
-%         eta_ref = [reference_trajectory_los(1:2,k+1); atan2(eta_dot_ref(2),eta_dot_ref(1))]; 
-        eta_ref = [reference_trajectory_los(1:2,k+1); wrapTo2Pi(atan2(eta_dot_ref(2),eta_dot_ref(1)))];
+        eta_ref = [reference_trajectory_los(1:2,k+1); atan2(eta_dot_ref(2),eta_dot_ref(1))]; 
+%         eta_ref = [reference_trajectory_los(1:2,k+1); wrapTo2Pi(atan2(eta_dot_ref(2),eta_dot_ref(1)))];
+
+        % We want the reference to start close to initial position.
+        if k == 0
+            unwrap_diff = abs(eta_ref(3) - initial_pos(3));
+            wrap_diff = abs(wrapTo2Pi(eta_ref(3)) - initial_pos(3));
+
+            if unwrap_diff > wrap_diff % check if distance between ref and init_pos is greater when unwrapped
+                eta_ref(3) = wrapTo2Pi(eta_ref(3));
+            end
+            previous_eta_ref = eta_ref;
+        end
+
         
         %% Test greier
         if k > 0
-            if wrapTo2Pi(previous_eta_ref(3)) > 21*pi/12 && wrapTo2Pi(eta_ref(3)) < 3*pi/12 
-                pimultiplier = pimultiplier + 2*pi;
-            end
-            if wrapTo2Pi(previous_eta_ref(3)) < 3*pi/12 && wrapTo2Pi(eta_ref(3)) > 21*pi/12
-                pimultiplier = pimultiplier - 2*pi;
-            end
-        end
-        eta_ref(3) = eta_ref(3) + pimultiplier;
-        previous_eta_ref = eta_ref;
+            eta_ref(3) = previous_eta_ref(3) + ssa(eta_ref(3) - previous_eta_ref(3));
+            previous_eta_ref = eta_ref; 
+%             unwrap_diff = abs(eta_ref(3) - previous_eta_ref(3));
+%             wrap_diff = abs(wrapTo2Pi(eta_ref(3)) - previous_eta_ref(3));
+% 
+%             if unwrap_diff > wrap_diff % check if distance between ref and init_pos is greater when unwrapped
+%                 eta_ref(3) = wrapTo2Pi(eta_ref(3));
+%             end
+%             previous_eta_ref = eta_ref;
+        end            
+%         if k > 0
+%             if wrapTo2Pi(previous_eta_ref(3)) > 21*pi/12 && wrapTo2Pi(eta_ref(3)) < 3*pi/12 % Positive wrap
+%                 pimultiplier = pimultiplier + 2*pi;
+%             end
+%             if wrapTo2Pi(previous_eta_ref(3)) < 3*pi/12 && wrapTo2Pi(eta_ref(3)) > 21*pi/12 % Negative wrap
+%                 pimultiplier = pimultiplier - 2*pi;
+%             end
+%         end
+%         eta_ref(3) = eta_ref(3) + pimultiplier;
+%         previous_eta_ref = eta_ref;
         %%
 %         eta_ref = [reference_trajectory_los(1:2,k+1); 0];
         
@@ -361,8 +391,8 @@ c_radius = [];
 %     options.ipopt.hessian_approximation = 'limited-memory';
 
     if(firsttime)
-        options.ipopt.max_iter = 1000;
-        options.ipopt.print_level = 5;
+        options.ipopt.max_iter = 200;
+        options.ipopt.print_level = 4;
         firsttime = 0;
     end
     solver = nlpsol('solver', 'ipopt', prob, options);
@@ -397,6 +427,7 @@ c_radius = [];
                 'lbg', lbg, 'ubg', ubg);
     Solvertime = toc(clock); %Check here to see how long it took to calculate w_opt. if Solvertime exceeds for example 6 seconds we know something might have went wrong.
     w_opt = full(sol.x);
+%     w_opt(3:9:end) = wrapTo2Pi(w_opt(3:9:end));
     
     previous_w_opt = w_opt;
     previous_w_opt_F = w_opt;
