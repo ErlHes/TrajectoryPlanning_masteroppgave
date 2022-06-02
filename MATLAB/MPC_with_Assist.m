@@ -132,13 +132,13 @@ import casadi.*
     %% NLP initialization.
     % Start with empty NLP.
     w={};
-    w0 = zeros(1,9*N+6); % Initial guess.
-    lbw = zeros(1,9*N+6);
-    ubw = zeros(1,9*N+6);
+    w0 = zeros(9*N+6,1); % Initial guess.
+    lbw = zeros(9*N+6,1);
+    ubw = zeros(9*N+6,1);
     J = 0;
     g={};
-    lbg = zeros(1,9*N+6);
-    ubg = zeros(1,9*N+6);
+    lbg = zeros(50*N+6,1);
+    ubg = zeros(50*N+6,1);
     
     % "lift" initial conditions.
     Xk = MX.sym('X0',6);
