@@ -5,3 +5,6 @@ settings.time_steps = settings.t_sim/settings.dt;
 settings.axis = [0,100,0,100];
 
 settings.block = 1;
+
+settings.legend_position = [75,7]';
+settings.legend_size = [170,80]';

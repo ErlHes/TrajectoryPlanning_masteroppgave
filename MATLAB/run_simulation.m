@@ -79,12 +79,12 @@ while time < settings.t_sim
         if(vizualization_counter==0 && visualization)
             figure(1)
             hold on;
-            text_handle = text(20,20,strcat('t=', num2str(time)), 'fontsize',20);
+            text_handle = text(20,20,strcat('t =  ', num2str(time),'s'), 'fontsize',22);
             graph_handles = [graph_handles;text_handle];
             hold off;
             figure(999)
             hold on;
-            text_handle = text(20,20,strcat('t=', num2str(time)), 'fontsize',20);
+            text_handle = text(20,20,strcat('t =  ', num2str(time),'s'), 'fontsize',22);
             graph_handles = [graph_handles;text_handle];
             hold off;
 
@@ -166,7 +166,7 @@ if(parameters.system.make_video)
 %     % close the writer object
 %     close(writerObj);
     
-    writerObj2 = VideoWriter( strcat(video_filepos, fig_filename,'_simple0_fig1.avi'));
+    writerObj2 = VideoWriter( strcat(video_filepos, fig_filename,'_simple1_fig1.avi'));
     writerObj2.FrameRate = 20;
     
     open(writerObj2);
@@ -176,7 +176,7 @@ if(parameters.system.make_video)
     end
     close(writerObj2);
     
-        writerObj3 = VideoWriter( strcat(video_filepos, fig_filename,'_simple0_fig999.avi'));
+        writerObj3 = VideoWriter( strcat(video_filepos, fig_filename,'_simple1_fig999.avi'));
     writerObj3.FrameRate = 20;
     
     open(writerObj3);

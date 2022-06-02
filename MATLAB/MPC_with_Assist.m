@@ -35,7 +35,7 @@ import casadi.*
     end
 
     %% Settings
-    simple = 0; % Enable to discard all traffic pattern assistance.
+    simple = 1; % Enable to discard all traffic pattern assistance.
     chaos = 0; % Do not use
     pimultiplier = 0;
     %%
