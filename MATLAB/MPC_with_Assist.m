@@ -142,7 +142,7 @@ import casadi.*
     
     % "lift" initial conditions.
     Xk = MX.sym('X0',6);
-    w = [w(:)', {Xk}];
+    w = [w {Xk}];
     lbw(1:6) = [-inf; -inf; -inf; -2.5; -2.5; -pi/4]';
     ubw(1:6) = [ inf;  inf;  inf;  2.5;  2.5;  pi/4]';
     w0(1:6) = [initial_pos(1); initial_pos(2); initial_pos(3); initial_vel(1); initial_vel(2); initial_vel(3)]';
@@ -176,7 +176,7 @@ g_counter = 7;
         % New NLP variable for control.
         
         Tauk = MX.sym(['Tau_' num2str(k)], 3);
-        w = [w(:)', {Tauk}];
+        w = [w {Tauk}];
         lbw(7+k*9:9+k*9)= [-800;  -800;   -800];
         ubw(7+k*9:9+k*9) = [800;   800;    800];
         w0(7+k*9:9+k*9) = [0; 0; 0];
@@ -239,7 +239,7 @@ g_counter = 7;
         
         % New NLP variable for state at the end of interval.
         Xk = MX.sym(['X_' num2str(k+1)], 6);
-        w = [w(:)', {Xk}];
+        w = [w {Xk}];
         lbw(10+k*9:15+k*9) = [-inf; -inf; -inf; -2.3; -2.3; -pi/4];
         ubw(10+k*9:15+k*9) = [inf; inf; inf; 2.3; 2.3; pi/4];
         w0(10+k*9:15+k*9) = [xref_i(1); xref_i(2); xref_i(3); xref_i(4); xref_i(5); xref_i(6)];
@@ -251,7 +251,7 @@ g_counter = 7;
 %         w0 = [w0; 0; 0; 0];
         
         % Add constraints.
-        g = [g(:)', {Xk_end - Xk}];
+        g = [g {Xk_end - Xk}];
         lbg(g_counter:g_counter+5) = [0; 0; 0; 0; 0; 0];
         ubg(g_counter:g_counter+5)= [0; 0; 0; 0; 0; 0];
         g_counter = g_counter + 6;
@@ -267,7 +267,7 @@ g_counter = 7;
                     %Constraint 1:
                     c_orig = place_dyn_constraint(dynamic_obs, k, i, pi/2, 13);
                     c_rad = 22;
-                    g = [g(:)', {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                    g = [g {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                     lbg(g_counter) = c_rad^2;
                     ubg(g_counter) = inf;
                     g_counter = g_counter + 1;
@@ -277,7 +277,7 @@ g_counter = 7;
                     %Constraint 2:
                     c_orig = place_dyn_constraint(dynamic_obs, k, i, pi/2, 38);
                     c_rad = 5;
-                    g = [g(:)', {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                    g = [g {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                     lbg(g_counter) = c_rad^2;
                     ubg(g_counter) = inf;
                     g_counter = g_counter + 1;
@@ -292,7 +292,7 @@ g_counter = 7;
                     %                           offset, distance offset)
                     c_orig = place_dyn_constraint(dynamic_obs, k, i, pi/8, 10);
                     c_rad = 18;
-                    g = [g(:)', {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                    g = [g {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                     lbg(g_counter) = c_rad^2;
                     ubg(g_counter) = inf;
                     g_counter = g_counter + 1;
@@ -302,7 +302,7 @@ g_counter = 7;
                     %Constraint 2:
                     c_orig = place_dyn_constraint(dynamic_obs, k, i, pi/12, 33);
                     c_rad = 10;
-                    g = [g(:)', {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                    g = [g {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                     lbg(g_counter) = c_rad^2;
                     ubg(g_counter) = inf;
                     g_counter = g_counter + 1;
@@ -314,7 +314,7 @@ g_counter = 7;
                     %% Contraint rundt TS som sikkerhetsmargin
                     c_orig = place_dyn_constraint(dynamic_obs, k, i, pi, 0); 
                     c_rad = 7;
-                    g = [g(:)', {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                    g = [g {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                     lbg(g_counter) = c_rad^2;
                     ubg(g_counter) = inf;
                     g_counter = g_counter + 1;
@@ -326,7 +326,7 @@ g_counter = 7;
                     %% Constraint rundt TS som sikkerhetsmargin
                     c_orig = place_dyn_constraint(dynamic_obs, k, i, 0, 0);
                     c_rad = 10;
-                    g = [g(:)', {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                    g = [g {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                     lbg(g_counter) = c_rad^2;
                     ubg(g_counter) = inf;
                     g_counter = g_counter + 1;
@@ -338,7 +338,7 @@ g_counter = 7;
                     if (k > (floor(dynamic_obs(i).tcpa/h) - floor(20/h))) && (k < (floor(dynamic_obs(i).tcpa/h) + floor(20/h)))
                         c_orig = place_dyn_constraint(dynamic_obs, k, i, 0, 0);
                         c_rad = 8;
-                        g = [g(:)', {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
+                        g = [g {(Xk(1:2) - c_orig)'*(Xk(1:2) - c_orig)}];
                         lbg(g_counter) = c_rad^2;
                         ubg(g_counter) = inf;
                         g_counter = g_counter + 1;
@@ -364,7 +364,7 @@ g_counter = 7;
                 pi_p = static_obs_constraints(3,i);
                 
                 Static_obs_crosstrack_distance = abs(-(Xk(2)-static_obs_x1) * cos(pi_p) + (Xk(1) - static_obs_y1) * sin(pi_p));
-                g = [g(:)', {Static_obs_crosstrack_distance}];
+                g = [g {Static_obs_crosstrack_distance}];
                     lbg(g_counter) = 5;
                     ubg(g_counter) = inf;
                     g_counter = g_counter + 1;
