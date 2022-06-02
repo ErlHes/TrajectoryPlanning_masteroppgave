@@ -31,28 +31,27 @@ if(visualization)
     draw_custom_legend(settings, agents(1,1));
     
     graph_handles = [];
-
     
 end
 
-if(~exist('extrablock','var'))
-    extrablock = 0;
-end
+% if(~exist('extrablock','var'))
+%     extrablock = 0;
+% end
 
 
 
 while time < settings.t_sim
     
-    if time > 10 && (extrablock == 1)
-        run(strcat(home_dir,'simulations/','Blocked_path','/env2.m'));
-        set_global_map_data(static_obs);
-        plot_static_obs(static_obs,600);
-    end
-    if time > 25 && (extrablock == 1)
-        run(strcat(home_dir,'simulations/','Blocked_path','/env.m'));
-        set_global_map_data(static_obs);
-        plot_static_obs(static_obs,600);
-    end
+%     if time > 10 && (extrablock == 1)
+%         run(strcat(home_dir,'simulations/','Blocked_path','/env2.m'));
+%         set_global_map_data(static_obs);
+%         plot_static_obs(static_obs,600);
+%     end
+%     if time > 25 && (extrablock == 1)
+%         run(strcat(home_dir,'simulations/','Blocked_path','/env.m'));
+%         set_global_map_data(static_obs);
+%         plot_static_obs(static_obs,600);
+%     end
     
     if(visualization) && (vizualization_counter > visualization_interval)
            figure(600)
@@ -78,6 +77,21 @@ while time < settings.t_sim
         
        
         if(vizualization_counter==0 && visualization)
+            figure(1)
+            hold on;
+            text_handle = text(20,20,strcat('t =  ', num2str(time),'s'), 'fontsize',22);
+            graph_handles = [graph_handles;text_handle];
+            hold off;
+            figure(999)
+            hold on;
+            text_handle = text(20,20,strcat('t =  ', num2str(time),'s'), 'fontsize',22);
+            graph_handles = [graph_handles;text_handle];
+            hold off;
+
+            if time > 20 && time < 22
+                dummy = 'thick';
+            end
+
             if(j==size(agents,2))
                 figure(600);
                 hold on;
@@ -87,7 +101,11 @@ while time < settings.t_sim
                 graph_handles = [graph_handles;handle_];
                 handle_ = quiver(agent_eta(2), agent_eta(1), agent_eta_dot(2),agent_eta_dot(1),10,'b','filled');
                 graph_handles = [graph_handles;handle_];
-                plot(agents(size(agents,2)).eta(2,1),agents(size(agents,2)).eta(1,1),'*b');
+%                 plot(agents(size(agents,2)).eta(2,1),agents(size(agents,2)).eta(1,1),'b');
+%                 plot_trajectory(agents(j),'blue');  
+                % Test
+%                 figure(1)
+%                 plot_trajectory(agents(j),'blue'); % persistent_OS_traj
 
             else
                 figure(600);
@@ -96,6 +114,7 @@ while time < settings.t_sim
                 graph_handles = [graph_handles;handle_];
                 handle_= quiver(agents(j).eta(2), agents(j).eta(1), agents(j).eta_dot(2),agents(j).eta_dot(1),10,'r','filled');
                 graph_handles = [graph_handles;handle_];
+%                 plot_trajectory(agents(j),'red');
             end
         end
    end
@@ -108,7 +127,7 @@ while time < settings.t_sim
     
     if(parameters.system.make_video) && (vizualization_counter==0 && visualization)
         frame_number = frame_number +1;
-        F(frame_number ) = getframe(600);
+%         F(frame_number ) = getframe(600);
         F2(frame_number ) = getframe(1);
         F3(frame_number) = getframe(999);
         drawnow
@@ -129,25 +148,25 @@ disp(strcat("Elapsed time is ",num2str(t)));
 if(parameters.system.make_video)
     disp('Saving video...')       
     
-    fig_filename = strcat('video_', simulation);
-    video_filepos = strcat('C:\Users\erlen\Documents\GitHub\TrajectoryPlanning_masteroppgave\MATLAB\videoresults\ACTUALRESULTS\WrongTurngreier/');
+    fig_filename = simulation;
+    video_filepos = strcat('C:\Users\erlen\Documents\GitHub\TrajectoryPlanning_masteroppgave\MATLAB\videoresults\Newfigs/');
 
-    % create the video writer with 1 fps
-    writerObj = VideoWriter( strcat(video_filepos, fig_filename,'_Combo_fig600.avi'));
-    writerObj.FrameRate = 20;
-    % set the seconds per image
-    % open the video writer
-    open(writerObj);
-    % write the frames to the video
-    for i=1:length(F)
-        % convert the image to a frame
-        frame = F(i) ;    
-        writeVideo(writerObj, frame);
-    end
-    % close the writer object
-    close(writerObj);
+%     % create the video writer with 1 fps
+%     writerObj = VideoWriter( strcat(video_filepos, fig_filename,'_newest_fig600.avi'));
+%     writerObj.FrameRate = 20;
+%     % set the seconds per image
+%     % open the video writer
+%     open(writerObj);
+%     % write the frames to the video
+%     for i=1:length(F)
+%         % convert the image to a frame
+%         frame = F(i) ;    
+%         writeVideo(writerObj, frame);
+%     end
+%     % close the writer object
+%     close(writerObj);
     
-    writerObj2 = VideoWriter( strcat(video_filepos, fig_filename,'_Combo_fig1.avi'));
+    writerObj2 = VideoWriter( strcat(video_filepos, fig_filename,'_simple1_fig1.avi'));
     writerObj2.FrameRate = 20;
     
     open(writerObj2);
@@ -157,7 +176,7 @@ if(parameters.system.make_video)
     end
     close(writerObj2);
     
-        writerObj3 = VideoWriter( strcat(video_filepos, fig_filename,'_Combo_fig999.avi'));
+        writerObj3 = VideoWriter( strcat(video_filepos, fig_filename,'_simple1_fig999.avi'));
     writerObj3.FrameRate = 20;
     
     open(writerObj3);

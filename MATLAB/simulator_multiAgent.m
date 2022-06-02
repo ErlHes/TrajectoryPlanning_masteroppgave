@@ -2,6 +2,13 @@
 clear;
 clear MPC_with_Assist.m;    % Need to clear some persistent variables.
 clc;
+figure(1)
+clf;
+grid on;
+figure(999)
+clf;
+grid on;
+clear ploteverything.m;
 %% OLD SIMULATIONS
 for d = 1
 % simulation = 'pid_controller_tesiting';
@@ -91,7 +98,7 @@ end
 % simulation = 'Ferjekryss';
 
 %% The scenario list!!
-% simulation = 'Havn1';
+simulation = 'Havn1';
 % simulation = 'enkel_HO';
 % simulation = 'enkel_GW';
 % simulation = 'enkel_SO';
@@ -102,6 +109,7 @@ end
 % Tweak theese
 % simulation = 'Trheimfjord';
 % simulation = 'skjergard_m_trafikk';
+% simulation = 'skjergard_u_trafikk';
 % simulation = 'Helloya';
 % simulation = 'Helloya_Rev';
 
@@ -109,7 +117,7 @@ end
 % simulation = 'Race';
 
 %% Other debugging
-simulation = 'WrongTurn';
+% simulation = 'WrongTurn';
 
 %% Gather simulation parameters
 

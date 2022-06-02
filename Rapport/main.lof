@@ -15,47 +15,47 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {7}{\ignorespaces TODO: SKRIV OG REFERER. Naiv approach 1\relax }}{16}{figure.caption.12}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {8}{\ignorespaces TODO: SKRIV OG REFERER. Naiv approach 2\relax }}{16}{figure.caption.13}%
+\contentsline {figure}{\numberline {8}{\ignorespaces TODO: SKRIV OG REFERER. Naiv approach 2\relax }}{17}{figure.caption.13}%
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {9}{\ignorespaces TODO: SKRIV OG REFERER. Convex free set\relax }}{17}{figure.caption.14}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {10}{\ignorespaces TODO: Skriv om bad prediction\relax }}{19}{figure.caption.15}%
+\contentsline {figure}{\numberline {10}{\ignorespaces TODO: Skriv. Enkel HO sim med og uten constraints\relax }}{22}{figure.caption.22}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {11}{\ignorespaces TODO: A blocked path event, and how the solution develops\relax }}{20}{figure.caption.16}%
+\contentsline {figure}{\numberline {11}{\ignorespaces TODO: Enkel HO w\_opt\relax }}{23}{figure.caption.23}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {12}{\ignorespaces Canals simulation, shown with and without constraints\relax }}{22}{figure.caption.18}%
+\contentsline {figure}{\numberline {12}{\ignorespaces TODO: Skriv. Enkel GW sim med og uten constraints\relax }}{26}{figure.caption.25}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {13}{\ignorespaces Predicted path over the course of the Canals simulation\relax }}{23}{figure.caption.19}%
+\contentsline {figure}{\numberline {13}{\ignorespaces w\_opt for Enkel GW\relax }}{27}{figure.caption.26}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {14}{\ignorespaces Enkel SO\relax }}{28}{figure.caption.27}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {15}{\ignorespaces w\_opt for Enkel SO\relax }}{29}{figure.caption.28}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {16}{\ignorespaces TODO: Skriv. Sving HO sim med og uten constraints\relax }}{31}{figure.caption.30}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {17}{\ignorespaces w\_opt for Sving HO\relax }}{32}{figure.caption.31}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {18}{\ignorespaces TODO: Skriv. Sving GW sim med og uten constraints AND WITH PREDICTION\relax }}{34}{figure.caption.33}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {19}{\ignorespaces w\_opt for Sving GW WITH PREDICTION\relax }}{35}{figure.caption.34}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {20}{\ignorespaces TODO: Skriv. Sving GW sim med og uten constraints AND WITHOUT PREDICTION\relax }}{37}{figure.caption.36}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {21}{\ignorespaces w\_opt for Sving GW WITHOUT PREDICTION\relax }}{38}{figure.caption.37}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {22}{\ignorespaces TODO: Sving SO med og uten constraints\relax }}{40}{figure.caption.39}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {23}{\ignorespaces w\_opt for Sving SO with prediction\relax }}{41}{figure.caption.40}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {24}{\ignorespaces Canals simulation, shown with and without constraints\relax }}{43}{figure.caption.42}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {25}{\ignorespaces Predicted path over the course of the Canals simulation\relax }}{44}{figure.caption.43}%
 \contentsfinish 
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {14}{\ignorespaces Canals simulation without prediction, shown with and without constraints\relax }}{27}{figure.caption.21}%
+\contentsline {figure}{\numberline {26}{\ignorespaces Canals simulation without prediction, shown with and without constraints\relax }}{50}{figure.caption.45}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {15}{\ignorespaces TODO: skriv. Havn1 w\_opt without prediction\relax }}{28}{figure.caption.22}%
+\contentsline {figure}{\numberline {27}{\ignorespaces TODO: skriv. Havn1 w\_opt without prediction\relax }}{51}{figure.caption.46}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {16}{\ignorespaces TODO: Skriv. Enkel HO sim med og uten constraints\relax }}{29}{figure.caption.23}%
+\contentsline {figure}{\numberline {28}{\ignorespaces TODO: Skriv om bad prediction\relax }}{52}{figure.caption.47}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {17}{\ignorespaces TODO: Enkel HO w\_opt\relax }}{30}{figure.caption.24}%
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {18}{\ignorespaces TODO: Skriv. Enkel GW sim med og uten constraints\relax }}{32}{figure.caption.26}%
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {19}{\ignorespaces w\_opt for Enkel GW\relax }}{33}{figure.caption.27}%
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {20}{\ignorespaces Enkel SO\relax }}{34}{figure.caption.28}%
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {21}{\ignorespaces w\_opt for Enkel SO\relax }}{35}{figure.caption.29}%
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {22}{\ignorespaces TODO: Skriv. Sving HO sim med og uten constraints\relax }}{37}{figure.caption.31}%
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {23}{\ignorespaces w\_opt for Sving HO\relax }}{38}{figure.caption.32}%
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {24}{\ignorespaces TODO: Skriv. Sving GW sim med og uten constraints AND WITH PREDICTION\relax }}{40}{figure.caption.34}%
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {25}{\ignorespaces w\_opt for Sving GW WITH PREDICTION\relax }}{41}{figure.caption.35}%
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {26}{\ignorespaces TODO: Skriv. Sving GW sim med og uten constraints AND WITHOUT PREDICTION\relax }}{43}{figure.caption.37}%
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {27}{\ignorespaces w\_opt for Sving GW WITHOUT PREDICTION\relax }}{44}{figure.caption.38}%
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {28}{\ignorespaces TODO: Sving SO med og uten constraints\relax }}{46}{figure.caption.40}%
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {29}{\ignorespaces w\_opt for Sving SO with prediction\relax }}{46}{figure.caption.41}%
+\contentsline {figure}{\numberline {29}{\ignorespaces TODO: A blocked path event, and how the solution develops\relax }}{53}{figure.caption.48}%
