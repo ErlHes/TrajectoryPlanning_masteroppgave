@@ -19,6 +19,62 @@
 
 \refsection{0}
   \datalist[entry]{nyt/global//global/global}
+    \entry{andersson2019casadi}{article}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=09710eddb25e528b0d0bae5a6fd11eb9}{%
+           family={Andersson},
+           familyi={A\bibinitperiod},
+           given={Joel\bibnamedelima AE},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2ffda07362b7874e2f74f66dc2a225ac}{%
+           family={Gillis},
+           familyi={G\bibinitperiod},
+           given={Joris},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0fa126623a6142cf731907bb8a8df131}{%
+           family={Horn},
+           familyi={H\bibinitperiod},
+           given={Greg},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a28ab6b1da316879310a82410e4e8dc4}{%
+           family={Rawlings},
+           familyi={R\bibinitperiod},
+           given={James\bibnamedelima B},
+           giveni={J\bibinitperiod\bibinitdelim B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ec732fd9120f390fd38c8132a3079900}{%
+           family={Diehl},
+           familyi={D\bibinitperiod},
+           given={Moritz},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{b04d0d55940f67bd98ae0c9236807a4e}
+      \strng{fullhash}{d4ec04d8cc225f8dfb9d40f7c454951a}
+      \strng{bibnamehash}{d4ec04d8cc225f8dfb9d40f7c454951a}
+      \strng{authorbibnamehash}{d4ec04d8cc225f8dfb9d40f7c454951a}
+      \strng{authornamehash}{b04d0d55940f67bd98ae0c9236807a4e}
+      \strng{authorfullhash}{d4ec04d8cc225f8dfb9d40f7c454951a}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Mathematical Programming Computation}
+      \field{number}{1}
+      \field{title}{CasADi: a software framework for nonlinear optimization and optimal control}
+      \field{volume}{11}
+      \field{year}{2019}
+      \field{pages}{1\bibrangedash 36}
+      \range{pages}{36}
+    \endentry
     \entry{breivik2017mpc}{inproceedings}{}
       \name{author}{2}{}{%
         {{un=0,uniquepart=base,hash=9082f79d525fdd15f862e1ca55b27ffa}{%

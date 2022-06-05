@@ -8,8 +8,8 @@ persistent OS_traj_handle
 
 
     if isempty(graph_handles)
-        graph_handles = gobjects(50,1);
-        graph_handles2 = gobjects(50,1);
+        graph_handles = gobjects(200,1);
+        graph_handles2 = gobjects(200,1);
         counter = 0;
         dontprintagain = 0;
         TS_traj_handle = [];
@@ -30,31 +30,32 @@ persistent OS_traj_handle
     static_obs_color = [255, 22, 93]./256;
     %%
     
-    OS_Scale = 1;
+    OS_Scale = settings.scale;
     legend_size_H = 0;
     HC1 = 1; 
     HC2 = 1;
+    bigsim = settings.big;
     
-    t = loopdata(:,1);
-    xref_N = loopdata(:,2);
-    xref_E = loopdata(:,3);
-    psi_ref = loopdata(:,4);
-    surge_ref = loopdata(:,5);
-    sway_ref = loopdata(:,6);
-    r_ref = loopdata(:,7);
+%     t = loopdata(:,1);
+%     xref_N = loopdata(:,2);
+%     xref_E = loopdata(:,3);
+%     psi_ref = loopdata(:,4);
+%     surge_ref = loopdata(:,5);
+%     sway_ref = loopdata(:,6);
+%     r_ref = loopdata(:,7);
     
     north_opt = w_opt(1:9:end);
     east_opt = w_opt(2:9:end);
-    psi_opt = w_opt(3:9:end);
-    surge_opt = w_opt(4:9:end);
-    sway_opt = w_opt(5:9:end);
-    r_opt = w_opt(6:9:end);
-    Fx_opt = w_opt(7:9:end);
-    Fy_opt = w_opt(8:9:end);
-    Fn_opt = w_opt(9:9:end);
+%     psi_opt = w_opt(3:9:end);
+%     surge_opt = w_opt(4:9:end);
+%     sway_opt = w_opt(5:9:end);
+%     r_opt = w_opt(6:9:end);
+%     Fx_opt = w_opt(7:9:end);
+%     Fy_opt = w_opt(8:9:end);
+%     Fn_opt = w_opt(9:9:end);
     
-    N_error = north_opt - xref_N;
-    E_error = east_opt - xref_E;
+%     N_error = north_opt - xref_N;
+%     E_error = east_opt - xref_E;
     
     if~isempty(static_obs_collection)
         [~,c] = find(isnan(static_obs_collection(1,:)));
@@ -89,143 +90,151 @@ persistent OS_traj_handle
     
      
     
-    figure(10);
-    clf;
-    subplot(3,1,1);
-    hold on;
-    plot(t,xref_N);
-    plot(t,north_opt,'*');
-    hold off;
-    grid;
-    title('North ref and North Opt');
-    xlabel('Discretized time [k]');
-    ylabel('North [m]');
-    legend('North ref','North Opt');
-    
-    subplot(3,1,2);
-    hold on;
-    plot(t,xref_E);
-    plot(t,east_opt,'*');
-    hold off;
-    grid;
-    title('East ref and East opt');
-    xlabel('Discretized Time [k]');
-    ylabel('East [m]');
-    legend('East ref','East opt');
-    
-    subplot(3,1,3);
-    hold on;
-    plot(t,psi_ref);
-    plot(t,psi_opt,'*');
-    hold off;
-    grid;
-    title('psi ref and psi opt');
-    xlabel('Discretized time [k]');
-    ylabel('Psi (rad)');
-    legend('Psi ref','Psi opt');
-    
-    
-    figure(11);
-    clf;
-    subplot(3,1,1);
-    hold on;
-    plot(t,surge_ref);
-    plot(t,surge_opt,'*');
-    hold off;     
-    grid;
-    title('surge ref and surge Opt');
-    xlabel('Discretized time [k]');
-    ylabel('Surge [m/s]');
-    legend('Surge ref','Surge Opt');
-
-    subplot(3,1,2);
-    hold on;
-    plot(t,sway_ref);     
-    plot(t,sway_opt,'*');
-    hold off;     
-    grid;
-    title('sway ref and sway Opt');
-    xlabel('Discretized time [k]');
-    ylabel('sway [m/s]');
-    legend('sway ref','sway Opt');
-
-    subplot(3,1,3);
-    hold on;
-    plot(t,r_ref);     
-    plot(t,r_opt,'*');
-    hold off;
-    grid;
-    title('yaw rate ref and yaw rate Opt');
-    xlabel('Discretized time [k]');
-    ylabel('yaw rate [rad/s]');
-    legend('Yaw rate ref','Yaw Rate Opt');
-    
-    
-    figure(12);
-    clf;
-    subplot(311)
-    plot(t(1:end-1),Fx_opt,'*');
-    grid;
-    title('Optimal Force Fx');
-    xlabel('Disctretised time [k]');
-    ylabel('Force [N]');
-    legend('Fx');
-    subplot(312)
-    plot(t(1:end-1),Fy_opt,'*');
-    grid;
-    title('Optimal Force Fy');
-    xlabel('Disctretised time [k]');
-    ylabel('Force [N]');
-    legend('Fy');
-    subplot(313)
-    plot(t(1:end-1),Fn_opt,'*');
-    grid;
-    title('Optimal Force Fn');
-    xlabel('Disctretised time [k]');
-    ylabel('Force [N]');
-    legend('Fn');
-     
-    figure(13);
-    clf;
-    subplot(211)
-    plot(t,N_error);
-    grid;
-    title('Positional error in North');
-    xlabel('Discretized time step [k]');
-    ylabel('error in meters [m]');
-    subplot(212);
-    plot(t,E_error);
-    grid;
-    title('Positional error in East');
-    xlabel('Discretized time step [k]');
-    ylabel('error in meters [m]');
+%     figure(10);
+%     clf;
+%     subplot(3,1,1);
+%     hold on;
+%     plot(t,xref_N);
+%     plot(t,north_opt,'*');
+%     hold off;
+%     grid;
+%     title('North ref and North Opt');
+%     xlabel('Discretized time [k]');
+%     ylabel('North [m]');
+%     legend('North ref','North Opt');
+%     
+%     subplot(3,1,2);
+%     hold on;
+%     plot(t,xref_E);
+%     plot(t,east_opt,'*');
+%     hold off;
+%     grid;
+%     title('East ref and East opt');
+%     xlabel('Discretized Time [k]');
+%     ylabel('East [m]');
+%     legend('East ref','East opt');
+%     
+%     subplot(3,1,3);
+%     hold on;
+%     plot(t,psi_ref);
+%     plot(t,psi_opt,'*');
+%     hold off;
+%     grid;
+%     title('psi ref and psi opt');
+%     xlabel('Discretized time [k]');
+%     ylabel('Psi (rad)');
+%     legend('Psi ref','Psi opt');
+%     
+%     
+%     figure(11);
+%     clf;
+%     subplot(3,1,1);
+%     hold on;
+%     plot(t,surge_ref);
+%     plot(t,surge_opt,'*');
+%     hold off;     
+%     grid;
+%     title('surge ref and surge Opt');
+%     xlabel('Discretized time [k]');
+%     ylabel('Surge [m/s]');
+%     legend('Surge ref','Surge Opt');
+% 
+%     subplot(3,1,2);
+%     hold on;
+%     plot(t,sway_ref);     
+%     plot(t,sway_opt,'*');
+%     hold off;     
+%     grid;
+%     title('sway ref and sway Opt');
+%     xlabel('Discretized time [k]');
+%     ylabel('sway [m/s]');
+%     legend('sway ref','sway Opt');
+% 
+%     subplot(3,1,3);
+%     hold on;
+%     plot(t,r_ref);     
+%     plot(t,r_opt,'*');
+%     hold off;
+%     grid;
+%     title('yaw rate ref and yaw rate Opt');
+%     xlabel('Discretized time [k]');
+%     ylabel('yaw rate [rad/s]');
+%     legend('Yaw rate ref','Yaw Rate Opt');
+%     
+%     
+%     figure(12);
+%     clf;
+%     subplot(311)
+%     plot(t(1:end-1),Fx_opt,'*');
+%     grid;
+%     title('Optimal Force Fx');
+%     xlabel('Disctretised time [k]');
+%     ylabel('Force [N]');
+%     legend('Fx');
+%     subplot(312)
+%     plot(t(1:end-1),Fy_opt,'*');
+%     grid;
+%     title('Optimal Force Fy');
+%     xlabel('Disctretised time [k]');
+%     ylabel('Force [N]');
+%     legend('Fy');
+%     subplot(313)
+%     plot(t(1:end-1),Fn_opt,'*');
+%     grid;
+%     title('Optimal Force Fn');
+%     xlabel('Disctretised time [k]');
+%     ylabel('Force [N]');
+%     legend('Fn');
+%      
+%     figure(13);
+%     clf;
+%     subplot(211)
+%     plot(t,N_error);
+%     grid;
+%     title('Positional error in North');
+%     xlabel('Discretized time step [k]');
+%     ylabel('error in meters [m]');
+%     subplot(212);
+%     plot(t,E_error);
+%     grid;
+%     title('Positional error in East');
+%     xlabel('Discretized time step [k]');
+%     ylabel('error in meters [m]');
        
+    %% OVERVIEW PLOT
     figure(1);
     delete(graph_handles)
+    graph_handles = gobjects(200,1);
 %     clf;
-%     xaxis = [vessel.eta(2) - 200, vessel.eta(2) + 200];
-%     yaxis = [vessel.eta(1) - 200, vessel.eta(1) + 200];
-%     axis([xaxis, yaxis]); % FOR BIG SIMS
-%     graph_index = 1;
+
     axis([settings.axis])
+
+    if bigsim == 1
+        xaxis = [vessel.eta(2) - 200, vessel.eta(2) + 200];
+        yaxis = [vessel.eta(1) - 200, vessel.eta(1) + 200];
+        newaxis = [xaxis, yaxis];
+        axis(newaxis); % FOR BIG SIMS
+    end
+%     graph_index = 1;
+
 %     if isempty(graph_handles)
 %         grid;
 %     end
     hold on
     for j = 1:size(tracks,2)
-    agent_eta = [tracks(j).eta(1:2,1);atan2(tracks(j).eta_dot(2,1), tracks(j).eta_dot(1,1))];
-    handle_TS = plot_ts_from_struct(tracks(j), 'r', OS_Scale); % Eta
-    handle_TS_Quiver = quiver(tracks(j).eta(2), tracks(j).eta(1), tracks(j).eta_dot(2),tracks(j).eta_dot(1),10,'r','filled');
-    graph_handles(HC1) = handle_TS;
-    HC1 = HC1 + 1;
-    graph_handles(HC1) = handle_TS_Quiver;
-    HC1 = HC1 + 1;
-    if counter > 2
-        TS_traj_handle = plot_trajectory(tracks(j),'red'); % persistent_TS_traj
-    end
-    if j == 1
-        legend_size_H = legend_size_H + 60;
-    end
+%         agent_eta = [tracks(j).eta(1:2,1);atan2(tracks(j).eta_dot(2,1), tracks(j).eta_dot(1,1))];
+        handle_TS = plot_ts_from_struct(tracks(j), 'r', OS_Scale); % Eta
+        handle_TS_Quiver = quiver(tracks(j).eta(2), tracks(j).eta(1), tracks(j).eta_dot(2),tracks(j).eta_dot(1),10,'r','filled');
+        graph_handles(HC1) = handle_TS;
+        HC1 = HC1 + 1;
+        graph_handles(HC1) = handle_TS_Quiver;
+        HC1 = HC1 + 1;
+        if counter > settings.scale * 2
+            TS_traj_handle = plot_trajectory(tracks(j),'red', 1); % persistent_TS_traj
+        end
+        if j == 1
+            legend_size_H = legend_size_H + 60;
+        end
 
     end
     agent_eta = [vessel.eta(1:2,1);atan2(vessel.eta_dot(2,1), vessel.eta_dot(1,1))];
@@ -235,8 +244,8 @@ persistent OS_traj_handle
     HC1 = HC1 + 1;
     graph_handles(HC1) = handle_OS_Quiver;
     HC1 = HC1 + 1;
-    if counter > 2
-        OS_traj_handle = plot_trajectory(vessel,'blue'); % persistent_OS_traj  
+    if counter > settings.scale * 2
+        OS_traj_handle = plot_trajectory(vessel,'blue', 1); % persistent_OS_traj  
         counter = 0;
     end
     legend_size_H = legend_size_H + 60;
@@ -275,12 +284,14 @@ persistent OS_traj_handle
 %                     liney = [NaN, NaN, NaN];
 %                 end
 %             end
-            previous_linex = [previous_linex, linex];
-            previous_liney = [previous_liney, liney];
+            previous_linex = [previous_linex, linex]; %#ok<AGROW> 
+            previous_liney = [previous_liney, liney]; %#ok<AGROW> 
         end
         handle_S_constraints = mapshow(previous_linex, previous_liney,'linewidth',1.2,'Color',static_obs_color);
-        graph_handles(HC1) = handle_S_constraints;
-        HC1 = HC1 + 1;
+        if ~isempty(handle_S_constraints)
+            graph_handles(HC1) = handle_S_constraints;
+            HC1 = HC1 + 1;
+        end
         if ~isempty(previous_linex)
             legend_size_H = legend_size_H + 30;
         end
@@ -290,10 +301,17 @@ persistent OS_traj_handle
         legend_size_H = legend_size_H + 30;
     end
 
-    
+    %% CUSTOM LEGEND FOR OVERVIEW PLOT
     scale = (settings.axis(2)-settings.axis(1))/760*0.8;
+    if bigsim == 1
+        scale = (newaxis(2)-newaxis(1))/760*0.8;
+    end
     legend_size = [305,legend_size_H]*scale;
     legend_position = settings.legend_position;
+
+    if bigsim == 1
+        legend_position = [(yaxis(2)-125);(xaxis(2)-350)];  
+    end
 
     legend_item_height_offset = 15;
 
@@ -322,7 +340,7 @@ persistent OS_traj_handle
         legend_item_height_offset = legend_item_height_offset + 30;
     end
 
-    line_delta = [-30*scale;0];
+%     line_delta = [-30*scale;0];
     line_start = legend_position + [legend_size(2)-legend_item_height_offset*scale; scale*10];
     line_mid1 = legend_position + [legend_size(2)-legend_item_height_offset*scale; scale*20];
     line_mid2 = legend_position + [legend_size(2)-legend_item_height_offset*scale; scale*30];
@@ -375,8 +393,8 @@ persistent OS_traj_handle
     if ~isempty(c_radius)
         th = 0:pi/20:2*pi;
         position = legend_position + [legend_size(2)-legend_item_height_offset*scale; scale*25];
-        xunit = 3 * cos(th) + position(2);
-        yunit = 3 * sin(th) + position(1);
+        xunit = 7*scale * cos(th) + position(2);
+        yunit = 7*scale  * sin(th) + position(1);
         handle_ = plot(xunit,yunit,'r');
         thandle = text(position(2)+scale*25, position(1), 'Dynamic obstacles constraint (first 10)', 'fontsize',13);
         graph_handles(HC1) = handle_;
@@ -403,9 +421,16 @@ persistent OS_traj_handle
 %     legend(legend_vector,legend_string)
 %     title('Simulation with constraint circles');
 
+    %% W_OPT PLOT
     figure(999);
     delete(graph_handles2)
+    graph_handles2 = gobjects(200,1);
+
     axis(settings.axis);
+    if bigsim == 1
+        axis(newaxis);
+    end
+
     hold on; 
     %plot trajectories
     handle_path =  plot(vessel.wp(2,:),vessel.wp(1,:),'color',path_color,'LineStyle','-', 'linewidth',2,'Marker','none');
@@ -459,9 +484,14 @@ persistent OS_traj_handle
         legend_size_H = legend_size_H + 30;
     end
 
-    scale = (settings.axis(2)-settings.axis(1))/760*0.8;
+
+    %% CUSTOM LEGEND FOR W_OPT PLOT
     legend_size = [250,legend_size_H]*scale;
     legend_position = settings.legend_position;
+
+    if bigsim == 1
+        legend_position = [(yaxis(2)-125);(xaxis(2)-350)];  
+    end
 
     legend_item_height_offset = 15;
 

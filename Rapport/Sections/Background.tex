@@ -1,4 +1,5 @@
-\section{Background}
+\section{Background Theory}
+\iffalse
 \begin{itemize}
     \item Husk rød tråd.
     \item Vær generisk.
@@ -7,72 +8,68 @@
     \item The goal of this chapter is to explain all the concepts neccessary to understand how the trajeoctyr planning algorithm works.
     Additionally, it should grant an understanding as to why the algorithm ended up the way it is.
 \end{itemize}
-
-\subsection{Target Ship prediction}
---------- Genereal thoughts --------------------------
-\begin{itemize}
-    \item Gjenfortelling fra fordypningsprosjekt, da kalt traffic pattern
-    \item Fant en annen artikkel fra Kina som skrev om nogenlunde det samme, \gls{AIS} data -\> prediksjon
-    \item Skiller seg fra fordypningsprosjekt fordi det er egentlig ikke traffic pattern som er den viktige antagelsen,
-    Det er heller viktig at vi antar det finnes en måte å gjette/vite hvor andre båter vil være fremover i tid.
-    \item Andre metoder for target ship prediction kan være f.eks utvidelse av \gls{AIS} som 
-    inkluderer autonav data for de neste 5 minuttene eller noe lignende.
-\end{itemize}
----------- /General Thoughts--------------------------- 
-\begin{itemize}
-    \item Naval navigation is an 'active' task, always looking out for obstacles and making sure the way forward is clear.
-    \item There are no lanes, instead proper conduct is dictated by \gls{COLREGs}, the rules are laid out so that different situations
-    have different rules
-    \item Knowing which situation you are in is half the battle, therefor the ability to predict and estiamte how encounters will happen
-    is a powerful tool. Human navigators do this by experience.
-    \item Autonomous vessels could also predict by experience, that would be the machine learning approach. \gls{AIS} can already provide training data.
-    \item But it could be easier than that, what if \gls{AIS} data packets were expanded to send out autonav data for where a vessel intends to traverse.
-    The assumption here is that vessels using autonav will correct their course when spotting a conflict. Vessels not using autonav would still be able to observe
-    the indended path of other vessels and adjust their plans 'manually'.
-    \item Relying on fully predicting the transit of a target vessel is fragile, relying on a few known waypoints would be much more robust.
-    \item In the end the best solution would be if all vessels could fully communicate their intended path either peer to peer or through
-    a centralized system. Solving conflicting paths would be done on a higher level than individual vessel.
-\end{itemize}
-
-\begin{figure}
-    \centering
-    \label{FIG: AIS lanes}
-    \includegraphics[width=\textwidth]{Images/AISLanes.jpg}
-    \caption{TODO: Skriv. AIS data can show common transit routes. Image courtesy of Olex AS}
-\end{figure}
-
-
+\fi
+This chapter will introduce the concepts and theory neccessary to understand the design and intent behind the trajectoy planning algorithm, as well as the discussion on it's functionality.
+The goal of the chapter is that the reader will have enough intuition of the applied theory that the proposed arguments and solutions make sense. In addition the chapter is structured
+so that it should be easy to quickly find and read about specifics.
 \subsection{Vessel modelling}
+\iffalse
 --------- Genereal thoughts --------------------------
 
 Jeg tenker det er best å skrive om modellering i sammenheng med hvordan trajectory planning problemet blir satt opp i MATLAB med CasADi.
 \begin{itemize}
-    \item Kinematics \& Kinetics -\> Begge brukes i CasADi setup
+    \item Kinematics \& Kinetics -\> Begge brukes i CasADi setup.
     %\item Munk moment -> Potensielt relevant hvis jeg skriver om modellerings problemer
     \item Her kan det også skrives om de spesifike tallverdiene som blir brukt i Masse, coriolis og dempnings -matrisene.
     de er spesifike til Milliampere, funnet gjennom en rekke forsøk utfort av Anders Pedersen.
 \end{itemize}
 ---------- /General Thoughts--------------------------- 
-
+\fi
 \begin{figure}
     \centering
-    \label{FIG: Ship DOF}
     \includegraphics[height=0.35\textheight]{Images/SHIPDOF_FOSSEN.png}
     \caption{A ships 6 degrees of Freedom, from \cite{fossen2011handbook}}
+    \label{FIG: Ship DOF}
 \end{figure}
-
+\iffalse
 \begin{itemize}
-    \item 3 \gls{DOF} non-linear model with thurster dynamics, very common for designing control systems.
-    \item The numerical values for the model will vary based on ship, and the complexity of the model change based on usage and the degrees of freedom included.
-    \item The model used in this paper is based on Fossen's meneuvering theory with 3 degrees of freedom and no disturbances.
+    \item A model in this context is just a way of describing how physical systems change over time.
+    \item There are many different ways to make models, and different models are suitable for modelling different aspects of the physical world.
+    \item The model described in this chapter, and used for the thesis, is a 3 \gls{DOF} nonlinear model based on the work of \cite{fossen2011handbook}.
+    \item The model can also incorporate wind and current disturbances, but they are omitted from this thesis.
+    \item The parameter values will vary from ship to ship, this thesis will operate with numbers for the NTNU milliampere ferry.
+    the parameters were found through testing by \cite{andersson2019casadi}
+    \item pose is parameterized in the \gls{NED} coordinate frame where the 
 \end{itemize}
+\fi
+% A mathematical model is a tool for describing physical systems and expressing how they change over time, models are not unique and there are many different ways of modelling a physical system, they all have strengths and weaknesses.
+% % The model applied in this thesis is based on the theory and notation by \cite{fossen2011handbook},
 
-\begin{equation}
+A mathematical model is a tool for describing physical systems and expressing how they change over time, respond to external forces, and how stable the system might be. Models are very useful when designing control systems as
+they translate the physical into equations that computers can understand. When making a model it is often useful to seperate the dynamics of the different parts of the 
+system we are interested in, these are the \gls{DOF} the system has, and is often the directions the system can move, though they can also just be
+nondescript generalized coordinates. Deciding what \gls{DOF} to seperate out and model the dynamics of is often what seperates models from each other, it is pointless to model
+an aspect of a system that there is no intent to interact with. For example a ship has six \gls{DOF}, see Figure \ref{FIG: Ship DOF}, for modelling a control system for stationkeeping
+all six are important because stationkeeping involves keeping the whole ship as steady as possible. When modelling for path following on the other hand it is not
+important what the heave, roll, or pitch of our vessel is and so the dynamics of those \gls{DOF} can safely be ignored. 
+The model used to describe our vessel in this thesis is based on the theory and notation by \cite{fossen2011handbook}, and is a 3\gls{DOF} nonlinear mass-damper system with
+thruster dynamics and no external disturbances such as wind or currents. The dynamics of the vessel can be described by the differential equations below:
+
+\begin{equation} \label{EQ: eta_dot}
     \bm{\dot{\eta}} = \textbf{R}(\psi)\bm{\nu}    
 \end{equation}
-\begin{equation}
+\begin{equation} \label{EQ: Vessel Dynamics}
     \textbf{M}\bm{\dot{\nu}} + \textbf{C}(\bm{\nu})\bm{\nu} + \textbf{D}(\bm{\nu})\bm{\nu} = \bm{\tau}
 \end{equation}
+
+Where $\bm{\eta}$ is the pose of the vessel, parameterized in the tangental plane \gls{NED} where the x-axis points towards true north, the y-axis east and the z-axis down towards the center of the planet.
+The vector $\bm{\eta}$ is a column vector with the vessel's North, East and Heading values, which are the three \gls{DOF} of the system. The $\bm{\nu}$ vector is a column vector containing
+the vessel's velocities parameterized in the BODY frame, namely surge, sway, and yaw rate. In the BODY frame there are no fixed rules for where the axis are pointing, but the common convention for modelling
+vehicles is that the x-axis points along the lognitudal axis of the vessel, the y-axis points along the lateral axis and the z-axis points along the vertical axis. This is also seen in Figure \ref{FIG: Ship DOF}.
+The anchor point for the BODY frame is arbitrary but always fixed to and moves with the vessel. \textbf{R} is a rotational matrix about the heading ($\psi$) of the vessel and it transform the BODY velocities into
+NED movement. 
+The Rotation matrix, as well as pose, velocity, and the thruster vector $\bm{\tau}$ are:
+
 \begin{equation}
     \textbf{R}(\psi) = \begin{bmatrix}
                         cos\psi &   -sin\psi & 0\\[-5pt]
@@ -95,7 +92,7 @@ Jeg tenker det er best å skrive om modellering i sammenheng med hvordan traject
                 F_{X}   &   F_{Y}  &   F_{N}
                 \end{bmatrix}^T
 \end{equation}
-
+\iffalse
 \begin{itemize}
     \item $\eta$ is defined in the \gls{NED} reference frame, $\nu$ is defined in BODY frame, briefly explain what that means.
     \item The M and C matrices are a combination of Rigid body and hydrodynamic added mass matrices
@@ -104,6 +101,16 @@ Jeg tenker det er best å skrive om modellering i sammenheng med hvordan traject
     \item If the model values are to be found through experiementation it's senseless to seperate Rigid body and hydrodynamic added mass.
     The matrices then become:
 \end{itemize}
+\fi
+
+In \ref{EQ: Vessel Dynamics} the \textbf{M} matrix is the inertia matrix of the system, which describes how 'heavy' the \gls{DOF} are to nudge, in
+addition to the vessel's inherent inertia from being massive the vessel must also push water out of the way when it moves, this is what is known as
+hydrodynamic added mass and is linearly added to the inertia matrix. The coriolis matrix \textbf{C} also has to include hydrodynamic added mass,
+however for the purpose of this thesis it is not important to know the parameters for either of these matrices or for the dampening matrix \textbf{D}.
+That is because a trajectory planning algorithm needs to work regardless of vessel parameters, \cite{andersson2019casadi} explains more in-depth
+how the system parameters can be found. Continuing on, the dampening matrix is a linear combination of the linear dampening stemming from water
+viscosity and non-linear dampening from cross-flow, once again the parameters themselves are not strictly relevant to this thesis, but intuition is
+important. The result are matrices in the following form:
 
 \begin{equation}
     \textbf{M} = \begin{bmatrix}
@@ -129,10 +136,10 @@ Jeg tenker det er best å skrive om modellering i sammenheng med hvordan traject
                             \end{bmatrix}       
 \end{equation}
 
-\begin{itemize}
-    \item The D matrix can sometimes be a bit of a nuisance, a simplified D matrix can be employed to make
-    the model more computationally efficient, at the cost of accuracy.
-\end{itemize}
+The dampening matrix can be a bit of a compuational nightmare and can be simplified to a linear and diagonal matrix without too much
+of a detrimental impact on our simulations. The justification for this simplification is the underlying assumption that the reference output
+from the trajectory planner algorithm will be parsed through a final control module that will account for dampening. The risk is that
+the end result from the trajectory planner turns out to be infeasible, but that's a problem for another thesis.
 
 \begin{equation}
     \textbf{D}(\bm{\nu}) = \begin{bmatrix}
@@ -142,7 +149,19 @@ Jeg tenker det er best å skrive om modellering i sammenheng med hvordan traject
                             \end{bmatrix}
 \end{equation}
 
+Finally, a word on heading vs course. Throughout this thesis the terms course and heading might be used interchangeably, but the words are strictly not synonymous.
+Heading is equivalent with yaw as both denote a rotation about the vessel's third axis, the difference between the two is that yaw is often a relative term describing
+a change by some degrees from one arbitrary pose to another. Heading is an absolute term and is often based on compass directions, meaning 0\textdegree heading
+equates to the nose of the vessel pointing towards true north. Neither heading nor yaw is equivalent with course, which is strictly the direction
+of travel relative to true north. In a simplified world void of disturbances heading and course will align during straight line
+travel, but external forces such as wind or currents will cause the two angles to deviate. However for the purpose of this thesis disturbances
+are not accounted for, and so the terms heading and course might be used interchangeably, thought it often makes sense to deliberately pick one
+term over the other.
+
+
+
 \subsection{Trajectory Planning}
+\iffalse
 --------- Genereal thoughts --------------------------
 \begin{itemize}
     \item How to get from A to B.
@@ -152,13 +171,39 @@ Jeg tenker det er best å skrive om modellering i sammenheng med hvordan traject
     \item Important factors to consider:
     \subitem Time horizon / length of planning period.
     \subitem Trajectory safety with respect to ship capabilities.
-    \subitem \gls{COLREGs} compliance with respect to expected behaviour.
+    \subitem \gls{COLREGs} compliance 
+    with respect to expected behaviour.
     \subitem osv.
     \item Litt dypere inn i numerisk optimalisering og MPC, og LOS ettersom det kommer til å bli brukt igjen senere.
+    \item Disambiguate Path vs Trajectory
    % \item Først oversikt, deretter enten nytt kapittel eller delkapittel om 
    % den spesifikke metoden jeg skal bruke, forklar numerisk optimalisering, MPC, LOS guidance, hvordan alt kombineres til å bli min algoritme, in theory.
 \end{itemize}
 --------- /Genereal thoughts --------------------------
+\fi
+
+\begin{itemize}
+    \item Core concept. Path VS Trajectory.
+    \item Many ways of doing it.
+    \item chosen method for this thesis.
+    \item Numerical optimization, OCP, NLP, MPC.
+\end{itemize}
+
+% Because the model for describing the dynamics of our vessel is a set of ordinary differential equations we can solve them for the input we need
+% to achieve any desired state. And because the dynamics are time-invariant we can solve for any future time interval given initial conditions.
+Because the vessel dynamics are described by a model expressed as a set of time-invariant ordinary differential equations, any desired state
+can be reached by solving for the sequence of inputs that will take the vessel from a given initial condition to said state. In the context of this
+thesis "state" refers to the pose, $\bm{\eta}$, of the vessel. The simplest application of this would be moving in a straight line from point A to point B.
+The solution is simply to find the input sequence which turns the vessel to the correct course and then maintaining a forward speed until point B is reached.
+
+
+We might not have just a desired destination, for example we could have a set of waypoints which we wish to pass through. the set of waypoints
+form a path, or set of states to pass by to reach the ultimate state, the destination. Due to constraints it might be impossible to follow the path exactly,
+best we can do is calculate the optimal input sequence, applying the sequence in order results in the final trajectory of the vessel.
+they can be solved for the input
+neccessary to achieve any desired state. 
+
+
 \begin{subequations}
     \label{eq:OCP description}
 \begin{align}
@@ -176,9 +221,9 @@ With a method called direct multiple shooting, both state and control input are 
 $N$ control intervals is:
 
 \begin{figure}
-    \label{FIG: Shooting Gaps}
     \includegraphics[width=\textwidth]{Images/MultipleShooting.pdf}
     \caption{A physically feasible trajectory is formed by "pinching" the shooting gaps so they close. Reproduction of (TODO: CITER GROS), scale arbitrary.}
+    \label{FIG: Shooting Gaps}
 \end{figure}
 
 \begin{subequations}
@@ -228,6 +273,40 @@ $N$ control intervals is:
     \item f.eks agent structs kan bli viktig.
     \item Forklar at det er en liten forsjel på hvordan own ship agenten og andre agenter oppdateres, fører til en maksimal 'feil' på 1 meter.
 \end{itemize}
+
+\subsection{Target Ship prediction}
+--------- Genereal thoughts --------------------------
+\begin{itemize}
+    \item Gjenfortelling fra fordypningsprosjekt, da kalt traffic pattern
+    \item Fant en annen artikkel fra Kina som skrev om nogenlunde det samme, \gls{AIS} data -\> prediksjon
+    \item Skiller seg fra fordypningsprosjekt fordi det er egentlig ikke traffic pattern som er den viktige antagelsen,
+    Det er heller viktig at vi antar det finnes en måte å gjette/vite hvor andre båter vil være fremover i tid.
+    \item Andre metoder for target ship prediction kan være f.eks utvidelse av \gls{AIS} som 
+    inkluderer autonav data for de neste 5 minuttene eller noe lignende.
+    \item Disambiguate Simple and Full prediction.
+\end{itemize}
+---------- /General Thoughts--------------------------- 
+\begin{itemize}
+    \item Naval navigation is an 'active' task, always looking out for obstacles and making sure the way forward is clear.
+    \item There are no lanes, instead proper conduct is dictated by \gls{COLREGs}, the rules are laid out so that different situations
+    have different rules
+    \item Knowing which situation you are in is half the battle, therefor the ability to predict and estiamte how encounters will happen
+    is a powerful tool. Human navigators do this by experience.
+    \item Autonomous vessels could also predict by experience, that would be the machine learning approach. \gls{AIS} can already provide training data.
+    \item But it could be easier than that, what if \gls{AIS} data packets were expanded to send out autonav data for where a vessel intends to traverse.
+    The assumption here is that vessels using autonav will correct their course when spotting a conflict. Vessels not using autonav would still be able to observe
+    the indended path of other vessels and adjust their plans 'manually'.
+    \item Relying on fully predicting the transit of a target vessel is fragile, relying on a few known waypoints would be much more robust.
+    \item In the end the best solution would be if all vessels could fully communicate their intended path either peer to peer or through
+    a centralized system. Solving conflicting paths would be done on a higher level than individual vessel.
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \label{FIG: AIS lanes}
+    \includegraphics[width=\textwidth]{Images/AISLanes.jpg}
+    \caption{TODO: Skriv. AIS data can show common transit routes. Image courtesy of Olex AS}
+\end{figure}
 
 
 

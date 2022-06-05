@@ -2349,7 +2349,9 @@
     <bcf:citekey order="2">breivik2017mpc</bcf:citekey>
     <bcf:citekey order="3">fossen2011handbook</bcf:citekey>
     <bcf:citekey order="4">fossen2011handbook</bcf:citekey>
-    <bcf:citekey order="5">Kufoalor2018</bcf:citekey>
+    <bcf:citekey order="5">fossen2011handbook</bcf:citekey>
+    <bcf:citekey order="6">andersson2019casadi</bcf:citekey>
+    <bcf:citekey order="7">Kufoalor2018</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nyt">
