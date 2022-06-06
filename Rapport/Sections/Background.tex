@@ -154,10 +154,10 @@ Heading is equivalent with yaw as both denote a rotation about the vessel's thir
 a change by some degrees from one arbitrary pose to another. Heading is an absolute term and is often based on compass directions, meaning 0\textdegree heading
 equates to the nose of the vessel pointing towards true north. Neither heading nor yaw is equivalent with course, which is strictly the direction
 of travel relative to true north. In a simplified world void of disturbances heading and course will align during straight line
-travel, but external forces such as wind or currents will cause the two angles to deviate. However for the purpose of this thesis disturbances
-are not accounted for, and so the terms heading and course might be used interchangeably, thought it often makes sense to deliberately pick one
+travel, but external forces such as wind or currents will cause the two angles to deviate. Likevise sideslip caused by a non-zero sway velocity when turning will 
+also introduce a deviation between course and heading(TODO: Citation needed?). However this difference is mostly unrelated to the work put forth in this thesis, 
+and so the terms heading and course might be used interchangeably. Althought it often makes sense to deliberately pick one
 term over the other.
-
 
 
 \subsection{Trajectory Planning}
@@ -210,14 +210,26 @@ formulation of an \gls{OCP} with a cost to penalize deviation from the reference
 as a \gls{NLP} problem using a method called direct multiple shooting, finally the \gls{NLP} is solved with an \gls{IPOPT} solver.
 
 \subsubsection*{Line of Sight Guidance}
+\begin{itemize}
+    \item Path following algorithm.
+    \item Cross track and along track errors.
+    \item integral action.
+    \item course control will not be neccessary.
+    \item Only considering the horizontal control.
+    \item Cross track is used to adjust heading. Along track
+    \item \cite{lekkas2013line}
+\end{itemize}
+
 
 
 \subsubsection*{Optimal Control Problem}
-
-
-\subsubsection*{NonLinear Programming}
-
-
+\begin{itemize}
+    \item Equations
+    \item Model Predictive Control
+    \item Many ways to solve an optimization problem
+    \item Continuous dynamics
+    \item \cite{breivik2017mpc}
+\end{itemize}
 
 \begin{subequations}
     \label{eq:OCP description}
@@ -228,12 +240,16 @@ as a \gls{NLP} problem using a method called direct multiple shooting, finally t
     \quad & \boldsymbol{\eta}(t_0) = \boldsymbol{\eta}_0 \label{eq:OCP-d}
 \end{align}
 \end{subequations}
-(TODO: REWRITE THIS, SOME PARTS MAKE LITTLE SENSE)\\
-where $\textbf{F}$ is the objective function, $\boldsymbol{\eta}(t)$ is the position and attitude trajectory of the vehicle, $\textbf{u}(t)$
-is the control input trajectory and $\textbf{L}$ is the kinematic model of the vehicle. Though the OCP can be solved
-the way it is set up in (\ref{eq:OCP description}) it is more pratical to discretize it into a ( \gls{NLP}).
-With a method called direct multiple shooting, both state and control input are defined as decision variables, the \gls{NLP} with
-$N$ control intervals is: 
+
+
+\subsubsection*{NonLinear Programming}
+\begin{itemize}
+    \item Discretizied formulation of the OCP, using among many methods, Direct Multiple shooting.
+    \item I don't really understand this stuff too much.
+    \item Direct Multiple Shooting explaination needed.
+    \item shooting gaps.
+    \item \cite{gros2017Lecture}
+\end{itemize}
 
 \begin{figure}
     \includegraphics[width=\textwidth]{Images/MultipleShooting.pdf}
@@ -250,6 +266,15 @@ $N$ control intervals is:
     \end{align}
 \end{subequations}
 
+% (TODO: REWRITE THIS, SOME PARTS MAKE LITTLE SENSE)\\
+% where $\textbf{F}$ is the objective function, $\boldsymbol{\eta}(t)$ is the position and attitude trajectory of the vehicle, $\textbf{u}(t)$
+% is the control input trajectory and $\textbf{L}$ is the kinematic model of the vehicle. Though the OCP can be solved
+% the way it is set up in (\ref{eq:OCP description}) it is more pratical to discretize it into a ( \gls{NLP}).
+% With a method called direct multiple shooting, both state and control input are defined as decision variables, the \gls{NLP} with
+% $N$ control intervals is: 
+
+
+
 
 \subsection{Collision Avoidance}
 \iffalse
@@ -259,10 +284,22 @@ $N$ control intervals is:
     \item \gls{dCPA} / \gls{tCPA}
     \item Other risk assessment? Situation complexity? Det er mer som inngår i "collisions avoidance" som jeg kanskje ikke dekker så veldig bra med min algoritme.
 \end{itemize}
+
+
 \fi
 
-Collision avoidance is
-
+\begin{itemize}
+    \item \gls{COLREGs}, cite COLREGS?
+    \item Classification \cite{tam2010collision}.
+    \item Modification \& Figur er simpelt: Courtesy of Emil Thyri.
+    \item Alternative classification algorithm \cite{woerner2016multi}.
+    \item dCPA og tCPA, \cite{Kufoalor2018}.
+    \item My modifications to dCPA and tCPA method to get 'full coverage' of path.
+    \item Static Obstacles "detection" and constraint placements
+    \item Dynamic obstacles constraints.
+    \item Computer vision, radar/lidar/sonar/etc. Is not a part of this thesis, see (TODO: cite someone for further reading.)
+    \item cite \cite{cho2018intent} as a method for identifying intent, and a lead in to target ship prediction.
+\end{itemize}
 
 \begin{figure}
     \centering
@@ -279,20 +316,22 @@ Collision avoidance is
     \label{FIG: ship CPA}
 \end{figure}
 
-\subsection{'The complete system'}
-\begin{itemize}
-    \item Vet ikke helt om dette kapittelet er nødvendig, men jeg lurer på om det er en god ide å skrive litt om nøyaktig hvor i ett fult funksjonelt
-    system jeg forventer at min algoritme passer inn. Hva de andre delene jeg ikke kommer til å skrive om har ansvar for, og hva som forventes av systemene
-    rundt mitt eget.
-    \item Hvis systemet mitt var en sort boks, hvilke inputs og outputs ville det hatt.
-\end{itemize}
 
-\subsection{Simulator setup}
-\begin{itemize}
-    \item liten forklaring av hvordan simulatoren funker selv om jeg ikke har laget den.
-    \item f.eks agent structs kan bli viktig.
-    \item Forklar at det er en liten forsjel på hvordan own ship agenten og andre agenter oppdateres, fører til en maksimal 'feil' på 1 meter.
-\end{itemize}
+
+% \subsection{'The complete system'}
+% \begin{itemize}
+%     \item Vet ikke helt om dette kapittelet er nødvendig, men jeg lurer på om det er en god ide å skrive litt om nøyaktig hvor i ett fult funksjonelt
+%     system jeg forventer at min algoritme passer inn. Hva de andre delene jeg ikke kommer til å skrive om har ansvar for, og hva som forventes av systemene
+%     rundt mitt eget.
+%     \item Hvis systemet mitt var en sort boks, hvilke inputs og outputs ville det hatt.
+% \end{itemize}
+
+% \subsection{Simulator setup}
+% \begin{itemize}
+%     \item liten forklaring av hvordan simulatoren funker selv om jeg ikke har laget den.
+%     \item f.eks agent structs kan bli viktig.
+%     \item Forklar at det er en liten forsjel på hvordan own ship agenten og andre agenter oppdateres, fører til en maksimal 'feil' på 1 meter.
+% \end{itemize}
 
 \subsection{Target Ship prediction}
 --------- Genereal thoughts --------------------------
@@ -319,6 +358,9 @@ Collision avoidance is
     \item Relying on fully predicting the transit of a target vessel is fragile, relying on a few known waypoints would be much more robust.
     \item In the end the best solution would be if all vessels could fully communicate their intended path either peer to peer or through
     a centralized system. Solving conflicting paths would be done on a higher level than individual vessel.
+    \item cite \cite{scholler2021trajectory} for AIS prediction.
+    \item cite \cite{zhang2021collision} For mention of massive AIS data.
+    \item 
 \end{itemize}
 
 \begin{figure}

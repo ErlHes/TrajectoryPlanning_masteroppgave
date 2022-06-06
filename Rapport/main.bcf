@@ -2343,15 +2343,22 @@
   <!-- SECTION 0 -->
   <bcf:bibdata section="0">
     <bcf:datasource type="file" datatype="bibtex" glob="false">references.bib</bcf:datasource>
-    <bcf:datasource type="file" datatype="bibtex" glob="false">jonasref.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="2">breivik2017mpc</bcf:citekey>
+    <bcf:citekey order="2">fossen2011handbook</bcf:citekey>
     <bcf:citekey order="3">fossen2011handbook</bcf:citekey>
     <bcf:citekey order="4">fossen2011handbook</bcf:citekey>
-    <bcf:citekey order="5">fossen2011handbook</bcf:citekey>
-    <bcf:citekey order="6">andersson2019casadi</bcf:citekey>
-    <bcf:citekey order="7">Kufoalor2018</bcf:citekey>
+    <bcf:citekey order="5">andersson2019casadi</bcf:citekey>
+    <bcf:citekey order="6">lekkas2013line</bcf:citekey>
+    <bcf:citekey order="7">breivik2017mpc</bcf:citekey>
+    <bcf:citekey order="8">gros2017Lecture</bcf:citekey>
+    <bcf:citekey order="9">tam2010collision</bcf:citekey>
+    <bcf:citekey order="10">woerner2016multi</bcf:citekey>
+    <bcf:citekey order="11">Kufoalor2018</bcf:citekey>
+    <bcf:citekey order="12">cho2018intent</bcf:citekey>
+    <bcf:citekey order="13">scholler2021trajectory</bcf:citekey>
+    <bcf:citekey order="14">zhang2021collision</bcf:citekey>
+    <bcf:citekey order="15">Kufoalor2018</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nyt">
