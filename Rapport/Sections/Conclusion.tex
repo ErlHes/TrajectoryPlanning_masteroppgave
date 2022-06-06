@@ -1,13 +1,33 @@
 \section{Conclusion and Future Work}
+% \begin{itemize}
+%     \item conclusion:
+%     \subitem oppsummering, forklaring, avsluttende ord.
+%     \item future work:
+%     \subitem (variabel) Cost funksjon
+%     \subitem 'grenseverdier', altså verdier som constraint størrelse, distanse fra statiske hindringer, verdier som egentlig burde tunes basert på situasjonen slik den er i øyeblikket.
+%     \subitem plassering av dynamiske constraints.
+%     \subitem bedre måte å gjøre COLREGs assessment (ikke bare skjekk waypoints slik jeg gjør).
+%     \subitem generelt andre metoder jeg ville foreslått å prøve isteden for spaghettien jeg har kokt sammen.
+% \end{itemize}
+
+\subsubsection*{Conclusion}
 \begin{itemize}
-    \item conclusion:
-    \subitem oppsummering, forklaring, avsluttende ord.
-    \item future work:
-    \subitem (variabel) Cost funksjon
-    \subitem 'grenseverdier', altså verdier som constraint størrelse, distanse fra statiske hindringer, verdier som egentlig burde tunes basert på situasjonen slik den er i øyeblikket.
-    \subitem plassering av dynamiske constraints.
-    \subitem bedre måte å gjøre COLREGs assessment (ikke bare skjekk waypoints slik jeg gjør).
-    \subitem generelt andre metoder jeg ville foreslått å prøve isteden for spaghettien jeg har kokt sammen.
+    \item Summary of results, obviously.
+    \item Compare with the 'problem description', have I succesfully contributed to anything?
+    \item Final thoughts on my own work
+\end{itemize}
+
+\subsubsection*{Future Work}
+\begin{itemize}
+    \item More work needed for optimizing placement of constraint, as well as when constraints need to be active.
+    \item More work needed for situational awareness adjustion of parameters
+    \item more work needed to examine scenarios with and without full \gls{Ts} prediction;
+    more velocities, more variation of vessel sizes, more diverse enviornments.
+    \item More work related to a variable cost function, a more adaptable cost function could for example yield better COLREGs compliance.
+    \item More work related to Optimizing runtime of algorithm, tuning the IPOPT tolerances to balance computation speed and desired behaviour.
+    \item More work related to tuning COLREGs compliance, testing more COLREGs situations and quantifying what constitutes good behaviour.
+    \item Extracting the Algorithm from the MATLAB simulator it's built into and making a more stand-alone / generic software or algorithm.
+    \item And more that I will think about as I write.
 \end{itemize}
 
 \newpage
