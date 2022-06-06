@@ -19,6 +19,140 @@
 
 \refsection{0}
   \datalist[entry]{nyt/global//global/global}
+    \entry{andersson2019casadi}{article}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=09710eddb25e528b0d0bae5a6fd11eb9}{%
+           family={Andersson},
+           familyi={A\bibinitperiod},
+           given={Joel\bibnamedelima AE},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2ffda07362b7874e2f74f66dc2a225ac}{%
+           family={Gillis},
+           familyi={G\bibinitperiod},
+           given={Joris},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0fa126623a6142cf731907bb8a8df131}{%
+           family={Horn},
+           familyi={H\bibinitperiod},
+           given={Greg},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a28ab6b1da316879310a82410e4e8dc4}{%
+           family={Rawlings},
+           familyi={R\bibinitperiod},
+           given={James\bibnamedelima B},
+           giveni={J\bibinitperiod\bibinitdelim B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ec732fd9120f390fd38c8132a3079900}{%
+           family={Diehl},
+           familyi={D\bibinitperiod},
+           given={Moritz},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{b04d0d55940f67bd98ae0c9236807a4e}
+      \strng{fullhash}{d4ec04d8cc225f8dfb9d40f7c454951a}
+      \strng{bibnamehash}{d4ec04d8cc225f8dfb9d40f7c454951a}
+      \strng{authorbibnamehash}{d4ec04d8cc225f8dfb9d40f7c454951a}
+      \strng{authornamehash}{b04d0d55940f67bd98ae0c9236807a4e}
+      \strng{authorfullhash}{d4ec04d8cc225f8dfb9d40f7c454951a}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Mathematical Programming Computation}
+      \field{number}{1}
+      \field{title}{CasADi: a software framework for nonlinear optimization and optimal control}
+      \field{volume}{11}
+      \field{year}{2019}
+      \field{pages}{1\bibrangedash 36}
+      \range{pages}{36}
+    \endentry
+    \entry{cho2018intent}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=56e7a674de33d2b42db24949564d65b5}{%
+           family={Cho},
+           familyi={C\bibinitperiod},
+           given={Yonghoon},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=32ecfed9cea2e3968f0d411f4b91da8f}{%
+           family={Han},
+           familyi={H\bibinitperiod},
+           given={Jungwook},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1734cb82044e8ae55ad5dfe140ed4ecd}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={Jinwhan},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{c3ddcc1e2607f20a6a0b4a7286b01d1c}
+      \strng{fullhash}{4c345cb5de847b68021a9adeddf4ed76}
+      \strng{bibnamehash}{4c345cb5de847b68021a9adeddf4ed76}
+      \strng{authorbibnamehash}{4c345cb5de847b68021a9adeddf4ed76}
+      \strng{authornamehash}{c3ddcc1e2607f20a6a0b4a7286b01d1c}
+      \strng{authorfullhash}{4c345cb5de847b68021a9adeddf4ed76}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IFAC-PapersOnLine}
+      \field{number}{29}
+      \field{title}{Intent inference of ship maneuvering for automatic ship collision avoidance}
+      \field{volume}{51}
+      \field{year}{2018}
+      \field{pages}{384\bibrangedash 388}
+      \range{pages}{5}
+    \endentry
+    \entry{cockcroft2012manoeuvres}{misc}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=5e5e808c6ad0c65f158ca1515c0ff0d8}{%
+           family={Cockcroft},
+           familyi={C\bibinitperiod},
+           given={AN},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f303f7218517c3e2c301a27c467a0d7b}{%
+           family={Lameijer},
+           familyi={L\bibinitperiod},
+           given={JNF},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{2}{%
+        {Oxford: Butterworth-Heinemann. Cockcroft, AN}%
+        {Lameijer, JNF}%
+      }
+      \strng{namehash}{9a2a24a10151653a97f1917ced6fe3e7}
+      \strng{fullhash}{9a2a24a10151653a97f1917ced6fe3e7}
+      \strng{bibnamehash}{9a2a24a10151653a97f1917ced6fe3e7}
+      \strng{authorbibnamehash}{9a2a24a10151653a97f1917ced6fe3e7}
+      \strng{authornamehash}{9a2a24a10151653a97f1917ced6fe3e7}
+      \strng{authorfullhash}{9a2a24a10151653a97f1917ced6fe3e7}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Maneuvers to avoid collision A Guide to the Collision Avoidance Rules (pp. 170-172)}
+      \field{year}{2012}
+    \endentry
     \entry{breivik2017mpc}{inproceedings}{}
       \name{author}{2}{}{%
         {{un=0,uniquepart=base,hash=9082f79d525fdd15f862e1ca55b27ffa}{%
@@ -86,6 +220,120 @@
       \field{title}{Handbook of marine craft hydrodynamics and motion control}
       \field{year}{2011}
     \endentry
+    \entry{gros2017Lecture}{misc}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=ee05ef84f077166368da1d79a7dee18f}{%
+           family={Gros},
+           familyi={G\bibinitperiod},
+           given={Sebastien},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{ee05ef84f077166368da1d79a7dee18f}
+      \strng{fullhash}{ee05ef84f077166368da1d79a7dee18f}
+      \strng{bibnamehash}{ee05ef84f077166368da1d79a7dee18f}
+      \strng{authorbibnamehash}{ee05ef84f077166368da1d79a7dee18f}
+      \strng{authornamehash}{ee05ef84f077166368da1d79a7dee18f}
+      \strng{authorfullhash}{ee05ef84f077166368da1d79a7dee18f}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Video lecture}
+      \field{title}{Numerical optimal control, lecture 4: Shooting methods}
+      \field{year}{2017}
+      \verb{urlraw}
+      \verb https://www.youtube.com/watch?v=UqWRcbdwPP8
+      \endverb
+      \verb{url}
+      \verb https://www.youtube.com/watch?v=UqWRcbdwPP8
+      \endverb
+    \endentry
+    \entry{huang2020ship}{article}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=1388b5adf4871ce6ceae688ac24e8268}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Yamin},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6fc3af4a06dae0c88f04d5a9cbcc8561}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Linying},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1aed76138e6489b714dda52bf5d71b40}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Pengfei},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=879cc3c898c99f1158dc446993b03b3f}{%
+           family={Negenborn},
+           familyi={N\bibinitperiod},
+           given={Rudy\bibnamedelima R},
+           giveni={R\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=912efa065a0542bcfac6d014acd65dc5}{%
+           family={Van\bibnamedelima Gelder},
+           familyi={V\bibinitperiod\bibinitdelim G\bibinitperiod},
+           given={PHAJM},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{ae635301edfadbed01f50d258e12edc2}
+      \strng{fullhash}{f0b1b8d94538b90f2de9284b9eb98252}
+      \strng{bibnamehash}{f0b1b8d94538b90f2de9284b9eb98252}
+      \strng{authorbibnamehash}{f0b1b8d94538b90f2de9284b9eb98252}
+      \strng{authornamehash}{ae635301edfadbed01f50d258e12edc2}
+      \strng{authorfullhash}{f0b1b8d94538b90f2de9284b9eb98252}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Safety science}
+      \field{title}{Ship collision avoidance methods: State-of-the-art}
+      \field{volume}{121}
+      \field{year}{2020}
+      \field{pages}{451\bibrangedash 473}
+      \range{pages}{23}
+    \endentry
+    \entry{WikisourceCOLREGS}{misc}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=b6f60f2f331c5ad04e19a91d0ba388f4}{%
+           family={IMO},
+           familyi={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{b6f60f2f331c5ad04e19a91d0ba388f4}
+      \strng{fullhash}{b6f60f2f331c5ad04e19a91d0ba388f4}
+      \strng{bibnamehash}{b6f60f2f331c5ad04e19a91d0ba388f4}
+      \strng{authorbibnamehash}{b6f60f2f331c5ad04e19a91d0ba388f4}
+      \strng{authornamehash}{b6f60f2f331c5ad04e19a91d0ba388f4}
+      \strng{authorfullhash}{b6f60f2f331c5ad04e19a91d0ba388f4}
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Wikisource Archive}
+      \field{title}{International Regulations for Preventing Collisions at Sea}
+      \field{year}{1972}
+      \verb{urlraw}
+      \verb https://en.wikisource.org/wiki/International_Regulations_for_Preventing_Collisions_at_Sea
+      \endverb
+      \verb{url}
+      \verb https://en.wikisource.org/wiki/International_Regulations_for_Preventing_Collisions_at_Sea
+      \endverb
+    \endentry
     \entry{Kufoalor2018}{inproceedings}{}
       \name{author}{3}{}{%
         {{un=0,uniquepart=base,hash=dcb1032d995329bd08637a499a2a9414}{%
@@ -127,6 +375,531 @@
       \verb{doi}
       \verb 10.1109/IROS.2018.8594382
       \endverb
+    \endentry
+    \entry{lekkas2013line}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=c97748cdc0e943f9463a42edaa293ca0}{%
+           family={Lekkas},
+           familyi={L\bibinitperiod},
+           given={Anastasios\bibnamedelima M},
+           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8eca0c434dd587f3eff346c053ba5948}{%
+           family={Fossen},
+           familyi={F\bibinitperiod},
+           given={Thor\bibnamedelima I},
+           giveni={T\bibinitperiod\bibinitdelim I\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {LAP Lambert Academic Publishing}%
+      }
+      \strng{namehash}{2a978e1876a7c65e4fed48311d3e7aff}
+      \strng{fullhash}{2a978e1876a7c65e4fed48311d3e7aff}
+      \strng{bibnamehash}{2a978e1876a7c65e4fed48311d3e7aff}
+      \strng{authorbibnamehash}{2a978e1876a7c65e4fed48311d3e7aff}
+      \strng{authornamehash}{2a978e1876a7c65e4fed48311d3e7aff}
+      \strng{authorfullhash}{2a978e1876a7c65e4fed48311d3e7aff}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Advanced in marine robotics}
+      \field{title}{Line-of-sight guidance for path following of marine vehicles}
+      \field{year}{2013}
+      \field{pages}{63\bibrangedash 92}
+      \range{pages}{30}
+    \endentry
+    \entry{loe2007collision}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=d8fefaf6e5781db81ec6338de919478b}{%
+           family={Loe},
+           familyi={L\bibinitperiod},
+           given={{Ø}ivind},
+           giveni={Ø\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {Trondheim, Norway}%
+      }
+      \strng{namehash}{d8fefaf6e5781db81ec6338de919478b}
+      \strng{fullhash}{d8fefaf6e5781db81ec6338de919478b}
+      \strng{bibnamehash}{d8fefaf6e5781db81ec6338de919478b}
+      \strng{authorbibnamehash}{d8fefaf6e5781db81ec6338de919478b}
+      \strng{authornamehash}{d8fefaf6e5781db81ec6338de919478b}
+      \strng{authorfullhash}{d8fefaf6e5781db81ec6338de919478b}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Specialization project report. Norwegian University of Science and Technology (NTNU), Trondheim, Norway}
+      \field{title}{Collision avoidance concepts for marine surface craft}
+      \field{year}{2007}
+    \endentry
+    \entry{park2020social}{article}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=5972b7f616b4e9195a78e4418663f395}{%
+           family={Park},
+           familyi={P\bibinitperiod},
+           given={Shinkyu},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=34456f7fde9f682aa6f48bd60d7698f3}{%
+           family={Cap},
+           familyi={C\bibinitperiod},
+           given={Michal},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=248bd79f5e503f11eb095282260ee29f}{%
+           family={Alonso-Mora},
+           familyi={A\bibinithyphendelim M\bibinitperiod},
+           given={Javier},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=aeb05a80989b576d5948e4cbf97421cc}{%
+           family={Ratti},
+           familyi={R\bibinitperiod},
+           given={Carlo},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f74192f92945701041a41bfa429ee111}{%
+           family={Rus},
+           familyi={R\bibinitperiod},
+           given={Daniela},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{1f5fcae5a3fef10eb6c6f75b3070bcbf}
+      \strng{fullhash}{e5560aacf7e6bbe4e1a6bc25fb5181a2}
+      \strng{bibnamehash}{e5560aacf7e6bbe4e1a6bc25fb5181a2}
+      \strng{authorbibnamehash}{e5560aacf7e6bbe4e1a6bc25fb5181a2}
+      \strng{authornamehash}{1f5fcae5a3fef10eb6c6f75b3070bcbf}
+      \strng{authorfullhash}{e5560aacf7e6bbe4e1a6bc25fb5181a2}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Robotics}
+      \field{number}{2}
+      \field{title}{Social Trajectory Planning for Urban Autonomous Surface Vessels}
+      \field{volume}{37}
+      \field{year}{2020}
+      \field{pages}{452\bibrangedash 465}
+      \range{pages}{14}
+    \endentry
+    \entry{pedersen2019optimization}{thesis}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=430a15e29cc13cc3295eeaaad581dc5e}{%
+           family={Pedersen},
+           familyi={P\bibinitperiod},
+           given={Anders\bibnamedelima Aglen},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {NTNU}%
+      }
+      \strng{namehash}{430a15e29cc13cc3295eeaaad581dc5e}
+      \strng{fullhash}{430a15e29cc13cc3295eeaaad581dc5e}
+      \strng{bibnamehash}{430a15e29cc13cc3295eeaaad581dc5e}
+      \strng{authorbibnamehash}{430a15e29cc13cc3295eeaaad581dc5e}
+      \strng{authornamehash}{430a15e29cc13cc3295eeaaad581dc5e}
+      \strng{authorfullhash}{430a15e29cc13cc3295eeaaad581dc5e}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Optimization based system identification for the milliAmpere ferry}
+      \field{type}{mathesis}
+      \field{year}{2019}
+    \endentry
+    \entry{ruud2018lidar}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=539644d56529687b396b0cd59a4cdeab}{%
+           family={Ruud},
+           familyi={R\bibinitperiod},
+           given={Kristian\bibnamedelima Amundsen},
+           giveni={K\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cbf9a68607dc162a2e1c4b989e0d34af}{%
+           family={Brekke},
+           familyi={B\bibinitperiod},
+           given={Edmund\bibnamedelima F{ø}rland},
+           giveni={E\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b4ff530000633fac86e0ac0e7597abfb}{%
+           family={Eidsvik},
+           familyi={E\bibinitperiod},
+           given={Jo},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{organization}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{78e2d7141017ed64849e7e533e9d703a}
+      \strng{fullhash}{7f15869dacc11cab664ad7274dd81a9a}
+      \strng{bibnamehash}{7f15869dacc11cab664ad7274dd81a9a}
+      \strng{authorbibnamehash}{7f15869dacc11cab664ad7274dd81a9a}
+      \strng{authornamehash}{78e2d7141017ed64849e7e533e9d703a}
+      \strng{authorfullhash}{7f15869dacc11cab664ad7274dd81a9a}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2018 Sensor Data Fusion: Trends, Solutions, Applications (SDF)}
+      \field{title}{Lidar extended object tracking of a maritime vessel using an ellipsoidal contour model}
+      \field{year}{2018}
+      \field{pages}{1\bibrangedash 6}
+      \range{pages}{6}
+    \endentry
+    \entry{scholler2021trajectory}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=7712c78973d4c90eeaca3fb360cea5b4}{%
+           family={Schöller},
+           familyi={S\bibinitperiod},
+           given={Frederik\bibnamedelima ET},
+           giveni={F\bibinitperiod\bibinitdelim E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4471ad21ac635d9c8f564d098be70ca7}{%
+           family={Enevoldsen},
+           familyi={E\bibinitperiod},
+           given={Thomas\bibnamedelima T},
+           giveni={T\bibinitperiod\bibinitdelim T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7df0711284e0bb5a79fb2756a5947d17}{%
+           family={Becktor},
+           familyi={B\bibinitperiod},
+           given={Jonathan\bibnamedelima B},
+           giveni={J\bibinitperiod\bibinitdelim B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3ef7a82d28954654b73be08b50fbb7c5}{%
+           family={Hansen},
+           familyi={H\bibinitperiod},
+           given={Peter\bibnamedelima N},
+           giveni={P\bibinitperiod\bibinitdelim N\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {Oldenburg, Germany}%
+      }
+      \list{organization}{1}{%
+        {IFAC}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{dd8a9fd2c5ba8fa6d7e46fa97d0f81f7}
+      \strng{fullhash}{f122211829e0638191d3d5bf48b7d129}
+      \strng{bibnamehash}{f122211829e0638191d3d5bf48b7d129}
+      \strng{authorbibnamehash}{f122211829e0638191d3d5bf48b7d129}
+      \strng{authornamehash}{dd8a9fd2c5ba8fa6d7e46fa97d0f81f7}
+      \strng{authorfullhash}{f122211829e0638191d3d5bf48b7d129}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booksubtitle}{Proceedings of 13th IFAC Conference on Control Applications in Marine Systems, Robotics, and Vehicles Elsevier}
+      \field{number}{16}
+      \field{title}{Trajectory prediction for marine vessels using historical AIS heatmaps and long short-term memory networks}
+      \field{volume}{54}
+      \field{year}{2021}
+      \field{pages}{83\bibrangedash 89}
+      \range{pages}{7}
+    \endentry
+    \entry{tam2010collision}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=5bcc841042d334aa5a93a370e1fb40a4}{%
+           family={Tam},
+           familyi={T\bibinitperiod},
+           given={CheeKuang},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f013f1062d3fe7dfc52e539a21429253}{%
+           family={Bucknall},
+           familyi={B\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{7ca929f74fbe06d7e4c6906c0ab30293}
+      \strng{fullhash}{7ca929f74fbe06d7e4c6906c0ab30293}
+      \strng{bibnamehash}{7ca929f74fbe06d7e4c6906c0ab30293}
+      \strng{authorbibnamehash}{7ca929f74fbe06d7e4c6906c0ab30293}
+      \strng{authornamehash}{7ca929f74fbe06d7e4c6906c0ab30293}
+      \strng{authorfullhash}{7ca929f74fbe06d7e4c6906c0ab30293}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Marine Science and Technology}
+      \field{number}{3}
+      \field{title}{Collision risk assessment for ships}
+      \field{volume}{15}
+      \field{year}{2010}
+      \field{pages}{257\bibrangedash 270}
+      \range{pages}{14}
+    \endentry
+    \entry{vagale2021path}{article}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=9984f21c9af954e60e6a15a4010a01fd}{%
+           family={Vagale},
+           familyi={V\bibinitperiod},
+           given={Anete},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=01e01b0e5aeb0b17260e77bdc7d45983}{%
+           family={Oucheikh},
+           familyi={O\bibinitperiod},
+           given={Rachid},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ce7f20ee97f4a25464fc1523510e4e48}{%
+           family={Bye},
+           familyi={B\bibinitperiod},
+           given={Robin\bibnamedelima T},
+           giveni={R\bibinitperiod\bibinitdelim T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=013eb9d9442c1f65a64e8fc378312b3f}{%
+           family={Osen},
+           familyi={O\bibinitperiod},
+           given={Ottar\bibnamedelima L},
+           giveni={O\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8eca0c434dd587f3eff346c053ba5948}{%
+           family={Fossen},
+           familyi={F\bibinitperiod},
+           given={Thor\bibnamedelima I},
+           giveni={T\bibinitperiod\bibinitdelim I\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{0904df9d8171db197a21807e7834d81d}
+      \strng{fullhash}{b69c30b0b4bbf0db4c630e6ce89a40b3}
+      \strng{bibnamehash}{b69c30b0b4bbf0db4c630e6ce89a40b3}
+      \strng{authorbibnamehash}{b69c30b0b4bbf0db4c630e6ce89a40b3}
+      \strng{authornamehash}{0904df9d8171db197a21807e7834d81d}
+      \strng{authorfullhash}{b69c30b0b4bbf0db4c630e6ce89a40b3}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Marine Science and Technology}
+      \field{title}{Path planning and collision avoidance for autonomous surface vehicles I: A review}
+      \field{volume}{26}
+      \field{year}{2021}
+      \field{pages}{1292\bibrangedash 1306}
+      \range{pages}{15}
+    \endentry
+    \entry{wachter2006implementation}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=dc724f071bd0fcc1e9eabf5f96209481}{%
+           family={Wächter},
+           familyi={W\bibinitperiod},
+           given={Andreas},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b4cf951e494c45f4de462df04ec3b5df}{%
+           family={Biegler},
+           familyi={B\bibinitperiod},
+           given={Lorenz\bibnamedelima T},
+           giveni={L\bibinitperiod\bibinitdelim T\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{842d46b1a24346d113a0e8274fa09dd0}
+      \strng{fullhash}{842d46b1a24346d113a0e8274fa09dd0}
+      \strng{bibnamehash}{842d46b1a24346d113a0e8274fa09dd0}
+      \strng{authorbibnamehash}{842d46b1a24346d113a0e8274fa09dd0}
+      \strng{authornamehash}{842d46b1a24346d113a0e8274fa09dd0}
+      \strng{authorfullhash}{842d46b1a24346d113a0e8274fa09dd0}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Mathematical programming}
+      \field{number}{1}
+      \field{title}{On the implementation of an interior-point filter line-search algorithm for large-scale nonlinear programming}
+      \field{volume}{106}
+      \field{year}{2006}
+      \field{pages}{25\bibrangedash 57}
+      \range{pages}{33}
+    \endentry
+    \entry{WärtsiläDockToDock}{misc}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=ee2f885ec8105f639881b12701308024}{%
+           family={WÄRTSILÄ},
+           familyi={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{ee2f885ec8105f639881b12701308024}
+      \strng{fullhash}{ee2f885ec8105f639881b12701308024}
+      \strng{bibnamehash}{ee2f885ec8105f639881b12701308024}
+      \strng{authorbibnamehash}{ee2f885ec8105f639881b12701308024}
+      \strng{authornamehash}{ee2f885ec8105f639881b12701308024}
+      \strng{authorfullhash}{ee2f885ec8105f639881b12701308024}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Web article}
+      \field{title}{Wärtsilä achieves notable advances in automated shipping with latest successful tests}
+      \field{year}{2018}
+      \verb{urlraw}
+      \verb https://www.wartsila.com/media/news/28-11-2018-wartsila-achieves-notable-advances-in-automated-shipping-with-latest-successful-tests-2332144
+      \endverb
+      \verb{url}
+      \verb https://www.wartsila.com/media/news/28-11-2018-wartsila-achieves-notable-advances-in-automated-shipping-with-latest-successful-tests-2332144
+      \endverb
+    \endentry
+    \entry{woerner2016multi}{thesis}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=3dfd6593f3856723635d7a0228b2b94d}{%
+           family={Woerner},
+           familyi={W\bibinitperiod},
+           given={Kyle},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {Massachusetts Institute of Technology, USA}%
+      }
+      \strng{namehash}{3dfd6593f3856723635d7a0228b2b94d}
+      \strng{fullhash}{3dfd6593f3856723635d7a0228b2b94d}
+      \strng{bibnamehash}{3dfd6593f3856723635d7a0228b2b94d}
+      \strng{authorbibnamehash}{3dfd6593f3856723635d7a0228b2b94d}
+      \strng{authornamehash}{3dfd6593f3856723635d7a0228b2b94d}
+      \strng{authorfullhash}{3dfd6593f3856723635d7a0228b2b94d}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Multi-contact protocol-constrained collision avoidance for autonomous marine vehicles}
+      \field{type}{phdthesis}
+      \field{year}{2016}
+    \endentry
+    \entry{wright1999numerical}{article}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=7763509f7c4b10ac0b0770c30259cb1d}{%
+           family={Wright},
+           familyi={W\bibinitperiod},
+           given={Stephen},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=88a342d927bf795b0d92af8a5613da31}{%
+           family={Nocedal},
+           familyi={N\bibinitperiod},
+           given={Jorge},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{e3d1aa0ac6bd5eadca5874e2a121f229}
+      \strng{fullhash}{e3d1aa0ac6bd5eadca5874e2a121f229}
+      \strng{bibnamehash}{e3d1aa0ac6bd5eadca5874e2a121f229}
+      \strng{authorbibnamehash}{e3d1aa0ac6bd5eadca5874e2a121f229}
+      \strng{authornamehash}{e3d1aa0ac6bd5eadca5874e2a121f229}
+      \strng{authorfullhash}{e3d1aa0ac6bd5eadca5874e2a121f229}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Springer Science}
+      \field{number}{67-68}
+      \field{title}{Numerical optimization}
+      \field{volume}{35}
+      \field{year}{1999}
+      \field{pages}{7}
+      \range{pages}{1}
+    \endentry
+    \entry{zhang2021collision}{article}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=2796e06afbb201b2cf70dcd7d0d589b6}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Xinyu},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c4046e8fd5855d3e53c70a4017558ff0}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Chengbo},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a3428dc5f6e49ec37804aa2922d652a8}{%
+           family={Jiang},
+           familyi={J\bibinitperiod},
+           given={Lingling},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8cd02d0dab97e1fdaa92abc1b922c051}{%
+           family={An},
+           familyi={A\bibinitperiod},
+           given={Lanxuan},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c4f0c9678fb69ebf79ff4210b385eee5}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Rui},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{f3629886ab0dcd161d737e068f1ea6de}
+      \strng{fullhash}{37e1749695247039cb66ce07754e613e}
+      \strng{bibnamehash}{37e1749695247039cb66ce07754e613e}
+      \strng{authorbibnamehash}{37e1749695247039cb66ce07754e613e}
+      \strng{authornamehash}{f3629886ab0dcd161d737e068f1ea6de}
+      \strng{authorfullhash}{37e1749695247039cb66ce07754e613e}
+      \field{sortinit}{Z}
+      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Ocean Engineering}
+      \field{title}{Collision-avoidance navigation systems for Maritime Autonomous Surface Ships: A state of the art survey}
+      \field{volume}{235}
+      \field{year}{2021}
+      \field{pages}{109380}
+      \range{pages}{1}
     \endentry
   \enddatalist
 \endrefsection

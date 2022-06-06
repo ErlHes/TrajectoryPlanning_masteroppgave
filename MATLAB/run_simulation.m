@@ -4,11 +4,17 @@
 %%
 time = 0;
 iteration = 1;
+bigsim = settings.big;
+simplicity = strcat('_Simple_',num2str(settings.simple));
 % global tracking_data
 
 disp('Simulation starting... ');
 disp('...');
 tic;
+
+
+fig_filename = simulation;
+    figure_filepos = strcat('C:\Users\erlen\Documents\GitHub\TrajectoryPlanning_masteroppgave\Rapport\Images\Figures\',simulation,'/');
 
 if(parameters.system.make_video)
     clear('F')
@@ -77,30 +83,50 @@ while time < settings.t_sim
         
        
         if(vizualization_counter==0 && visualization)
+
+            if bigsim == 1
+                xaxis = [agents(end).eta(2) - 200, agents(end).eta(2) + 200];
+                yaxis = [agents(end).eta(1) - 200, agents(end).eta(1) + 200];
+                newaxis = [xaxis, yaxis];
+                axis(newaxis); % FOR BIG SIMS
+            end
+
+
             figure(1)
             hold on;
-            text_handle = text(20,20,strcat('t =  ', num2str(time),'s'), 'fontsize',22);
+            if bigsim 
+                text_handle = text(xaxis(1)+20,yaxis(1)+20,strcat('t =  ', num2str(time),'s'), 'fontsize',22);
+            else
+                text_handle = text(20,20,strcat('t =  ', num2str(time),'s'), 'fontsize',22);
+            end
+
             graph_handles = [graph_handles;text_handle];
             hold off;
             figure(999)
             hold on;
-            text_handle = text(20,20,strcat('t =  ', num2str(time),'s'), 'fontsize',22);
+            if bigsim 
+                text_handle = text(xaxis(1)+20,yaxis(1)+20,strcat('t =  ', num2str(time),'s'), 'fontsize',22);
+            else
+                text_handle = text(20,20,strcat('t =  ', num2str(time),'s'), 'fontsize',22);
+            end
             graph_handles = [graph_handles;text_handle];
             hold off;
 
-            if time > 20 && time < 22
-                dummy = 'thick';
+            if mod(time-0.1,25) < 1
+%                 dummy = 'thick';
+%             saveas(999,strcat(figure_filepos,simplicity,'fig999_','time=',num2str(time-0.1)),'fig');
+%             saveas(1,strcat(figure_filepos,simplicity,'fig1_','time=',num2str(time-0.1)),'fig');
             end
 
             if(j==size(agents,2))
-                figure(600);
-                hold on;
-                agent_eta = [agents(j).eta(1:2,1);atan2(agents(j).eta_dot(2,1), agents(j).eta_dot(1,1))];
-                agent_eta_dot = [agents(j).eta_dot];
-                handle_ = plot_os(agent_eta, 'b', 2); % Eta
-                graph_handles = [graph_handles;handle_];
-                handle_ = quiver(agent_eta(2), agent_eta(1), agent_eta_dot(2),agent_eta_dot(1),10,'b','filled');
-                graph_handles = [graph_handles;handle_];
+%                 figure(600);
+%                 hold on;
+%                 agent_eta = [agents(j).eta(1:2,1);atan2(agents(j).eta_dot(2,1), agents(j).eta_dot(1,1))];
+%                 agent_eta_dot = [agents(j).eta_dot];
+%                 handle_ = plot_os(agent_eta, 'b', 2); % Eta
+%                 graph_handles = [graph_handles;handle_];
+%                 handle_ = quiver(agent_eta(2), agent_eta(1), agent_eta_dot(2),agent_eta_dot(1),10,'b','filled');
+%                 graph_handles = [graph_handles;handle_];
 %                 plot(agents(size(agents,2)).eta(2,1),agents(size(agents,2)).eta(1,1),'b');
 %                 plot_trajectory(agents(j),'blue');  
                 % Test
@@ -108,12 +134,12 @@ while time < settings.t_sim
 %                 plot_trajectory(agents(j),'blue'); % persistent_OS_traj
 
             else
-                figure(600);
-                hold on;
-                handle_ = plot_os(agents(j).eta, 'r',2);
-                graph_handles = [graph_handles;handle_];
-                handle_= quiver(agents(j).eta(2), agents(j).eta(1), agents(j).eta_dot(2),agents(j).eta_dot(1),10,'r','filled');
-                graph_handles = [graph_handles;handle_];
+%                 figure(600);
+%                 hold on;
+%                 handle_ = plot_os(agents(j).eta, 'r',2);
+%                 graph_handles = [graph_handles;handle_];
+%                 handle_= quiver(agents(j).eta(2), agents(j).eta(1), agents(j).eta_dot(2),agents(j).eta_dot(1),10,'r','filled');
+%                 graph_handles = [graph_handles;handle_];
 %                 plot_trajectory(agents(j),'red');
             end
         end
@@ -148,7 +174,7 @@ disp(strcat("Elapsed time is ",num2str(t)));
 if(parameters.system.make_video)
     disp('Saving video...')       
     
-    fig_filename = simulation;
+%     fig_filename = simulation;
     video_filepos = strcat('C:\Users\erlen\Documents\GitHub\TrajectoryPlanning_masteroppgave\MATLAB\videoresults\Newfigs/');
 
 %     % create the video writer with 1 fps
@@ -166,7 +192,7 @@ if(parameters.system.make_video)
 %     % close the writer object
 %     close(writerObj);
     
-    writerObj2 = VideoWriter( strcat(video_filepos, fig_filename,'_simple1_fig1.avi'));
+    writerObj2 = VideoWriter( strcat(video_filepos, fig_filename,simplicity,'fig1.avi'));
     writerObj2.FrameRate = 20;
     
     open(writerObj2);
@@ -176,7 +202,7 @@ if(parameters.system.make_video)
     end
     close(writerObj2);
     
-        writerObj3 = VideoWriter( strcat(video_filepos, fig_filename,'_simple1_fig999.avi'));
+        writerObj3 = VideoWriter( strcat(video_filepos, fig_filename,simplicity,'fig999.avi'));
     writerObj3.FrameRate = 20;
     
     open(writerObj3);

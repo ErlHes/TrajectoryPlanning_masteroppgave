@@ -82,7 +82,6 @@
     </requires>
     <requires type="editable">
       <file>references.bib</file>
-      <file>jonasref.bib</file>
     </requires>
   </external>
 </requests>

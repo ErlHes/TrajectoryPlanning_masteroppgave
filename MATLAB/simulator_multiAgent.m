@@ -98,20 +98,22 @@ end
 % simulation = 'Ferjekryss';
 
 %% The scenario list!!
-simulation = 'Havn1';
 % simulation = 'enkel_HO';
 % simulation = 'enkel_GW';
 % simulation = 'enkel_SO';
 % simulation = 'sving_HO';
 % simulation = 'sving_GW';
 % simulation = 'sving_SO';
-
-% Tweak theese
-% simulation = 'Trheimfjord';
-% simulation = 'skjergard_m_trafikk';
+simulation = 'Havn1';
 % simulation = 'skjergard_u_trafikk';
 % simulation = 'Helloya';
 % simulation = 'Helloya_Rev';
+% simulation = 'skjergard_m_trafikk_NEW';
+% simulation = 'Trheimfjord';
+% Tweak theese
+
+% simulation = 'skjergard_m_trafikk';
+
 
 %% Discretization step length debugg
 % simulation = 'Race';
@@ -139,6 +141,14 @@ set_global_map_data(static_obs);
 % Define environment
 % Preallocate array for data storage
 % run(strcat(home_dir,'utility/','preallocate_data_array.m'));
+
+%% Set other global settings
+% settings.simple = 1;
+settings.simple = 0;
+settings.big = 0;
+settings.scale = 1;
+
+%%
 
 
 disp('done');
@@ -169,7 +179,3 @@ sim_output.agent_data = agent_data;
 sim_output.time = 0:settings.dt:time-settings.dt;
 sim_output.settings = settings;
 save(strcat(home_dir,'simulations/', simulation, '/sim_output.mat'), 'sim_output');
-
-%% Clear variables
-clear('agent_data', 'agents', 'empty_agent', 'time','sim_output','iteration','dt','j','t_sim','settings');
-clear;
