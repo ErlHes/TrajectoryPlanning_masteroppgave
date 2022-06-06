@@ -114,8 +114,8 @@ while time < settings.t_sim
 
             if mod(time-0.1,25) < 1
 %                 dummy = 'thick';
-            saveas(999,strcat(figure_filepos,simplicity,'fig999_','time=',num2str(time-0.1)),'fig');
-            saveas(1,strcat(figure_filepos,simplicity,'fig1_','time=',num2str(time-0.1)),'fig');
+%             saveas(999,strcat(figure_filepos,simplicity,'fig999_','time=',num2str(time-0.1)),'fig');
+%             saveas(1,strcat(figure_filepos,simplicity,'fig1_','time=',num2str(time-0.1)),'fig');
             end
 
             if(j==size(agents,2))

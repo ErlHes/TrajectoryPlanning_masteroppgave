@@ -53,7 +53,7 @@ persistent OS_traj_handle
 %     Fx_opt = w_opt(7:9:end);
 %     Fy_opt = w_opt(8:9:end);
 %     Fn_opt = w_opt(9:9:end);
-    
+%     
 %     N_error = north_opt - xref_N;
 %     E_error = east_opt - xref_E;
     

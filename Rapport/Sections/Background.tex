@@ -10,8 +10,8 @@
 \end{itemize}
 \fi
 This chapter will introduce the concepts and theory neccessary to understand the design and intent behind the trajectoy planning algorithm, as well as the discussion on it's functionality.
-The goal of the chapter is that the reader will have enough intuition of the applied theory that the proposed arguments and solutions make sense. In addition the chapter is structured
-so that it should be easy to quickly find and read about specifics.
+The goal of the chapter is that the reader will have enough intuition of the applied theory that the proposed arguments and solutions should make sense. In addition, the chapter is structured
+so that it should be easy to quickly navigate and read about specific topics.
 \subsection{Vessel modelling}
 \iffalse
 --------- Genereal thoughts --------------------------
@@ -48,7 +48,7 @@ Jeg tenker det er best å skrive om modellering i sammenheng med hvordan traject
 A mathematical model is a tool for describing physical systems and expressing how they change over time, respond to external forces, and how stable the system might be. Models are very useful when designing control systems as
 they translate the physical into equations that computers can understand. When making a model it is often useful to seperate the dynamics of the different parts of the 
 system we are interested in, these are the \gls{DOF} the system has, and is often the directions the system can move, though they can also just be
-nondescript generalized coordinates. Deciding what \gls{DOF} to seperate out and model the dynamics of is often what seperates models from each other, it is pointless to model
+nondescript generalized coordinates. Deciding which \gls{DOF} to seperate out and model the dynamics of is often what seperates models from each other, it is pointless to model
 an aspect of a system that there is no intent to interact with. For example a ship has six \gls{DOF}, see Figure \ref{FIG: Ship DOF}, for modelling a control system for stationkeeping
 all six are important because stationkeeping involves keeping the whole ship as steady as possible. When modelling for path following on the other hand it is not
 important what the heave, roll, or pitch of our vessel is and so the dynamics of those \gls{DOF} can safely be ignored. 
@@ -66,7 +66,7 @@ Where $\bm{\eta}$ is the pose of the vessel, parameterized in the tangental plan
 The vector $\bm{\eta}$ is a column vector with the vessel's North, East and Heading values, which are the three \gls{DOF} of the system. The $\bm{\nu}$ vector is a column vector containing
 the vessel's velocities parameterized in the BODY frame, namely surge, sway, and yaw rate. In the BODY frame there are no fixed rules for where the axis are pointing, but the common convention for modelling
 vehicles is that the x-axis points along the lognitudal axis of the vessel, the y-axis points along the lateral axis and the z-axis points along the vertical axis. This is also seen in Figure \ref{FIG: Ship DOF}.
-The anchor point for the BODY frame is arbitrary but always fixed to and moves with the vessel. \textbf{R} is a rotational matrix about the heading ($\psi$) of the vessel and it transform the BODY velocities into
+The anchor point for the BODY frame is arbitrary but always fixed to the vessel and moves with it. \textbf{R} is a rotational matrix about the heading ($\psi$) of the vessel and it transform the BODY velocities into
 NED movement. 
 The Rotation matrix, as well as pose, velocity, and the thruster vector $\bm{\tau}$ are:
 
@@ -195,13 +195,28 @@ Because the vessel dynamics are described by a model expressed as a set of time-
 can be reached by solving for the sequence of inputs that will take the vessel from a given initial condition to said state. In the context of this
 thesis "state" refers to the pose, $\bm{\eta}$, of the vessel. The simplest application of this would be moving in a straight line from point A to point B.
 The solution is simply to find the input sequence which turns the vessel to the correct course and then maintaining a forward speed until point B is reached.
+The straight vector line from point A to point B can be thought of as the desired or reference path, while the sequence of states achieved by applying the 
+input sequence is the trajectory. Instead of having just one destination there might be multiple waypoints forming the path, and the optimal
+input sequence that makes the vessel travel along the path depends on what criteria are considered important. A trajectory generated with fuel
+economy in mind might look very different from a trajectory generated with shortest transit time in mind, even if both are following the same path.
+Other factors such as obstacles or disturbances will also influence the trajectory, combining all the factors and generating the desired
+input sequence is the act of trajectory planning.
+
+There are many methods for trajectory planning. Some are conceptually simple and fast to compute, but lack robustness and situational adaptability.
+Or the method can be incredibly complex and and computationally involved, but in return incredibly robust to disturbances and adaptable to
+any situation. An example of a simple trajectory planner would be a \gls{LOS} guidance law while something extremely advanced would be training a deep
+neural network. For an overview: in this thesis a \gls{LOS} guidance law will be applied to generate a reference trajectory, the reference is then used as part of a
+formulation of an \gls{OCP} with a cost to penalize deviation from the reference in addition to other factors. The \gls{OCP} is then formulated
+as a \gls{NLP} problem using a method called direct multiple shooting, finally the \gls{NLP} is solved with an \gls{IPOPT} solver.
+
+\subsubsection*{Line of Sight Guidance}
 
 
-We might not have just a desired destination, for example we could have a set of waypoints which we wish to pass through. the set of waypoints
-form a path, or set of states to pass by to reach the ultimate state, the destination. Due to constraints it might be impossible to follow the path exactly,
-best we can do is calculate the optimal input sequence, applying the sequence in order results in the final trajectory of the vessel.
-they can be solved for the input
-neccessary to achieve any desired state. 
+\subsubsection*{Optimal Control Problem}
+
+
+\subsubsection*{NonLinear Programming}
+
 
 
 \begin{subequations}
@@ -217,8 +232,8 @@ neccessary to achieve any desired state.
 where $\textbf{F}$ is the objective function, $\boldsymbol{\eta}(t)$ is the position and attitude trajectory of the vehicle, $\textbf{u}(t)$
 is the control input trajectory and $\textbf{L}$ is the kinematic model of the vehicle. Though the OCP can be solved
 the way it is set up in (\ref{eq:OCP description}) it is more pratical to discretize it into a ( \gls{NLP}).
-With a method called direct multiple shooting, both state and control input are defined as decision variables, the  \gls{NLP} with
-$N$ control intervals is:
+With a method called direct multiple shooting, both state and control input are defined as decision variables, the \gls{NLP} with
+$N$ control intervals is: 
 
 \begin{figure}
     \includegraphics[width=\textwidth]{Images/MultipleShooting.pdf}
@@ -237,26 +252,31 @@ $N$ control intervals is:
 
 
 \subsection{Collision Avoidance}
+\iffalse
 \begin{itemize}
     \item \gls{COLREGs}
     \subitem Expected behaviour, situation classification, etc etc.
     \item \gls{dCPA} / \gls{tCPA}
     \item Other risk assessment? Situation complexity? Det er mer som inngår i "collisions avoidance" som jeg kanskje ikke dekker så veldig bra med min algoritme.
 \end{itemize}
+\fi
+
+Collision avoidance is
+
 
 \begin{figure}
     \centering
-    \label{FIG: COLREGs Classification}
     \includegraphics[height=0.35\textheight]{Images/COLREGs_assess.png}
     \caption{(TODO:ENDRE)Assigning COLREGS flag: with OS in the center we can place the TS in one of four regions. Similarly the relative bearing from TS to OS can be assigned regions with region 1 pointed directly at the OS and the rest following in a clockwise rotation.
     Courtesy of Emil Thyri.}
+    \label{FIG: COLREGs Classification}
 \end{figure}
 
 \begin{figure}
     \centering
-    \label{FIG: ship CPA}
     \includegraphics[width=\textwidth]{Images/shipCPA.pdf}
     \caption{Visualizing dCPA and tCPA.}
+    \label{FIG: ship CPA}
 \end{figure}
 
 \subsection{'The complete system'}
