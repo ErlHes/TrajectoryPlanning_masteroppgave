@@ -20,21 +20,29 @@
 
 \subsection{Previous Work}
 \begin{itemize}
-    \item boy I sure wish I had read more resarch.
+    \item cite \cite{loe2007collision} For in-depth look at many different methods.
+    \item cite \cite{vagale2021path} For a review of path planning algorithms.
+    \item cite \cite{zhang2021collision} For another big review on navigation systems for ASV
+    \item cite \cite{huang2020ship} For another review of Collision avoidance.
+    \item cite \cite{park2020social} For an alternative approach to Trajectory planning with similar-ish results.
+    \item Cite someone to prove that Autonomous surface vessels are real? :thinking\_emoji:
 \end{itemize}
 
 \subsection{Problem Description}
 \begin{itemize}
     \item Many papers on trajectory planning emjoy simple "cpa" prediction.
     \item Many algorithms end up creating a very 'active' vessel, which is different from how most humans navigate.
-    \item \gls{COLREGs} compliance needs more attention.
-    \item 
+    \item Trajectory planning and collision avoidance in one package
+    \item Would it help if we had the tools to more accurately predict other vessels.
 \end{itemize}
 
 \subsection{Contributions}
 \begin{itemize}
-    \item Analyse av fordeler med å ha bedre / avansert prediksjon av TS.
-    \item 
+    \item A novel MPC based path following trajectory planner that accounts for both static and dynamic obstacles.
+    \item An evaluation of the fitness of numerical optimization as trajectory planning backbone.
+    \item documented simulations experimenting with the difference 'Prediction Level' makes.
+    \item documented problems that numerical optimization based trajectory planner algorithms might encounter.
+    \item propose mitigation methods for aformentioned problems.
 \end{itemize}
 
 \subsection{Outline}

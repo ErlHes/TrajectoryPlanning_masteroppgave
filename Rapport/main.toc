@@ -17,7 +17,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {1.2}Previous Work}{1}{subsection.1.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.3}Problem Description}{1}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.3}Problem Description}{2}{subsection.1.3}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {1.4}Contributions}{2}{subsection.1.4}%
 \defcounter {refsection}{0}\relax 
@@ -35,41 +35,41 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {3}Trajectory planner}{12}{section.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.1}Dataflow}{12}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.1}Dataflow}{13}{subsection.3.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.2}Setup}{13}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.2}Setup}{14}{subsection.3.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.2.1}Simplify Prediction}{14}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.1}Simplify Prediction}{15}{subsubsection.3.2.1}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {3.2.2}COLREGs assessment}{15}{subsubsection.3.2.2}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {3.2.3}Dynamic Horizon}{16}{subsubsection.3.2.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.2.4}CasADi setup}{16}{subsubsection.3.2.4}%
+\contentsline {subsubsection}{\numberline {3.2.4}CasADi setup}{17}{subsubsection.3.2.4}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {3.2.5}Feasibility check}{17}{subsubsection.3.2.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.2.6}Reference from LOS}{17}{subsubsection.3.2.6}%
+\contentsline {subsubsection}{\numberline {3.2.6}Reference from LOS}{18}{subsubsection.3.2.6}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3}NLP construction and solver}{17}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.3}NLP construction and solver}{18}{subsection.3.3}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {3.3.1}NLP initialization}{18}{subsubsection.3.3.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.3.2}Integration step}{18}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.2}Integration step}{19}{subsubsection.3.3.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.3.3}Dynamic Obstacles constraints}{18}{subsubsection.3.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.3}Dynamic Obstacles constraints}{19}{subsubsection.3.3.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.3.4}Static Obstacles constraints}{18}{subsubsection.3.3.4}%
+\contentsline {subsubsection}{\numberline {3.3.4}Static Obstacles constraints}{19}{subsubsection.3.3.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.3.5}Solver}{20}{subsubsection.3.3.5}%
+\contentsline {subsubsection}{\numberline {3.3.5}Solver}{19}{subsubsection.3.3.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.4}Alternative ideas and lessons}{20}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.4}Alternative ideas and lessons}{19}{subsection.3.4}%
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4}Simulation Results}{21}{section.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1}scenario overview}{21}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.1}scenario overview}{22}{subsection.4.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2}Results}{23}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.2}Results}{24}{subsection.4.2}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {4.2.1}Simple Head On}{24}{subsubsection.4.2.1}%
 \defcounter {refsection}{0}\relax 

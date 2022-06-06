@@ -421,7 +421,7 @@ g_counter = 7;
 
     if(firsttime)
         options.ipopt.max_iter = 200;
-        options.ipopt.print_level =  0;
+        options.ipopt.print_level =  5;
         firsttime = 0;
     end
     solver = nlpsol('solver', 'ipopt', prob, options);

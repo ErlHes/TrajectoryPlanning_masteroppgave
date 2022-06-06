@@ -15,11 +15,11 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {6}{\ignorespaces The simple version of the dataflow...\relax }}{14}{figure.caption.14}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {7}{\ignorespaces TODO: SKRIV OG REFERER. Naiv approach 1\relax }}{19}{figure.caption.15}%
+\contentsline {figure}{\numberline {7}{\ignorespaces TODO: SKRIV OG REFERER. Naiv approach 1\relax }}{20}{figure.caption.15}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {8}{\ignorespaces TODO: SKRIV OG REFERER. Naiv approach 2\relax }}{19}{figure.caption.16}%
+\contentsline {figure}{\numberline {8}{\ignorespaces TODO: SKRIV OG REFERER. Naiv approach 2\relax }}{20}{figure.caption.16}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {9}{\ignorespaces TODO: SKRIV OG REFERER. Convex free set\relax }}{20}{figure.caption.17}%
+\contentsline {figure}{\numberline {9}{\ignorespaces TODO: SKRIV OG REFERER. Convex free set\relax }}{21}{figure.caption.17}%
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {10}{\ignorespaces Simple Head on With Prediction\relax }}{26}{figure.caption.27}%
 \defcounter {refsection}{0}\relax 
@@ -68,14 +68,14 @@
 \contentsline {figure}{\numberline {31}{\ignorespaces SKJÆRGÅRD WITH TRAFFIC. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{82}{figure.caption.79}%
 \contentsfinish 
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {32}{\ignorespaces SKJÆRGÅRD WITH TRAFFIC. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{89}{figure.caption.82}%
+\contentsline {figure}{\numberline {32}{\ignorespaces SKJÆRGÅRD WITH TRAFFIC. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{90}{figure.caption.82}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {33}{\ignorespaces This is what can happen when the prediction does not match the actual trajectory of \gls {Ts}s\relax }}{90}{figure.caption.83}%
+\contentsline {figure}{\numberline {33}{\ignorespaces This is what can happen when the prediction does not match the actual trajectory of \gls {Ts}s\relax }}{91}{figure.caption.83}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {34}{\ignorespaces How optimal path is calculated with lower speed when infeasibility is detected.\relax }}{91}{figure.caption.84}%
+\contentsline {figure}{\numberline {34}{\ignorespaces How optimal path is calculated with lower speed when infeasibility is detected.\relax }}{92}{figure.caption.84}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {35}{\ignorespaces this is a problem for sure.\relax }}{92}{figure.caption.85}%
+\contentsline {figure}{\numberline {35}{\ignorespaces this is a problem for sure.\relax }}{93}{figure.caption.85}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {36}{\ignorespaces Stuck inside a static obstacle\relax }}{93}{figure.caption.86}%
+\contentsline {figure}{\numberline {36}{\ignorespaces Stuck inside a static obstacle\relax }}{94}{figure.caption.86}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {37}{\ignorespaces A quirk of numerical optimization, sometimes turning to the wrong side leads to a 'smoother' curve.\relax }}{94}{figure.caption.87}%
+\contentsline {figure}{\numberline {37}{\ignorespaces A quirk of numerical optimization, sometimes turning to the wrong side leads to a 'smoother' curve.\relax }}{95}{figure.caption.87}%

@@ -1,5 +1,5 @@
 \section{Trajectory planner}
-\iffalse
+
 \begin{itemize}
     \item Tidligere kjent som 'Method'.
     \item Har lyst å skrive litt om tankegangen bak utviklingen, ikke bare om hvordan ting endte opp med å bli.
@@ -17,7 +17,13 @@
     \subitem Solve NLP, give output.
     \item Bit for bit, forklar hva, hvorfor, hvordan, eventuellt andre versjoner eller ideer som ble prøvd.
     \item forklar informasjonsflyt, kanskje som eget delkapittel. 
-\end{itemize} \fi
+    \item My method is NOT a dock-to-dock system, the developed algorithm is NOT suitable for stationkeeping or docking maneuvers.
+    Dock-To-Dock does exist see \cite{WärtsiläDockToDock}, 
+    otherwise there are OTHER algorithms more suitable for docking. (TODO: FIND SOMETHING TO CITE)
+\end{itemize} 
+
+
+
 \iffalse
 The developed algorithm is a path following trajectory planner and collision avoidance package where the dynamics of the \gls{OS}
 vessel are formulated as an ODE (TODO: REF TIL EQ) and the optimal trajectory is found by a method called direct multiple shooting.

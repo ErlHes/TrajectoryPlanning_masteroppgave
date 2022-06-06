@@ -107,7 +107,7 @@ In \ref{EQ: Vessel Dynamics} the \textbf{M} matrix is the inertia matrix of the 
 addition to the vessel's inherent inertia from being massive the vessel must also push water out of the way when it moves, this is what is known as
 hydrodynamic added mass and is linearly added to the inertia matrix. The coriolis matrix \textbf{C} also has to include hydrodynamic added mass,
 however for the purpose of this thesis it is not important to know the parameters for either of these matrices or for the dampening matrix \textbf{D}.
-That is because a trajectory planning algorithm needs to work regardless of vessel parameters, \cite{andersson2019casadi} explains more in-depth
+That is because a trajectory planning algorithm needs to work regardless of vessel parameters, \cite{pedersen2019optimization} explains more in-depth
 how the system parameters can be found. Continuing on, the dampening matrix is a linear combination of the linear dampening stemming from water
 viscosity and non-linear dampening from cross-flow, once again the parameters themselves are not strictly relevant to this thesis, but intuition is
 important. The result are matrices in the following form:
@@ -224,11 +224,12 @@ as a \gls{NLP} problem using a method called direct multiple shooting, finally t
 
 \subsubsection*{Optimal Control Problem}
 \begin{itemize}
-    \item Equations
-    \item Model Predictive Control
-    \item Many ways to solve an optimization problem
-    \item Continuous dynamics
-    \item \cite{breivik2017mpc}
+    \item Equations.
+    \item Model Predictive Control.
+    \item Many ways to solve an optimization problem.
+    \item Continuous dynamics.
+    \item cite \cite{breivik2017mpc} for a quick look and equation formulation.
+    \item cite \cite{wright1999numerical} For a comprehensive lesson on optimal control.
 \end{itemize}
 
 \begin{subequations}
@@ -248,7 +249,9 @@ as a \gls{NLP} problem using a method called direct multiple shooting, finally t
     \item I don't really understand this stuff too much.
     \item Direct Multiple Shooting explaination needed.
     \item shooting gaps.
-    \item \cite{gros2017Lecture}
+    \item cite \cite{gros2017Lecture} for direct multiple shooting
+    \item cite \cite{andersson2019casadi} Casadi for constructing the NLP in a 
+    computer friendly way, and \cite{wachter2006implementation} for IPOPT
 \end{itemize}
 
 \begin{figure}
@@ -289,7 +292,7 @@ as a \gls{NLP} problem using a method called direct multiple shooting, finally t
 \fi
 
 \begin{itemize}
-    \item \gls{COLREGs}, cite COLREGS?
+    \item \gls{COLREGs}, cite \cite{WikisourceCOLREGS} I guess.
     \item Classification \cite{tam2010collision}.
     \item Modification \& Figur er simpelt: Courtesy of Emil Thyri.
     \item Alternative classification algorithm \cite{woerner2016multi}.
@@ -297,7 +300,9 @@ as a \gls{NLP} problem using a method called direct multiple shooting, finally t
     \item My modifications to dCPA and tCPA method to get 'full coverage' of path.
     \item Static Obstacles "detection" and constraint placements
     \item Dynamic obstacles constraints.
-    \item Computer vision, radar/lidar/sonar/etc. Is not a part of this thesis, see (TODO: cite someone for further reading.)
+    \item Computer vision, radar/lidar/sonar/etc. Is not a part of this thesis, see for example \cite{ruud2018lidar} for that topic.
+    \item Maneuvers for avoiding collision \cite{cockcroft2012manoeuvres}
+    \item No right of way, only Give Way or Stand On.
     \item cite \cite{cho2018intent} as a method for identifying intent, and a lead in to target ship prediction.
 \end{itemize}
 
@@ -360,7 +365,8 @@ as a \gls{NLP} problem using a method called direct multiple shooting, finally t
     a centralized system. Solving conflicting paths would be done on a higher level than individual vessel.
     \item cite \cite{scholler2021trajectory} for AIS prediction.
     \item cite \cite{zhang2021collision} For mention of massive AIS data.
-    \item 
+    \item cite ais?? har sett noen gjøre det.
+    \item cite \cite{huang2020ship} to refer to current methods for target ship prediction.
 \end{itemize}
 
 \begin{figure}

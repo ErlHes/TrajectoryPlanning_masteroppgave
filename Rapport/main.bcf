@@ -2345,20 +2345,33 @@
     <bcf:datasource type="file" datatype="bibtex" glob="false">references.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="2">fossen2011handbook</bcf:citekey>
-    <bcf:citekey order="3">fossen2011handbook</bcf:citekey>
-    <bcf:citekey order="4">fossen2011handbook</bcf:citekey>
-    <bcf:citekey order="5">andersson2019casadi</bcf:citekey>
-    <bcf:citekey order="6">lekkas2013line</bcf:citekey>
-    <bcf:citekey order="7">breivik2017mpc</bcf:citekey>
-    <bcf:citekey order="8">gros2017Lecture</bcf:citekey>
-    <bcf:citekey order="9">tam2010collision</bcf:citekey>
-    <bcf:citekey order="10">woerner2016multi</bcf:citekey>
-    <bcf:citekey order="11">Kufoalor2018</bcf:citekey>
-    <bcf:citekey order="12">cho2018intent</bcf:citekey>
-    <bcf:citekey order="13">scholler2021trajectory</bcf:citekey>
-    <bcf:citekey order="14">zhang2021collision</bcf:citekey>
-    <bcf:citekey order="15">Kufoalor2018</bcf:citekey>
+    <bcf:citekey order="2">loe2007collision</bcf:citekey>
+    <bcf:citekey order="3">vagale2021path</bcf:citekey>
+    <bcf:citekey order="4">zhang2021collision</bcf:citekey>
+    <bcf:citekey order="5">huang2020ship</bcf:citekey>
+    <bcf:citekey order="6">park2020social</bcf:citekey>
+    <bcf:citekey order="7">fossen2011handbook</bcf:citekey>
+    <bcf:citekey order="8">fossen2011handbook</bcf:citekey>
+    <bcf:citekey order="9">fossen2011handbook</bcf:citekey>
+    <bcf:citekey order="10">pedersen2019optimization</bcf:citekey>
+    <bcf:citekey order="11">lekkas2013line</bcf:citekey>
+    <bcf:citekey order="12">breivik2017mpc</bcf:citekey>
+    <bcf:citekey order="13">wright1999numerical</bcf:citekey>
+    <bcf:citekey order="14">gros2017Lecture</bcf:citekey>
+    <bcf:citekey order="15">andersson2019casadi</bcf:citekey>
+    <bcf:citekey order="16">wachter2006implementation</bcf:citekey>
+    <bcf:citekey order="17">WikisourceCOLREGS</bcf:citekey>
+    <bcf:citekey order="18">tam2010collision</bcf:citekey>
+    <bcf:citekey order="19">woerner2016multi</bcf:citekey>
+    <bcf:citekey order="20">Kufoalor2018</bcf:citekey>
+    <bcf:citekey order="21">ruud2018lidar</bcf:citekey>
+    <bcf:citekey order="22">cockcroft2012manoeuvres</bcf:citekey>
+    <bcf:citekey order="23">cho2018intent</bcf:citekey>
+    <bcf:citekey order="24">scholler2021trajectory</bcf:citekey>
+    <bcf:citekey order="25">zhang2021collision</bcf:citekey>
+    <bcf:citekey order="26">huang2020ship</bcf:citekey>
+    <bcf:citekey order="27">WärtsiläDockToDock</bcf:citekey>
+    <bcf:citekey order="28">Kufoalor2018</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nyt">
