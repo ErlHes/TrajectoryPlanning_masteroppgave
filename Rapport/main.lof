@@ -1,81 +1,81 @@
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \babel@toc {british}{}\relax 
+\babel@toc {norsk}{}\relax 
 \babel@toc {british}{}\relax 
-\babel@toc {british}{}\relax 
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {1}{\ignorespaces A ships 6 degrees of Freedom, from \cite {fossen2011handbook}\relax }}{3}{figure.caption.6}%
+\contentsline {figure}{\numberline {1}{\ignorespaces A ships 6 degrees of Freedom, from \cite {fossen2011handbook}\relax }}{3}{figure.caption.8}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {2}{\ignorespaces A physically feasible trajectory is formed by "pinching" the shooting gaps so they close. Reproduction of (TODO: CITER GROS), scale arbitrary.\relax }}{8}{figure.caption.10}%
+\contentsline {figure}{\numberline {2}{\ignorespaces A physically feasible trajectory is formed by "pinching" the shooting gaps so they close. Reproduction of (TODO: CITER GROS), scale arbitrary.\relax }}{8}{figure.caption.12}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {3}{\ignorespaces (TODO:ENDRE)Assigning COLREGS flag: with OS in the center we can place the TS in one of four regions. Similarly the relative bearing from TS to OS can be assigned regions with region 1 pointed directly at the OS and the rest following in a clockwise rotation. Courtesy of Emil Thyri.\relax }}{10}{figure.caption.11}%
+\contentsline {figure}{\numberline {3}{\ignorespaces (TODO:ENDRE)Assigning COLREGS flag: with OS in the center we can place the TS in one of four regions. Similarly the relative bearing from TS to OS can be assigned regions with region 1 pointed directly at the OS and the rest following in a clockwise rotation. Courtesy of Emil Thyri.\relax }}{10}{figure.caption.13}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {4}{\ignorespaces Visualizing dCPA and tCPA.\relax }}{10}{figure.caption.12}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Visualizing dCPA and tCPA.\relax }}{10}{figure.caption.14}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {5}{\ignorespaces TODO: Skriv. AIS data can show common transit routes. Image courtesy of Olex AS\relax }}{12}{figure.caption.13}%
+\contentsline {figure}{\numberline {5}{\ignorespaces TODO: Skriv. AIS data can show common transit routes. Image courtesy of Olex AS\relax }}{12}{figure.caption.15}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {6}{\ignorespaces The simple version of the dataflow...\relax }}{14}{figure.caption.14}%
+\contentsline {figure}{\numberline {6}{\ignorespaces The simple version of the dataflow...\relax }}{14}{figure.caption.16}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {7}{\ignorespaces TODO: SKRIV OG REFERER. Naiv approach 1\relax }}{20}{figure.caption.15}%
+\contentsline {figure}{\numberline {7}{\ignorespaces TODO: SKRIV OG REFERER. Naiv approach 1\relax }}{20}{figure.caption.17}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {8}{\ignorespaces TODO: SKRIV OG REFERER. Naiv approach 2\relax }}{20}{figure.caption.16}%
+\contentsline {figure}{\numberline {8}{\ignorespaces TODO: SKRIV OG REFERER. Naiv approach 2\relax }}{20}{figure.caption.18}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {9}{\ignorespaces TODO: SKRIV OG REFERER. Convex free set\relax }}{21}{figure.caption.17}%
+\contentsline {figure}{\numberline {9}{\ignorespaces TODO: SKRIV OG REFERER. Convex free set\relax }}{21}{figure.caption.19}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {10}{\ignorespaces Simple Head on With Prediction\relax }}{26}{figure.caption.27}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Simple Head on With Prediction\relax }}{26}{figure.caption.29}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {11}{\ignorespaces Simple Head on Without Prediction\relax }}{28}{figure.caption.29}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Simple Head on Without Prediction\relax }}{28}{figure.caption.31}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {12}{\ignorespaces Simple Give Way With Prediction\relax }}{30}{figure.caption.31}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Simple Give Way With Prediction\relax }}{30}{figure.caption.33}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {13}{\ignorespaces Simple Give Way Without Prediction\relax }}{32}{figure.caption.33}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Simple Give Way Without Prediction\relax }}{32}{figure.caption.35}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {14}{\ignorespaces Simple Stand On With Prediction\relax }}{34}{figure.caption.35}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Simple Stand On With Prediction\relax }}{34}{figure.caption.37}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {15}{\ignorespaces Simple Stand On Without Prediction\relax }}{36}{figure.caption.37}%
+\contentsline {figure}{\numberline {15}{\ignorespaces Simple Stand On Without Prediction\relax }}{36}{figure.caption.39}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {16}{\ignorespaces Turn Head On With Prediction\relax }}{38}{figure.caption.39}%
+\contentsline {figure}{\numberline {16}{\ignorespaces Turn Head On With Prediction\relax }}{38}{figure.caption.41}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {17}{\ignorespaces Turn Head On WithOUT Prediction\relax }}{40}{figure.caption.41}%
+\contentsline {figure}{\numberline {17}{\ignorespaces Turn Head On WithOUT Prediction\relax }}{40}{figure.caption.43}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {18}{\ignorespaces Turn GIVE WAY With Prediction\relax }}{42}{figure.caption.43}%
+\contentsline {figure}{\numberline {18}{\ignorespaces Turn GIVE WAY With Prediction\relax }}{42}{figure.caption.45}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {19}{\ignorespaces Turn GIVE WAY WithOUT Prediction\relax }}{44}{figure.caption.45}%
+\contentsline {figure}{\numberline {19}{\ignorespaces Turn GIVE WAY WithOUT Prediction\relax }}{44}{figure.caption.47}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {20}{\ignorespaces Turn Stand On With Prediction\relax }}{46}{figure.caption.47}%
+\contentsline {figure}{\numberline {20}{\ignorespaces Turn Stand On With Prediction\relax }}{46}{figure.caption.49}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {21}{\ignorespaces Turn Stand On WithOUT Prediction\relax }}{48}{figure.caption.49}%
+\contentsline {figure}{\numberline {21}{\ignorespaces Turn Stand On WithOUT Prediction\relax }}{48}{figure.caption.51}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {22}{\ignorespaces Canals simulation. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{51}{figure.caption.52}%
+\contentsline {figure}{\numberline {22}{\ignorespaces Canals simulation. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{51}{figure.caption.54}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {23}{\ignorespaces Canals simulation without prediction, shown with and without constraints\relax }}{54}{figure.caption.54}%
+\contentsline {figure}{\numberline {23}{\ignorespaces Canals simulation without prediction, shown with and without constraints\relax }}{54}{figure.caption.56}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {23}{\ignorespaces TODO: skriv. Havn1 w\_opt without prediction\relax }}{55}{figure.caption.55}%
+\contentsline {figure}{\numberline {23}{\ignorespaces TODO: skriv. Havn1 w\_opt without prediction\relax }}{55}{figure.caption.57}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {24}{\ignorespaces Trondheimfjord simulation. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{58}{figure.caption.58}%
+\contentsline {figure}{\numberline {24}{\ignorespaces Trondheimfjord simulation. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{58}{figure.caption.60}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {25}{\ignorespaces Trondheimfjord simulation. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{62}{figure.caption.61}%
+\contentsline {figure}{\numberline {25}{\ignorespaces Trondheimfjord simulation. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{62}{figure.caption.63}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {26}{\ignorespaces Helloya simulation. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{65}{figure.caption.64}%
+\contentsline {figure}{\numberline {26}{\ignorespaces Helloya simulation. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{65}{figure.caption.66}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {27}{\ignorespaces Helloya simulation. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{68}{figure.caption.67}%
+\contentsline {figure}{\numberline {27}{\ignorespaces Helloya simulation. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{68}{figure.caption.69}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {28}{\ignorespaces Helloya Reverse simulation. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{71}{figure.caption.70}%
+\contentsline {figure}{\numberline {28}{\ignorespaces Helloya Reverse simulation. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{71}{figure.caption.72}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {29}{\ignorespaces Helloya Reverse simulation. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{75}{figure.caption.73}%
+\contentsline {figure}{\numberline {29}{\ignorespaces Helloya Reverse simulation. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{75}{figure.caption.75}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {30}{\ignorespaces SKJÆRGÅRD WITH TRAFFIC. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{78}{figure.caption.76}%
+\contentsline {figure}{\numberline {30}{\ignorespaces SKJÆRGÅRD WITH TRAFFIC. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{78}{figure.caption.78}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {31}{\ignorespaces SKJÆRGÅRD WITH TRAFFIC. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{82}{figure.caption.79}%
+\contentsline {figure}{\numberline {31}{\ignorespaces SKJÆRGÅRD WITH TRAFFIC. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{82}{figure.caption.81}%
 \contentsfinish 
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {32}{\ignorespaces SKJÆRGÅRD WITH TRAFFIC. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{90}{figure.caption.82}%
+\contentsline {figure}{\numberline {32}{\ignorespaces SKJÆRGÅRD WITH TRAFFIC. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory\relax }}{90}{figure.caption.84}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {33}{\ignorespaces This is what can happen when the prediction does not match the actual trajectory of \gls {Ts}s\relax }}{91}{figure.caption.83}%
+\contentsline {figure}{\numberline {33}{\ignorespaces This is what can happen when the prediction does not match the actual trajectory of \gls {Ts}s\relax }}{91}{figure.caption.85}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {34}{\ignorespaces How optimal path is calculated with lower speed when infeasibility is detected.\relax }}{92}{figure.caption.84}%
+\contentsline {figure}{\numberline {34}{\ignorespaces How optimal path is calculated with lower speed when infeasibility is detected.\relax }}{92}{figure.caption.86}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {35}{\ignorespaces this is a problem for sure.\relax }}{93}{figure.caption.85}%
+\contentsline {figure}{\numberline {35}{\ignorespaces this is a problem for sure.\relax }}{93}{figure.caption.87}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {36}{\ignorespaces Stuck inside a static obstacle\relax }}{94}{figure.caption.86}%
+\contentsline {figure}{\numberline {36}{\ignorespaces Stuck inside a static obstacle\relax }}{94}{figure.caption.88}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {37}{\ignorespaces A quirk of numerical optimization, sometimes turning to the wrong side leads to a 'smoother' curve.\relax }}{95}{figure.caption.87}%
+\contentsline {figure}{\numberline {37}{\ignorespaces A quirk of numerical optimization, sometimes turning to the wrong side leads to a 'smoother' curve.\relax }}{95}{figure.caption.89}%

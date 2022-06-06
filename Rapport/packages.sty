@@ -92,19 +92,12 @@
 \renewcommand{\listtablename}{List of Tables}  % Rename list of tables
 
 % --- General ---
-\usepackage[british]{babel}     % Defining UK English as language. This will among other things ensure that dates are displayed as 24/03/1997 rather than 03/24/1997 in the bibliography.
+\usepackage[norsk, main=british]{babel}     % Defining UK English as language. This will among other things ensure that dates are displayed as 24/03/1997 rather than 03/24/1997 in the bibliography.
 \usepackage{import}     % Enable importing of sections
 \usepackage{csquotes}   % Provides international handling of quote marks. Especially useful for bibliography management using BibLaTeX
-\usepackage{hyperref}   % Hyper-references, possible to change color
 \usepackage{ragged2e}
 \usepackage{blindtext}
-\hypersetup{    % Color of hyper-references
-    colorlinks,
-    citecolor = black,
-    filecolor = black,
-    linkcolor = black,
-    urlcolor = black
-}
+
 \usepackage{comment}    % Comment blocks of text
 \def\equationautorefname{Equation}  % Autoref-name for equations
 \def\figureautorefname{Figure}  % Autoref-name for figures
@@ -162,3 +155,12 @@
 \renewcommand{\headrulewidth}{0.1ex}
 \renewcommand{\footrulewidth}{0.1ex}
 \fancyfoot[C]{\thepage}
+
+\usepackage{hyperref}   % Hyper-references, possible to change color
+\hypersetup{    % Color of hyper-references
+    colorlinks,
+    citecolor = black,
+    filecolor = black,
+    linkcolor = black,
+    urlcolor = black
+}

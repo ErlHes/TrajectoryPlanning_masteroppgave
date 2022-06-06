@@ -1,15 +1,17 @@
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \babel@toc {british}{}\relax 
-\babel@toc {british}{}\relax 
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{Preface}{i}{section*.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{Abstract}{iii}{section*.1}%
+\contentsline {section}{Abstract}{iii}{section*.2}%
+\babel@toc {norsk}{}\relax 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Sammendrag}{v}{section*.3}%
 \babel@toc {british}{}\relax 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{List of Figures}{vii}{section*.3}%
+\contentsline {section}{List of Figures}{ix}{section*.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{Acronyms}{x}{section*.4}%
+\contentsline {section}{Acronyms}{xii}{section*.6}%
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {1}Introduction}{1}{section.1}%
 \defcounter {refsection}{0}\relax 
@@ -103,5 +105,5 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {5}Conclusion and Future Work}{86}{section.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{References}{87}{section*.88}%
+\contentsline {section}{References}{87}{section*.90}%
 \contentsfinish 
