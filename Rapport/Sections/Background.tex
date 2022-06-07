@@ -309,24 +309,27 @@ fuel waste, minimizing distance to goal, and there are many more. The general ex
 Where $f(x)$ is some continuous function, $c_i$ are constraint functions on the system which $f(x)$ exists in, and $\mathcal{E}$ and $\mathcal{I}$ are indices
 pertaining to if the constraint $c_i$ is an equality or inequality constraint. In the context of this thesis the thing to minimize is some nebulous cost function
 associated with path following, and the constraints are the physical model of the system that guarantees feasibility as well as safety constraints to avoid collisions.
-The cost function is then some function of the vessel's state, reference trajectory, and applied force. The two constraints are the system dynamics from \ref{EQ: Vessel Dynamics}
+The cost function is then some function of the vessel's state, reference trajectory, and control input. The two constraints are the system dynamics from \ref{EQ: Vessel Dynamics}
 and \ref{EQ: eta_dot}. And then additional constraints for collision safety and initial conditions. A new general \gls{OCP} definition is thus given by the following:
 
 \begin{subequations}
-    \label{eq:OCP description}
+    \label{EQ :OCP description}
 \begin{align}
     % \textrm{Minimize} \quad & \textbf{F}(\boldsymbol{\eta}(t), \textbf{u}(t)) \label{eq:OCP-a} \\ 
     % \textrm{subject to} \quad & \dot{\boldsymbol{\eta}}(t) = \textbf{L}(\boldsymbol{\eta}(t), \textbf{u}(t)) \label{eq:OCP-b} \\
     % \quad & \textbf{h}(\boldsymbol{\eta}(t), \textbf{u}(t)) \leq \textbf{0} \label{eq:OCP-c}\\
     % \quad & \boldsymbol{\eta}(t_0) = \boldsymbol{\eta}_0 \label{eq:OCP-d}
     \textrm{Minimize} \quad & {L}(\bm{\theta}(t), \bm{\theta}_{ref}(t), \bm{\tau}(t)) \\
-    \textrm{Subject to:} \quad & \dot{\bm{\theta}}(t) = \textbf{F}(\bm{\theta}, \bm{\tau}) \\
+    \textrm{Subject to:} \quad & \dot{\bm{\theta}}(t) = \textbf{J}(\bm{\theta}, \bm{\tau}) \\
                          \quad & \textbf{h}(\bm{\theta}(t), \bm{\tau}(t)) \leq 0 \\
                          \quad & \bm{\theta}(t_0) - \overline{\bm{\theta}}_0 = 0
 \end{align}
 \end{subequations}
-where L is the cost function, $\bm{\theta} = [\bm{\eta}^T \ , \ \bm{\nu}^T]^T$ and $\bm{\tau}$ is the same as in \ref{EQ: Tau}. The solution to the optimization
-problem is the series of inputs $\bm{\tau}$ which minimizes the integral of the cost L from t\textsubscript{0} to t\textsubscript{end}. And L has the form of a quadratic function
+where L is the cost function, $\bm{\theta} = [\bm{\eta}^T \ , \ \bm{\nu}^T]^T$ and $\bm{\tau}$ is the same as in \ref{EQ: Tau}. 
+\textbf{J}($\bm{\theta}, \bm{\tau}$) Are the model dynamics \ref{EQ: eta_dot}, \ref{EQ: Vessel Dynamics}. $\overline{\bm{\theta}}_0$ are the
+given intial conditions of the system.
+The solution to the optimization problem is the series of inputs $\bm{\tau}$ which minimizes the integral of the cost L 
+from t\textsubscript{0} to t\textsubscript{end}. And L has the form of a quadratic function
 akin to a weighted least squares: (TODO: Eh, grei formulering?)
 \begin{equation}
     L(\bm{\theta}(t), \bm{\theta}_{ref}(t), \bm{\tau}(t)) = (\bm{\theta}(t) - \bm{\theta}_{ref}(t))^T \textbf{Q} (\bm{\theta}(t) - \bm{\theta}_{ref}(t)) + \textbf{K}_\tau \bm{\tau}^2
@@ -339,30 +342,114 @@ the \gls{OCP} into a \gls{NLP} using a method called direct multiple shooting.
 
 
 \subsubsection*{NonLinear Programming}
-\begin{itemize}
-    \item discretized formulation of the OCP, using among many methods, Direct Multiple shooting.
-    \item I don't really understand this stuff too much.
-    \item Direct Multiple Shooting explaination needed.
-    \item shooting gaps.
-    \item cite \cite{gros2017Lecture} for direct multiple shooting
-    \item cite \cite{andersson2019casadi} Casadi for constructing the NLP in a 
-    computer friendly way, and \cite{wachter2006implementation} for IPOPT
-\end{itemize}
-
-\begin{figure}
-    \includegraphics[width=\textwidth]{Images/MultipleShooting.pdf}
-    \caption{A physically feasible trajectory is formed by "pinching" the shooting gaps so they close. Reproduction from \cite{gros2017Lecture}}
-    \label{FIG: Shooting Gaps}
-\end{figure}
-
+% \begin{itemize}
+%     \item discretized formulation of the OCP, using among many methods, Direct Multiple shooting.
+%     \item I don't really understand this stuff too much.
+%     \item Direct Multiple Shooting explanation needed.
+%     \item shooting gaps.
+%     \item cite \cite{gros2017Lecture} for direct multiple shooting
+%     \item cite \cite{andersson2019casadi} Casadi for constructing the NLP in a 
+%     computer friendly way, and \cite{wachter2006implementation} for IPOPT
+% \end{itemize}
+% \begin{itemize}
+%     \item Direct multiple shooting is a discretized formulation of the \gls{OCP} where both the states and the control
+%     inputs are explicitly defined as decision variables.
+%     \item Because direct multiple shooting means the selected solver is 'free' to place the states and inputs wherever it wants
+%     we must employ shooting constraints to enforce a physically feasible trajectory. This is called closing the shooting gaps.
+%     \item A solver is an algorithm decined to crunch the NLP problem, 
+%     in this thesis we will use an \gls{IPOPT} solver \cite{wachter2006implementation}.
+%     \item To help formulate the \gls{NLP} a framework provided by \cite{andersson2019casadi} will be used.
+%     \item The shooting gaps constraints are created by integrating forward one time step at each control interval
+%     with a RK4 mehtod, which gives us a discret value $\omega$\textsubscript{k+1} using the continuous function $\textbf{f}(\bm{\omega})$. 
+%     For each control interval k there must be a shooting gap constraint $\textbf{F}(\bm{\omega}_k) - \bm{\omega}_{k+1} = 0$. 
+%     These shooting gap constraints are placed in \textbf{g}($\bm{\omega}$)
+%     \item To avoid collisions constraints pertaining to illegal positions are also placed in \textbf{g}($\bm{\omega}$)
+%     \item To make sure decision variables that are outside of 'legal' limits aren't searched for; The decision variables $\bm{\omega}$ are constrained by
+%     upper and lower bounds which limits the search space with an upper and lower bound. 
+%     This doesn't matter much for decision variables that are states, but matters a lot for velocities. ???
+% \end{itemize}
+The author would like to note that the technique used in this section, direct multiple shooting, is outside the scope of the author's knowledge.
+Everything the author knows about this technique was learned over the course of the master thesis project, and it's highly recommended to read the full formulation by \cite{breivik2017mpc}
+which is the formulation that the implementation for this thesis heavily builds upon. Another great resource for direct multiple shooting are the video lectures of \cite{gros2017Lecture}.
+Also note that functions and definitions from the previous section on \gls{OCP} carry over, for example $\bm{\theta} = [\bm{\eta}^T \ , \ \bm{\nu}^T]^T$ still holds.\newline
+Direct multiple shooting is a \gls{OCP} discretization technique where both the states and control inputs are excplicitly defined as decision variables.
+The \gls{NLP} is then a reformulation of \ref{EQ :OCP description} where L is redefined as a discretized cost function with $N_p$ control intervals steps:
+\begin{equation} %(TODO: GÅ GJENNOM DETTE)
+    \Phi(\bm{\omega}, \bm{\omega}_{ref_{1:N_p}}) = 
+    \sum_{k=0}^{N_{p}-1} ((\bm{\theta}_{k+1} - \bm{\theta}_{ref_{k+1}})^T Q (\bm{\theta}_{k+1} - \bm{\theta}_{ref_{k+1}}) + K_{\bm{\tau}} \bm{\tau_k}^2)
+\end{equation}
+where $\bm{\omega} = [\bm{\theta}_0^T \ , \ \bm{\tau}_0^T \ , \ ... \ , \ \bm{\theta}_{N_{p-1}}^T \ , \ \bm{\tau}_{N_{p-1}}^T \ , \ \bm{\theta}_{N_{p}}^T]^T \in \mathbb{R}^{9N_{p}+6}$
+is a vector containing $5N_p + 6$ decision variables.% and $\bm{\theta}$ is the same as it was in \ref{EQ :OCP description}.
+Because $\bm{\tau}_k$ does not have an accociated reference in this thesis; it is seperated out as it's own part of the function.
+\textbf{Q} is still a sparse 6x6 matrix where the diagonal contain the tuning parameters,
+and \textbf{K}\textsubscript{$\bm{\tau}$} are still tuning parameters on control input. The complete NLP will end up in the form of:
 \begin{subequations}
     \label{EQ:NLP}
     \begin{align}
-        \min_{\boldsymbol{\omega}} \quad & \textbf{F}(\boldsymbol{\omega}) \label{eq:NLP-1} \\
-        \textrm{subject to} \quad & \boldsymbol{\omega}_{lb} \leq \boldsymbol{\omega} \leq \boldsymbol{\omega}_{ub} \\ 
-        \quad & \textbf{g}_{lb} \leq \textbf{g} \leq \textbf{g}_{ub}
+        % \min_{\boldsymbol{\omega}} \quad & \textbf{L}(\boldsymbol{\omega}) \label{eq:NLP-1} \\
+        % \textrm{subject to} \quad & \boldsymbol{\omega}_{lb} \leq \boldsymbol{\omega} \leq \boldsymbol{\omega}_{ub} \\ 
+        % \quad & \textbf{g}_{lb} \leq \textbf{g} \leq \textbf{g}_{ub}
+        \min_{\bm{\omega}} \quad & \bm{\Phi}(\bm{\omega}, \bm{\omega}_{ref_{1:N_p}}) \\ %% (TODO: er det rett å ha min_w?)
+        \textrm{Subject to:} \quad & \bm{\omega}_{lb} \leq \bm{\omega} \leq \bm{\omega}_{ub} \\
+                            \quad & \textbf{g}(\bm{\omega})_{lb} \leq \textbf{g}(\bm{\omega}) \leq \textbf{g}(\bm{\omega})_{ub}
     \end{align}
 \end{subequations}
+where $\bm{\omega}_{lb}$ and $\bm{\omega}_{ub}$ are the lower and upper bounds on the permitted values for $\bm{\omega}$, this is meant to reduce the space searched when
+solving the NLP, as well as limit the decision variables to physically feasible values. \textbf{g}($\bm{\omega}$) is a vector of constraint functions that are similarly bound
+by an lower and upper bounds, where the bounds define if any given function in \textbf{g} is an equality or inequality constraint. Due to the way direct multiple shooting
+defines the decision variables the programmed solver that solves the \gls{NLP} is free to place the states and velocities anywhere within the constraints. It is therefor
+important to implement equality constraints that force the ending of one control interval and the beginning of the next to line up. this is called closing the shooting gaps, 
+an illustration of what shooting gaps are can be seen in Figure \ref{FIG: Shooting Gaps}. These equality constraints are called shooting constraints and to create them begin
+by defining an integrator function $\textbf{F}(\bm{\theta}_{k}, \bm{\tau}_k)$ using any technique, in this thesis the following \gls{RK4} method will be used:
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{Images/MultipleShooting.pdf}
+    \caption{A physically feasible trajectory is formed by "pinching" the shooting gaps close. Reproduction from \cite{gros2017Lecture}}
+    \label{FIG: Shooting Gaps}
+\end{figure}
+
+\begin{equation}
+    \label{EQ: RK4}
+    \begin{split}
+    k_1 = \quad & \textbf{f}(\bm{\theta}_{k} \ , \ \bm{\tau}_k) \\
+    k_2 = \quad & \textbf{f}(\bm{\theta}_{k} + \frac{h}{2}k_1 \ , \ \bm{\tau}_k) \\
+    k_3 = \quad & \textbf{f}(\bm{\theta}_{k} + \frac{h}{2}k_2 \ , \ \bm{\tau}_k) \\ 
+    k_4 = \quad & \textbf{f}(\bm{\theta}_{k} + h k_3 \ , \ \bm{\tau}_k) \\ 
+    \textbf{F}(\bm{\theta}_{k}, \bm{\tau}_k) = \quad & \bm{\theta}_k + \frac{h}{6} (k_1 + 2k_2 + 2k_3 + k_4)
+    \end{split}
+\end{equation}
+Where h is the discretized time step size. With $\textbf{F}$ it is now possible to calculate $\bm{\theta}_{k+1}$ given $\bm{\theta}_k$ and $\bm{\tau}_k$
+The shooting constraints are then formed as:
+\begin{equation}
+    \textbf{g}(\bm{\omega}) = \begin{bmatrix}
+                            \overline{\bm{\theta}}_0 - \bm{\theta}_0 \\[-5pt]
+                            \textbf{F}(\bm{\theta}_{0}, \bm{\tau}_0) - \bm{\theta}_1 \\[-5pt]
+                            \textbf{F}(\bm{\theta}_{1}, \bm{\tau}_1) - \bm{\theta}_2 \\[-5pt]
+                            \vdots \\[-5pt]
+                            \textbf{F}(\bm{\theta}_{N_{p-1}}, \bm{\tau}_{N_{p-1}}) - \bm{\theta}_{N_{p}}
+                             \end{bmatrix}
+\end{equation}
+Setting the lower and upper bounds for \textbf{g} equals to zero enforces the equality constraints and pinches the shooting gaps close. The final missing piece for the trajecotry planner
+is to formulate constraints to ensure a collision free trajectory. Similarly to the shooting constraints the obstacle constraints are also placed in \textbf{g}, their
+formulation is discussed in chapter \ref{CHAP: COLAV}
+
+The theory behind constructing an \gls{NLP} in a way that a machine can understand and solve it is a topic for a whole new thesis. In this thesis CasADi, \cite{andersson2019casadi}, is used
+as a framework for constructing the NLP, the NLP is solved with an \gls{IPOPT} solver, \cite{wachter2006implementation}, that comes included with CasADi. A practical
+explanation of constructing and solving the NLP is the topic of chapter \ref{CHAP: Method}.
+
+\subsubsection*{Model Predictive Control}
+With the system dynamics modelled, and a control law formulated as an \gls{NLP} it is now possible to conduct trajectory planning by
+selecting a discretized time step size, h, deciding how many control intervals to predict foward in time, and then solving the NLP from any initial condition
+(which will still be discussed in chapter \ref{CHAP: Method}). Because the \gls{IPOPT} solver
+solves for all control intervals simultaneously, its output contains the optimal trajectory as decided by the selected cost function. It also contains optimal
+velocities and control inputs needed to achieve the desired state, as described by the system dynamics. However it is unrealistic to assume that the
+modelled dynamics are able to perfectly represent reality, blindly following the optimal trajectory is therefor a fool's errand. This is where the
+control technique \gls{MPC} comes into play. \gls{MPC} is a method in which the system is simulated from the present until the end of the control
+period. The first control inputs from the solution are saved and applied to the system for it's next control interval, the rest of the solution is then
+discarded and new measurements of the state of the system are taken. Using the new measurements as the new intial conditions, the process starts over;
+Simulate until the end of control period, apply first control input to next control interval, discard rest of solution, redo measurements, repeat.
+This grants the control system an opportunity to react and adjust to unexpected disturbances, which greatly increases robustness of the automated system.
+(TODO: citation needed?)
 
 % (TODO: REWRITE THIS, SOME PARTS MAKE LITTLE SENSE)\\
 % where $\textbf{F}$ is the objective function, $\boldsymbol{\eta}(t)$ is the position and attitude trajectory of the vehicle, $\textbf{u}(t)$
@@ -374,7 +461,7 @@ the \gls{OCP} into a \gls{NLP} using a method called direct multiple shooting.
 
 
 
-\subsection{Collision Avoidance}
+\subsection{Collision Avoidance}\label{CHAP: COLAV}
 \iffalse
 \begin{itemize}
     \item \gls{COLREGs}
@@ -382,8 +469,6 @@ the \gls{OCP} into a \gls{NLP} using a method called direct multiple shooting.
     \item \gls{dCPA} / \gls{tCPA}
     \item Other risk assessment? Situation complexity? Det er mer som inngår i "collisions avoidance" som jeg kanskje ikke dekker så veldig bra med min algoritme.
 \end{itemize}
-
-
 \fi
 
 \begin{itemize}
