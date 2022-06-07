@@ -2512,6 +2512,12 @@ Skjaergård MÅ inkludere en bane gjennom masse små skjær, ikke fordi det er v
     \item We really don't want to put a cost on heading reference more than neccessary, heading will often not be correct due to disturbances.
     heading is also just plain wrong any time we deviate from the reference trajecotry.
     \item With 'full' prediction solving the NLP is often computationally more efficient due to a better previous\_w\_opt.
+    \item WHEN BEING OVERTAKEN: needs a better method for Standing On, putting constraints on overtaking vessel is not sufficient. \\
+    See helloya rev without pred.
+    \item Standing on in general needs a better way of handling constraints.
+    \item Perhaps an alternative way of achieving COLREGs compliance would be to asess whether the \gls{OS} is in 'Stand on' or
+    'Give way' mode, and modifying the cost function as well as dynamically placing constraints based on the situation. instead of
+    just placing constraints that lead to 'immitating' COLREGs compliance.
 \end{itemize}
 
 \subsection{Improvements over previous version}

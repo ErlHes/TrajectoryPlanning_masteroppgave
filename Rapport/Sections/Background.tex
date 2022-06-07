@@ -63,6 +63,7 @@ thruster dynamics and no external disturbances such as wind or currents. The dyn
 \end{equation}
 
 Where $\bm{\eta}$ is the pose of the vessel, parameterized in the tangental plane \gls{NED} where the x-axis points towards true north, the y-axis east and the z-axis down towards the center of the planet.
+The \gls{NED} frame can be said to be inertial for short distance control objectives.
 The vector $\bm{\eta}$ is a column vector with the vessel's North, East and Heading values, which are the three \gls{DOF} of the system. The $\bm{\nu}$ vector is a column vector containing
 the vessel's velocities parameterized in the BODY frame, namely surge, sway, and yaw rate. In the BODY frame there are no fixed rules for where the axis are pointing, but the common convention for modelling
 vehicles is that the x-axis points along the lognitudal axis of the vessel, the y-axis points along the lateral axis and the z-axis points along the vertical axis. This is also seen in Figure \ref{FIG: Ship DOF}.
@@ -87,7 +88,7 @@ The Rotation matrix, as well as pose, velocity, and the thruster vector $\bm{\ta
                  u   &   v  &    r
                 \end{bmatrix}^T
 \end{equation}
-\begin{equation}
+\begin{equation} \label{EQ: Tau}
     \bm{\tau} = \begin{bmatrix}
                 F_{X}   &   F_{Y}  &   F_{N}
                 \end{bmatrix}^T
@@ -182,12 +183,12 @@ term over the other.
 --------- /Genereal thoughts --------------------------
 \fi
 
-\begin{itemize}
-    \item Core concept. Path VS Trajectory.
-    \item Many ways of doing it.
-    \item chosen method for this thesis.
-    \item Numerical optimization, OCP, NLP, MPC.
-\end{itemize}
+% \begin{itemize}
+%     \item Core concept. Path VS Trajectory.
+%     \item Many ways of doing it.
+%     \item chosen method for this thesis.
+%     \item Numerical optimization, OCP, NLP, MPC.
+% \end{itemize}
 
 % Because the model for describing the dynamics of our vessel is a set of ordinary differential equations we can solve them for the input we need
 % to achieve any desired state. And because the dynamics are time-invariant we can solve for any future time interval given initial conditions.
@@ -206,46 +207,140 @@ There are many methods for trajectory planning. Some are conceptually simple and
 Or the method can be incredibly complex and and computationally involved, but in return incredibly robust to disturbances and adaptable to
 any situation. An example of a simple trajectory planner would be a \gls{LOS} guidance law while something extremely advanced would be training a deep
 neural network. For an overview: in this thesis a \gls{LOS} guidance law will be applied to generate a reference trajectory, the reference is then used as part of a
-formulation of an \gls{OCP} with a cost to penalize deviation from the reference in addition to other factors. The \gls{OCP} is then formulated
+formulation of an \gls{OCP} with a cost to penalize deviation from the reference in addition to other factors. The \gls{OCP} is then discretized
 as a \gls{NLP} problem using a method called direct multiple shooting, finally the \gls{NLP} is solved with an \gls{IPOPT} solver.
 
 \subsubsection*{Line of Sight Guidance}
-\begin{itemize}
-    \item Path following algorithm.
-    \item Cross track and along track errors.
-    \item integral action.
-    \item course control will not be neccessary.
-    \item Only considering the horizontal control.
-    \item Cross track is used to adjust heading. Along track
-    \item \cite{lekkas2013line}
-\end{itemize}
+% \begin{itemize}
+%     \item Path following algorithm.
+%     \item Cross track and along track errors.
+%     \item integral action.
+%     \item course control will not be neccessary.
+%     \item Only considering the horizontal control.
+%     \item Suppressing cross track error towards zero gives the desirec course to follow.
+%     \item When the along track error is below a certain threshold k = k + 1 (move to the next waypoint)
+%     \item \cite{lekkas2013line}
+% \end{itemize}
 
+This guidance method is perhaps the most intuitive; consider the waypoints WP\textsubscript{k} and WP\textsubscript{k+1}, the simplest path
+from one to the other would be straight line. Therefor the most obvious control method would be to maneuver onto the straight line, and
+follow it along to the end. The distance of the controlled vessel to the straight line is called the cross track error $y_e$ and the distance along the line
+to the end is called the along track error $x_e$. The along track error is not of any importance to this thesis, it is assumed that the controlled
+vessel will maintain a steady velocity, and there are no temporal constraints on reaching the goal.
 
+As explained in \cite{lekkas2013line}; given the controlled vessel's position (x,y), the cross track and along track errors from the straigth line as defined by WP\textsubscript{k} (x\textsubscript{k},y\textsubscript{k})
+and WP\textsubscript{k+1} (x\textsubscript{k+1}, y\textsubscript{k+1}) are:
+\begin{equation} %% Along track and Cross Track error
+    \begin{bmatrix}
+        x_e \\[-5pt]
+         ye
+    \end{bmatrix} = \textbf{R}^T(\gamma_p) \begin{bmatrix}
+                                            x - x_k \\[-5pt]
+                                            y - y_k
+                                            \end{bmatrix}
+\end{equation}
+Where R is the rotation matrix from the inetiral frame to the straight line's frame. $\gamma_p$ is the horizontal path-tangental angle,
+or the 'angle' of the straight line path in relation to the inetrial frame if that makes more sense. The rotation matrix \textbf{R} is given by:
+\begin{equation} %% Rotation matrix R(gamma)
+    \textbf{R}(\gamma_p) = \begin{bmatrix}
+                            cos(\gamma_p) & -sin(\gamma_p) \\[-5pt]
+                            sin(\gamma_p) & cos(\gamma_p)
+                            \end{bmatrix}
+\end{equation}
+with $\gamma_p$:
+\begin{equation} %% Calculating Gamma
+    \gamma_p = \textrm{atan2}(y_{k+1} - y_k , x_{k+1} - x_k)
+\end{equation}
+The control objective is to drive $y_{e}(t) \rightarrow 0.$ as t trends towards infinity. Assuming a steady velocity this is done by
+selecting a course that steers the controlled vessel in the direction that reduces $y_e$. How fast the error $y_e$ is suppressed is
+tuned by a proportional gain factor, $\varDelta$, that is often called look ahead distance. The desired heading is given by:
+\begin{equation} %% Calculating psi_d
+    \psi_d = \gamma_p + \arctan(\frac{-y_e}{\varDelta})
+\end{equation}
+and consequently desired course:
+\begin{equation}
+    \chi_d = \psi_d + \beta
+\end{equation}
+Where $\beta$ is the sideslip of the controlled vessel. Because real life situations are rarely, if ever, devoid of disturbances that introduce
+sideslip and crab angles there is one common improvement that can be made: Integrate the cross track error and use both current cross track error
+and it's integral when calculating desired heading. The equation for $\dot{y}_{int}$ and $\psi_d$ then become:
+\begin{equation}
+    \dot{y}_{int} = y_e
+\end{equation}
+\begin{equation}
+    \psi_d = \gamma_p - \arctan(K_{p}y_e + K_{i}\dot{y}_{int})
+\end{equation}
+Where K\textsubscript{p} and K\textsubscript{i} are gain parameters proportional to the lookahead distance, typically $K_p = (1/\varDelta)$, $K_i = Kp*\kappa$
+with $\kappa > 0$ being some design variable.
+
+A reference trajectory is generated by using the LOS law as described to guide the \gls{OS} from it's initial position through all the waypoints, and
+saving the desired positions and velocities after each time step. For a path with more than two waypoints a simple index incrementation can be used when the
+\gls{OS} is within a certain distance from it's current target waypoint. The reference trajectory from $t_0$ to N iterations of \gls{LOS} applications is of the form:
+\begin{subequations}
+    \begin{align}
+        \overline{\bm{\eta}}_{ref} \quad & = [\bm{\eta}_{t0} \ , \ \bm{\eta}_{t+1} \ , \ \dots \ , \bm{\eta}_N] \\ 
+        \overline{\bm{\nu}}_{ref} \quad & = [\bm{\nu}_{t0} \ , \ \bm{\nu}_{t+1} \ , \ \dots \ , \bm{\nu}_N]
+    \end{align}
+\end{subequations}
 
 \subsubsection*{Optimal Control Problem}
-\begin{itemize}
-    \item Equations.
-    \item Model Predictive Control.
-    \item Many ways to solve an optimization problem.
-    \item Continuous dynamics.
-    \item cite \cite{breivik2017mpc} for a quick look and equation formulation.
-    \item cite \cite{wright1999numerical} For a comprehensive lesson on optimal control.
-\end{itemize}
+% \begin{itemize}
+%     \item Equations.
+%     \item Model Predictive Control is simulating the dynamics of the system with a desired control objective and then applying the first states as
+%     reference for the vessel's control system. After actuation new measurements are taken and the model is simulated again from the new initial conditions.
+%     \item Many ways to solve an optimization problem, often quite difficult due to Continuous dynamics.
+%     \item cite \cite{breivik2017mpc} for a quick look and equation formulation.
+%     \item cite \cite{wright1999numerical} For a comprehensive lesson on optimal control.
+% \end{itemize}
+Numerical optimization is a vast field within mathematics, \cite{wright1999numerical} explains it well: There are no universal optimization algorithm. Instead an algorithm must be tailored to the optimization
+problem. Within the context of trajectory planning there are different parameters to optimize for, some examples are: maintaining steady velocity, suppressing sway, minimalizing
+fuel waste, minimizing distance to goal, and there are many more. The general expression for an optimization problem can be written as simple as:
+\begin{subequations}
+    \begin{align}
+    \underset{x\in \textbf{R}^n}{\textrm{Minimize}} \quad & f(x) \\
+        \textrm{Subject to:} \quad & c_i(x) = 0, \quad i \in \mathcal{E} \\
+                             \quad & c_i(x) \geq 0, \quad i \in \mathcal{I} 
+    \end{align}
+\end{subequations}
+% \begin{itemize}
+%     \item However a better generalized formulation was made in \cite{breivik2017mpc}, it's basically the same but expressed in a way that will be easier to use later.
+%     \item The cost function is 
+% \end{itemize}
+Where $f(x)$ is some continuous function, $c_i$ are constraint functions on the system which $f(x)$ exists in, and $\mathcal{E}$ and $\mathcal{I}$ are indices
+pertaining to if the constraint $c_i$ is an equality or inequality constraint. In the context of this thesis the thing to minimize is some nebulous cost function
+associated with path following, and the constraints are the physical model of the system that guarantees feasibility as well as safety constraints to avoid collisions.
+The cost function is then some function of the vessel's state, reference trajectory, and applied force. The two constraints are the system dynamics from \ref{EQ: Vessel Dynamics}
+and \ref{EQ: eta_dot}. And then additional constraints for collision safety and initial conditions. A new general \gls{OCP} definition is thus given by the following:
 
 \begin{subequations}
     \label{eq:OCP description}
 \begin{align}
-    \textrm{Minimize} \quad & \textbf{F}(\boldsymbol{\eta}(t), \textbf{u}(t)) \label{eq:OCP-a} \\ 
-    \textrm{subject to} \quad & \dot{\boldsymbol{\eta}}(t) = \textbf{L}(\boldsymbol{\eta}(t), \textbf{u}(t)) \label{eq:OCP-b} \\
-    \quad & \textbf{h}(\boldsymbol{\eta}(t), \textbf{u}(t)) \leq \textbf{0} \label{eq:OCP-c}\\
-    \quad & \boldsymbol{\eta}(t_0) = \boldsymbol{\eta}_0 \label{eq:OCP-d}
+    % \textrm{Minimize} \quad & \textbf{F}(\boldsymbol{\eta}(t), \textbf{u}(t)) \label{eq:OCP-a} \\ 
+    % \textrm{subject to} \quad & \dot{\boldsymbol{\eta}}(t) = \textbf{L}(\boldsymbol{\eta}(t), \textbf{u}(t)) \label{eq:OCP-b} \\
+    % \quad & \textbf{h}(\boldsymbol{\eta}(t), \textbf{u}(t)) \leq \textbf{0} \label{eq:OCP-c}\\
+    % \quad & \boldsymbol{\eta}(t_0) = \boldsymbol{\eta}_0 \label{eq:OCP-d}
+    \textrm{Minimize} \quad & {L}(\bm{\theta}(t), \bm{\theta}_{ref}(t), \bm{\tau}(t)) \\
+    \textrm{Subject to:} \quad & \dot{\bm{\theta}}(t) = \textbf{F}(\bm{\theta}, \bm{\tau}) \\
+                         \quad & \textbf{h}(\bm{\theta}(t), \bm{\tau}(t)) \leq 0 \\
+                         \quad & \bm{\theta}(t_0) - \overline{\bm{\theta}}_0 = 0
 \end{align}
 \end{subequations}
+where L is the cost function, $\bm{\theta} = [\bm{\eta}^T \ , \ \bm{\nu}^T]^T$ and $\bm{\tau}$ is the same as in \ref{EQ: Tau}. The solution to the optimization
+problem is the series of inputs $\bm{\tau}$ which minimizes the integral of the cost L from t\textsubscript{0} to t\textsubscript{end}. And L has the form of a quadratic function
+akin to a weighted least squares: (TODO: Eh, grei formulering?)
+\begin{equation}
+    L(\bm{\theta}(t), \bm{\theta}_{ref}(t), \bm{\tau}(t)) = (\bm{\theta}(t) - \bm{\theta}_{ref}(t))^T \textbf{Q} (\bm{\theta}(t) - \bm{\theta}_{ref}(t)) + \textbf{K}_\tau \bm{\tau}^2
+\end{equation}
+Where the diagonal of the \textbf{Q} matrix are the weight coefficients of deviating from the reference
+and \textbf{K}\textsubscript{$\tau$} denote the associated cost of applying force in the three \gls{DOF}.
+
+Solving the \gls{OCP} can be done using a multitude of methods, \cite{breivik2017mpc} suggest discretizing 
+the \gls{OCP} into a \gls{NLP} using a method called direct multiple shooting.
 
 
 \subsubsection*{NonLinear Programming}
 \begin{itemize}
-    \item Discretizied formulation of the OCP, using among many methods, Direct Multiple shooting.
+    \item discretized formulation of the OCP, using among many methods, Direct Multiple shooting.
     \item I don't really understand this stuff too much.
     \item Direct Multiple Shooting explaination needed.
     \item shooting gaps.
@@ -256,7 +351,7 @@ as a \gls{NLP} problem using a method called direct multiple shooting, finally t
 
 \begin{figure}
     \includegraphics[width=\textwidth]{Images/MultipleShooting.pdf}
-    \caption{A physically feasible trajectory is formed by "pinching" the shooting gaps so they close. Reproduction of (TODO: CITER GROS), scale arbitrary.}
+    \caption{A physically feasible trajectory is formed by "pinching" the shooting gaps so they close. Reproduction from \cite{gros2017Lecture}}
     \label{FIG: Shooting Gaps}
 \end{figure}
 
