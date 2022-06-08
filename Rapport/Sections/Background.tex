@@ -25,12 +25,6 @@ Jeg tenker det er best å skrive om modellering i sammenheng med hvordan traject
 \end{itemize}
 ---------- /General Thoughts--------------------------- 
 \fi
-\begin{figure}
-    \centering
-    \includegraphics[height=0.35\textheight]{Images/SHIPDOF_FOSSEN.png}
-    \caption{A ships 6 degrees of Freedom, from \cite{fossen2011handbook}}
-    \label{FIG: Ship DOF}
-\end{figure}
 \iffalse
 \begin{itemize}
     \item A model in this context is just a way of describing how physical systems change over time.
@@ -60,9 +54,8 @@ thruster dynamics and no external disturbances such as wind or currents. The dyn
 \end{equation}
 \begin{equation} \label{EQ: Vessel Dynamics}
     \textbf{M}\bm{\dot{\nu}} + \textbf{C}(\bm{\nu})\bm{\nu} + \textbf{D}(\bm{\nu})\bm{\nu} = \bm{\tau}
-\end{equation}
-
-Where $\bm{\eta}$ is the pose of the vessel, parameterized in the tangental plane \gls{NED} where the x-axis points towards true north, the y-axis east and the z-axis down towards the center of the planet.
+\end{equation} %(TODO linjen som følger equation er SAMME SETNING.)
+where $\bm{\eta}$ is the pose of the vessel, parameterized in the tangental plane \gls{NED} where the x-axis points towards true north, the y-axis east and the z-axis down towards the center of the planet.
 The \gls{NED} frame can be said to be inertial for short distance control objectives.
 The vector $\bm{\eta}$ is a column vector with the vessel's North, East and Heading values, which are the three \gls{DOF} of the system. The $\bm{\nu}$ vector is a column vector containing
 the vessel's velocities parameterized in the BODY frame, namely surge, sway, and yaw rate. In the BODY frame there are no fixed rules for where the axis are pointing, but the common convention for modelling
@@ -78,16 +71,16 @@ The Rotation matrix, as well as pose, velocity, and the thruster vector $\bm{\ta
                         0       &   0        & 1
                         \end{bmatrix}
 \end{equation}
-\begin{equation}
+\begin{equation} % TODO: FLYTT INN I FLYTTEKST
     \bm{\eta} = \begin{bmatrix}
                 x   &    y  &    \psi
                 \end{bmatrix}^T
 \end{equation}
-\begin{equation}
+\begin{equation} % TODO: FLYTT INN I FLYTTEKST
     \bm{\nu} = \begin{bmatrix}
                  u   &   v  &    r
                 \end{bmatrix}^T
-\end{equation}
+\end{equation} % TODO: FLYTT INN I FLYTTEKST
 \begin{equation} \label{EQ: Tau}
     \bm{\tau} = \begin{bmatrix}
                 F_{X}   &   F_{Y}  &   F_{N}
@@ -112,6 +105,13 @@ That is because a trajectory planning algorithm needs to work regardless of vess
 how the system parameters can be found. Continuing on, the dampening matrix is a linear combination of the linear dampening stemming from water
 viscosity and non-linear dampening from cross-flow, once again the parameters themselves are not strictly relevant to this thesis, but intuition is
 important. The result are matrices in the following form:
+
+\begin{figure}
+    \centering
+    \includegraphics[height=0.35\textheight]{Images/SHIPDOF_FOSSEN.png}
+    \caption{A ships 6 degrees of Freedom, from \cite{fossen2011handbook}} (TODO: TA BEVIST VALG, PUNKTUM ELLER IKKE.)
+    \label{FIG: Ship DOF}
+\end{figure}
 
 \begin{equation}
     \textbf{M} = \begin{bmatrix}
@@ -210,7 +210,7 @@ neural network. For an overview: in this thesis a \gls{LOS} guidance law will be
 formulation of an \gls{OCP} with a cost to penalize deviation from the reference in addition to other factors. The \gls{OCP} is then discretized
 as a \gls{NLP} problem using a method called direct multiple shooting, finally the \gls{NLP} is solved with an \gls{IPOPT} solver.
 
-\subsubsection*{Line of Sight Guidance}
+\subsubsection*{Line of Sight Guidance} % TODO: FÅ INN FIGUR.
 % \begin{itemize}
 %     \item Path following algorithm.
 %     \item Cross track and along track errors.
@@ -373,15 +373,16 @@ Everything the author knows about this technique was learned over the course of 
 which is the formulation that the implementation for this thesis heavily builds upon. Another great resource for direct multiple shooting are the video lectures of \cite{gros2017Lecture}.
 Also note that functions and definitions from the previous section on \gls{OCP} carry over, for example $\bm{\theta} = [\bm{\eta}^T \ , \ \bm{\nu}^T]^T$ still holds.\newline
 Direct multiple shooting is a \gls{OCP} discretization technique where both the states and control inputs are excplicitly defined as decision variables.
-The \gls{NLP} is then a reformulation of \ref{EQ :OCP description} where L is redefined as a discretized cost function with $N_p$ control intervals steps:
+The \gls{NLP} is then a reformulation of \eqref{EQ :OCP description} where L is redefined as a discretized cost function with $N_p$ control intervals steps:
 \begin{equation} %(TODO: GÅ GJENNOM DETTE)
     \Phi(\bm{\omega}, \bm{\omega}_{ref_{1:N_p}}) = 
     \sum_{k=0}^{N_{p}-1} ((\bm{\theta}_{k+1} - \bm{\theta}_{ref_{k+1}})^T Q (\bm{\theta}_{k+1} - \bm{\theta}_{ref_{k+1}}) + K_{\bm{\tau}} \bm{\tau_k}^2)
 \end{equation}
 where $\bm{\omega} = [\bm{\theta}_0^T \ , \ \bm{\tau}_0^T \ , \ ... \ , \ \bm{\theta}_{N_{p-1}}^T \ , \ \bm{\tau}_{N_{p-1}}^T \ , \ \bm{\theta}_{N_{p}}^T]^T \in \mathbb{R}^{9N_{p}+6}$
+%(TODO: FÅ MED Den \in R^nxm på andre definisjoner også.)
 is a vector containing $5N_p + 6$ decision variables.% and $\bm{\theta}$ is the same as it was in \ref{EQ :OCP description}.
 Because $\bm{\tau}_k$ does not have an accociated reference in this thesis; it is seperated out as it's own part of the function.
-\textbf{Q} is still a sparse 6x6 matrix where the diagonal contain the tuning parameters,
+Here, \textbf{Q} is still a sparse 6x6 matrix where the diagonal contain the tuning parameters,
 and \textbf{K}\textsubscript{$\bm{\tau}$} are still tuning parameters on control input. The complete NLP will end up in the form of:
 \begin{subequations}
     \label{EQ:NLP}
@@ -486,7 +487,7 @@ This grants the control system an opportunity to react and adjust to unexpected 
     \item cite \cite{cho2018intent} as a method for identifying intent, and a lead in to target ship prediction.
 \end{itemize}
 
-\begin{figure}
+\begin{figure} % (TODO: Blås denne opp til en hel side.)
     \centering
     \includegraphics[height=0.35\textheight]{Images/COLREGs_assess.png}
     \caption{(TODO:ENDRE)Assigning COLREGS flag: with OS in the center we can place the TS in one of four regions. Similarly the relative bearing from TS to OS can be assigned regions with region 1 pointed directly at the OS and the rest following in a clockwise rotation.
