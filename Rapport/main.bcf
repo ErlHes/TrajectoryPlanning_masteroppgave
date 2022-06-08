@@ -2368,18 +2368,13 @@
     <bcf:citekey order="24">wachter2006implementation</bcf:citekey>
     <bcf:citekey order="25">qin1997overview</bcf:citekey>
     <bcf:citekey order="26">WikisourceCOLREGS</bcf:citekey>
-    <bcf:citekey order="27">tam2010collision</bcf:citekey>
-    <bcf:citekey order="28">woerner2016multi</bcf:citekey>
-    <bcf:citekey order="29">Kufoalor2018</bcf:citekey>
-    <bcf:citekey order="30">ruud2018lidar</bcf:citekey>
-    <bcf:citekey order="31">cockcroft2012manoeuvres</bcf:citekey>
-    <bcf:citekey order="32">cho2018intent</bcf:citekey>
-    <bcf:citekey order="33">scholler2021trajectory</bcf:citekey>
-    <bcf:citekey order="34">zhang2021collision</bcf:citekey>
-    <bcf:citekey order="35">huang2020ship</bcf:citekey>
-    <bcf:citekey order="36">WärtsiläDockToDock</bcf:citekey>
-    <bcf:citekey order="37">Thyri2021b</bcf:citekey>
-    <bcf:citekey order="38">Kufoalor2018</bcf:citekey>
+    <bcf:citekey order="27">cockcroft2012manoeuvres</bcf:citekey>
+    <bcf:citekey order="28">scholler2021trajectory</bcf:citekey>
+    <bcf:citekey order="29">zhang2021collision</bcf:citekey>
+    <bcf:citekey order="30">huang2020ship</bcf:citekey>
+    <bcf:citekey order="31">WärtsiläDockToDock</bcf:citekey>
+    <bcf:citekey order="32">Thyri2021b</bcf:citekey>
+    <bcf:citekey order="33">Kufoalor2018</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nyt">

@@ -104,8 +104,8 @@ end
 % simulation = 'sving_HO';
 % simulation = 'sving_GW';
 % simulation = 'sving_SO';
-simulation = 'Havn1';
-% simulation = 'skjergard_u_trafikk';
+% simulation = 'Havn1';
+simulation = 'skjergard_u_trafikk';
 % simulation = 'Helloya';
 % simulation = 'Helloya_Rev';
 % simulation = 'skjergard_m_trafikk_NEW';

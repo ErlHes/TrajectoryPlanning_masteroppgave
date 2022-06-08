@@ -40,9 +40,9 @@ Jeg tenker det er best å skrive om modellering i sammenheng med hvordan traject
 % % The model applied in this thesis is based on the theory and notation by \cite{fossen2011handbook},
 
 A mathematical model is a tool for describing physical systems and expressing how they change over time, respond to external forces, and how stable the system might be. Models are very useful when designing control systems as
-they translate the physical into equations that computers can understand. When making a model it is often useful to seperate the dynamics of the different parts of the 
+they translate the physical into equations that computers can understand. When making a model it is often useful to separate the dynamics of the different parts of the 
 system we are interested in, these are the \gls{DOF} the system has, and is often the directions the system can move, though they can also just be
-nondescript generalized coordinates. Deciding which \gls{DOF} to seperate out and model the dynamics of is often what seperates models from each other, it is pointless to model
+nondescript generalized coordinates. Deciding which \gls{DOF} to separate out and model the dynamics of is often what separates models from each other, it is pointless to model
 an aspect of a system that there is no intent to interact with. For example a ship has six \gls{DOF}, see Figure \ref{FIG: Ship DOF}, for modelling a control system for stationkeeping
 all six are important because stationkeeping involves keeping the whole ship as steady as possible. When modelling for path following on the other hand it is not
 important what the heave, roll, or pitch of our vessel is and so the dynamics of those \gls{DOF} can safely be ignored. 
@@ -120,7 +120,7 @@ vessel's heading, and is definied as:
 %     \item The M and C matrices are a combination of Rigid body and hydrodynamic added mass matrices
 %     \item Fully computing the M and C matrices is a lot of work, for milliampere the work has already been conducted
 %     by Andreas Pedersen.
-%     \item If the model values are to be found through experiementation it's senseless to seperate Rigid body and hydrodynamic added mass.
+%     \item If the model values are to be found through experiementation it's senseless to separate Rigid body and hydrodynamic added mass.
 %     The matrices then become:
 % \end{itemize}
 
@@ -250,7 +250,7 @@ vessel will maintain a steady velocity, and there are no temporal constraints on
 
 As explained in \cite{lekkas2013line}; given the controlled vessel's position (x,y), the cross track and along track errors from the straigth line as defined by WP\textsubscript{k} (x\textsubscript{k},y\textsubscript{k})
 and WP\textsubscript{k+1} (x\textsubscript{k+1}, y\textsubscript{k+1}) are:
-\begin{equation} %% Along track and Cross Track error
+\begin{equation}\label{EQ: cross and along track error} %% Along track and Cross Track error
     \begin{bmatrix}
         x_e \\[-5pt]
          ye
@@ -259,7 +259,7 @@ and WP\textsubscript{k+1} (x\textsubscript{k+1}, y\textsubscript{k+1}) are:
                                             y - y_k
                                             \end{bmatrix}
 \end{equation}
-Where R is the rotation matrix from the inetiral frame to the straight line's frame. $\gamma_p$ is the horizontal path-tangental angle,
+where R is the rotation matrix from the inetiral frame to the straight line's frame. $\gamma_p$ is the horizontal path-tangental angle,
 or the 'angle' of the straight line path in relation to the inetrial frame if that makes more sense, see Figure \ref{FIG: LOS_decomp} for a visual
 decomposition. The rotation matrix \textbf{R} is given by:
 \begin{equation} %% Rotation matrix R(gamma)
@@ -282,7 +282,7 @@ and consequently desired course:
 \begin{equation}
     \chi_d = \psi_d + \beta
 \end{equation}
-Where $\beta$ is the sideslip of the controlled vessel. Because real life situations are rarely, if ever, devoid of disturbances that introduce
+where $\beta$ is the sideslip of the controlled vessel. Because real life situations are rarely, if ever, devoid of disturbances that introduce
 sideslip and crab angles there is one common improvement that can be made: Integrate the cross track error and use both current cross track error
 and it's integral when calculating desired heading. The equation for $\dot{y}_{int}$ and $\psi_d$ then become:
 \begin{equation}
@@ -291,7 +291,7 @@ and it's integral when calculating desired heading. The equation for $\dot{y}_{i
 \begin{equation}
     \psi_d = \gamma_p - \arctan(K_{p}y_e + K_{i}\dot{y}_{int})
 \end{equation}
-Where K\textsubscript{p} and K\textsubscript{i} are gain parameters proportional to the lookahead distance, typically $K_p = (1/\varDelta)$, $K_i = Kp*\kappa$
+where K\textsubscript{p} and K\textsubscript{i} are gain parameters proportional to the lookahead distance, typically $K_p = (1/\varDelta)$, $K_i = Kp*\kappa$
 with $\kappa > 0$ being some design variable.
 
 \begin{figure}
@@ -306,8 +306,8 @@ saving the desired positions and velocities after each time step. For a path wit
 \gls{OS} is within a certain distance from it's current target waypoint. The reference trajectory from $t_0$ to N iterations of \gls{LOS} applications is of the form:
 \begin{subequations}
     \begin{align}
-        \overline{\bm{\eta}}_{ref} \quad & = [\bm{\eta}_{t0} \ , \ \bm{\eta}_{t+1} \ , \ \dots \ , \bm{\eta}_N] \\ 
-        \overline{\bm{\nu}}_{ref} \quad & = [\bm{\nu}_{t0} \ , \ \bm{\nu}_{t+1} \ , \ \dots \ , \bm{\nu}_N]
+        \overline{\bm{\eta}}_{ref} \quad & = [\bm{\eta}_{t0} \ , \ \bm{\eta}_{t+1} \ , \ \dots \ , \bm{\eta}_N] \in \mathbb{R}^{3 \times N} \\ 
+        \overline{\bm{\nu}}_{ref} \quad & = [\bm{\nu}_{t0} \ , \ \bm{\nu}_{t+1} \ , \ \dots \ , \bm{\nu}_N] \in \mathbb{R}^{3 \times N}
     \end{align}
 \end{subequations}
 
@@ -409,7 +409,7 @@ The \gls{NLP} is then a reformulation of \eqref{EQ :OCP description} where L is 
 where $\bm{\omega} = [\bm{\theta}_0^T \ , \ \bm{\tau}_0^T \ , \ ... \ , \ \bm{\theta}_{N_{p-1}}^T \ , \ \bm{\tau}_{N_{p-1}}^T \ , \ \bm{\theta}_{N_{p}}^T]^T \in \mathbb{R}^{9N_{p}+6}$
 %(TODO: FÅ MED Den \in R^nxm på andre definisjoner også.)
 is a vector containing $5N_p + 6$ decision variables.% and $\bm{\theta}$ is the same as it was in \ref{EQ :OCP description}.
-Because $\bm{\tau}_k$ does not have an accociated reference in this thesis; it is seperated out as it's own part of the function.
+Because $\bm{\tau}_k$ does not have an accociated reference in this thesis; it is separated out as it's own part of the function.
 Here, \textbf{Q} is still a sparse 6x6 matrix where the diagonal contain the tuning parameters,
 and \textbf{K}\textsubscript{$\bm{\tau}$} are still tuning parameters on control input. The complete NLP will end up in the form of:
 \begin{subequations}
@@ -447,7 +447,7 @@ by defining an integrator function $\textbf{F}(\bm{\theta}_{k}, \bm{\tau}_k)$ us
     \textbf{F}(\bm{\theta}_{k}, \bm{\tau}_k) = \quad & \bm{\theta}_k + \frac{h}{6} (k_1 + 2k_2 + 2k_3 + k_4)
     \end{split}
 \end{equation}
-Where h is the discretized time step size. With $\textbf{F}$ it is now possible to calculate $\bm{\theta}_{k+1}$ given $\bm{\theta}_k$ and $\bm{\tau}_k$
+with h being a selected discretized time step size. With $\textbf{F}$ it is now possible to calculate $\bm{\theta}_{k+1}$ given $\bm{\theta}_k$ and $\bm{\tau}_k$
 The shooting constraints are then formed as:
 \begin{equation}
     \textbf{g}(\bm{\omega}) = \begin{bmatrix}
@@ -491,33 +491,111 @@ This introduces feedback to the system, which allows it to react and adjust to u
 
 
 \subsection{Collision Avoidance}\label{CHAP: COLAV}
-\iffalse
-\begin{itemize}
-    \item \gls{COLREGs}
-    \subitem Expected behaviour, situation classification, etc etc.
-    \item \gls{dCPA} / \gls{tCPA}
-    \item Other risk assessment? Situation complexity? Det er mer som inngår i "collisions avoidance" som jeg kanskje ikke dekker så veldig bra med min algoritme.
-\end{itemize}
-\fi
+% \begin{itemize}
+%     \item \gls{COLREGs}
+%     \subitem Expected behaviour, situation classification, etc etc.
+%     \item \gls{dCPA} / \gls{tCPA}
+%     \item Other risk assessment? Situation complexity? Det er mer som inngår i "collisions avoidance" som jeg kanskje ikke dekker så veldig bra med min algoritme.
+% \end{itemize}
+% \begin{itemize}
+%     \item \gls{COLREGs}, cite \cite{WikisourceCOLREGS} I guess. Maneuvers for avoiding collision \cite{cockcroft2003guide}
+%     \item Classification \cite{tam2010collision}.
+%     \item Modification \& Figur er simpelt: Courtesy of Emil Thyri.
+%     \item Alternative classification algorithm \cite{woerner2016multi}.
+%     \item dCPA og tCPA, \cite{Kufoalor2018}.
+%     \item My modifications to dCPA and tCPA method to get 'full coverage' of path.
+%     \item Static Obstacles "detection" and constraint placements
+%     \item Dynamic obstacles constraints.
+%     \item Computer vision, radar/lidar/sonar/etc. Is not a part of this thesis, see for example \cite{ruud2018lidar} for that topic.
+%     \item No right of way, only Give Way or Stand On.
+%     \item cite \cite{cho2018intent} as a method for identifying intent, and a lead in to target ship prediction.
+% \end{itemize}
 
-\begin{itemize}
-    \item \gls{COLREGs}, cite \cite{WikisourceCOLREGS} I guess.
-    \item Classification \cite{tam2010collision}.
-    \item Modification \& Figur er simpelt: Courtesy of Emil Thyri.
-    \item Alternative classification algorithm \cite{woerner2016multi}.
-    \item dCPA og tCPA, \cite{Kufoalor2018}.
-    \item My modifications to dCPA and tCPA method to get 'full coverage' of path.
-    \item Static Obstacles "detection" and constraint placements
-    \item Dynamic obstacles constraints.
-    \item Computer vision, radar/lidar/sonar/etc. Is not a part of this thesis, see for example \cite{ruud2018lidar} for that topic.
-    \item Maneuvers for avoiding collision \cite{cockcroft2012manoeuvres}
-    \item No right of way, only Give Way or Stand On.
-    \item cite \cite{cho2018intent} as a method for identifying intent, and a lead in to target ship prediction.
-\end{itemize}
+% \begin{itemize}
+%     \item An optimal trajectory is of little use if it guides the vessel directly into a collision.
+%     \item Collision avoidance is therefor just as important as finding the optimal trajectory, in fact it would be difficult to claim
+%     any sort of optimality without considering obstacles that may be present.
+%     \item The task at hand can be split into two separate objectives:
+%     \item Nr. 1 avoid collisions with static obstacles by any means.
+%     \item Nr. 2 Avoid collisions with dynamic obstacles by achieving COLREGs compliance.
+% \end{itemize}
+
+Having constructed the means of finding an optimal trajectory, the next task at hand is making sure the trajectory is collision free.
+It would be difficult to claim any sort of optimality without asserting if the trajectory is able to effectively avoid obstacles, collision avoidance is
+therefor just as important a task as the construction of the trajectory planning algorithm. Collision avoidance is an umbrella term for many
+different smaller tasks; from risk assessment to escape maneuvers. For the purposes of this thesis it is assumed that information 
+about obstacles in the near vicinity of the controlled vessel is readily available and not subject to disturbances or distortion.
+The task at hand can then be separated out into two pieces: Static obstacle avoidance and \gls{COLREGs} compliance. 
+
+\subsubsection*{Static Obstacles}
+A static obstacle is any object or hindernace in the water that does not move on a timescale comparable to the one of the controlled
+vessel, such as skerries or a pier. The static obstacle $\mathcal{O}_{s_{i}}$ is presumed to be in the form of a polygon with n corners parameterized
+in NED so that:
+\begin{equation}
+    \mathcal{O}_{s_{i}} = \begin{bmatrix}
+                              N_1 & E_1 \\
+                              N_2 & E_2 \\
+                            \vdots & \vdots\\
+                              N_n & E_n
+                            \end{bmatrix}^T
+\end{equation}
+where the point $(N_1 \ , \ E_1)$ is the first point of the polygon defining the obstacle, and the following points are sequential in either a clockwise
+or counter-clockwise direction. With N obstacles that can be put together on the form:
+\begin{equation}
+    \mathcal{O}_s = [\mathcal{O}_{s_{1}} \ , \ \textbf{NaN} \ , \ ... \ , \ \mathcal{O}_N] \in \mathbb{R}^{2 \times c}
+\end{equation}
+where $\textbf{NaN} = [NaN \ , \ NaN]^T$ is inserted between each obstacle to separate them, and c is some function of N and n to get the correct column dimension.
+(TODO: wow dette var dårlig beskrevet...). When the obstacles are gathered in this form, consrtaints can be generated the followig way:\newline
+Consider a fan of scan lines radiating from the controlled vessel with fixed length and angle. The intersection
+point between a scan lines and the line between any two columns in $\mathcal{O}_s$ forms the basis of the constraint 
+$\mathbf{o}_{sc} = (o_n \ , \ o_e)$ in NED.\newline
+The constraint function is the cross track error between the position of the vessel and a line orthogonal to the scan line which crosses
+the point $\mathbf{o}_{sc}$, calculated like in \eqref{EQ: cross and along track error}:
+\begin{eqnarray}
+    y_e = -\sin(\gamma_p)*(N-o_n) + \cos(\gamma_p)*(E-o_e)
+\end{eqnarray}
+where (N, E) are the north and east position of the controlled vessel, and $\gamma_p$ is the angle of the orthogonal line w.r.t NED.
+See Figure \ref{FIG: Static Obs Lines} for a visualization.
+The scan lines are generated at each discretized step of the reference trajectory, and every found intersection between a 
+line the static obstacles has it's own associated cross track error that is added to the function 
+$\textbf{g}(\omega)$, with the lower and upper bounds of $textbf{g}(\omega)$ defining the allowed distance beteen the vessel and the constraint lines.
+
+
+
+
+
+\subsubsection*{COLREGs}
+The \gls{COLREGs} (\cite{WikisourceCOLREGS}) are a set of rules developed with the purpose of preventing collisions between two or more vessels at sea.
+The rules are sectioned into six parts; A - General, B - Steering and Sailing Rules, C - Light and Shapes, D - Sound and Light Signals, E - Exemptions,
+F - Verification of Compliance. In part A it is written "These Rules shall apply to all vessels upon the high seas and in all waters connected therewith 
+navigable by seagoing vessels.", which means any aspiring \gls{ASV} must be able to comply. It is part B that is the most relevant to the work of this thesis,
+as it contains the rules for maneuvering in the vicinity of other vessels. The following is a non-exhaustive list of the rules that are most
+relevant for this thesis, a more comprehensive examination of the rules can be found in (\cite{cockcroft2012manoeuvres}).\newline
+\textbf{Rule 8: Action to avoid collision}\newline
+(a) \textit{Any action taken to avoid collision shall be taken in accordance with the Rules of this Part and shall, 
+if the circumstances of the case admit, be positive, made in ample time and with due regard to the observance of good seamanship.}\newline
+(b) \textit{Any alteration of course and/or speed to avoid collision shall, if the circumstances of the case admit, be large enough to be readily 
+apparent to another vessel observing visually or by radar; a succession of small alterations of course and/or speed should be avoided.}\newline
+\textbf{Rule 13: Overtaking}\newline
+(b) \textit{A vessel shall be deemed to be overtaking when coming up with another vessel from a direction more than 22.5 degrees abaft her beam.}\newline
+\textbf{Rule 14: Head-on situation}\newline
+(a) \textit{When two power-driven vessels are meeting on reciprocal or nearly reciprocal courses so as to involve risk of collision each shall alter her 
+course to starboard so that each shall pass on the port side of the other.}\newline
+\textbf{Rule 15: Crossing situation}\newline
+\textit{When two power-driven vessels are crossing so as to involve risk of collision, the vessel which has the other on her own starboard 
+side shall keep out of the way and shall, if the circumstances of the case admit, avoid crossing ahead of the other vessel.}\newline
+\textbf{Rule 17: Action by stand-on vessel}\newline
+(a)(i)\textit{Where one of two vessels is to keep out of the way the other shall keep her course and speed.}\newline
+(b)\textit{When, from any cause, the vessel required to keep her course and speed finds herself so close that collision 
+cannot be avoided by the action of the give-way vessel alone, she shall take such action as will best aid to avoid collision.}
+
+These rules are not easily explained to a layperson, and even less so to a computer algorithm. 
+
+
 
 \begin{figure} % (TODO: Blås denne opp til en hel side.)
     \centering
-    \includegraphics[height=0.35\textheight]{Images/COLREGs_assess.png}
+    \includegraphics[height=0.5\textheight]{Images/COLREGs_assess.png}
     \caption{(TODO:ENDRE)Assigning COLREGS flag: with OS in the center we can place the TS in one of four regions. Similarly the relative bearing from TS to OS can be assigned regions with region 1 pointed directly at the OS and the rest following in a clockwise rotation.
     Courtesy of Emil Thyri.}
     \label{FIG: COLREGs Classification}
