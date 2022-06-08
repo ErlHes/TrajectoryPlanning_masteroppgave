@@ -123,24 +123,9 @@ time until cloest point of approach (tCPA) occurs. If both dCPA and tCPA values 
 COLREGs situation assessment shown by \cite{Thyri2021b}. %COLREGs assessment is also explained in [TODO: fordypningsoppgaven].
 
 Finding the dCPA and tCPA between two vessels with constant velocity and course is easily done with a formula as shown by(eller in?) \cite{Kufoalor2018}.
-\begin{subequations}    \label{eq:tCPAdCPA}
-\begin{equation}
-    t_{AB}^{CPA} = 
-    \begin{cases}
-      \frac{\textbf{P}_{BA} \cdot \textbf{V}_{A|B}}{||\textbf{V}_{A|B}||^2} & \text{if}\ ||\textbf{V}_{A|B}|| > 0 \\
-      0 & \text{otherwise}
-    \end{cases}
-\end{equation}
-\begin{equation}
-    d_{AB}^{CPA} = ||(\textbf{P}_A + t_{AB}^{CPA} \textbf{V}_A) - (\textbf{P}_B + t_{AB}^{CPA} \textbf{V}_B)||
-\end{equation}
-\end{subequations}
+%%%%%(TODO: SKRIV OM ALT DETTE, TING BLE FLYTTET HERFRA TIL KAPITTEL 2.3) %%%%%
 
-Where $\textbf{V}_{A|B} = \textbf{V}_A - \textbf{V}_B$ with $\textbf{V}_A$, $\textbf{V}_B$, $\textbf{P}_A$ and $\textbf{P}_B$ being the respective
-velocities and positions of vessel A and vessel B parameterized in NED. However if we are to utilize the advanced prediction we have on other agents a bit more logic must be applied
-to achieve full coverage of our intended path. Presume that our path contains a set of waypoints we intend to pass by, and similarly we know of a set of waypoints another agent intends to
-pass by. To find the true dCPA and tCPA between our own ship and the target vessel we use equations \eqref{eq:tCPAdCPA} as the situation is when each agent passes by one of their
-waypoints(TODO: TRENGER FIGUR FOR Å VISE BEDRE HVA JEG MENER).  Speed is tougher to account for, unless we know better speed should be assumed to remain constant (TODO: dette hører hjemme i background).
+
 
 %However with our wish for more advanced target ship prediction this formula is not sufficient on it's own.
 %In order to achieve 'full coverage' of our intended path,

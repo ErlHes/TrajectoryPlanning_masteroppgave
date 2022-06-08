@@ -1,44 +1,38 @@
 \section{Background Theory}
-\iffalse
-\begin{itemize}
-    \item Husk rød tråd.
-    \item Vær generisk.
-    \item Bare inkluder konsept som blir relevante senere, eller som er brukt i nødvendige antagelser.
-    \item many of the concepts explained in this chapter were also explained in [TODO: fordypningsprosjekt].
-    \item The goal of this chapter is to explain all the concepts neccessary to understand how the trajeoctyr planning algorithm works.
-    Additionally, it should grant an understanding as to why the algorithm ended up the way it is.
-\end{itemize}
-\fi
+% \begin{itemize}
+%     \item Husk rød tråd.
+%     \item Vær generisk.
+%     \item Bare inkluder konsept som blir relevante senere, eller som er brukt i nødvendige antagelser.
+%     \item many of the concepts explained in this chapter were also explained in [TODO: fordypningsprosjekt].
+%     \item The goal of this chapter is to explain all the concepts neccessary to understand how the trajeoctyr planning algorithm works.
+%     Additionally, it should grant an understanding as to why the algorithm ended up the way it is.
+% \end{itemize}
 This chapter will introduce the concepts and theory neccessary to understand the design and intent behind the trajectoy planning algorithm, as well as the discussion on it's functionality.
 The goal of the chapter is is to give the reader enough intuition of the applied theory that the proposed arguments and solutions should make sense. In addition, the chapter is structured
 so that it should be easy to quickly navigate and read about specific topics.
-\subsection{Vessel Modelling}
-\iffalse
---------- Genereal thoughts --------------------------
 
-Jeg tenker det er best å skrive om modellering i sammenheng med hvordan trajectory planning problemet blir satt opp i MATLAB med CasADi.
-\begin{itemize}
-    \item Kinematics \& Kinetics -\> Begge brukes i CasADi setup.
-    %\item Munk moment -> Potensielt relevant hvis jeg skriver om modellerings problemer
-    \item Her kan det også skrives om de spesifike tallverdiene som blir brukt i Masse, coriolis og dempnings -matrisene.
-    de er spesifike til Milliampere, funnet gjennom en rekke forsøk utfort av Anders Pedersen.
-\end{itemize}
----------- /General Thoughts--------------------------- 
-\fi
-\iffalse
-\begin{itemize}
-    \item A model in this context is just a way of describing how physical systems change over time.
-    \item There are many different ways to make models, and different models are suitable for modelling different aspects of the physical world.
-    \item The model described in this chapter, and used for the thesis, is a 3 \gls{DOF} nonlinear model based on the work of \cite{fossen2011handbook}.
-    \item The model can also incorporate wind and current disturbances, but they are omitted from this thesis.
-    \item The parameter values will vary from ship to ship, this thesis will operate with numbers for the NTNU milliampere ferry.
-    the parameters were found through testing by \cite{andersson2019casadi}
-    \item pose is parameterized in the \gls{NED} coordinate frame where the 
-\end{itemize}
-\fi
+
+\subsection{Vessel Modelling}
+% --------- Genereal thoughts --------------------------
+% Jeg tenker det er best å skrive om modellering i sammenheng med hvordan trajectory planning problemet blir satt opp i MATLAB med CasADi.
+% \begin{itemize}
+%     \item Kinematics \& Kinetics -\> Begge brukes i CasADi setup.
+%     %\item Munk moment -> Potensielt relevant hvis jeg skriver om modellerings problemer
+%     \item Her kan det også skrives om de spesifike tallverdiene som blir brukt i Masse, coriolis og dempnings -matrisene.
+%     de er spesifike til Milliampere, funnet gjennom en rekke forsøk utfort av Anders Pedersen.
+% \end{itemize}
+% ---------- /General Thoughts--------------------------- 
+% \begin{itemize}
+%     \item A model in this context is just a way of describing how physical systems change over time.
+%     \item There are many different ways to make models, and different models are suitable for modelling different aspects of the physical world.
+%     \item The model described in this chapter, and used for the thesis, is a 3 \gls{DOF} nonlinear model based on the work of \cite{fossen2011handbook}.
+%     \item The model can also incorporate wind and current disturbances, but they are omitted from this thesis.
+%     \item The parameter values will vary from ship to ship, this thesis will operate with numbers for the NTNU milliampere ferry.
+%     the parameters were found through testing by \cite{andersson2019casadi}
+%     \item pose is parameterized in the \gls{NED} coordinate frame where the 
+% \end{itemize}
 % A mathematical model is a tool for describing physical systems and expressing how they change over time, models are not unique and there are many different ways of modelling a physical system, they all have strengths and weaknesses.
 % % The model applied in this thesis is based on the theory and notation by \cite{fossen2011handbook},
-
 A mathematical model is a tool for describing physical systems and expressing how they change over time, respond to external forces, and how stable the system might be. Models are very useful when designing control systems as
 they translate the physical into equations that computers can understand. When making a model it is often useful to separate the dynamics of the different parts of the 
 system we are interested in, these are the \gls{DOF} the system has, and is often the directions the system can move, though they can also just be
@@ -46,7 +40,7 @@ nondescript generalized coordinates. Deciding which \gls{DOF} to separate out an
 an aspect of a system that there is no intent to interact with. For example a ship has six \gls{DOF}, see Figure \ref{FIG: Ship DOF}, for modelling a control system for stationkeeping
 all six are important because stationkeeping involves keeping the whole ship as steady as possible. When modelling for path following on the other hand it is not
 important what the heave, roll, or pitch of our vessel is and so the dynamics of those \gls{DOF} can safely be ignored. 
-The model used to describe our vessel in this thesis is based on the theory and notation by \cite{fossen2011handbook}, and is a 3\gls{DOF} nonlinear mass-damper system with
+The model used to describe our vessel in this thesis is based on the theory and notation by (\cite{fossen2011handbook}), and is a 3\gls{DOF} nonlinear mass-damper system with
 thruster dynamics and no external disturbances such as wind or currents. The dynamics of the vessel can be described by the differential equations below:
 
 \begin{equation} \label{EQ: eta_dot}
@@ -94,7 +88,7 @@ vessel's heading, and is definied as:
 \begin{figure}[ht]
     \centering
     \includegraphics[height=0.35\textheight]{Images/SHIPDOF_FOSSEN.png}
-    \caption{A ships 6 degrees of Freedom, from \cite{fossen2011handbook}.} %(TODO: TA BEVIST VALG, PUNKTUM ELLER IKKE.)
+    \caption{A ships 6 degrees of Freedom, from (\cite{fossen2011handbook}).} %(TODO: TA BEVIST VALG, PUNKTUM ELLER IKKE.)
     \label{FIG: Ship DOF}
 \end{figure}
 
@@ -128,7 +122,7 @@ In \eqref{EQ: Vessel Dynamics} the \textbf{M} matrix is the inertia matrix of th
 addition to the vessel's inherent inertia from being massive the vessel must also push water out of the way when it moves, this is what is known as
 hydrodynamic added mass and is linearly added to the inertia matrix. The coriolis matrix \textbf{C} also has to include hydrodynamic added mass,
 however for the purpose of this thesis it is not important to know the parameters for either of these matrices or for the dampening matrix \textbf{D}.
-That is because a trajectory planning algorithm needs to work regardless of vessel parameters, \cite{pedersen2019optimization} explains more in-depth
+That is because a trajectory planning algorithm needs to work regardless of vessel parameters, (\cite{pedersen2019optimization}) explains more in-depth
 how system parameters can be found. Continuing on, the dampening matrix is a linear combination of the linear dampening stemming from water
 viscosity and non-linear dampening from cross-flow, once again the parameters themselves are not strictly relevant to this thesis, but intuition is
 important. The result are matrices in the following form:
@@ -182,34 +176,30 @@ term over the other.
 
 
 \subsection{Trajectory Planning}
-\iffalse
---------- Genereal thoughts --------------------------
-\begin{itemize}
-    \item How to get from A to B.
-    \item Multiple methods, all with pros and cons, skriv liten oversikt.
-    \subitem LOS, OCP, Machine Learning, osv.
-    \subitem Kanskje ikke så veldig viktig å snakke om andre metoder enn OCP.  
-    \item Important factors to consider:
-    \subitem Time horizon / length of planning period.
-    \subitem Trajectory safety with respect to ship capabilities.
-    \subitem \gls{COLREGs} compliance 
-    with respect to expected behaviour.
-    \subitem osv.
-    \item Litt dypere inn i numerisk optimalisering og MPC, og LOS ettersom det kommer til å bli brukt igjen senere.
-    \item Disambiguate Path vs Trajectory
-   % \item Først oversikt, deretter enten nytt kapittel eller delkapittel om 
-   % den spesifikke metoden jeg skal bruke, forklar numerisk optimalisering, MPC, LOS guidance, hvordan alt kombineres til å bli min algoritme, in theory.
-\end{itemize}
---------- /Genereal thoughts --------------------------
-\fi
-
+% --------- Genereal thoughts --------------------------
+% \begin{itemize}
+%     \item How to get from A to B.
+%     \item Multiple methods, all with pros and cons, skriv liten oversikt.
+%     \subitem LOS, OCP, Machine Learning, osv.
+%     \subitem Kanskje ikke så veldig viktig å snakke om andre metoder enn OCP.  
+%     \item Important factors to consider:
+%     \subitem Time horizon / length of planning period.
+%     \subitem Trajectory safety with respect to ship capabilities.
+%     \subitem \gls{COLREGs} compliance 
+%     with respect to expected behaviour.
+%     \subitem osv.
+%     \item Litt dypere inn i numerisk optimalisering og MPC, og LOS ettersom det kommer til å bli brukt igjen senere.
+%     \item Disambiguate Path vs Trajectory
+%    % \item Først oversikt, deretter enten nytt kapittel eller delkapittel om 
+%    % den spesifikke metoden jeg skal bruke, forklar numerisk optimalisering, MPC, LOS guidance, hvordan alt kombineres til å bli min algoritme, in theory.
+% \end{itemize}
+% --------- /Genereal thoughts --------------------------
 % \begin{itemize}
 %     \item Core concept. Path VS Trajectory.
 %     \item Many ways of doing it.
 %     \item chosen method for this thesis.
 %     \item Numerical optimization, OCP, NLP, MPC.
 % \end{itemize}
-
 % Because the model for describing the dynamics of our vessel is a set of ordinary differential equations we can solve them for the input we need
 % to achieve any desired state. And because the dynamics are time-invariant we can solve for any future time interval given initial conditions.
 Because the vessel dynamics are described by a model expressed as a set of time-invariant ordinary differential equations, any desired state
@@ -244,11 +234,11 @@ as a \gls{NLP} problem using a method called direct multiple shooting, finally t
 
 This guidance method is perhaps the most intuitive; consider the waypoints WP\textsubscript{k} and WP\textsubscript{k+1}, the simplest path
 from one to the other would be straight line. Therefor the most obvious control method would be to maneuver onto the straight line, and
-follow it along to the end. The distance of the controlled vessel to the straight line is called the cross track error $y_e$ and the distance along the line
+follow it along to the end. The distance of the controlled vessel, from here on called \gls{OS}, to the straight line is called the cross track error $y_e$ and the distance along the line
 to the end is called the along track error $x_e$. The along track error is not of any importance to this thesis, it is assumed that the controlled
 vessel will maintain a steady velocity, and there are no temporal constraints on reaching the goal.
 
-As explained in \cite{lekkas2013line}; given the controlled vessel's position (x,y), the cross track and along track errors from the straigth line as defined by WP\textsubscript{k} (x\textsubscript{k},y\textsubscript{k})
+As explained in (\cite{lekkas2013line}); given the \gls{OS}'s position (x,y), the cross track and along track errors from the straigth line as defined by WP\textsubscript{k} (x\textsubscript{k},y\textsubscript{k})
 and WP\textsubscript{k+1} (x\textsubscript{k+1}, y\textsubscript{k+1}) are:
 \begin{equation}\label{EQ: cross and along track error} %% Along track and Cross Track error
     \begin{bmatrix}
@@ -273,7 +263,7 @@ with $\gamma_p$:
     \gamma_p = \textrm{atan2}(y_{k+1} - y_k , x_{k+1} - x_k)
 \end{equation}
 The control objective is to drive $y_{e}(t) \rightarrow 0.$ as t trends towards infinity. Assuming a steady velocity this is done by
-selecting a course that steers the controlled vessel in the direction that reduces $y_e$. How fast the error $y_e$ is suppressed is
+selecting a course that steers the \gls{OS} in the direction that reduces $y_e$. How fast the error $y_e$ is suppressed is
 tuned by a proportional gain factor, $\varDelta$, that is often called look ahead distance. The desired heading is given by:
 \begin{equation} %% Calculating psi_d
     \psi_d = \gamma_p + \arctan(\frac{-y_e}{\varDelta})
@@ -282,7 +272,7 @@ and consequently desired course:
 \begin{equation}
     \chi_d = \psi_d + \beta
 \end{equation}
-where $\beta$ is the sideslip of the controlled vessel. Because real life situations are rarely, if ever, devoid of disturbances that introduce
+where $\beta$ is the sideslip of the \gls{OS}. Because real life situations are rarely, if ever, devoid of disturbances that introduce
 sideslip and crab angles there is one common improvement that can be made: Integrate the cross track error and use both current cross track error
 and it's integral when calculating desired heading. The equation for $\dot{y}_{int}$ and $\psi_d$ then become:
 \begin{equation}
@@ -297,13 +287,13 @@ with $\kappa > 0$ being some design variable.
 \begin{figure}
     \centering
     \includegraphics[width = 0.7\textwidth]{Images/LOS_decomp.png}
-    \caption{Line of sight guidance geometry for straight lines, here with zero sideslip. Image courtesy of \cite{lekkas2013line}} % TODO: Used without permission?
+    \caption{Line of sight guidance geometry for straight lines, here with zero sideslip. Image courtesy of (\cite{lekkas2013line})} % TODO: Used without permission?
     \label{FIG: LOS_decomp}
 \end{figure}
 
-A reference trajectory is generated by using the LOS law as described to guide the \gls{OS} from it's initial position through all the waypoints, and
+A reference trajectory is generated by using the LOS law as described to guide the contolled vessel from it's initial position through all the waypoints, and
 saving the desired positions and velocities after each time step. For a path with more than two waypoints a simple index incrementation can be used when the
-\gls{OS} is within a certain distance from it's current target waypoint. The reference trajectory from $t_0$ to N iterations of \gls{LOS} applications is of the form:
+vessel is within a certain distance from it's current target waypoint. The reference trajectory from $t_0$ to N iterations of \gls{LOS} applications is of the form:
 \begin{subequations}
     \begin{align}
         \overline{\bm{\eta}}_{ref} \quad & = [\bm{\eta}_{t0} \ , \ \bm{\eta}_{t+1} \ , \ \dots \ , \bm{\eta}_N] \in \mathbb{R}^{3 \times N} \\ 
@@ -320,7 +310,7 @@ saving the desired positions and velocities after each time step. For a path wit
 %     \item cite \cite{breivik2017mpc} for a quick look and equation formulation.
 %     \item cite \cite{wright1999numerical} For a comprehensive lesson on optimal control.
 % \end{itemize}
-Numerical optimization is a vast field within mathematics, \cite{wright1999numerical} explains it well: There are no universal optimization algorithm. Instead an algorithm must be tailored to the optimization
+Numerical optimization is a vast field within mathematics, (\cite{wright1999numerical}) explains it well: There are no universal optimization algorithm. Instead an algorithm must be tailored to the optimization
 problem. Within the context of trajectory planning there are different parameters to optimize for, some examples are: maintaining steady velocity, suppressing sway, minimalizing
 fuel waste, minimizing distance to goal, and there are many more. The general expression for an optimization problem can be written as simple as:
 \begin{subequations}
@@ -397,8 +387,8 @@ the \gls{OCP} into a \gls{NLP} using a method called direct multiple shooting.
 %     This doesn't matter much for decision variables that are states, but matters a lot for velocities. ???
 % \end{itemize}
 The author would like to note that the technique used in this section, direct multiple shooting, is outside the scope of the author's knowledge.
-Everything the author knows about this technique was learned over the course of the master thesis project, and it's highly recommended to read the full formulation by \cite{breivik2017mpc}
-which is the formulation that the implementation for this thesis heavily builds upon. Another great resource for direct multiple shooting are the video lectures of \cite{gros2017Lecture}.
+Everything the author knows about this technique was learned over the course of the master thesis project, and it's highly recommended to read the full formulation by (\cite{breivik2017mpc})
+which is the formulation that the implementation for this thesis heavily builds upon. Another great resource for direct multiple shooting are the video lectures of (\cite{gros2017Lecture}).
 Also note that functions and definitions from the previous section on \gls{OCP} carry over, for example $\bm{\theta} = [\bm{\eta}^T \ , \ \bm{\nu}^T]^T$ still holds.\newline
 Direct multiple shooting is a \gls{OCP} discretization technique where both the states and control inputs are excplicitly defined as decision variables.
 The \gls{NLP} is then a reformulation of \eqref{EQ :OCP description} where L is redefined as a discretized cost function with $N_p$ control intervals steps:
@@ -408,7 +398,7 @@ The \gls{NLP} is then a reformulation of \eqref{EQ :OCP description} where L is 
 \end{equation}
 where $\bm{\omega} = [\bm{\theta}_0^T \ , \ \bm{\tau}_0^T \ , \ ... \ , \ \bm{\theta}_{N_{p-1}}^T \ , \ \bm{\tau}_{N_{p-1}}^T \ , \ \bm{\theta}_{N_{p}}^T]^T \in \mathbb{R}^{9N_{p}+6}$
 %(TODO: FÅ MED Den \in R^nxm på andre definisjoner også.)
-is a vector containing $5N_p + 6$ decision variables.% and $\bm{\theta}$ is the same as it was in \ref{EQ :OCP description}.
+is a vector containing $9N_p + 6$ decision variables.% and $\bm{\theta}$ is the same as it was in \ref{EQ :OCP description}.
 Because $\bm{\tau}_k$ does not have an accociated reference in this thesis; it is separated out as it's own part of the function.
 Here, \textbf{Q} is still a sparse 6x6 matrix where the diagonal contain the tuning parameters,
 and \textbf{K}\textsubscript{$\bm{\tau}$} are still tuning parameters on control input. The complete NLP will end up in the form of:
@@ -433,7 +423,7 @@ by defining an integrator function $\textbf{F}(\bm{\theta}_{k}, \bm{\tau}_k)$ us
 
 \begin{figure}
     \includegraphics[width=\textwidth]{Images/MultipleShooting.pdf}
-    \caption{A physically feasible trajectory is formed by "pinching" the shooting gaps close. Reproduction from \cite{gros2017Lecture}.}
+    \caption{A physically feasible trajectory is formed by "pinching" the shooting gaps close. Reproduction from (\cite{gros2017Lecture}).}
     \label{FIG: Shooting Gaps}
 \end{figure}
 
@@ -462,8 +452,8 @@ Setting the lower and upper bounds for \textbf{g} equals to zero enforces the eq
 is to formulate constraints to ensure a collision free trajectory. Similarly to the shooting constraints the obstacle constraints are also placed in \textbf{g}, their
 formulation is discussed in Chapter \ref{CHAP: COLAV}
 
-The theory behind constructing an \gls{NLP} in a way that a machine can understand and solve it is a topic for a whole new thesis. In this thesis CasADi, \cite{andersson2019casadi}, is used
-as a framework for constructing the NLP, the NLP is solved with an \gls{IPOPT} solver, \cite{wachter2006implementation}, that comes included with CasADi. A practical
+The theory behind constructing an \gls{NLP} in a way that a machine can understand and solve it is a topic for a whole new thesis. In this thesis CasADi, (\cite{andersson2019casadi}), is used
+as a framework for constructing the NLP, the NLP is solved with an \gls{IPOPT} solver, (\cite{wachter2006implementation}), that comes included with CasADi. A practical
 explanation of constructing and solving the NLP is the topic of Chapter \ref{CHAP: Method}.
 
 \subsubsection*{Model Predictive Control}
@@ -488,8 +478,6 @@ This introduces feedback to the system, which allows it to react and adjust to u
 % $N$ control intervals is: 
 
 
-
-
 \subsection{Collision Avoidance}\label{CHAP: COLAV}
 % \begin{itemize}
 %     \item \gls{COLREGs}
@@ -510,7 +498,6 @@ This introduces feedback to the system, which allows it to react and adjust to u
 %     \item No right of way, only Give Way or Stand On.
 %     \item cite \cite{cho2018intent} as a method for identifying intent, and a lead in to target ship prediction.
 % \end{itemize}
-
 % \begin{itemize}
 %     \item An optimal trajectory is of little use if it guides the vessel directly into a collision.
 %     \item Collision avoidance is therefor just as important as finding the optimal trajectory, in fact it would be difficult to claim
@@ -519,13 +506,13 @@ This introduces feedback to the system, which allows it to react and adjust to u
 %     \item Nr. 1 avoid collisions with static obstacles by any means.
 %     \item Nr. 2 Avoid collisions with dynamic obstacles by achieving COLREGs compliance.
 % \end{itemize}
-
 Having constructed the means of finding an optimal trajectory, the next task at hand is making sure the trajectory is collision free.
 It would be difficult to claim any sort of optimality without asserting if the trajectory is able to effectively avoid obstacles, collision avoidance is
 therefor just as important a task as the construction of the trajectory planning algorithm. Collision avoidance is an umbrella term for many
 different smaller tasks; from risk assessment to escape maneuvers. For the purposes of this thesis it is assumed that information 
-about obstacles in the near vicinity of the controlled vessel is readily available and not subject to disturbances or distortion.
+about obstacles in the near vicinity of the \gls{OS} is readily available and not subject to disturbances or distortion.
 The task at hand can then be separated out into two pieces: Static obstacle avoidance and \gls{COLREGs} compliance. 
+
 
 \subsubsection*{Static Obstacles}
 A static obstacle is any object or hindernace in the water that does not move on a timescale comparable to the one of the controlled
@@ -545,8 +532,8 @@ or counter-clockwise direction. With N obstacles that can be put together on the
     \mathcal{O}_s = [\mathcal{O}_{s_{1}} \ , \ \textbf{NaN} \ , \ ... \ , \ \mathcal{O}_N] \in \mathbb{R}^{2 \times c}
 \end{equation}
 where $\textbf{NaN} = [NaN \ , \ NaN]^T$ is inserted between each obstacle to separate them, and c is some function of N and n to get the correct column dimension.
-(TODO: wow dette var dårlig beskrevet...). When the obstacles are gathered in this form, consrtaints can be generated the followig way:\newline
-Consider a fan of scan lines radiating from the controlled vessel with fixed length and angle. The intersection
+(TODO: wow dette var dårlig beskrevet, alternativ formulering: the column dimension c is dependant on the amount and shape of the obstacles.). When the obstacles are gathered in this form, consrtaints can be generated the followig way:\newline
+Consider a fan of scan lines radiating from the \gls{OS} with fixed length and angle. The intersection
 point between a scan lines and the line between any two columns in $\mathcal{O}_s$ forms the basis of the constraint 
 $\mathbf{o}_{sc} = (o_n \ , \ o_e)$ in NED.\newline
 The constraint function is the cross track error between the position of the vessel and a line orthogonal to the scan line which crosses
@@ -554,23 +541,26 @@ the point $\mathbf{o}_{sc}$, calculated like in \eqref{EQ: cross and along track
 \begin{eqnarray}
     y_e = -\sin(\gamma_p)*(N-o_n) + \cos(\gamma_p)*(E-o_e)
 \end{eqnarray}
-where (N, E) are the north and east position of the controlled vessel, and $\gamma_p$ is the angle of the orthogonal line w.r.t NED.
+where (N, E) are the north and east position of the \gls{OS}, and $\gamma_p$ is the angle of the orthogonal line w.r.t NED.
 See Figure \ref{FIG: Static Obs Lines} for a visualization.
 The scan lines are generated at each discretized step of the reference trajectory, and every found intersection between a 
 line the static obstacles has it's own associated cross track error that is added to the function 
-$\textbf{g}(\omega)$, with the lower and upper bounds of $textbf{g}(\omega)$ defining the allowed distance beteen the vessel and the constraint lines.
+$\textbf{g}(\omega)$, with the lower and upper bounds of $\textbf{g}(\omega)$ defining the allowed distance beteen the vessel and the constraint lines.
+This creates a convex free set bound by the static obstacles near the \gls{OS}.
 
 
-
-
-
-\subsubsection*{COLREGs}
+\subsubsection*{COLREGs Compliance}
 The \gls{COLREGs} (\cite{WikisourceCOLREGS}) are a set of rules developed with the purpose of preventing collisions between two or more vessels at sea.
 The rules are sectioned into six parts; A - General, B - Steering and Sailing Rules, C - Light and Shapes, D - Sound and Light Signals, E - Exemptions,
 F - Verification of Compliance. In part A it is written "These Rules shall apply to all vessels upon the high seas and in all waters connected therewith 
 navigable by seagoing vessels.", which means any aspiring \gls{ASV} must be able to comply. It is part B that is the most relevant to the work of this thesis,
 as it contains the rules for maneuvering in the vicinity of other vessels. The following is a non-exhaustive list of the rules that are most
 relevant for this thesis, a more comprehensive examination of the rules can be found in (\cite{cockcroft2012manoeuvres}).\newline
+\textbf{Rule 7: Risk of Collision}\newline
+(d)\textit{ In determining if risk of collision exists the following considerations shall be among those taken into account:}\newline
+(d)(i) \textit{such risk shall be deemed to exist if the compass bearing of an approaching vessel does not appreciably change;}\newline
+(d)(ii) \textit{ such risk may sometimes exist even when an appreciable bearing change is evident, particularly when 
+approaching a very large vessel or a tow or when approaching a vessel at close range.}\newline
 \textbf{Rule 8: Action to avoid collision}\newline
 (a) \textit{Any action taken to avoid collision shall be taken in accordance with the Rules of this Part and shall, 
 if the circumstances of the case admit, be positive, made in ample time and with due regard to the observance of good seamanship.}\newline
@@ -589,8 +579,36 @@ side shall keep out of the way and shall, if the circumstances of the case admit
 (b)\textit{When, from any cause, the vessel required to keep her course and speed finds herself so close that collision 
 cannot be avoided by the action of the give-way vessel alone, she shall take such action as will best aid to avoid collision.}
 
-These rules are not easily explained to a layperson, and even less so to a computer algorithm. 
+These rules are not easily explained to a layperson, and even less easily to a computer algorithm. To formulate the constraints that will
+enforce \gls{COLREGs} compliance it is sensible to start by considering rule 7; is there any risk of collision between the \gls{OS}
+and any other vessel? A common risk assessment tool is to calculate the \gls{dCPA} and \gls{tCPA} between two vessels as shown by (\cite{Kufoalor2018}):
+\begin{subequations}    \label{eq:tCPAdCPA}
+    \begin{equation}
+        t_{AB}^{CPA} = 
+        \begin{cases}
+          \frac{\textbf{P}_{BA} \cdot \textbf{V}_{A|B}}{||\textbf{V}_{A|B}||^2} & \text{if}\ ||\textbf{V}_{A|B}|| > 0 \\
+          0 & \text{otherwise}
+        \end{cases}
+    \end{equation}
+    \begin{equation}
+        d_{AB}^{CPA} = ||(\textbf{P}_A + t_{AB}^{CPA} \textbf{V}_A) - (\textbf{P}_B + t_{AB}^{CPA} \textbf{V}_B)||
+    \end{equation}
+\end{subequations}
+where $\textbf{V}_{A|B} = \textbf{V}_A - \textbf{V}_B$ with $\textbf{V}_A$, $\textbf{V}_B$, $\textbf{P}_A$ and $\textbf{P}_B$ being the respective
+velocities and positions of two given vessels A and B parameterized in NED. To determine if the \gls{OS} and a given \gls{Ts} should be
+considered to be in an active situation, the calculated \gls{dCPA} can be compared to some lower threshold limit. If the \gls{dCPA} is below the set threshold
+the next step is to assert which \gls{COLREGs} rule is currently in effect for the \gls{OS}, this is what will be called 'active \gls{COLREGs}
+situation' for the rest of this thesis, and asserting which \gls{COLREGs} is currently in effect will be called 'COLREGs classification'.
 
+There have been multiple studies on \gls{COLREGs} classification, (\cite{woerner2016multi}) lays out an algorithmic approach based on the
+relative bearings between the \gls{OS} and a given \gls{Ts}. In this algorithm numerical values from the \gls{COLREGs} rules are used as the
+as the criteria for determining which \gls{COLREGs} sitation the \gls{OS} finds itself in. The algorithm yields the expected results,
+but it's a bit opaque and hard to follow. (\cite{tam2010collision}) suggests a similar approach formulated in a more natural language that is easier
+and more intuitive to follow. This method first considers the relative bearing from the \gls{Ts} to the \gls{OS}
+% However if we are to utilize the advanced prediction we have on other agents a bit more logic must be applied
+% to achieve full coverage of our intended path. Presume that our path contains a set of waypoints we intend to pass by, and similarly we know of a set of waypoints another agent intends to
+% pass by. To find the true dCPA and tCPA between our own ship and the target vessel we use equations \eqref{eq:tCPAdCPA} as the situation is when each agent passes by one of their
+% waypoints(TODO: TRENGER FIGUR FOR Å VISE BEDRE HVA JEG MENER).  Speed is tougher to account for, unless we know better speed should be assumed to remain constant (TODO: dette hører hjemme i background).
 
 
 \begin{figure} % (TODO: Blås denne opp til en hel side.)
@@ -609,7 +627,6 @@ These rules are not easily explained to a layperson, and even less so to a compu
 \end{figure}
 
 
-
 % \subsection{'The Complete System'}
 % \begin{itemize}
 %     \item Vet ikke helt om dette kapittelet er nødvendig, men jeg lurer på om det er en god ide å skrive litt om nøyaktig hvor i ett fult funksjonelt
@@ -626,35 +643,35 @@ These rules are not easily explained to a layperson, and even less so to a compu
 % \end{itemize}
 
 \subsection{Target Ship Prediction}
---------- Genereal thoughts --------------------------
-\begin{itemize}
-    \item Gjenfortelling fra fordypningsprosjekt, da kalt traffic pattern
-    \item Fant en annen artikkel fra Kina som skrev om nogenlunde det samme, \gls{AIS} data -\> prediksjon
-    \item Skiller seg fra fordypningsprosjekt fordi det er egentlig ikke traffic pattern som er den viktige antagelsen,
-    Det er heller viktig at vi antar det finnes en måte å gjette/vite hvor andre båter vil være fremover i tid.
-    \item Andre metoder for target ship prediction kan være f.eks utvidelse av \gls{AIS} som 
-    inkluderer autonav data for de neste 5 minuttene eller noe lignende.
-    \item Disambiguate Simple and Full prediction.
-\end{itemize}
----------- /General Thoughts--------------------------- 
-\begin{itemize}
-    \item Naval navigation is an 'active' task, always looking out for obstacles and making sure the way forward is clear.
-    \item There are no lanes, instead proper conduct is dictated by \gls{COLREGs}, the rules are laid out so that different situations
-    have different rules
-    \item Knowing which situation you are in is half the battle, therefor the ability to predict and estiamte how encounters will happen
-    is a powerful tool. Human navigators do this by experience.
-    \item Autonomous vessels could also predict by experience, that would be the machine learning approach. \gls{AIS} can already provide training data.
-    \item But it could be easier than that, what if \gls{AIS} data packets were expanded to send out autonav data for where a vessel intends to traverse.
-    The assumption here is that vessels using autonav will correct their course when spotting a conflict. Vessels not using autonav would still be able to observe
-    the indended path of other vessels and adjust their plans 'manually'.
-    \item Relying on fully predicting the transit of a target vessel is fragile, relying on a few known waypoints would be much more robust.
-    \item In the end the best solution would be if all vessels could fully communicate their intended path either peer to peer or through
-    a centralized system. Solving conflicting paths would be done on a higher level than individual vessel.
-    \item cite \cite{scholler2021trajectory} for AIS prediction.
-    \item cite \cite{zhang2021collision} For mention of massive AIS data.
-    \item cite ais?? har sett noen gjøre det.
-    \item cite \cite{huang2020ship} to refer to current methods for target ship prediction.
-\end{itemize}
+% --------- Genereal thoughts --------------------------
+% \begin{itemize}
+%     \item Gjenfortelling fra fordypningsprosjekt, da kalt traffic pattern
+%     \item Fant en annen artikkel fra Kina som skrev om nogenlunde det samme, \gls{AIS} data -\> prediksjon
+%     \item Skiller seg fra fordypningsprosjekt fordi det er egentlig ikke traffic pattern som er den viktige antagelsen,
+%     Det er heller viktig at vi antar det finnes en måte å gjette/vite hvor andre båter vil være fremover i tid.
+%     \item Andre metoder for target ship prediction kan være f.eks utvidelse av \gls{AIS} som 
+%     inkluderer autonav data for de neste 5 minuttene eller noe lignende.
+%     \item Disambiguate Simple and Full prediction.
+% \end{itemize}
+% ---------- /General Thoughts--------------------------- 
+% \begin{itemize}
+%     \item Naval navigation is an 'active' task, always looking out for obstacles and making sure the way forward is clear.
+%     \item There are no lanes, instead proper conduct is dictated by \gls{COLREGs}, the rules are laid out so that different situations
+%     have different rules
+%     \item Knowing which situation you are in is half the battle, therefor the ability to predict and estiamte how encounters will happen
+%     is a powerful tool. Human navigators do this by experience.
+%     \item Autonomous vessels could also predict by experience, that would be the machine learning approach. \gls{AIS} can already provide training data.
+%     \item But it could be easier than that, what if \gls{AIS} data packets were expanded to send out autonav data for where a vessel intends to traverse.
+%     The assumption here is that vessels using autonav will correct their course when spotting a conflict. Vessels not using autonav would still be able to observe
+%     the indended path of other vessels and adjust their plans 'manually'.
+%     \item Relying on fully predicting the transit of a target vessel is fragile, relying on a few known waypoints would be much more robust.
+%     \item In the end the best solution would be if all vessels could fully communicate their intended path either peer to peer or through
+%     a centralized system. Solving conflicting paths would be done on a higher level than individual vessel.
+%     \item cite \cite{scholler2021trajectory} for AIS prediction.
+%     \item cite \cite{zhang2021collision} For mention of massive AIS data.
+%     \item cite ais?? har sett noen gjøre det.
+%     \item cite \cite{huang2020ship} to refer to current methods for target ship prediction.
+% \end{itemize}
 
 \begin{figure}
     \centering

@@ -372,7 +372,7 @@ g_counter = 7;
                 pi_p = static_obs_constraints(3,i);
                 
                 Static_obs_crosstrack_distance = abs(-(Xk(2)-static_obs_x1) * cos(pi_p) + (Xk(1) - static_obs_y1) * sin(pi_p));
-                g = [g {Static_obs_crosstrack_distance}]; %#ok<AGROW> 
+                 g = [g {Static_obs_crosstrack_distance}]; %#ok<AGROW> 
                     lbg(g_counter) = 5;
                     ubg(g_counter) = inf;
                     g_counter = g_counter + 1;
