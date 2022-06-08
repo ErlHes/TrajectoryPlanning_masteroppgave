@@ -75,6 +75,50 @@
       \field{pages}{1\bibrangedash 36}
       \range{pages}{36}
     \endentry
+    \entry{cho2018intent}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=56e7a674de33d2b42db24949564d65b5}{%
+           family={Cho},
+           familyi={C\bibinitperiod},
+           given={Yonghoon},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=32ecfed9cea2e3968f0d411f4b91da8f}{%
+           family={Han},
+           familyi={H\bibinitperiod},
+           given={Jungwook},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1734cb82044e8ae55ad5dfe140ed4ecd}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={Jinwhan},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{c3ddcc1e2607f20a6a0b4a7286b01d1c}
+      \strng{fullhash}{4c345cb5de847b68021a9adeddf4ed76}
+      \strng{bibnamehash}{4c345cb5de847b68021a9adeddf4ed76}
+      \strng{authorbibnamehash}{4c345cb5de847b68021a9adeddf4ed76}
+      \strng{authornamehash}{c3ddcc1e2607f20a6a0b4a7286b01d1c}
+      \strng{authorfullhash}{4c345cb5de847b68021a9adeddf4ed76}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IFAC-PapersOnLine}
+      \field{number}{29}
+      \field{title}{Intent inference of ship maneuvering for automatic ship collision avoidance}
+      \field{volume}{51}
+      \field{year}{2018}
+      \field{pages}{384\bibrangedash 388}
+      \range{pages}{5}
+    \endentry
     \entry{cockcroft2012manoeuvres}{book}{}
       \name{author}{2}{}{%
         {{un=0,uniquepart=base,hash=5e5e808c6ad0c65f158ca1515c0ff0d8}{%
@@ -517,6 +561,62 @@
       \field{year}{1997}
       \field{pages}{232\bibrangedash 256}
       \range{pages}{25}
+    \endentry
+    \entry{scholler2021trajectory}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=7712c78973d4c90eeaca3fb360cea5b4}{%
+           family={Schöller},
+           familyi={S\bibinitperiod},
+           given={Frederik\bibnamedelima ET},
+           giveni={F\bibinitperiod\bibinitdelim E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4471ad21ac635d9c8f564d098be70ca7}{%
+           family={Enevoldsen},
+           familyi={E\bibinitperiod},
+           given={Thomas\bibnamedelima T},
+           giveni={T\bibinitperiod\bibinitdelim T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7df0711284e0bb5a79fb2756a5947d17}{%
+           family={Becktor},
+           familyi={B\bibinitperiod},
+           given={Jonathan\bibnamedelima B},
+           giveni={J\bibinitperiod\bibinitdelim B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3ef7a82d28954654b73be08b50fbb7c5}{%
+           family={Hansen},
+           familyi={H\bibinitperiod},
+           given={Peter\bibnamedelima N},
+           giveni={P\bibinitperiod\bibinitdelim N\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {Oldenburg, Germany}%
+      }
+      \list{organization}{1}{%
+        {IFAC}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{dd8a9fd2c5ba8fa6d7e46fa97d0f81f7}
+      \strng{fullhash}{f122211829e0638191d3d5bf48b7d129}
+      \strng{bibnamehash}{f122211829e0638191d3d5bf48b7d129}
+      \strng{authorbibnamehash}{f122211829e0638191d3d5bf48b7d129}
+      \strng{authornamehash}{dd8a9fd2c5ba8fa6d7e46fa97d0f81f7}
+      \strng{authorfullhash}{f122211829e0638191d3d5bf48b7d129}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booksubtitle}{Proceedings of 13th IFAC Conference on Control Applications in Marine Systems, Robotics, and Vehicles Elsevier}
+      \field{number}{16}
+      \field{title}{Trajectory prediction for marine vessels using historical AIS heatmaps and long short-term memory networks}
+      \field{volume}{54}
+      \field{year}{2021}
+      \field{pages}{83\bibrangedash 89}
+      \range{pages}{7}
     \endentry
     \entry{tam2010collision}{article}{}
       \name{author}{2}{}{%

@@ -208,7 +208,7 @@ thesis "state" refers to the pose, $\bm{\eta}$, of the vessel. The simplest appl
 The solution is simply to find the input sequence which turns the vessel to the correct course and then maintaining a forward speed until point B is reached.
 The straight vector line from point A to point B can be thought of as the desired or reference path, while the sequence of states achieved by applying the 
 input sequence is the trajectory. Instead of having just one destination there might be multiple waypoints forming the path, and the optimal
-input sequence that makes the vessel travel along the path depends on what criteria are considered important. A trajectory generated with fuel
+input sequence that makes the controlled vessel, from here on called "Own Ship" (OS), travel along the path depends on what criteria are considered important. A trajectory generated with fuel
 economy in mind might look very different from a trajectory generated with shortest transit time in mind, even if both are following the same path.
 Other factors such as obstacles or disturbances will also influence the trajectory, combining all the factors and generating the desired
 input sequence is the act of trajectory planning.
@@ -234,7 +234,7 @@ as a \gls{NLP} problem using a method called direct multiple shooting, finally t
 
 This guidance method is perhaps the most intuitive; consider the waypoints WP\textsubscript{k} and WP\textsubscript{k+1}, the simplest path
 from one to the other would be straight line. Therefor the most obvious control method would be to maneuver onto the straight line, and
-follow it along to the end. The distance of the controlled vessel, from here on called \gls{OS}, to the straight line is called the cross track error $y_e$ and the distance along the line
+follow it along to the end. The distance of the \gls{OS} to the straight line is called the cross track error $y_e$ and the distance along the line
 to the end is called the along track error $x_e$. The along track error is not of any importance to this thesis, it is assumed that the controlled
 vessel will maintain a steady velocity, and there are no temporal constraints on reaching the goal.
 
@@ -579,9 +579,17 @@ side shall keep out of the way and shall, if the circumstances of the case admit
 (b)\textit{When, from any cause, the vessel required to keep her course and speed finds herself so close that collision 
 cannot be avoided by the action of the give-way vessel alone, she shall take such action as will best aid to avoid collision.}
 
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\textwidth]{Images/shipCPA.pdf}
+    \caption{Visualizing dCPA and tCPA.}
+    \label{FIG: ship CPA}
+\end{figure}
+
+
 These rules are not easily explained to a layperson, and even less easily to a computer algorithm. To formulate the constraints that will
 enforce \gls{COLREGs} compliance it is sensible to start by considering rule 7; is there any risk of collision between the \gls{OS}
-and any other vessel? A common risk assessment tool is to calculate the \gls{dCPA} and \gls{tCPA} between two vessels as shown by (\cite{Kufoalor2018}):
+and any other vessel? A common risk assessment tool is to calculate the \gls{dCPA} and \gls{tCPA} between two vessels as shown by (\cite{Kufoalor2018}) and Figure (\ref{FIG: ship CPA}):
 \begin{subequations}    \label{eq:tCPAdCPA}
     \begin{equation}
         t_{AB}^{CPA} = 
@@ -600,31 +608,36 @@ considered to be in an active situation, the calculated \gls{dCPA} can be compar
 the next step is to assert which \gls{COLREGs} rule is currently in effect for the \gls{OS}, this is what will be called 'active \gls{COLREGs}
 situation' for the rest of this thesis, and asserting which \gls{COLREGs} is currently in effect will be called 'COLREGs classification'.
 
+(Disclaimer: \gls{COLREGs} classification is virtually unchanged from the report delivered as part of the author's fordypningsproject, which is attached
+as an additional file.)
 There have been multiple studies on \gls{COLREGs} classification, (\cite{woerner2016multi}) lays out an algorithmic approach based on the
 relative bearings between the \gls{OS} and a given \gls{Ts}. In this algorithm numerical values from the \gls{COLREGs} rules are used as the
 as the criteria for determining which \gls{COLREGs} sitation the \gls{OS} finds itself in. The algorithm yields the expected results,
 but it's a bit opaque and hard to follow. (\cite{tam2010collision}) suggests a similar approach formulated in a more natural language that is easier
-and more intuitive to follow. This method first considers the relative bearing from the \gls{Ts} to the \gls{OS}
+and more intuitive to follow. This method first considers the relative bearing from the \gls{Ts} to the \gls{OS}:
+\begin{equation}
+    \phi = \textrm{atan2}((E_{TS} - E) , (N_{TS} - N)) - \chi
+\end{equation}
+where $(N_{TS}, E_{TS})$ and $(N, E)$ are the positions of the \gls{Ts} and \gls{OS} respectively, and $\chi$ is the course of the \gls{OS}.
+With the \gls{OS} as a centerpiece, 4 sectors can be defined by angles offset from the \gls{OS}'s course, where
+the relative bearing $\phi$ deciding which sector the \gls{Ts} is in. Similarly the relative bearing from the \gls{Ts} to the \gls{OS} can be
+used to determine \gls{COLREGs} situation. See Figure (\ref{FIG: COLREGs Classification}) for a visualization.
+
+
 % However if we are to utilize the advanced prediction we have on other agents a bit more logic must be applied
 % to achieve full coverage of our intended path. Presume that our path contains a set of waypoints we intend to pass by, and similarly we know of a set of waypoints another agent intends to
 % pass by. To find the true dCPA and tCPA between our own ship and the target vessel we use equations \eqref{eq:tCPAdCPA} as the situation is when each agent passes by one of their
 % waypoints(TODO: TRENGER FIGUR FOR Å VISE BEDRE HVA JEG MENER).  Speed is tougher to account for, unless we know better speed should be assumed to remain constant (TODO: dette hører hjemme i background).
 
 
-\begin{figure} % (TODO: Blås denne opp til en hel side.)
+\begin{figure}[t] % (TODO: Blås denne opp til en hel side.)
     \centering
     \includegraphics[height=0.5\textheight]{Images/COLREGs_assess.png}
-    \caption{(TODO:ENDRE)Assigning COLREGS flag: with OS in the center we can place the TS in one of four regions. Similarly the relative bearing from TS to OS can be assigned regions with region 1 pointed directly at the OS and the rest following in a clockwise rotation.
+    \caption{COLREGs classifcation; with OS in the center we can place the TS in one of four regions. Similarly the relative bearing from TS to OS can be assigned regions with region 1 pointed directly at the OS and the rest following in a clockwise rotation.
     Courtesy of Emil Thyri.}
     \label{FIG: COLREGs Classification}
 \end{figure}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{Images/shipCPA.pdf}
-    \caption{Visualizing dCPA and tCPA.}
-    \label{FIG: ship CPA}
-\end{figure}
 
 
 % \subsection{'The Complete System'}
@@ -672,6 +685,11 @@ and more intuitive to follow. This method first considers the relative bearing f
 %     \item cite ais?? har sett noen gjøre det.
 %     \item cite \cite{huang2020ship} to refer to current methods for target ship prediction.
 % \end{itemize}
+\begin{itemize}
+    \item If it was not done at the end of previous chapter, \cite{cho2018intent} as one research into target ship prediction.
+    \item Also cite \cite{scholler2021trajectory} on AIS prediction, and \cite{zhang2021collision} on the usage of massive AIS data.
+    \item cite \cite{huang2020ship} as an example of how TS prediction is (not) usually done... might not be needed.
+\end{itemize}
 
 \begin{figure}
     \centering
