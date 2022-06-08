@@ -524,6 +524,44 @@
       \field{type}{mathesis}
       \field{year}{2019}
     \endentry
+    \entry{qin1997overview}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=955774b6cbb1b6630808e0013931e996}{%
+           family={Qin},
+           familyi={Q\bibinitperiod},
+           given={S\bibnamedelima Joe},
+           giveni={S\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d6201ab1f73de90be05b37409ae40f0b}{%
+           family={Badgwell},
+           familyi={B\bibinitperiod},
+           given={Thomas\bibnamedelima A},
+           giveni={T\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{organization}{1}{%
+        {New York, NY: American Institute of Chemical Engineers, 1971-c2002.}%
+      }
+      \strng{namehash}{68b7c14f6e458ce9bf835792c32712b0}
+      \strng{fullhash}{68b7c14f6e458ce9bf835792c32712b0}
+      \strng{bibnamehash}{68b7c14f6e458ce9bf835792c32712b0}
+      \strng{authorbibnamehash}{68b7c14f6e458ce9bf835792c32712b0}
+      \strng{authornamehash}{68b7c14f6e458ce9bf835792c32712b0}
+      \strng{authorfullhash}{68b7c14f6e458ce9bf835792c32712b0}
+      \field{sortinit}{Q}
+      \field{sortinithash}{ce69a400a872ddd02ee7fdb3b38c6abd}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{AIche symposium series}
+      \field{number}{316}
+      \field{title}{An overview of industrial model predictive control technology}
+      \field{volume}{93}
+      \field{year}{1997}
+      \field{pages}{232\bibrangedash 256}
+      \range{pages}{25}
+    \endentry
     \entry{ruud2018lidar}{inproceedings}{}
       \name{author}{3}{}{%
         {{un=0,uniquepart=base,hash=539644d56529687b396b0cd59a4cdeab}{%
@@ -659,6 +697,43 @@
       \field{year}{2010}
       \field{pages}{257\bibrangedash 270}
       \range{pages}{14}
+    \endentry
+    \entry{Thyri2021b}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=5703448a7ea516011d33adcce15e1550}{%
+           family={Thyri},
+           familyi={T\bibinitperiod},
+           given={Emil\bibnamedelima Hjelseth},
+           giveni={E\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e0c5b9f9a9e8817b86ef534482e21e30}{%
+           family={Breivik},
+           familyi={B\bibinitperiod},
+           given={Morten},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{38695f527f4b2e051df904a2b3219117}
+      \strng{fullhash}{38695f527f4b2e051df904a2b3219117}
+      \strng{bibnamehash}{38695f527f4b2e051df904a2b3219117}
+      \strng{authorbibnamehash}{38695f527f4b2e051df904a2b3219117}
+      \strng{authornamehash}{38695f527f4b2e051df904a2b3219117}
+      \strng{authorfullhash}{38695f527f4b2e051df904a2b3219117}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Field Robotics}
+      \field{title}{A domain-based and reactive {COLAV} method with a partially {COLREG}s-compliant domain for {ASV}s operating in confined waters}
+      \field{volume}{2}
+      \field{year}{2022}
+      \field{pages}{632\bibrangedash 677}
+      \range{pages}{46}
+      \verb{doi}
+      \verb https://doi.org/10.55417/fr.2022022
+      \endverb
     \endentry
     \entry{vagale2021path}{article}{}
       \name{author}{5}{}{%

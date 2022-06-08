@@ -10,9 +10,9 @@
 \end{itemize}
 \fi
 This chapter will introduce the concepts and theory neccessary to understand the design and intent behind the trajectoy planning algorithm, as well as the discussion on it's functionality.
-The goal of the chapter is that the reader will have enough intuition of the applied theory that the proposed arguments and solutions should make sense. In addition, the chapter is structured
+The goal of the chapter is is to give the reader enough intuition of the applied theory that the proposed arguments and solutions should make sense. In addition, the chapter is structured
 so that it should be easy to quickly navigate and read about specific topics.
-\subsection{Vessel modelling}
+\subsection{Vessel Modelling}
 \iffalse
 --------- Genereal thoughts --------------------------
 
@@ -55,15 +55,33 @@ thruster dynamics and no external disturbances such as wind or currents. The dyn
 \begin{equation} \label{EQ: Vessel Dynamics}
     \textbf{M}\bm{\dot{\nu}} + \textbf{C}(\bm{\nu})\bm{\nu} + \textbf{D}(\bm{\nu})\bm{\nu} = \bm{\tau}
 \end{equation} %(TODO linjen som følger equation er SAMME SETNING.)
-where $\bm{\eta}$ is the pose of the vessel, parameterized in the tangental plane \gls{NED} where the x-axis points towards true north, the y-axis east and the z-axis down towards the center of the planet.
-The \gls{NED} frame can be said to be inertial for short distance control objectives.
-The vector $\bm{\eta}$ is a column vector with the vessel's North, East and Heading values, which are the three \gls{DOF} of the system. The $\bm{\nu}$ vector is a column vector containing
-the vessel's velocities parameterized in the BODY frame, namely surge, sway, and yaw rate. In the BODY frame there are no fixed rules for where the axis are pointing, but the common convention for modelling
-vehicles is that the x-axis points along the lognitudal axis of the vessel, the y-axis points along the lateral axis and the z-axis points along the vertical axis. This is also seen in Figure \ref{FIG: Ship DOF}.
-The anchor point for the BODY frame is arbitrary but always fixed to the vessel and moves with it. \textbf{R} is a rotational matrix about the heading ($\psi$) of the vessel and it transform the BODY velocities into
-NED movement. 
-The Rotation matrix, as well as pose, velocity, and the thruster vector $\bm{\tau}$ are:
-
+% where $\bm{\eta}$ is the pose of the vessel, parameterized in the tangental plane \gls{NED} where the x-axis 
+%points towards true north, the y-axis east and the z-axis down towards the center of the planet.
+% The \gls{NED} frame can be said to be inertial for short distance control objectives.
+% Here, the vector $\bm{\eta}$ is a column vector with the vessel's North, East and Heading values, 
+% which are the three \gls{DOF} of the system. The $\bm{\nu}$ vector is a column vector containing
+% the vessel's velocities parameterized in the BODY frame, namely surge, sway, and yaw rate. 
+% In the BODY frame there are no fixed rules for where the axis are pointing, but the common convention for modelling
+% vehicles is that the x-axis points along the lognitudal axis of the vessel, the y-axis points along the lateral axis
+% and the z-axis points along the vertical axis. This is also seen in Figure \ref{FIG: Ship DOF}.
+% The anchor point for the BODY frame is arbitrary but always fixed to the vessel and moves with it. 
+% \textbf{R} is a rotational matrix about the heading ($\psi$) of the vessel and it transform the BODY velocities into
+% NED movement. 
+% The Rotation matrix, as well as pose, velocity, and the thruster vector $\bm{\tau}$ are:
+where $\bm{\eta}$ is the pose of the vessel parameterized in the tangetnal plane \gls{NED}, $\bm{\nu}$ are
+the velocities of the vessel, parameterized in the BODY frame of the vessel. And $\bm{\tau}$ are forces and torque applied to the
+system. The \gls{NED} frame can be said to be inertial for short distance control objectives, and in this frame 
+he x-axis points towards true north, the y-axis points east and the z-axis points down towards the center of the planet.
+Thus; $\bm{\eta} = [x\ , \ y \ , \ \psi]^T \in \mathbb{R}^{3}$ are the vessel's North, East and Heading values, 
+which are the three \gls{DOF} of the system. The velocities $\bm{\nu} = [u\ , \ v \ , \ r]^T \in \mathbb{R}^{3}$ are the
+surge, sway, and yaw rate of the vessel. In the BODY frame there are no fixed rules for where the axis are pointing, but the common convention for modelling
+vehicles is that the x-axis points along the lognitudal axis of the vessel, the y-axis points along the lateral axis
+and the z-axis points along the vertical axis. This is also seen in Figure \ref{FIG: Ship DOF}.
+The anchor point for the BODY frame is arbitrary but always fixed to the vessel and moves with it. 
+The forces and toruqe $\bm{\tau} = [F_{X}\ , \ F_{Y} \ , \ F_{N}]^T \in \mathbb{R}^{3}$ are the forces acting along
+the logitudal axis, lateral axis, and torque about the vertical axis of the vessel's BODY frame. (TODO: vent hæ? ble plutselig usikker på rammedefinisjonen
+til $\bm{\tau}$. Det stemmer vel at det er BODY?). The rotation matrix \textbf{R}($\psi$) rotates the BODY velocities into \gls{NED} movement about the
+vessel's heading, and is definied as:
 \begin{equation}
     \textbf{R}(\psi) = \begin{bmatrix}
                         cos\psi &   -sin\psi & 0\\[-5pt]
@@ -71,47 +89,49 @@ The Rotation matrix, as well as pose, velocity, and the thruster vector $\bm{\ta
                         0       &   0        & 1
                         \end{bmatrix}
 \end{equation}
-\begin{equation} % TODO: FLYTT INN I FLYTTEKST
-    \bm{\eta} = \begin{bmatrix}
-                x   &    y  &    \psi
-                \end{bmatrix}^T
-\end{equation}
-\begin{equation} % TODO: FLYTT INN I FLYTTEKST
-    \bm{\nu} = \begin{bmatrix}
-                 u   &   v  &    r
-                \end{bmatrix}^T
-\end{equation} % TODO: FLYTT INN I FLYTTEKST
-\begin{equation} \label{EQ: Tau}
-    \bm{\tau} = \begin{bmatrix}
-                F_{X}   &   F_{Y}  &   F_{N}
-                \end{bmatrix}^T
-\end{equation}
-\iffalse
-\begin{itemize}
-    \item $\eta$ is defined in the \gls{NED} reference frame, $\nu$ is defined in BODY frame, briefly explain what that means.
-    \item The M and C matrices are a combination of Rigid body and hydrodynamic added mass matrices
-    \item Fully computing the M and C matrices is a lot of work, for milliampere the work has already been conducted
-    by Andreas Pedersen.
-    \item If the model values are to be found through experiementation it's senseless to seperate Rigid body and hydrodynamic added mass.
-    The matrices then become:
-\end{itemize}
-\fi
 
-In \ref{EQ: Vessel Dynamics} the \textbf{M} matrix is the inertia matrix of the system, which describes how 'heavy' the \gls{DOF} are to nudge, in
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[height=0.35\textheight]{Images/SHIPDOF_FOSSEN.png}
+    \caption{A ships 6 degrees of Freedom, from \cite{fossen2011handbook}.} %(TODO: TA BEVIST VALG, PUNKTUM ELLER IKKE.)
+    \label{FIG: Ship DOF}
+\end{figure}
+
+
+% \begin{equation} % TODO: FLYTT INN I FLYTTEKST
+%     \bm{\eta} = \begin{bmatrix}
+%                 x   &    y  &    \psi
+%                 \end{bmatrix}^T
+% \end{equation}
+% \begin{equation} % TODO: FLYTT INN I FLYTTEKST
+%     \bm{\nu} = \begin{bmatrix}
+%                  u   &   v  &    r
+%                 \end{bmatrix}^T
+% \end{equation} % TODO: FLYTT INN I FLYTTEKST
+% \begin{equation} \label{EQ: Tau}
+%     \bm{\tau} = \begin{bmatrix}
+%                 F_{X}   &   F_{Y}  &   F_{N}
+%                 \end{bmatrix}^T
+% \end{equation}
+
+% \begin{itemize}
+%     \item $\eta$ is defined in the \gls{NED} reference frame, $\nu$ is defined in BODY frame, briefly explain what that means.
+%     \item The M and C matrices are a combination of Rigid body and hydrodynamic added mass matrices
+%     \item Fully computing the M and C matrices is a lot of work, for milliampere the work has already been conducted
+%     by Andreas Pedersen.
+%     \item If the model values are to be found through experiementation it's senseless to seperate Rigid body and hydrodynamic added mass.
+%     The matrices then become:
+% \end{itemize}
+
+In \eqref{EQ: Vessel Dynamics} the \textbf{M} matrix is the inertia matrix of the system, which describes how 'heavy' the \gls{DOF} are to nudge, in
 addition to the vessel's inherent inertia from being massive the vessel must also push water out of the way when it moves, this is what is known as
 hydrodynamic added mass and is linearly added to the inertia matrix. The coriolis matrix \textbf{C} also has to include hydrodynamic added mass,
 however for the purpose of this thesis it is not important to know the parameters for either of these matrices or for the dampening matrix \textbf{D}.
 That is because a trajectory planning algorithm needs to work regardless of vessel parameters, \cite{pedersen2019optimization} explains more in-depth
-how the system parameters can be found. Continuing on, the dampening matrix is a linear combination of the linear dampening stemming from water
+how system parameters can be found. Continuing on, the dampening matrix is a linear combination of the linear dampening stemming from water
 viscosity and non-linear dampening from cross-flow, once again the parameters themselves are not strictly relevant to this thesis, but intuition is
 important. The result are matrices in the following form:
-
-\begin{figure}
-    \centering
-    \includegraphics[height=0.35\textheight]{Images/SHIPDOF_FOSSEN.png}
-    \caption{A ships 6 degrees of Freedom, from \cite{fossen2011handbook}} (TODO: TA BEVIST VALG, PUNKTUM ELLER IKKE.)
-    \label{FIG: Ship DOF}
-\end{figure}
 
 \begin{equation}
     \textbf{M} = \begin{bmatrix}
@@ -156,7 +176,7 @@ a change by some degrees from one arbitrary pose to another. Heading is an absol
 equates to the nose of the vessel pointing towards true north. Neither heading nor yaw is equivalent with course, which is strictly the direction
 of travel relative to true north. In a simplified world void of disturbances heading and course will align during straight line
 travel, but external forces such as wind or currents will cause the two angles to deviate. Likevise sideslip caused by a non-zero sway velocity when turning will 
-also introduce a deviation between course and heading(TODO: Citation needed?). However this difference is mostly unrelated to the work put forth in this thesis, 
+also introduce a deviation between course and heading (\cite{fossen2011handbook}). However this difference is mostly unrelated to the work put forth in this thesis, 
 and so the terms heading and course might be used interchangeably. Althought it often makes sense to deliberately pick one
 term over the other.
 
@@ -204,7 +224,7 @@ Other factors such as obstacles or disturbances will also influence the trajecto
 input sequence is the act of trajectory planning.
 
 There are many methods for trajectory planning. Some are conceptually simple and fast to compute, but lack robustness and situational adaptability.
-Or the method can be incredibly complex and and computationally involved, but in return incredibly robust to disturbances and adaptable to
+Other method can be incredibly complex and and computationally expensive, but in return incredibly robust to disturbances and adaptable to
 any situation. An example of a simple trajectory planner would be a \gls{LOS} guidance law while something extremely advanced would be training a deep
 neural network. For an overview: in this thesis a \gls{LOS} guidance law will be applied to generate a reference trajectory, the reference is then used as part of a
 formulation of an \gls{OCP} with a cost to penalize deviation from the reference in addition to other factors. The \gls{OCP} is then discretized
@@ -240,7 +260,8 @@ and WP\textsubscript{k+1} (x\textsubscript{k+1}, y\textsubscript{k+1}) are:
                                             \end{bmatrix}
 \end{equation}
 Where R is the rotation matrix from the inetiral frame to the straight line's frame. $\gamma_p$ is the horizontal path-tangental angle,
-or the 'angle' of the straight line path in relation to the inetrial frame if that makes more sense. The rotation matrix \textbf{R} is given by:
+or the 'angle' of the straight line path in relation to the inetrial frame if that makes more sense, see Figure \ref{FIG: LOS_decomp} for a visual
+decomposition. The rotation matrix \textbf{R} is given by:
 \begin{equation} %% Rotation matrix R(gamma)
     \textbf{R}(\gamma_p) = \begin{bmatrix}
                             cos(\gamma_p) & -sin(\gamma_p) \\[-5pt]
@@ -272,6 +293,13 @@ and it's integral when calculating desired heading. The equation for $\dot{y}_{i
 \end{equation}
 Where K\textsubscript{p} and K\textsubscript{i} are gain parameters proportional to the lookahead distance, typically $K_p = (1/\varDelta)$, $K_i = Kp*\kappa$
 with $\kappa > 0$ being some design variable.
+
+\begin{figure}
+    \centering
+    \includegraphics[width = 0.7\textwidth]{Images/LOS_decomp.png}
+    \caption{Line of sight guidance geometry for straight lines, here with zero sideslip. Image courtesy of \cite{lekkas2013line}} % TODO: Used without permission?
+    \label{FIG: LOS_decomp}
+\end{figure}
 
 A reference trajectory is generated by using the LOS law as described to guide the \gls{OS} from it's initial position through all the waypoints, and
 saving the desired positions and velocities after each time step. For a path with more than two waypoints a simple index incrementation can be used when the
@@ -309,8 +337,8 @@ fuel waste, minimizing distance to goal, and there are many more. The general ex
 Where $f(x)$ is some continuous function, $c_i$ are constraint functions on the system which $f(x)$ exists in, and $\mathcal{E}$ and $\mathcal{I}$ are indices
 pertaining to if the constraint $c_i$ is an equality or inequality constraint. In the context of this thesis the thing to minimize is some nebulous cost function
 associated with path following, and the constraints are the physical model of the system that guarantees feasibility as well as safety constraints to avoid collisions.
-The cost function is then some function of the vessel's state, reference trajectory, and control input. The two constraints are the system dynamics from \ref{EQ: Vessel Dynamics}
-and \ref{EQ: eta_dot}. And then additional constraints for collision safety and initial conditions. A new general \gls{OCP} definition is thus given by the following:
+The cost function is then some function of the vessel's state, reference trajectory, and control input. The two constraints are the system dynamics from \eqref{EQ: Vessel Dynamics}
+and \eqref{EQ: eta_dot}. And then additional constraints for collision safety and initial conditions. A new general \gls{OCP} definition is thus given by the following:
 
 \begin{subequations}
     \label{EQ :OCP description}
@@ -321,12 +349,12 @@ and \ref{EQ: eta_dot}. And then additional constraints for collision safety and 
     % \quad & \boldsymbol{\eta}(t_0) = \boldsymbol{\eta}_0 \label{eq:OCP-d}
     \textrm{Minimize} \quad & {L}(\bm{\theta}(t), \bm{\theta}_{ref}(t), \bm{\tau}(t)) \\
     \textrm{Subject to:} \quad & \dot{\bm{\theta}}(t) = \textbf{J}(\bm{\theta}, \bm{\tau}) \\
-                         \quad & \textbf{h}(\bm{\theta}(t), \bm{\tau}(t)) \leq 0 \\
-                         \quad & \bm{\theta}(t_0) - \overline{\bm{\theta}}_0 = 0
+                         \quad & \textbf{h}(\bm{\theta}(t), \bm{\tau}(t)) \leq \bm{0} \\
+                         \quad & \bm{\theta}(t_0) - \overline{\bm{\theta}}_0 = \bm{0}
 \end{align}
 \end{subequations}
-where L is the cost function, $\bm{\theta} = [\bm{\eta}^T \ , \ \bm{\nu}^T]^T$ and $\bm{\tau}$ is the same as in \ref{EQ: Tau}. 
-\textbf{J}($\bm{\theta}, \bm{\tau}$) Are the model dynamics \ref{EQ: eta_dot}, \ref{EQ: Vessel Dynamics}. $\overline{\bm{\theta}}_0$ are the
+where L is the cost function, $\bm{\theta} = [\bm{\eta}^T \ , \ \bm{\nu}^T]^T$ and $\bm{\tau}$ is still the same as in \eqref{EQ: Vessel Dynamics}. 
+\textbf{J}($\bm{\theta}, \bm{\tau}$) Are the model dynamics \eqref{EQ: eta_dot}, \eqref{EQ: Vessel Dynamics}. $\overline{\bm{\theta}}_0$ are the
 given intial conditions of the system.
 The solution to the optimization problem is the series of inputs $\bm{\tau}$ which minimizes the integral of the cost L 
 from t\textsubscript{0} to t\textsubscript{end}. And L has the form of a quadratic function
@@ -405,7 +433,7 @@ by defining an integrator function $\textbf{F}(\bm{\theta}_{k}, \bm{\tau}_k)$ us
 
 \begin{figure}
     \includegraphics[width=\textwidth]{Images/MultipleShooting.pdf}
-    \caption{A physically feasible trajectory is formed by "pinching" the shooting gaps close. Reproduction from \cite{gros2017Lecture}}
+    \caption{A physically feasible trajectory is formed by "pinching" the shooting gaps close. Reproduction from \cite{gros2017Lecture}.}
     \label{FIG: Shooting Gaps}
 \end{figure}
 
@@ -432,16 +460,16 @@ The shooting constraints are then formed as:
 \end{equation}
 Setting the lower and upper bounds for \textbf{g} equals to zero enforces the equality constraints and pinches the shooting gaps close. The final missing piece for the trajecotry planner
 is to formulate constraints to ensure a collision free trajectory. Similarly to the shooting constraints the obstacle constraints are also placed in \textbf{g}, their
-formulation is discussed in chapter \ref{CHAP: COLAV}
+formulation is discussed in Chapter \ref{CHAP: COLAV}
 
 The theory behind constructing an \gls{NLP} in a way that a machine can understand and solve it is a topic for a whole new thesis. In this thesis CasADi, \cite{andersson2019casadi}, is used
 as a framework for constructing the NLP, the NLP is solved with an \gls{IPOPT} solver, \cite{wachter2006implementation}, that comes included with CasADi. A practical
-explanation of constructing and solving the NLP is the topic of chapter \ref{CHAP: Method}.
+explanation of constructing and solving the NLP is the topic of Chapter \ref{CHAP: Method}.
 
 \subsubsection*{Model Predictive Control}
 With the system dynamics modelled, and a control law formulated as an \gls{NLP} it is now possible to conduct trajectory planning by
 selecting a discretized time step size, h, deciding how many control intervals to predict foward in time, and then solving the NLP from any initial condition
-(which will still be discussed in chapter \ref{CHAP: Method}). Because the \gls{IPOPT} solver
+(which will still be discussed in Chapter \ref{CHAP: Method}). Because the \gls{IPOPT} solver
 solves for all control intervals simultaneously, its output contains the optimal trajectory as decided by the selected cost function. It also contains optimal
 velocities and control inputs needed to achieve the desired state, as described by the system dynamics. However it is unrealistic to assume that the
 modelled dynamics are able to perfectly represent reality, blindly following the optimal trajectory is therefor a fool's errand. This is where the
@@ -449,8 +477,8 @@ control technique \gls{MPC} comes into play. \gls{MPC} is a method in which the 
 period. The first control inputs from the solution are saved and applied to the system for it's next control interval, the rest of the solution is then
 discarded and new measurements of the state of the system are taken. Using the new measurements as the new intial conditions, the process starts over;
 Simulate until the end of control period, apply first control input to next control interval, discard rest of solution, redo measurements, repeat.
-This grants the control system an opportunity to react and adjust to unexpected disturbances, which greatly increases robustness of the automated system.
-(TODO: citation needed?)
+This introduces feedback to the system, which allows it to react and adjust to unexpected disturbances, this greatly increases the robustness of the automated system.
+(\cite{qin1997overview}) (TODO: usikker på den her, den er delvis relevant for det som er skrevet.)
 
 % (TODO: REWRITE THIS, SOME PARTS MAKE LITTLE SENSE)\\
 % where $\textbf{F}$ is the objective function, $\boldsymbol{\eta}(t)$ is the position and attitude trajectory of the vehicle, $\textbf{u}(t)$
@@ -504,7 +532,7 @@ This grants the control system an opportunity to react and adjust to unexpected 
 
 
 
-% \subsection{'The complete system'}
+% \subsection{'The Complete System'}
 % \begin{itemize}
 %     \item Vet ikke helt om dette kapittelet er nødvendig, men jeg lurer på om det er en god ide å skrive litt om nøyaktig hvor i ett fult funksjonelt
 %     system jeg forventer at min algoritme passer inn. Hva de andre delene jeg ikke kommer til å skrive om har ansvar for, og hva som forventes av systemene
@@ -512,14 +540,14 @@ This grants the control system an opportunity to react and adjust to unexpected 
 %     \item Hvis systemet mitt var en sort boks, hvilke inputs og outputs ville det hatt.
 % \end{itemize}
 
-% \subsection{Simulator setup}
+% \subsection{Simulator Setup}
 % \begin{itemize}
 %     \item liten forklaring av hvordan simulatoren funker selv om jeg ikke har laget den.
 %     \item f.eks agent structs kan bli viktig.
 %     \item Forklar at det er en liten forsjel på hvordan own ship agenten og andre agenter oppdateres, fører til en maksimal 'feil' på 1 meter.
 % \end{itemize}
 
-\subsection{Target Ship prediction}
+\subsection{Target Ship Prediction}
 --------- Genereal thoughts --------------------------
 \begin{itemize}
     \item Gjenfortelling fra fordypningsprosjekt, da kalt traffic pattern
@@ -554,7 +582,7 @@ This grants the control system an opportunity to react and adjust to unexpected 
     \centering
     \label{FIG: AIS lanes}
     \includegraphics[width=\textwidth]{Images/AISLanes.jpg}
-    \caption{TODO: Skriv. AIS data can show common transit routes. Image courtesy of Olex AS}
+    \caption{TODO: Skriv. AIS data can show common transit routes. Image courtesy of Olex AS.}
 \end{figure}
 
 

@@ -1,4 +1,4 @@
-\section{Trajectory planner}\label{CHAP: Method}
+\section{Trajectory Planner}\label{CHAP: Method}
 
 \begin{itemize}
     \item Tidligere kjent som 'Method'.
@@ -87,7 +87,7 @@ The \gls{NLP} can now be initialized. Initial position and velocity forms the fi
 
 \begin{figure}
     \includegraphics[width=\textwidth]{Images/SimpleSystem.pdf}
-    \caption{The simple version of the dataflow...}
+    \caption{(TODO: skriv)The simple version of the dataflow...}
     \label{FIG: Dataflow chart}
 \end{figure}
 
@@ -120,7 +120,7 @@ Excess waypoints stored in the TS struct are also truncated and the current wayp
 The COLREGs assessment function solves two problems; figuring out if\/when a TS vessel will be in close enough proximity that evasive maneuvers might be considered,
 and deciding which of the COLREGs rules will apply for the encounter. The design idea is to first find what the distance at closest point (dCPA) of approach with the TS is, and then
 time until cloest point of approach (tCPA) occurs. If both dCPA and tCPA values are under a set threshold we consider the encounter an active event and run the
-COLREGs situation assessment shown by [TODO: cite paper], COLREGs assessment is also explained in [TODO: fordypningsoppgaven].
+COLREGs situation assessment shown by \cite{Thyri2021b}. %COLREGs assessment is also explained in [TODO: fordypningsoppgaven].
 
 Finding the dCPA and tCPA between two vessels with constant velocity and course is easily done with a formula as shown by(eller in?) \cite{Kufoalor2018}.
 \begin{subequations}    \label{eq:tCPAdCPA}
@@ -139,7 +139,7 @@ Finding the dCPA and tCPA between two vessels with constant velocity and course 
 Where $\textbf{V}_{A|B} = \textbf{V}_A - \textbf{V}_B$ with $\textbf{V}_A$, $\textbf{V}_B$, $\textbf{P}_A$ and $\textbf{P}_B$ being the respective
 velocities and positions of vessel A and vessel B parameterized in NED. However if we are to utilize the advanced prediction we have on other agents a bit more logic must be applied
 to achieve full coverage of our intended path. Presume that our path contains a set of waypoints we intend to pass by, and similarly we know of a set of waypoints another agent intends to
-pass by. To find the true dCPA and tCPA between our own ship and the target vessel we use equations \ref{eq:tCPAdCPA} as the situation is when each agent passes by one of their
+pass by. To find the true dCPA and tCPA between our own ship and the target vessel we use equations \eqref{eq:tCPAdCPA} as the situation is when each agent passes by one of their
 waypoints(TODO: TRENGER FIGUR FOR Å VISE BEDRE HVA JEG MENER).  Speed is tougher to account for, unless we know better speed should be assumed to remain constant (TODO: dette hører hjemme i background).
 
 %However with our wish for more advanced target ship prediction this formula is not sufficient on it's own.
@@ -150,14 +150,14 @@ waypoints(TODO: TRENGER FIGUR FOR Å VISE BEDRE HVA JEG MENER).  Speed is toughe
 
 %In terms of code the function for COLREGs assessment uses the helper function getTCPAlist, which in turns uses three more helper functions. The first helper function vesselReadout
 %returns the position and velocity in NED given a vessel struct and waypoint index as input. whereisTS gives the same output but takes an agent and time as input arguments instead.
-%Lastly the function ClosestApproach takes the output from vesselReadout and whereisTS and applies the equations \ref{eq:tCPAdCPA}. The dCPA, tCPA and positions are stored and the
+%Lastly the function ClosestApproach takes the output from vesselReadout and whereisTS and applies the equations \eqref{eq:tCPAdCPA}. The dCPA, tCPA and positions are stored and the
 %waypoint index is incremented by one, repeat until all waypoints 
 
 TODO: Ikke ferdig
 
 
 to get a list of all dCPA and tCPAs between two agents, as well as the corresponding positions of both
-agents as they are when the euqations \ref{eq:tCPAdCPA} are used. getCPAlist 
+agents as they are when the euqations \eqref{eq:tCPAdCPA} are used. getCPAlist 
 
 \begin{algorithm}[t]
     \caption{getCPAlist. Denne ble jævelig stygg, beholder den for synlighet}\label{alg:getCPAlist}
@@ -227,7 +227,7 @@ agents as they are when the euqations \ref{eq:tCPAdCPA} are used. getCPAlist
 \end{itemize} 
 
 
-\subsection{NLP construction and solver}
+\subsection{NLP Construction and Solver}
 \begin{itemize}
     \item inputs\: vessel, ref\_trajectory, static\_obs, dynamic\_obs, F, settings, h, N, previous\_w\_opt.
     \item sub funksjoner\:
@@ -292,7 +292,7 @@ agents as they are when the euqations \ref{eq:tCPAdCPA} are used. getCPAlist
     \item CasADi really does all the hard work.
 \end{itemize}
 
-\subsection{Alternative ideas and lessons}
+\subsection{Alternative Ideas and Lessons}
 Burde kanskje heller gå under discussion, og igjen i future work.
 \begin{itemize}
     \item Change w0 based on previous solution runtime.
