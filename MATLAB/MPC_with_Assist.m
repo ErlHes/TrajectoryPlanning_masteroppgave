@@ -12,7 +12,7 @@ import casadi.*
     persistent cflags
     persistent previous_eta_ref
 %     persistent pimultiplier
-    persistent previous_feasibility
+%     persistent previous_feasibility
        
     % Initialize CasADi
     
@@ -24,7 +24,7 @@ import casadi.*
         previous_w_opt_F = [];
         previous_eta_ref = [];
 %         pimultiplier = 0;
-        previous_feasibility = 0;
+%         previous_feasibility = 0;
     end
     
 
@@ -75,6 +75,7 @@ import casadi.*
 %         feasibility = 1;
 %     end
     
+%   OLD AND OUTDATED STUFF
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % previous feas. | Feasibility | obstacle state %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -89,7 +90,8 @@ import casadi.*
     else
         feasibility = 1;
     end
-    
+
+%   OLD AND OUTDATED STUFF    
 %     obstacle_state = false;    
 %     if previous_feasibility && feasibility
 %         obstacle_state = true;
@@ -121,7 +123,7 @@ import casadi.*
     end
     
     %% Obstacles
-    enable_Static_obs = obstacle_state;
+    enable_Static_obs = obstacle_state; %Obstacle state is purely for debugging.
     enable_dynamic_obs = obstacle_state;
     static_obs = get_global_map_data();
 %     interpolated_static_obs = Interpolate_static_obs(static_obs);

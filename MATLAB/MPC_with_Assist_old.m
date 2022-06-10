@@ -1,4 +1,4 @@
-function [vessel, resulting_trajectory] = MPC_with_Assist(vessel, tracks, parameters, settings)
+function [vessel, resulting_trajectory] = MPC_with_Assist_old(vessel, tracks, parameters, settings)
 import casadi.*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% INITIAL CONDITIONS
@@ -6,9 +6,9 @@ import casadi.*
 persistent previous_w_opt
 persistent cflags
 persistent dontrunfirstime
-    Ns = 80;   %number of samples (-) %c
+    N = 300;   %number of samples (-) %c
     h = 0.5;    %sampling time (s) %c
-    T = Ns * h; %c
+    T = N * h; %c
     % 1 = HO
     % 2 = GW
     % 3 = SO
@@ -25,7 +25,7 @@ persistent dontrunfirstime
     end
     
     initial_pos = vessel.eta(1:2);
-    [reference_trajectory_los, ~] = reference_trajectory_from_dynamic_los_guidance(vessel, parameters);
+    [reference_trajectory_los, ~] = reference_trajectory_from_dynamic_los_guidance(vessel, parameters, h, N, 1);
     
     %% Static obstacles
     static_obs = get_global_map_data();
@@ -44,10 +44,10 @@ persistent dontrunfirstime
             tracks2(i).wp(3:4) = [tracks2(i).eta(1);tracks2(i).eta(2)] + 1000* [cos(tracks2(i).eta(3)) , sin(tracks2(i).eta(3))]'; % UFERDIG
             dynamic_obs(i).id = tracks(i).id;
             if simpletraj == 1
-                dynamic_obs(i).Traj = reference_trajectory_from_dynamic_los_guidance(tracks2(i),parameters);
+                dynamic_obs(i).Traj = reference_trajectory_from_dynamic_los_guidance(tracks2(i),parameters, h, N, 1);
             else
-                dynamic_obs(i).Traj = reference_trajectory_from_dynamic_los_guidance(tracks(i), parameters);
-                dynamic_obs(i).STraj = reference_trajectory_from_dynamic_los_guidance(tracks2(i),parameters);
+                dynamic_obs(i).Traj = reference_trajectory_from_dynamic_los_guidance(tracks(i), parameters, h, N, 1);
+                dynamic_obs(i).STraj = reference_trajectory_from_dynamic_los_guidance(tracks2(i),parameters, h, N, 1);
             end
             dynamic_obs(i).cflag = COLREGs_assessment(vessel, tracks(i),cflags(i));
             cflags(i) = dynamic_obs(i).cflag;
@@ -86,12 +86,12 @@ persistent dontrunfirstime
 if false
    % CVODES from the SUNDIALS suite
    dae = struct('x',x,'p',u,'ode',xdot,'quad',L);
-   opts = struct('tf',T/Ns);
+   opts = struct('tf',T/N);
    F = integrator('F', 'cvodes', dae, opts);
 else
    % Fixed step Runge-Kutta 4 integrator
    M = 4; % RK4 steps per interval
-   DT = T/Ns/M;
+   DT = T/N/M;
    f = Function('f', {x, u, x_ref, u_ref}, {xdot, L});
    X0 = MX.sym('X0', 2);
    U = MX.sym('U', 2);
@@ -135,7 +135,7 @@ w0 = [w0; 0; 0];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% MAIN LOOP
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-for k = 0:Ns-1
+for k = 0:N-1
     % New NLP variable for the control
     Uk = MX.sym(['U_' num2str(k)], 2);
     w = {w{:}, Uk};

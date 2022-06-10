@@ -1,122 +1,215 @@
 \section{Trajectory Planner}\label{CHAP: Method}
 
-\begin{itemize}
-    \item Tidligere kjent som 'Method'.
-    \item Har lyst å skrive litt om tankegangen bak utviklingen, ikke bare om hvordan ting endte opp med å bli.
-    \item Ingen 'Preliminaries', alt av forkunnskaper og antagelser burde vært gjort rede for i 'Background'.
-    \item Spesifikt mitt arbeid.
-    \item Tar det fra start til slutt. 
-    \subitem Persistent variables \& settings.
-    \subitem COLREGs assessment.
-    \subitem Dynamic Horizon.
-    \subitem Casadi setup (generer F)
-    \subitem Feasibility check.
-    \subitem Initial conditions and Reference LOS guidance.
-    \subitem NLP init.
-    \subitem Main loop, med alt som skjer der.
-    \subitem Solve NLP, give output.
-    \item Bit for bit, forklar hva, hvorfor, hvordan, eventuellt andre versjoner eller ideer som ble prøvd.
-    \item forklar informasjonsflyt, kanskje som eget delkapittel. 
-    \item My method is NOT a dock-to-dock system, the developed algorithm is NOT suitable for stationkeeping or docking maneuvers.
-    Dock-To-Dock does exist see \cite{WärtsiläDockToDock}, 
-    otherwise there are OTHER algorithms more suitable for docking. (TODO: FIND SOMETHING TO CITE)
-\end{itemize} 
+% \begin{itemize}
+%     \item Tidligere kjent som 'Method'.
+%     \item Har lyst å skrive litt om tankegangen bak utviklingen, ikke bare om hvordan ting endte opp med å bli.
+%     \item Ingen 'Preliminaries', alt av forkunnskaper og antagelser burde vært gjort rede for i 'Background'.
+%     \item Spesifikt mitt arbeid.
+%     \item Tar det fra start til slutt. 
+%     \subitem Persistent variables \& settings.
+%     \subitem COLREGs assessment.
+%     \subitem Dynamic Horizon.
+%     \subitem Casadi setup (generer F)
+%     \subitem Feasibility check.
+%     \subitem Initial conditions and Reference LOS guidance.
+%     \subitem NLP init.
+%     \subitem Main loop, med alt som skjer der.
+%     \subitem Solve NLP, give output.
+%     \item Bit for bit, forklar hva, hvorfor, hvordan, eventuellt andre versjoner eller ideer som ble prøvd.
+%     \item forklar informasjonsflyt, kanskje som eget delkapittel. 
+%     \item My method is NOT a dock-to-dock system, the developed algorithm is NOT suitable for stationkeeping or docking maneuvers.
+%     Dock-To-Dock does exist see \cite{WärtsiläDockToDock}, 
+%     otherwise there are OTHER algorithms more suitable for docking. (TODO: FIND SOMETHING TO CITE)
+% \end{itemize} 
+
+% The developed algorithm is a path following trajectory planner and collision avoidance package where the dynamics of the \gls{OS}
+% vessel are formulated as an ODE (TODO: REF TIL EQ) and the optimal trajectory is found by a method called direct multiple shooting.
+% CasADi is employed to 
+
+% The developed algorithm is a path following trajectory planner and collision avoidance package where the dynamics of the \gls{OS} vessel
+% are modelled as ODEs and used together with a designed cost function to formulate an \gls{OCP}. The \gls{OCP} is solved numerically
+% by transforming the problem into a \gls{NLP} with the help of a CasADi framework and a method called direct multiple shooting, 
+
+% numerically
+% through a direct multiple shooting method via a CasADi framework using an \gls{IPOPT} solver.
 
 
+% (TODO: skriv bedre og mer korrekt.)
+% This chapter presents the development of the trajectory planning and collision avoidance algorithm, explaining the design decisions made
+% and analyzing some of the problems that arose during development. First the general dataflow of the algorithm is explained so that
+% an intuition is formed as for how the individual parts are connected. Second a piece by piece construction of the algorithm up until
+% the construction of the \gls{NLP}. Lastly the \gls{NLP} is constructed and solved using framework provided by CasADi. The core design
+% of the algorithm is that path following is done through numerical optimization of a cost function, whilst collision avoidance and safety
+% is implemented as hard constraints in the \gls{NLP}, together an optimal trajectory is formed. 
 
-\iffalse
-The developed algorithm is a path following trajectory planner and collision avoidance package where the dynamics of the \gls{OS}
-vessel are formulated as an ODE (TODO: REF TIL EQ) and the optimal trajectory is found by a method called direct multiple shooting.
-CasADi is employed to 
+This chapter presents a step-by-step walkthrough of the developed trajectory planning and collision avoidance algorithm, and explains some of the
+design decisions that were made during development. Additionally the chapter will include som analyzis of problems that arose during development,
+and the implementationts that were made to overcome them. First the general dataflow of the algorithm is presented so that an intuition
+can be gained as for how the individual parts of the algorithm are connected. Secondly each step of the algorithm is presented in the order of execution
+from top to bottom. Lastly a brief look at how the output from the algorithm is put to use. 
 
-The developed algorithm is a path following trajectory planner and collision avoidance package where the dynamics of the \gls{OS} vessel
-are modelled as ODEs and used together with a designed cost function to formulate an \gls{OCP}. The \gls{OCP} is solved numerically
-by transforming the problem into a \gls{NLP} with the help of a CasADi framework and a method called direct multiple shooting, 
+The author wants to stress that while the trajectory planner is presented as a finished product, the algorithm was in active development until 12 days before
+the thesis deadline. The code will have bugs, there will be unreadable spaghetti code, and at times logical errors. The code should have be delivered
+as an attachment/appendix, or it can be found on github at: (TODO: LINK).
 
-numerically
-through a direct multiple shooting method via a CasADi framework using an \gls{IPOPT} solver.
-\fi
+(TODO: enten i dette kapittelet eller i discussion må det skrives om tallverdi valg på funksjoner som dcpa grense etc.)
+(TODO: bør vel også nevne at koden er skrevet i MATLAB? er ikke det mest brukte kodespråket i verden).
 
-(TODO: skriv bedre og mer korrekt.)
-This chapter presents the development of the trajectory planning and collision avoidance algorithm, explaining the design decisions made
-and analyzing some of the problems that arose during development. First the general dataflow of the algorithm is explained so that
-an intuition is formed as for how the individual parts are connected. Second a piece by piece construction of the algorithm up until
-the construction of the \gls{NLP}. Lastly the \gls{NLP} is constructed and solved using framework provided by CasADi. The core design
-of the algorithm is that path following is done through numerical optimization of a cost function, whilst collision avoidance and safety
-is implemented as hard constraints in the \gls{NLP}, together an optimal trajectory is formed. 
-
-
-\subsection{Dataflow}
-\iffalse
-\begin{itemize}
-    \item Begin by explaining the idea behind how the algorithm should work.
-    \item This chapter will need diagrams.
-    \subitem input $\rightarrow$ ??? $\rightarrow$ output
-    \subitem show how the internal functions parse data
-    \item Serves as a good overview of the whole algorithm.
-\end{itemize}
-\fi
-The dataflow is depicted in Figure \ref{FIG: Dataflow chart}, to avoid clutter the diagram does not include every subfunction and minor detail, it's a
+\subsection{Dataflow} (TODO: eller Overview?)
+% \begin{itemize}
+%     \item Begin by explaining the idea behind how the algorithm should work.
+%     \item This chapter will need diagrams.
+%     \subitem input $\rightarrow$ ??? $\rightarrow$ output
+%     \subitem show how the internal functions parse data
+%     \item Serves as a good overview of the whole algorithm.
+% \end{itemize}
+The core of the design is to construct a path following trajectory that is simultaneously able to comply with \gls{COLREGs} and avoid getting stuck
+on terrain or other obstacles. The dataflow of the algorithm is depicted in Figure \ref{FIG: Dataflow chart}, 
+to avoid clutter the diagram does not include every subfunction and minor detail, it's a
 representative diagram, not a blueprint. On the left we begin with a higher level system, the algorithm
-relies on getting information about it's own vessel, as well as information about other ships (called Tracks in the diagram), static obstacles and miscellaneous
-other settings. These structs need to contain data in some specific fashions which will be discussed more deeply later in this chapter.(TODO: This part).
-The Tracks structure as it arrives from the higher lever system is assumed to have full prediction, the algorithm can simplify the prediction
-for testing purposes but there is no internal logic to switch between prediction detail level. Regardless of if the tracks were simplified or not
-they are parsed through a \gls{COLREGs} assessment algorithm  to determine which \gls{Ts}s need to be considered active obstacles, as well as
-finding how long until the \gls{tCPA}, and which \gls{COLREGs} situation the encounters would be.
-Independently of the creation of dynamic obstacles we use the information about our own vessel's position and end goal
-to determine how long the time horizon for this instance of the algorithm should be. When time horizon and discretization step size
-is known the CasADi setup can be ran to generate the function 'F' which will be used during the construction of the \gls{NLP} later.
-With a dynamic horizon in place a LOS algorithm can be used to generate the final piece of the dynamic obstacles struct; the trajectory of the \gls{Ts}s
-themselves, which are used to place constraints later in the \gls{NLP} construction. One crucial detail to take note of is that COLREGs assessment of a \gls{Ts}
-is conducted using only the waypoints provided by the Tracks struct, while the placement of dynamic constraints are based on the trajectory generated by a LOS
-guidance law. 
-\iffalse
-possible encounters with a dynamic obstacle
-is predicted using only a handful of set waypoints from the tracks struct, while the placement of the dynamic constraints are based on the a LOS guidance law
-trajectory.
-\fi
-The feasibility check is not ran in the first instance of the algorithm after starting up the system. The result of the feasibility check
-is used when generating our \gls{OS}'s reference path to determine if the desired velocity should be reduced. the LOS guidance
-returns as mentioned the positions for the dynamic obstacles constraints as well as the reference positions and velocities in NED.
+relies on getting information about it's own vessel and information about other ships, in the diagram called "tracks". Additionally
+static obstacles and miscellaneous other settings for both debugging and behaviour tuning is to be supplied from said higher level system.
 
-The \gls{NLP} can now be initialized. Initial position and velocity forms the first constraint of the \gls{NLP} (TODO: SKRIV MER)
-
-
-
-
-\begin{figure}
+\begin{figure}[ht!]
     \includegraphics[width=\textwidth]{Images/SimpleSystem.pdf}
-    \caption{(TODO: skriv)The simple version of the dataflow...}
+    \caption{A simplified overview of the developed algorithm.}
     \label{FIG: Dataflow chart}
 \end{figure}
 
+The algorithm is designed so that full prediction is the assumed standard prediction level. For testing and debugging purposes the tracks
+structure can be modified to emulate the formfactor of a simple prediction level, in a real implementation the simplification should not be neccessary
+as the data in the tracks struct should already be in the correct format for either prediction level.
+The data in the tracks struct is parsed through a \gls{COLREGs} assessment algorithm to determine if any of the \gls{Ts}s need to be considered
+an active dynamic obstacle. If a \gls{Ts} is deemed to be active the \gls{tCPA} and \gls{COLREGs} sitation is determined and kept as a flag. The flag
+is stored in a persistent variable that the \gls{COLREGs} assessment algorithm checks to avoid overwriting the classification of an active situation.
+
+Next, the information stored in the Vessel struct, the struct dedicated to the \gls{OS}, is used to calculate the desired time horizon for this call's
+\gls{MPC}. Horizon distance and discretization step length are then needed by the CasADi setup function to create the \gls{RK4} method that
+discretizes the vessel dynamics. On the very first call of the algorithm the feasibility check is skipped, because there is no previous trajctory to parse,
+on all subsequent calls of the function the previously calculated optimal trajectory is checked for infeasibility. 
+Feasibility, time horizon and discretization step information is then used to generate a reference trajectory for the \gls{OS}, a trajectory is
+also generated for all the \gls{Ts} in the tracks struct, which are used to place dynamic constraints later.
+
+The last step of the setup is to initialize the NLP using the \gls{OS}'s initial conditions, which creates the first
+six decision variables of $\bm{\omega_0}$ and the first six elements of the constraint function $\textbf{g}(\bm{\omega})$. 
+Then the algorithm iterates through all the control intervals, $NP$, from $K = 0:NP-1$, as decided by discretization step length and time horizon, 
+constructing the NLP piece by piece in the following order:\newline
+(TODO: Denne kan kanskje gjøres om til sånn fin algorithm type)\newline 
+First three new decision variables $\bm{\tau_k}$ are made, the appropriate reference states are extracted from the reference trajectory, making sure
+that the heading reference doesn't wrap the wrong way about $[0, 2\pi]$. Then the discretized dynamics are used to integrate one control interval
+forward using $\bm{\omega_0}$, $\bm{\tau_k}$, and the reference values. Six new decision variables, $\bm{\omega_k+1}$, and their shooting
+constraints are made. Lastly dynamic and static obstacles are placed in $\textbf{g}$ and k is incremented by one.
+
+After the \gls{NLP} is constructed the initial guess for $\bm{\omega}$ is replaced by the previous optimal trajectory if it was feasible.
+When the \gls{NLP} is solved the time it took is recorded, and if it didn't take too long to solve we save the solution to be used as the previous
+optimal trajectory for the next time the algorithm runs. Some plots for debugging can then be made if desired, and the resulting optimal states
+for the next control interval returned as the output of the algorithm.
+
+
 \subsection{Setup}
+% \begin{itemize}
+%     \item All the stuff before main loop.
+%     \item subsubsection for each 'block' as outlined by the dataflow.
+% \end{itemize}
+
+% \begin{itemize}
+%     \item when the trajectory planner is called we need to run through some calculations before constructing the NLP problem
+%     \item These calcualtions are a mix of situation analysis, simulation settings, and CasADi initialization.
+%     \item Some of these calculations could be redundant in a complete control and navigation system,
+%     where other modules of the system would calculate the same thing.
+%     \item It's also important to remember that the value of many parameters are just guesswork, many of the subfunctions
+%     would benefit from a more sophesticated design that are tuned based on the situation the vessel finds itself in.
+% \end{itemize}
+The setup is all of the code that is run from when the trajectory planning algorithm is called, up until the construction of the \gls{NLP}.
+This is the modular part of the code, where functionality can easily be added or removed without having to refactor
+the rest of the algorithm. Anything from new and improved situational awareness models to reference trajectory creation and
+COLREGs compliance ideas slot right into the setup. Of course these mentioned systems could just as well exist outside of the
+trajectory planning algorithm, but for this thesis it's designed as an all-in-one package.
+
+% (TODO: IKKE FERDIG:)\newline
+% In the final version of the trajectory planning algorithm there are three major and five minor tasks in the setup:\newline
+% Declare and initialize persistent variables (minor. This includes hardcoding if needed for debugging.)\newline
+% Initialize dynamic obstacles if there are Tracks present, and simplify the tracks if the settings demand it. (minor)\newline
+% Conduct COLREGs classification (major).\newline
+% Calculate dynamic horizon (major). \newline
+% Run through the CasADi initialization. (major).\newline
+% Conduct feasibility check if it's not the very first time the algorithm is run. (minor, very important).\newline
+% Sanitize the initial position to get rid of WrapTo2Pi problems. (minor, very important).\newline
+% Fetch static obstacles data(very minor, only due to the setup of the MATLAB simulator).
+In the current version of the trajectory planning algorithm there are four major and five minor tasks to get through
+in the setup. First the major tasks:
 \begin{itemize}
-    \item All the stuff before main loop.
-    \item subsubsection for each 'block' as outlined by the dataflow.
+    \item Conduct COLREGs assessment.
+    \item Calcualte dynamic horizon.
+    \item Run CasADi initialization.
+    \item Generate reference trajectories for \gls{OS} and \gls{Ts}s
+\end{itemize}
+and the 5 minor tasks:
+\begin{itemize}
+    \item Declare and initialize persistent variables.
+    \item Initialize dynamic obstacles, and simplify tracks if needed.
+    \item Conduct feasibility check on the previous optimal trajectory if it exists.
+    \item Sanitize initial position to make sure there are no problems with the heading.
+    \item fetch static obstacles, this is only a task because of how the MATLAB simulator is set up.
 \end{itemize}
 
-\begin{itemize}
-    \item when the trajectory planner is called we need to run through some calculations before constructing the NLP problem
-    \item These calcualtions are a mix of situation analysis, simulation settings, and CasADi initialization.
-    \item Some of these calculations could be redundant in a complete control and navigation system,
-    where other modules of the system would calculate the same thing.
-    \item It's also important to remember that the value of many parameters are just guesswork, many of the subfunctions
-    would benefit from a more sophesticated design that are tuned based on the situation the vessel finds itself in.
-\end{itemize}
+\subsubsection*{Persistent Variables} (TODO: vet ikke helt hvorfor jeg går så grundig til verks...)
+In MATLAB, persistent variables are stored in memory when a script has terminated, and is loaded back as they were the next
+time the script runs. This can be used to create rudimentary state machines, or to check the outcome of the previous iteration for anomalies.
+Persistent variables are declared without an initialization, and the method for initializing them without overwriting every time is shown in Algorithm [\ref{ALG: PERSISTENT}].
 
-\subsubsection{Simplify Prediction}
+\begin{algorithm}[h]
+    \caption{Function: Initalize persistent variable} \label{ALG: PERSISTENT}
+    \begin{algorithmic}
+        \State \textbf{persistent} Var
+        \If{isempty(Var)}
+            \State Var $\gets$ Initial value
+        \EndIf
+    \end{algorithmic}
+\end{algorithm}
+
+Because persistent variables persist it is advised to manually clear the script when starting the MATLAB simulator, otherwise
+residual perisstent variables from unrelated scenario files can cause debugging problems. In the algorithm there are seven
+persistent variables. Two are used to store the optimal trajectory between iterations. One to store the discretized function F, so it doesn't have to be
+remade every time the algorithm runs. one for storing COLREGs flag to act as a state machine. One for storing a variable called firsttime, 
+used to execute code only the first time the algorithm is called. One that enables or disables obstacles, 
+only left intact as a debugging tool. And the last one to store the previous iterations heading reference, which is used to prevent a
+Wrap-to-2-Pi problem. (TODO: SKriv om hva Wrap-to-2-pi problem er for noe).
+
+The reason there are two persistent variables to store the previous optimal trajectory is poor planning:
+the original optimal trajectory was dumped if it took too long to solve the NLP. 
+But later when I implemented a feasiblity check this would cause issues since feasiblity and time-to-solve for the NLP are not neccessarily linked.
+Saving the previous optimal trajectory twice so that one is use for feasiblity check, while the other is the initial guess substitution candidate,
+was a very quick hack solution that worked well enough that it survived until the final version of the code.
+
+
+\subsubsection*{Simplify Prediction}
 %Avansert TS prediction må skrives om i background.
 %Tracks struct må forklares i background.
-This part of the setup is only required in simulations, the aim is to emulate the 'standard' way target ship (TS) prediction is conducted,
-which is to say constant course and velocity [TODO: Citation needed]. The TS trajectory is changed so that the first waypoint is the current position of the
-ship, and the next waypoint is one nautical mile in the direction of the ships heading. Ideally course over ground would be used instead of heading, however
-in the simulator crab angle and sideslip are not accounted for, therefor heading and course are the same angle.
-Excess waypoints stored in the TS struct are also truncated and the current waypoint index is forcefully set to 1 to prevent index out of range type errors.
+% This part of the setup is only required in simulations, the aim is to emulate the 'standard' way target ship (TS) prediction is conducted,
+% which is to say constant course and velocity [TODO: Citation needed]. The TS trajectory is changed so that the first waypoint is the current position of the
+% ship, and the next waypoint is one nautical mile in the direction of the ships heading. Ideally course over ground would be used instead of heading, however
+% in the simulator crab angle and sideslip are not accounted for, therefor heading and course are the same angle.
+% Excess waypoints stored in the TS struct are also truncated and the current waypoint index is forcefully set to 1 to prevent index out of range type errors.
+This part of the setup is only neccessary in simulations, the idea is to prepare the tracks struct so that it can be parsed by the COLREGs assessment algorithm
+regardless of desired prediction level. Since it is much easire to truncate excess waypoints and 'step down' from full prediction to simple, than the other way around, the algorithm
+was developed with full prediction level as the standard. If it's desired to step down to a simple prediction level the tracks simply need to be parsed though algorithm [\ref{ALG: Simplify Tracks}].
 
+\begin{algorithm}[h]
+    \caption{Function: Simplify \gls{Ts} prediction} \label{ALG: Simplify Tracks}
+    \begin{algorithmic}
+        \For{$i = 1:$size(tracks,2)}
+            \If{simple}
+                \State tracks($i$).wp(1:2) $\gets$ tracks($i$).eta(1:2)
+                \State tracks($i$).wp(3:4) $\gets$ tracks($i$).eta(1:2) \\ \hfill + 1 nmi * [cos(tracks($i$).eta(3)) \ , \ sin(tracks($i$).eta(3))]\textsuperscript{T}
+                \State tracks($i$).wp = [tracks($i$).wp(1:2)\textsuperscript{T} \ , \ tracks($i$).wp(3:4)\textsuperscript{T}]
+                \State tracks($i$).current\_wp $\gets$ 1
+            \EndIf
+        \EndFor
+    \end{algorithmic}
+\end{algorithm}
 
-\subsubsection{COLREGs assessment}
+\subsubsection*{COLREGs assessment}
 The COLREGs assessment function solves two problems; figuring out if\/when a TS vessel will be in close enough proximity that evasive maneuvers might be considered,
 and deciding which of the COLREGs rules will apply for the encounter. The design idea is to first find what the distance at closest point (dCPA) of approach with the TS is, and then
 time until cloest point of approach (tCPA) occurs. If both dCPA and tCPA values are under a set threshold we consider the encounter an active event and run the
@@ -124,7 +217,6 @@ COLREGs situation assessment shown by \cite{Thyri2021b}. %COLREGs assessment is 
 
 Finding the dCPA and tCPA between two vessels with constant velocity and course is easily done with a formula as shown by(eller in?) \cite{Kufoalor2018}.
 %%%%%(TODO: SKRIV OM ALT DETTE, TING BLE FLYTTET HERFRA TIL KAPITTEL 2.3) %%%%%
-
 
 
 %However with our wish for more advanced target ship prediction this formula is not sufficient on it's own.
@@ -144,110 +236,112 @@ TODO: Ikke ferdig
 to get a list of all dCPA and tCPAs between two agents, as well as the corresponding positions of both
 agents as they are when the euqations \eqref{eq:tCPAdCPA} are used. getCPAlist 
 
-\begin{algorithm}[t]
-    \caption{getCPAlist. Denne ble jævelig stygg, beholder den for synlighet}\label{alg:getCPAlist}
-    \begin{algorithmic}[1]
-    \Require{$Agent1. Agent2$}\Comment{Agent is a struct that includes path waypoints}
-    \State $dCPAlist \gets []$
-    \State $tCPAlist \gets []$
-    \State $pos\_OS\_list \gets []$
-    \State $pos\_TS\_list \gets []$
-    \State $timer \gets 0$ \Comment{Initialize timer used to calculate position of Agent2}
-    \For{$i \gets Agent1.current\_wp : agent\_wplist\_length - 1$}
-        \State $[pos_{OS}, vel_{OS}] \gets VesselReadout(Agent1, i)$ \Comment{VesselReadout explained in algorithm...}
-        \State $DisttonextWP \gets $Distance to Agent1's next waypoint
-        \State $TimetonextWP \gets DisttonextWP \div$ Agent1's speed over ground
-        \State $[pos_{TS}, vel_{TS}] \gets whereisTS(Agent2, Timer)$ \Comment{whereisTS explained in algorithm...}
-        \State $[dCPA, tCPA] \gets$ Equation for dCPA \& tCPA as shown by...
-        \State $tCPA \gets tCPA + timer$ \Comment{Add travel time to reach current wp}
-        \State $timer \gets timer + TimetonextWP$
-        \State $pos\_OS\_list \gets [pos\_OS\_list, pos_{OS}]$ \Comment{Append all values to respective list.}
-        \State $pos\_TS\_list \gets [pos\_TS\_list, pos_{TS}]$
-        \State $dCPAlist \gets [dCPAlist, dCPA]$ 
-        \State $tCPAlist \gets [tCPAlist, tCPA]$ 
-        \State $i \gets i + 1$
-    \EndFor
-    \State \textbf{return} $pos\_OS\_list, pos\_TS\_list, dCPAlist, tCPAlist$
-    \end{algorithmic}
-\end{algorithm}
+% \begin{algorithm}[t]
+%     \caption{getCPAlist. Denne ble jævelig stygg, beholder den for synlighet}\label{alg:getCPAlist}
+%     \begin{algorithmic}[1]
+%     \Require{$Agent1. Agent2$}\Comment{Agent is a struct that includes path waypoints}
+%     \State $dCPAlist \gets []$
+%     \State $tCPAlist \gets []$
+%     \State $pos\_OS\_list \gets []$
+%     \State $pos\_TS\_list \gets []$
+%     \State $timer \gets 0$ \Comment{Initialize timer used to calculate position of Agent2}
+%     \For{$i \gets Agent1.current\_wp : agent\_wplist\_length - 1$}
+%         \State $[pos_{OS}, vel_{OS}] \gets VesselReadout(Agent1, i)$ \Comment{VesselReadout explained in algorithm...}
+%         \State $DisttonextWP \gets $Distance to Agent1's next waypoint
+%         \State $TimetonextWP \gets DisttonextWP \div$ Agent1's speed over ground
+%         \State $[pos_{TS}, vel_{TS}] \gets whereisTS(Agent2, Timer)$ \Comment{whereisTS explained in algorithm...}
+%         \State $[dCPA, tCPA] \gets$ Equation for dCPA \& tCPA as shown by...
+%         \State $tCPA \gets tCPA + timer$ \Comment{Add travel time to reach current wp}
+%         \State $timer \gets timer + TimetonextWP$
+%         \State $pos\_OS\_list \gets [pos\_OS\_list, pos_{OS}]$ \Comment{Append all values to respective list.}
+%         \State $pos\_TS\_list \gets [pos\_TS\_list, pos_{TS}]$
+%         \State $dCPAlist \gets [dCPAlist, dCPA]$ 
+%         \State $tCPAlist \gets [tCPAlist, tCPA]$ 
+%         \State $i \gets i + 1$
+%     \EndFor
+%     \State \textbf{return} $pos\_OS\_list, pos\_TS\_list, dCPAlist, tCPAlist$
+%     \end{algorithmic}
+% \end{algorithm}
 
-\subsubsection{Dynamic Horizon}
-\begin{itemize}
-    \item Dynamic horizon is a balancing act between distance to goal, encompassing all active dynamic obstacles, and not looking to far ahead into the future.
-    \item changing the dynamic horizon is really just changing how many control intervals we want the NLP to have.
-    \item As the distance to goal approaches zero we want the number of control intervals to shrink accordingly, otherwise we end up with too many control intervals stationary at the goal, which can cause problems like the cost function becoming unbalanced.
-    \item If there are active dynamic obstacles we need the dynamic horizon to encompass them.
-    \item we don't want the dynamic horizon to be too short during transit (why not?).
-\end{itemize}
+\subsubsection*{Dynamic Horizon}
+% \begin{itemize}
+%     \item Dynamic horizon is a balancing act between distance to goal, encompassing all active dynamic obstacles, and not looking to far ahead into the future.
+%     \item changing the dynamic horizon is really just changing how many control intervals we want the NLP to have.
+%     \item As the distance to goal approaches zero we want the number of control intervals to shrink accordingly, otherwise we end up with too many control intervals stationary at the goal, which can cause problems like the cost function becoming unbalanced.
+%     \item If there are active dynamic obstacles we need the dynamic horizon to encompass them.
+%     \item we don't want the dynamic horizon to be too short during transit (why not?).
+% \end{itemize}
+The dynamic horizon algorithm could also theoretically calculate a desired discretization step length, but in the current version of the algorithm
+that functionality is hardcoded.
 
-\subsubsection{CasADi setup}
-\begin{itemize}
-    \item sym x = [N, E, psi, u, v, r]
-    \item sym tau as a free variable
-    \item sym xref as reference
-    \item model parameters
-    \item M, C, D matrix
-    \item xdot \= [nu\_dot, eta\_dot]
-    \item Error in the correct reference frame.
-    \item Why is the cost function the way it is.
-    \item runge-kutta method.
-    \item the final function F that CasADi needs.
-    \item Noe av disse greiene blir dekt av Background, forhåpentligvis.
-\end{itemize}
+\subsubsection*{CasADi setup}
+% \begin{itemize}
+%     \item sym x = [N, E, psi, u, v, r]
+%     \item sym tau as a free variable
+%     \item sym xref as reference
+%     \item model parameters
+%     \item M, C, D matrix
+%     \item xdot \= [nu\_dot, eta\_dot]
+%     \item Error in the correct reference frame.
+%     \item Why is the cost function the way it is.
+%     \item runge-kutta method.
+%     \item the final function F that CasADi needs.
+%     \item Noe av disse greiene blir dekt av Background, forhåpentligvis.
+% \end{itemize}
 
-\subsubsection{Feasibility check}
-\begin{itemize}
-    \item The feasibility check came from the wish to read out the status report CasADi prints to the command window.
-    \item It's very important to know if the previous iteration of the trajectory planner function yielded a feasible result or not.
-    \item if the result is not feasible the path forward might be completely blocked, in which case reducing our vessel speed is the best option.
-    \item Very simple check, just checks if every point in the previously calculated optimal trajectory is within 5 meters of each other. This is very lenient and should of course change depending on vessel speed.
-\end{itemize}
+\subsubsection*{Feasibility check}
+% \begin{itemize}
+%     \item The feasibility check came from the wish to read out the status report CasADi prints to the command window.
+%     \item It's very important to know if the previous iteration of the trajectory planner function yielded a feasible result or not.
+%     \item if the result is not feasible the path forward might be completely blocked, in which case reducing our vessel speed is the best option.
+%     \item Very simple check, just checks if every point in the previously calculated optimal trajectory is within 5 meters of each other. This is very lenient and should of course change depending on vessel speed.
+% \end{itemize}
 
-\subsubsection{Reference from LOS}
-\begin{itemize}
-    \item I didn't write this \:)
-    \item The important part is that the time discretization is consistent with the trajectory planner's time step
-    \item You don't need to use LOS for reference.
-    \item Position reference and speed reference need to be consitent with each other.
-\end{itemize} 
+\subsubsection*{Reference from LOS}
+% \begin{itemize}
+%     \item I didn't write this \:)
+%     \item The important part is that the time discretization is consistent with the trajectory planner's time step
+%     \item You don't need to use LOS for reference.
+%     \item Position reference and speed reference need to be consitent with each other.
+% \end{itemize} 
 
 
-\subsection{NLP Construction and Solver}
-\begin{itemize}
-    \item inputs\: vessel, ref\_trajectory, static\_obs, dynamic\_obs, F, settings, h, N, previous\_w\_opt.
-    \item sub funksjoner\:
-    \subitem Dynamic Obs.
-    \subitem Static Obs.
-    \subitem integration step.
-    \item output\: w\_opt
-\end{itemize}
+\subsection{NLP Construction and Solver} (TODO: ??? Dette kan ikke være bare et kapittel.)
+% \begin{itemize}
+%     \item inputs\: vessel, ref\_trajectory, static\_obs, dynamic\_obs, F, settings, h, N, previous\_w\_opt.
+%     \item sub funksjoner\:
+%     \subitem Dynamic Obs.
+%     \subitem Static Obs.
+%     \subitem integration step.
+%     \item output\: w\_opt
+% \end{itemize}
 
 \subsubsection{NLP initialization}
-\begin{itemize}
-    \item Initial conditions and end of interval coditions, we need the end of one control interval and the beginning of the next to match.
-    \item Tror dette delkapittelet er litt unødvendig
-\end{itemize}
+% \begin{itemize}
+%     \item Initial conditions and end of interval coditions, we need the end of one control interval and the beginning of the next to match.
+%     \item Tror dette delkapittelet er litt unødvendig
+% \end{itemize}
 
 \subsubsection{Integration step}
-\begin{itemize}
-    \item Getting the correct reference
-    \item make sure all the indexes are correct!
-    \item put the references in w0, speeds up runtime significantly.
-\end{itemize}
+% \begin{itemize}
+%     \item Getting the correct reference
+%     \item make sure all the indexes are correct!
+%     \item put the references in w0, speeds up runtime significantly.
+% \end{itemize}
 
 \subsubsection{Dynamic Obstacles constraints}
-\begin{itemize}
-    \item When to place constraints
-    \item Where to place them
-    \item How to place them
-\end{itemize}
+% \begin{itemize}
+%     \item When to place constraints
+%     \item Where to place them
+%     \item How to place them
+% \end{itemize}
 
 \subsubsection{Static Obstacles constraints}
-\begin{itemize}
-    \item Explain static\_obstacles\_check and the theory for convex-free set
-    \item explain why circles, such as the ones used for dynamic obstacles are insufficient.
-    \item this is sort of similar to finding a cross track error, if that helps to explain what is going on.
-\end{itemize}
+% \begin{itemize}
+%     \item Explain static\_obstacles\_check and the theory for convex-free set
+%     \item explain why circles, such as the ones used for dynamic obstacles are insufficient.
+%     \item this is sort of similar to finding a cross track error, if that helps to explain what is going on.
+% \end{itemize}
 
 \begin{figure}
     \centering
@@ -257,7 +351,6 @@ agents as they are when the euqations \eqref{eq:tCPAdCPA} are used. getCPAlist
 
 \begin{figure}
     \centering 
-
     \includegraphics[width=\textwidth]{Images/StaticObs_Naive2.pdf}
     \caption{TODO: SKRIV OG REFERER. Naiv approach 2}     \label{FIG: Static Obs Naive approach 2}
 \end{figure}
@@ -269,19 +362,20 @@ agents as they are when the euqations \eqref{eq:tCPAdCPA} are used. getCPAlist
 \end{figure} 
 
 \subsubsection{Solver}
-\begin{itemize}
-    \item Options, there are many options.
-    \item things to try / were tried for optimizing runtime.
-    \item CasADi really does all the hard work.
-\end{itemize}
+% \begin{itemize}
+%     \item Options, there are many options.
+%     \item things to try / were tried for optimizing runtime.
+%     \item CasADi really does all the hard work.
+% \end{itemize}
 
-\subsection{Alternative Ideas and Lessons}
-Burde kanskje heller gå under discussion, og igjen i future work.
-\begin{itemize}
-    \item Change w0 based on previous solution runtime.
-    \item Gamle versioner av Static\_obs.
-    \item eksperimenter med feasibility check.
-    \item Masse styr med COLREGs assessment, tcpa og dcpa.
-    \item ipopt innstillinger.
-\end{itemize}
+% \subsection{Alternative Ideas and Lessons}
+% Burde kanskje heller gå under discussion, og igjen i future work.
+% \begin{itemize}
+%     \item Change w0 based on previous solution runtime.
+%     \item Gamle versioner av Static\_obs.
+%     \item eksperimenter med feasibility check.
+%     \item Masse styr med COLREGs assessment, tcpa og dcpa.
+%     \item ipopt innstillinger.
+% \end{itemize}
+
 \newpage

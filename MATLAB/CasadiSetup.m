@@ -79,7 +79,7 @@ T = h * N;
     
 %     Tau = pickthree(tau); %failed experiement.
     nu_dot = M\(tau -(C+D)*x(4:6)); 
-    nu = x(4:6) + h*nu_dot;
+    nu = x(4:6) + h*nu_dot; % This could almost certainly use a better integrator method.
     eta_dot = R*nu;
     
     xdot = [eta_dot; nu_dot];

@@ -786,34 +786,6 @@
       \field{pages}{25\bibrangedash 57}
       \range{pages}{33}
     \endentry
-    \entry{WärtsiläDockToDock}{misc}{}
-      \name{author}{1}{}{%
-        {{un=0,uniquepart=base,hash=ee2f885ec8105f639881b12701308024}{%
-           family={WÄRTSILÄ},
-           familyi={W\bibinitperiod}}}%
-      }
-      \strng{namehash}{ee2f885ec8105f639881b12701308024}
-      \strng{fullhash}{ee2f885ec8105f639881b12701308024}
-      \strng{bibnamehash}{ee2f885ec8105f639881b12701308024}
-      \strng{authorbibnamehash}{ee2f885ec8105f639881b12701308024}
-      \strng{authornamehash}{ee2f885ec8105f639881b12701308024}
-      \strng{authorfullhash}{ee2f885ec8105f639881b12701308024}
-      \field{sortinit}{W}
-      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{year}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{howpublished}{Web article}
-      \field{title}{Wärtsilä achieves notable advances in automated shipping with latest successful tests}
-      \field{year}{2018}
-      \verb{urlraw}
-      \verb https://www.wartsila.com/media/news/28-11-2018-wartsila-achieves-notable-advances-in-automated-shipping-with-latest-successful-tests-2332144
-      \endverb
-      \verb{url}
-      \verb https://www.wartsila.com/media/news/28-11-2018-wartsila-achieves-notable-advances-in-automated-shipping-with-latest-successful-tests-2332144
-      \endverb
-    \endentry
     \entry{woerner2016multi}{thesis}{}
       \name{author}{1}{}{%
         {{un=0,uniquepart=base,hash=3dfd6593f3856723635d7a0228b2b94d}{%
