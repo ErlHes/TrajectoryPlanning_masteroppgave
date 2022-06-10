@@ -11,10 +11,11 @@ for i = size(vessel.wp,2):-1:vessel.current_wp+2
 end
 distancetonextWP = sqrt((vessel.wp(1,vessel.current_wp+1) - vessel.eta(1))^2 + ((vessel.wp(2,vessel.current_wp+1) - vessel.eta(2))^2));
 distancetogoal = distancetogoal + distancetonextWP;
-Timetogoal = distancetogoal / vessel.nu(1);
-if vessel.nu(1) < 0
-    Timetogoal = distancetogoal / 0.01;
+if vessel.nu(1) < 0.001
+    vessel.nu(1) = 0.001;
 end
+Timetogoal = distancetogoal / vessel.nu(1);
+
 
 %Getting past relevant TS:
 %some function

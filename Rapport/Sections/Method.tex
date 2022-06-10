@@ -267,6 +267,8 @@ was developed with full prediction level as the standard. If it's desired to ste
 %     \end{algorithmic}
 % \end{algorithm}
 
+(TODO: synes dette kapittelet er elendig beskrevet, vet ikke om jeg orker skrive det bedre).
+
 The COLREGs assessment algorithm solves two problems, the first is figuring out if a \gls{Ts} vessel will be be within close enough proximity that it should be considered
 an active COLREGs situation. The second problem is deciding which COLREGs situation such a encounter might be. For two vessels with constant speed and course this is a rather
 simple task; first apply the equations \eqref{eq:tCPAdCPA}, and then run a COLREGs assessment function such as one laid out by (\cite{Thyri2021b}). However if we want
@@ -289,7 +291,7 @@ because at that point the \gls{OS} stops moving. While this is a fantastically s
 when turning. 
 Finding the pose of the \gls{Ts} is slightly more involved, since there are no waypoints to lean on the method here is different than for the \gls{OS}.
 To begin we know where the \gls{Ts} is when the check is conducted, time and an assumption of constant velocity is then used to calculate the pose.
-
+(TODO: hvordan vise dette uten å ta med hele kodesnutten?).
 % \begin{lstlisting}
 %     function [pos_TS, vel_TS] = whereisTS(tracks,wptstimer)
 %     pos_TS = tracks.eta(1:2);
@@ -330,6 +332,12 @@ To begin we know where the \gls{Ts} is when the check is conducted, time and an 
 
 % \end{lstlisting}
 % Here, wptstimer is calculated as the time it would have taken the \gls{OS} to reach the current active waypoint. 
+With the pose of both vessels calculated, the next step is to check the CPA, which is the same equation as \eqref{eq:tCPAdCPA}, the values for
+\gls{dCPA} and \gls{tCPA}, as well as the pose of both vessels are stored in vectors for later. The \gls{tCPA} value is also added to a timer which is
+used to track how much time is passing for the \gls{OS} to reach the checked waypoints.
+The full path CPA check is then ran with the vessel inputs flipped, so that the \gls{Ts} waypoints are checked, the lowest values of each CPA list
+are then compared to select which \gls{dCPA} is truly the shortest distance. If both dCPA and tCPA are under some set threshold a COLREGs classification is set.
+(TODO: [...] as described? det er jo referert til tre forskjellige kilder med metoder, tror det skal være greit forstått).
 
 \subsubsection*{Dynamic Horizon}
 % \begin{itemize}
@@ -339,8 +347,27 @@ To begin we know where the \gls{Ts} is when the check is conducted, time and an 
 %     \item If there are active dynamic obstacles we need the dynamic horizon to encompass them.
 %     \item we don't want the dynamic horizon to be too short during transit (why not?).
 % \end{itemize}
-The dynamic horizon algorithm could also theoretically calculate a desired discretization step length, but in the current version of the algorithm
-that functionality is hardcoded.
+The purpose of the dynamic horizon is to shorten the amount of control intervals when the \gls{OS} approaches the final destination. The reason for this
+is that having many control intervals stationary at the end position can unbalance the cost function and lead to poor performance for the remainder of the path.
+The dynamic horizon can also be coded so that it's dynamic with respects to COLREGs situations; always having enough control intervals to clear the furthet out
+COLREGs situation, but less control intervals than the nominal value so the \gls{NLP} can be solved faster, which would lead to a better reactive performance.
+
+The distance between two waypoints $\textrm{WP}_1 = (N_1, E_1)$,  $\textrm{WP}_0 = (N_0, E_0)$  is calculated with by the following equation:
+\begin{equation}
+    D_{1} = \sqrt{(N_1 - N_0)^2 + (E_1 - E_0)^2}
+\end{equation}
+which means the distance to goal is the sum of all distances between waypoints:
+\begin{equation}
+    D_{goal} = \sum_{\textrm{wp} = 1}^{N} D_{wp}
+\end{equation}
+with $\textrm{WP}_0$ being the position of the \gls{OS} and $\textrm{WP}_N$ being the goal. Assuming a near constant velocity the time to
+reach goal is:
+\begin{equation}
+    T_{goal} = \frac{D_{goal}}{u}
+\end{equation}
+where $u$ is the surge of the \gls{OS}. It's not neccessary for this check to be 100\% accurate, it is expected that the \gls{OS} will deviate from the
+path due to physical constraints and obstacles anyway.
+
 
 \subsubsection*{CasADi setup}
 % \begin{itemize}
