@@ -353,7 +353,7 @@ The dynamic horizon can also be coded so that it's dynamic with respects to COLR
 COLREGs situation, but less control intervals than the nominal value so the \gls{NLP} can be solved faster, which would lead to a better reactive performance.
 
 The distance between two waypoints $\textrm{WP}_1 = (N_1, E_1)$,  $\textrm{WP}_0 = (N_0, E_0)$  is calculated with by the following equation:
-\begin{equation}
+\begin{equation} \label{EQ: Distancebetweenpoints}
     D_{1} = \sqrt{(N_1 - N_0)^2 + (E_1 - E_0)^2}
 \end{equation}
 which means the distance to goal is the sum of all distances between waypoints:
@@ -366,7 +366,32 @@ reach goal is:
     T_{goal} = \frac{D_{goal}}{u}
 \end{equation}
 where $u$ is the surge of the \gls{OS}. It's not neccessary for this check to be 100\% accurate, it is expected that the \gls{OS} will deviate from the
-path due to physical constraints and obstacles anyway.
+path due to physical constraints and obstacles anyway. To prevent accidentally dividing by zero the surge is capped at a lower bound value of $0.001m/s$.
+\begin{lstlisting}
+if vessel.nu(1) < 0.001
+    vessel.nu(1) = 0.001;
+end
+\end{lstlisting}
+
+Now is where there should have been an implementation for comparing the time to reach goal with the greatest active COLREGs situation tCPA, and picked
+one of them as the time horizon. Sadly that functionality ended up being implemented wrongly and therefor left out of the final version of the code
+because the tCPA list was not sanitized to only include active COLREGs situations. The correct way of determining time horizon should be:
+\begin{algorithm}[h]
+    \caption{Dynamic Horizon} \label{ALG: DynamicHorizon}
+    \begin{algorithmic}
+        \If{Any cflag is set}
+            \State \textrm{tempselect} $\gets$ \textrm{min value between $T_{goal}$ and maxseconds}
+            \State \textrm{finaltime} $\gets$ \textrm{min value between tempselect and $Active\_tCPA_{max} + 20$}
+        \Else
+            \State \textrm{finaltime} $\gets$ \textrm{min value between $T_{goal}$ and maxseconds}
+        \EndIf
+        \State \textrm{h} $\gets$ \textrm{Desired step length}
+        \State \textrm{N} $\gets$ \textrm{ceil(finaltime / h)}
+    \end{algorithmic}
+\end{algorithm}
+ \newline
+where h and maxseconds are cosntants for this thesis, N is the number of control intervals. In the current version of the algorithm only the finaltime under the if
+sentence condition is hardcoded to return false, due to the afformentioned poor implementation.
 
 
 \subsubsection*{CasADi setup}
@@ -383,6 +408,130 @@ path due to physical constraints and obstacles anyway.
 %     \item the final function F that CasADi needs.
 %     \item Noe av disse greiene blir dekt av Background, forhåpentligvis.
 % \end{itemize}
+The casadi setup is where the vessel model and dynamics from (\ref{CHAP: Vessel Modelling}) are implemented, as well as the cost function and \gls{RK4}
+method from (\ref{CHAP: NLP}). As the chapter title suggests, everything is implemented using CasADi's framework. The pose and velocity vectors
+are combined as one SX.sym vector, while the forces and toruqe is made separately. A vector for the references is also created.
+\begin{lstlisting}
+    % System matrices.
+    x = SX.sym('x',6); % x = [N, E, psi, u, v, r]'
+    tau = SX.sym('tau',3); % tau = [Fx, Fy, Fn]';
+    xref = SX.sym('xref',6); % xref = [Nref, Eref, Psi_ref, Surge_ref, sway_ref, r_ref]'
+\end{lstlisting}
+
+(TODO: Kan skrive inn matrisene på nytt så leser slipper å klikke tilbake til kapittel 2 for å huske hvordan de så ut.)
+The vessel mass matrix $\textbf{M}$, \eqref{EQ: Mass}, is created with the following parameter values:
+\begin{table}[ht!]
+    \begin{center}
+        \caption{Estimated model parameters for Milliampere (\cite{pedersen2019optimization})}
+        \label{TAB: Model parameter values}
+        \begin{tabular}{c|c|c}
+            \hline
+            \textbf{Parameter} & \textbf{Value} & \textbf{Unit}\\
+            \hline
+            m11 & 2131.80 & Kg\\
+            m12 & 1.00    & Kg \\
+            m13 & 141.02  & Kgm\\
+            m21 & -15.87  & Kg\\
+            m22 & 2231.89 & Kg\\
+            m23 & -1244.35 & Kgm\\
+            m31 & -423.76 & Kgm\\
+            m32 & -397.64 & Kgm\\
+            m33 & 4351.56 & Kgm\textsuperscript{2}\\
+        \end{tabular}
+    \end{center}
+\end{table}
+while the values for $\textbf{C}$ are $c13 = -m22*x(5)$, $c23 = m11*x(4)$, $c31 = -c13$, $c32 = -c23$. The dampening matrix $\textbf{D}$ was originally
+implemented the way (\cite{pedersen2019optimization}) explains, however turned out to be very computationally expensive for the \gls{IPOPT} solver.
+For the sake of brevity, and because full scale tests using the Milliampere ferry fell through due to maintenance, the simplified diagonal matrix \eqref{EQ: Dampening_Simple}
+was instead implemented, using some very generous dampening factors:
+\begin{equation} \label{EQ: Dampening_method}
+    \textbf{D} = \begin{bmatrix}
+        200 & 0 & 0\\
+        0 & 200 & 0\\
+        0 & 0 & 1000
+    \end{bmatrix}
+\end{equation}
+
+The differential equation for $\bm{\nu}$ is then:
+\begin{equation}
+    \dot{\bm{\nu}} = \textbf{M}\backslash(\bm{\tau} - (\textbf{C}+\textbf{D})*x(4:6))
+\end{equation}
+$\bm{\nu}$ can then be integrated forward one step length with simple euler integration:
+\begin{equation}
+    \bm{\nu} = x(4:6) + h\dot{\bm{\nu}}
+\end{equation}
+The equation for $\dot{\bm{\eta}}$ is the same as \eqref{EQ: eta_dot}, with $\psi$ being $x(3)$.
+\begin{equation}
+    \dot{\bm{\eta}} = \begin{bmatrix}
+        \cos(x(3)) & -\sin(x(3)) & 0\\
+        \sin(x(3)) & \cos(x(3)) & 0\\
+        0 & 0 & 1 \\
+    \end{bmatrix} \bm{\nu}
+\end{equation}
+
+With everything set up the cost function L can be created and defined as a casadi function as so:
+\begin{lstlisting}
+    %% Cost function and weights.
+    Kp = diag([8*10^-1, 8*10^-1]); % Tuning parameter for positional reference deviation.
+    Ku = 6.7*10^2; % Tuning parameter for surge reference deviation.
+    Kv = 7.2*10^2; % Tuning parameter for suppressing sway.
+    Kfy = 1 * 10^-5;
+    % Experimental cost on heading reference:
+    K_phi = 6*10^-5;
+
+    R2 = [cos(x(3))    -sin(x(3));...
+          sin(x(3))    cos(x(3))];
+    Error = R2'*(x(1:2) - xref(1:2));
+
+    L = Error'* Kp * Error + Ku * (x(4)-xref(4))^2...
+            + Kv * (x(5)-xref(5))^2 + Kfy * tau(2)^2...
+            + K_phi * (ssa(x(3)-xref(3)))^2;
+    
+    %% Continous time dynamics.
+    f = Function('f', {x, tau, xref}, {xdot, L});    
+\end{lstlisting}
+
+The parameter values on the weights were chosen by trial and error until the trajectory planning algorithm managed
+to track a reference path reasonably well. cost on deviation from heading reference is actually undesirable, in a real use case
+for the algorithm disturbances such as wind, waves and currents would knock the heading about and cause undue increases in cost.
+(TODO: as discussed in the theory...) The correct course should naturally be found when velocities are restricted to only
+surge, the optimal way to move is in the direction of the goal after all. However one of the quirks of using numerical optimization 
+to guide a vehicle is that the solver has no idea what a boat or a heading is. If the reference trajectory experiences a discontinous
+jump in course by leaving the bounds of $[0, 2\pi]$ and wrapping around the algorithm might have the great idea to turn the long way around.
+A miniscule cost associated with turning the wrong way, in addition to heavily sanitizing the heading reference to not experience discontinous jumps
+were needed to avoid problems.
+
+The last step in the CasADi setup is to discretize the continuous time dynamics by using a \gls{RK4} method:
+\begin{lstlisting}
+    % Discrete time dynamics.
+    M = 4; %RK4 steps per interval
+    DT = T/N/M;
+    X0 = MX.sym('X0',6);
+    Tau = MX.sym('Tau',3);
+    Xd = MX.sym('Xd',6);
+    X = X0;
+    Q = 0;
+    for j=1:M
+        [k1, k1_q] = f(X, Tau, Xd);
+        [k2, k2_q] = f(X + DT/2 * k1, Tau, Xd);
+        [k3, k3_q] = f(X + DT/2 * k2, Tau, Xd);
+        [k4, k4_q] = f(X + DT * k3, Tau, Xd);
+        X=X+DT/6*(k1 +2*k2 +2*k3 +k4);
+        Q = Q + DT/6*(k1_q + 2*k2_q + 2*k3_q + k4_q);
+    end
+    F = Function('F', {X0, Tau, Xd}, {X, Q}, ... 
+                    {'x0', 'tau', 'Xd'}, {'xf', 'qf'});
+\end{lstlisting}
+
+If you are wondering why the system is initialized with SX.sym but the RK4 method uses MX.sym I have
+no answer; CasADi's example pack includes an example for direct multiple shooting, that example includes an RK4 method on the form shown above.
+Since my algorithm uses the direct multiple shooting example as a skeleton this RK4 method with MX.sym was carried along until the final version.
+
+Once we have constructed F it can be stored as a presistent variable in MATLAB, then there is no need to rerun CasADi setup potentially saving
+milliseconds.
+
+%  If the reference turns from a heading due 10\textdegree
+% to a heading due -10\textdegree the algorithm might decide that the best course of action is a 340\textdegree yaw clockwise turn.
 
 \subsubsection*{Feasibility check}
 % \begin{itemize}
@@ -391,6 +540,19 @@ path due to physical constraints and obstacles anyway.
 %     \item if the result is not feasible the path forward might be completely blocked, in which case reducing our vessel speed is the best option.
 %     \item Very simple check, just checks if every point in the previously calculated optimal trajectory is within 5 meters of each other. This is very lenient and should of course change depending on vessel speed.
 % \end{itemize}
+% The feasibility arose from the wish to be able to read the status report CasADi prints to the command window. The author never figured out how to do that,
+% but after many weeks of not trying very hard to solve the problem the idea finally struck.
+Later it will be shown how the previous optimal trajectory can be substituted in for an initial guess to feed the \gls{IPOPT} solver. While
+that will be discussed later, the need for a feasibility check arose after frustration with the optimal trajectory getting stuck in an
+infeasible state. The first idea to check for feasibility was to somehow read the printout CasADi outputs to the MATLAB command window, 
+but to the author's knowledge hat turned out to be impossible. Luckily there is a very easy way to conduct the check manually.
+
+In this context feasibility means the trajectory is physically possible, a jump that covers more distance than the vessel
+dynamics allows means the trajectory is infeasible. To check for feasibility simply iterate through each point in the previous
+optimal trajectory and check the distance to the next one. Distance is calculated with the same general formula as \eqref{EQ: Distancebetweenpoints}.
+If the distance between two points is greater than some set limit then the trajectory is deemed to have been infeasible, which will have
+ramifications later. In this thesis the limit for feasibility is a very generous five meters, a lot more than the Milliampere ferry's max speed of
+two meters per second can move, but obviously this limit must be tuned to fit the vessel it's controlling.
 
 \subsubsection*{Reference from LOS}
 % \begin{itemize}
@@ -399,7 +561,16 @@ path due to physical constraints and obstacles anyway.
 %     \item You don't need to use LOS for reference.
 %     \item Position reference and speed reference need to be consitent with each other.
 % \end{itemize} 
+The theory behind this chapter was thoroughly discussed in (\ref{CHAP: LOS GUIDANCE}), most of the code for this was also provided by
+Emil thyri, the MATLAB simulator's developer, as it is a neccessary for simulating \gls{Ts}s. Therefor this chapter will be brief. The logic implemented
+is no different from the discussed theory, one modification that was made specifically for this thesis was functionality for reducing the speed
+before creating the reference trajectory. If the feasibility check disucssed above deems the previous optmial trajectory to have been infeasible, something
+has possibly gone very wrong in the path ahead. The feasibility check says nothing about what went wrong, so in absence of information the best
+course of action would be to reduce the vessel's speed until the path ahead clears. 
 
+This reference trajectory does not have to be made using LOS guidance, any guidance law for path or trajectory planning can be applied as long as
+it is easily discretized to the same step length as the trajectory planning algorithm uses. One important criteria for picking a reference trajectory 
+method is to consider runtime, it would be ill-adviced to use an algorithm that takes a very long time to calculate a trajectory.
 
 \subsection{NLP Construction and Solver} 
 % \begin{itemize}
@@ -410,6 +581,9 @@ path due to physical constraints and obstacles anyway.
 %     \subitem integration step.
 %     \item output\: w\_opt
 % \end{itemize}
+
+With the setup out of the way it's time to construct and solve the \gls{NLP}. This part of the algorithm
+mostly consists of piecing together CasADi framework and calculating constraints.
 
 \subsubsection{NLP initialization}
 % \begin{itemize}

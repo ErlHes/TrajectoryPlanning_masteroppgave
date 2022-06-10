@@ -2378,6 +2378,9 @@
     <bcf:citekey order="34">zhang2021collision</bcf:citekey>
     <bcf:citekey order="35">huang2020ship</bcf:citekey>
     <bcf:citekey order="36">Thyri2021b</bcf:citekey>
+    <bcf:citekey order="37">pedersen2019optimization</bcf:citekey>
+    <bcf:citekey order="38">pedersen2019optimization</bcf:citekey>
+    <bcf:citekey order="39">pedersen2019optimization</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nyt">

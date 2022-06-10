@@ -12,7 +12,7 @@ The goal of the chapter is is to give the reader enough intuition of the applied
 so that it should be easy to quickly navigate and read about specific topics.
 
 
-\subsection{Vessel Modelling}
+\subsection{Vessel Modelling} \label{CHAP: Vessel Modelling}
 % --------- Genereal thoughts --------------------------
 % Jeg tenker det er best å skrive om modellering i sammenheng med hvordan trajectory planning problemet blir satt opp i MATLAB med CasADi.
 % \begin{itemize}
@@ -127,7 +127,7 @@ how system parameters can be found. Continuing on, the dampening matrix is a lin
 viscosity and non-linear dampening from cross-flow, once again the parameters themselves are not strictly relevant to this thesis, but intuition is
 important. The result are matrices in the following form:
 
-\begin{equation}
+\begin{equation} \label{EQ: Mass}
     \textbf{M} = \begin{bmatrix}
                 m11 &   m12 &   m13\\
                 m12 &   m22 &   m23\\
@@ -135,7 +135,7 @@ important. The result are matrices in the following form:
                  \end{bmatrix}
 \end{equation}
 
-\begin{equation}
+\begin{equation} \label{EQ: Coriolis}
     \textbf{C}(\bm{\nu}) =  \begin{bmatrix}
         0             &     0       &   c13(\bm{\nu})\\
         0             &     0       &   c23(\bm{\nu})\\
@@ -143,7 +143,7 @@ important. The result are matrices in the following form:
                             \end{bmatrix}    
 \end{equation}
 
-\begin{equation}
+\begin{equation} \label{EQ: Dampening}
     \textbf{D}(\bm{\nu}) =  \begin{bmatrix}
         d11(\bm{\nu}) &     0       &   0\\
         0             &d22(\bm{\nu})&d23(\bm{\nu})\\
@@ -156,7 +156,7 @@ of a detrimental impact on our simulations. The justification for this simplific
 from the trajectory planner algorithm will be parsed through a final control module that will account for dampening. The risk is that
 the end result from the trajectory planner turns out to be infeasible, but that's a problem for another thesis.
 
-\begin{equation}
+\begin{equation} \label{EQ: Dampening_Simple}
     \textbf{D}(\bm{\nu}) = \begin{bmatrix}
                             d11 &   0   &   0\\
                             0   &   d22 &   0\\
@@ -175,7 +175,7 @@ and so the terms heading and course might be used interchangeably. Althought it 
 term over the other.
 
 
-\subsection{Trajectory Planning}
+\subsection{Trajectory Planning} \label{CHAP: Trajectory planning}
 (TODO: Savner et lite avsnit om Shortest Signed Angle eller WrapTo2Pi.)
 % --------- Genereal thoughts --------------------------
 % \begin{itemize}
@@ -221,7 +221,7 @@ neural network. For an overview: in this thesis a \gls{LOS} guidance law will be
 formulation of an \gls{OCP} with a cost to penalize deviation from the reference in addition to other factors. The \gls{OCP} is then discretized
 as a \gls{NLP} problem using a method called direct multiple shooting, finally the \gls{NLP} is solved with an \gls{IPOPT} solver.
 
-\subsubsection*{Line of Sight Guidance} % TODO: FÅ INN FIGUR.
+\subsubsection*{Line of Sight Guidance} \label{CHAP: LOS GUIDANCE} % TODO: FÅ INN FIGUR.
 % \begin{itemize}
 %     \item Path following algorithm.
 %     \item Cross track and along track errors.
@@ -302,7 +302,7 @@ vessel is within a certain distance from it's current target waypoint. The refer
     \end{align}
 \end{subequations}
 
-\subsubsection*{Optimal Control Problem}
+\subsubsection*{Optimal Control Problem} \label{CHAP: OCP}
 % \begin{itemize}
 %     \item Equations.
 %     \item Model Predictive Control is simulating the dynamics of the system with a desired control objective and then applying the first states as
@@ -360,7 +360,7 @@ Solving the \gls{OCP} can be done using a multitude of methods, \cite{breivik201
 the \gls{OCP} into a \gls{NLP} using a method called direct multiple shooting.
 
 
-\subsubsection*{NonLinear Programming}
+\subsubsection*{NonLinear Programming} \label{CHAP: NLP}
 % \begin{itemize}
 %     \item discretized formulation of the OCP, using among many methods, Direct Multiple shooting.
 %     \item I don't really understand this stuff too much.

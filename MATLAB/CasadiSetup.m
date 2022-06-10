@@ -50,7 +50,7 @@ T = h * N;
     c13 = -m22*x(5);
     c23 = m11*x(4);
     c31 = -c13;
-    c32 = -c23*x(5);
+    c32 = -c23;
     
     d11 = -Xu - Xuu * abs(x(4)) - Xuuu*(x(4)^2);
     d22 = -Yv - Yvv*abs(x(5)) - Yvvv*(x(5)^2);
@@ -115,7 +115,6 @@ T = h * N;
     % Discrete time dynamics.
     M = 4; %RK4 steps per interval
     DT = T/N/M;
-    f = Function('f', {x, tau, xref}, {xdot, L});
     X0 = MX.sym('X0',6);
     Tau = MX.sym('Tau',3);
     Xd = MX.sym('Xd',6);
