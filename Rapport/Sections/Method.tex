@@ -91,8 +91,8 @@ Feasibility, time horizon and discretization step information is then used to ge
 also generated for all the \gls{Ts} in the tracks struct, which are used to place dynamic constraints later.
 
 The last step of the setup is to initialize the NLP using the \gls{OS}'s initial conditions, which creates the first
-six decision variables of $\bm{\omega_0}$ and the first six elements of the constraint function $\textbf{g}(\bm{\omega})$. 
-Then the algorithm iterates through all the control intervals, $NP$, from $K = 0:NP-1$, as decided by discretization step length and time horizon, 
+six decision variables of $\bm{\omega_0}$ and the first six elements of the constraint function $\textbf{g}(\bm{\omega})$.
+Afterwars the algorithm iterates through all the control intervals, $NP$, from $K = 0:NP-1$, as decided by discretization step length and time horizon, 
 constructing the NLP piece by piece in the following order:\newline
 (TODO: Denne kan kanskje gjøres om til sånn fin algorithm type)\newline 
 First three new decision variables $\bm{\tau_k}$ are made, the appropriate reference states are extracted from the reference trajectory, making sure
@@ -126,16 +126,6 @@ the rest of the algorithm. Anything from new and improved situational awareness 
 COLREGs compliance ideas slot right into the setup. Of course these mentioned systems could just as well exist outside of the
 trajectory planning algorithm, but for this thesis it's designed as an all-in-one package.
 
-% (TODO: IKKE FERDIG:)\newline
-% In the final version of the trajectory planning algorithm there are three major and five minor tasks in the setup:\newline
-% Declare and initialize persistent variables (minor. This includes hardcoding if needed for debugging.)\newline
-% Initialize dynamic obstacles if there are Tracks present, and simplify the tracks if the settings demand it. (minor)\newline
-% Conduct COLREGs classification (major).\newline
-% Calculate dynamic horizon (major). \newline
-% Run through the CasADi initialization. (major).\newline
-% Conduct feasibility check if it's not the very first time the algorithm is run. (minor, very important).\newline
-% Sanitize the initial position to get rid of WrapTo2Pi problems. (minor, very important).\newline
-% Fetch static obstacles data(very minor, only due to the setup of the MATLAB simulator).
 In the current version of the trajectory planning algorithm there are four major and five minor tasks to get through
 in the setup. First the major tasks:
 \begin{itemize}
@@ -195,6 +185,21 @@ This part of the setup is only neccessary in simulations, the idea is to prepare
 regardless of desired prediction level. Since it is much easire to truncate excess waypoints and 'step down' from full prediction to simple, than the other way around, the algorithm
 was developed with full prediction level as the standard. If it's desired to step down to a simple prediction level the tracks simply need to be parsed though algorithm [\ref{ALG: Simplify Tracks}].
 
+% \begin{lstlisting}
+%     for i = 1:size(tracks,2)
+%         if simple
+%             tracks(i).wp(1:2) = [tracks(i).eta(1);tracks(i).eta(2)];
+%             tracks(i).wp(3:4) = [tracks(i).eta(1);tracks(i).eta(2)] +...
+%                 1852 * [cos(tracks(i).eta(3)) , sin(tracks(i).eta(3))]';
+%             tracks(i).wp = [tracks(i).wp(1:2)' tracks(i).wp(3:4)'];
+%             tracks(i).current_wp = 1;
+%         end
+%         [dynamic_obs(i).cflag, dynamic_obs(i).dcpa, dynamic_obs(i).tcpa] = COLREGs_assessment(vessel,tracks(i),cflags(i));
+%         cflags(i) = dynamic_obs(i).cflag;
+%     end
+
+% \end{lstlisting}
+% (TODO: Bedre med algorithm eller MATLAB script insert?)
 \begin{algorithm}[h]
     \caption{Function: Simplify \gls{Ts} prediction} \label{ALG: Simplify Tracks}
     \begin{algorithmic}
@@ -209,15 +214,16 @@ was developed with full prediction level as the standard. If it's desired to ste
     \end{algorithmic}
 \end{algorithm}
 
+
+
 \subsubsection*{COLREGs assessment}
-The COLREGs assessment function solves two problems; figuring out if\/when a TS vessel will be in close enough proximity that evasive maneuvers might be considered,
-and deciding which of the COLREGs rules will apply for the encounter. The design idea is to first find what the distance at closest point (dCPA) of approach with the TS is, and then
-time until cloest point of approach (tCPA) occurs. If both dCPA and tCPA values are under a set threshold we consider the encounter an active event and run the
-COLREGs situation assessment shown by \cite{Thyri2021b}. %COLREGs assessment is also explained in [TODO: fordypningsoppgaven].
+% The COLREGs assessment function solves two problems; figuring out if\/when a TS vessel will be in close enough proximity that evasive maneuvers might be considered,
+% and deciding which of the COLREGs rules will apply for the encounter. The design idea is to first find what the distance at closest point (dCPA) of approach with the TS is, and then
+% time until cloest point of approach (tCPA) occurs. If both dCPA and tCPA values are under a set threshold we consider the encounter an active event and run the
+% COLREGs situation assessment shown by \cite{Thyri2021b}. %COLREGs assessment is also explained in [TODO: fordypningsoppgaven].
 
-Finding the dCPA and tCPA between two vessels with constant velocity and course is easily done with a formula as shown by(eller in?) \cite{Kufoalor2018}.
+% Finding the dCPA and tCPA between two vessels with constant velocity and course is easily done with a formula as shown by(eller in?) \cite{Kufoalor2018}.
 %%%%%(TODO: SKRIV OM ALT DETTE, TING BLE FLYTTET HERFRA TIL KAPITTEL 2.3) %%%%%
-
 
 %However with our wish for more advanced target ship prediction this formula is not sufficient on it's own.
 %In order to achieve 'full coverage' of our intended path,
@@ -230,11 +236,9 @@ Finding the dCPA and tCPA between two vessels with constant velocity and course 
 %Lastly the function ClosestApproach takes the output from vesselReadout and whereisTS and applies the equations \eqref{eq:tCPAdCPA}. The dCPA, tCPA and positions are stored and the
 %waypoint index is incremented by one, repeat until all waypoints 
 
-TODO: Ikke ferdig
-
-
-to get a list of all dCPA and tCPAs between two agents, as well as the corresponding positions of both
-agents as they are when the euqations \eqref{eq:tCPAdCPA} are used. getCPAlist 
+% TODO: Ikke ferdig
+% to get a list of all dCPA and tCPAs between two agents, as well as the corresponding positions of both
+% agents as they are when the euqations \eqref{eq:tCPAdCPA} are used. getCPAlist 
 
 % \begin{algorithm}[t]
 %     \caption{getCPAlist. Denne ble jævelig stygg, beholder den for synlighet}\label{alg:getCPAlist}
@@ -262,6 +266,70 @@ agents as they are when the euqations \eqref{eq:tCPAdCPA} are used. getCPAlist
 %     \State \textbf{return} $pos\_OS\_list, pos\_TS\_list, dCPAlist, tCPAlist$
 %     \end{algorithmic}
 % \end{algorithm}
+
+The COLREGs assessment algorithm solves two problems, the first is figuring out if a \gls{Ts} vessel will be be within close enough proximity that it should be considered
+an active COLREGs situation. The second problem is deciding which COLREGs situation such a encounter might be. For two vessels with constant speed and course this is a rather
+simple task; first apply the equations \eqref{eq:tCPAdCPA}, and then run a COLREGs assessment function such as one laid out by (\cite{Thyri2021b}). However if we want
+to take advantage of full prediction level a bit more logic is needed to assure full coverage of the intended path. Another functionality needed to ensure COLREGs compliance
+is a state machine that holds onto the designated COLREGs situations, the rules state that once a situation has started it persists until both vessels are clear of each other.
+
+The idea for the implementation in this thesis is to extend the \gls{dCPA} and \gls{tCPA} check so that it's conducted for every waypoint in the \gls{OS} and \gls{Ts} reference path.
+That way it's possible to know roughly where both vessels should be at the \gls{dCPA} point. The COLREGs assessment
+algorithm is therefor split into two parts; the first part is an extended CPA check, the second part is the COLREGs situation assessment. 
+
+A function getCPAlist is created to take two vessel structs as input, one as the assigned \gls{OS}, and the other the \gls{Ts}. The function iterates through all the waypoints
+in the \gls{OS} assigned struct and does three things:\newline
+Figure out the pose of the \gls{OS} and \gls{Ts}.\newline
+Run the CPA check from said pose.\newline
+Calculate the time and distance to next \gls{OS} waypoint so that the pose of the \gls{Ts} at that point can be accurately found.
+
+Finding the pose of the \gls{OS} is trivial, the first iteration of the function the pose is just the current positon and course of the vessel, for all
+subsequent waypoints the waypoints themselves are the position and the heading is the direction towards the next waypoint. The last waypoint does not need to be checked
+because at that point the \gls{OS} stops moving. While this is a fantastically simple way of interating forward through the waypoints, the tradeoff is less accuracy of the CPA check
+when turning. 
+Finding the pose of the \gls{Ts} is slightly more involved, since there are no waypoints to lean on the method here is different than for the \gls{OS}.
+To begin we know where the \gls{Ts} is when the check is conducted, time and an assumption of constant velocity is then used to calculate the pose.
+
+% \begin{lstlisting}
+%     function [pos_TS, vel_TS] = whereisTS(tracks,wptstimer)
+%     pos_TS = tracks.eta(1:2);
+%     vel_TS = tracks.eta_dot(1:2);
+%     WPlim = size(tracks.wp,2);
+
+%     pos = tracks.eta(1:2);
+%     distance = wptstimer * norm(tracks.nu(1:2),2);
+%     WPindex = tracks.current_wp;
+%     if WPindex < WPlim
+%         distancetonextWP = sqrt((tracks.wp(1,WPindex+1) - pos(1))^2 + ((tracks.wp(2,WPindex+1) - pos(2))^2));
+%     else
+%         distancetonextWP = 0;
+%     end
+%     while distance > 0
+%         if distance > distancetonextWP
+%             pos = tracks.wp(1:2,WPindex+1);
+%             distance = distance - distancetonextWP;
+%             WPindex = WPindex + 1;
+%             if WPindex < WPlim
+%                 distancetonextWP = sqrt((tracks.wp(1,WPindex+1) - pos(1))^2 + ((tracks.wp(2,WPindex+1) - pos(2))^2));
+%             else
+%                 distancetonextWP = 0;
+%                 pos_TS = pos;
+%                 vel_TS = [0,0]';
+%                 distance = 0;
+%             end
+%         else
+%             direction = tracks.wp(:,WPindex+1) - pos;
+%             travel = distance / distancetonextWP;
+%             pos_TS = pos + travel * direction;
+%             vel_TS = rotZ(atan2(direction(2),direction(1))) * tracks.nu;
+%             vel_TS = vel_TS(1:2);
+%             distance = 0;
+%         end
+%     end
+% end    
+
+% \end{lstlisting}
+% Here, wptstimer is calculated as the time it would have taken the \gls{OS} to reach the current active waypoint. 
 
 \subsubsection*{Dynamic Horizon}
 % \begin{itemize}
@@ -306,7 +374,7 @@ that functionality is hardcoded.
 % \end{itemize} 
 
 
-\subsection{NLP Construction and Solver} (TODO: ??? Dette kan ikke være bare et kapittel.)
+\subsection{NLP Construction and Solver} 
 % \begin{itemize}
 %     \item inputs\: vessel, ref\_trajectory, static\_obs, dynamic\_obs, F, settings, h, N, previous\_w\_opt.
 %     \item sub funksjoner\:
@@ -343,19 +411,19 @@ that functionality is hardcoded.
 %     \item this is sort of similar to finding a cross track error, if that helps to explain what is going on.
 % \end{itemize}
 
-\begin{figure}
+\begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{Images/StaticObs_Naive.pdf}
     \caption{TODO: SKRIV OG REFERER. Naiv approach 1}     \label{FIG: Static Obs Naive approach 1}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[ht]
     \centering 
     \includegraphics[width=\textwidth]{Images/StaticObs_Naive2.pdf}
     \caption{TODO: SKRIV OG REFERER. Naiv approach 2}     \label{FIG: Static Obs Naive approach 2}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{Images/StaticObs_lines.pdf}
     \caption{TODO: SKRIV OG REFERER. Convex free set}     \label{FIG: Static Obs Lines}

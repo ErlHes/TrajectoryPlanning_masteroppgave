@@ -748,6 +748,34 @@
       \field{pages}{1292\bibrangedash 1306}
       \range{pages}{15}
     \endentry
+    \entry{vestad2019automatic}{thesis}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=d3b4f4c54f4765d90f55e313b7fa8f62}{%
+           family={Vestad},
+           familyi={V\bibinitperiod},
+           given={Vegard\bibnamedelima Nitter},
+           giveni={V\bibinitperiod\bibinitdelim N\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {NTNU}%
+      }
+      \strng{namehash}{d3b4f4c54f4765d90f55e313b7fa8f62}
+      \strng{fullhash}{d3b4f4c54f4765d90f55e313b7fa8f62}
+      \strng{bibnamehash}{d3b4f4c54f4765d90f55e313b7fa8f62}
+      \strng{authorbibnamehash}{d3b4f4c54f4765d90f55e313b7fa8f62}
+      \strng{authornamehash}{d3b4f4c54f4765d90f55e313b7fa8f62}
+      \strng{authorfullhash}{d3b4f4c54f4765d90f55e313b7fa8f62}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Automatic and practical route planning for ships}
+      \field{type}{mathesis}
+      \field{year}{2019}
+    \endentry
     \entry{wachter2006implementation}{article}{}
       \name{author}{2}{}{%
         {{un=0,uniquepart=base,hash=dc724f071bd0fcc1e9eabf5f96209481}{%

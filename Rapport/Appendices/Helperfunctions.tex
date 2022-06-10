@@ -1,0 +1,301 @@
+\begin{lstlisting}
+    function F = CasadiSetup(h, N)
+    import casadi.*
+    
+    T = h * N;
+    
+        %% CasADi setup
+        
+        % System matrices.
+        x = SX.sym('x',6); % x = [N, E, psi, u, v, r]'
+        tau = SX.sym('tau',3); % tau = [Fx, Fy, Fn]';
+        xref = SX.sym('xref',6); % xref = [Nref, Eref, Psi_ref, Surge_ref, sway_ref, r_ref]'
+        
+        
+    %     [R, M, C, D] = SystemDynamics(x, u); % Usikker på hvorvidt det funker
+    %     å sende CasADi systemer inn i en subfunksjon. Burde jo gå, men lar
+    %     være for nå.
+        % Model Parameters.
+        Xu = -68.676;   % Kg/s
+        Xuu = -50.08;   % Kg/m
+        Xuuu = -14.93;  % Kgs/(m^2)
+    %     Xv = -25.20;    % Kg/s
+    %     Xr = -145.3;    % Kgm/s
+    %     Yu = 90.15;     % Kg/s
+        Yv = -8.69;     % Kg/s
+        Yvv = -189.08;  % Kg/m
+        Yvvv = -0.00613;% Kgs/(s^2) ? Kgs/(m^2)?
+    %     Yrv = -3086.95; % Kg
+    %     Yr = -24.09;    % Kgm/s
+    %     Yvr = -338.32;  % Kg
+    %     Yrr = 1372.06;  % Kg(m^2)
+    %     Nu = -38.00;    % Kgm/s
+    %     Nv = -97.26;    % Kgm/s
+        Nvv = -18.85;   % Kg
+        Nrv = 5552.23;  % Kgm
+        Nr = -230.19;   % Kg(m^2)/s
+        Nrr = -0.0063;  % Kg(m^2)
+        Nrrr = -0.00067;% Kgms
+    %     Nvr = -5888.89; % Kgm
+        
+        m11 = 2131.80;  % Kg
+        m12 = 1.00;     % Kg
+        m13 = 141.02;   % Kgm
+        m21 = -15.87;   % Kg
+        m22 = 2231.89;  % Kg
+        m23 = -1244.35; % Kgm
+        m31 = -423.76;  % Kgm
+        m32 = -397.64;  % Kgm
+        m33 = 4351.56;  % Kg(m^2)
+        
+        c13 = -m22*x(5);
+        c23 = m11*x(4);
+        c31 = -c13;
+        c32 = -c23*x(5);
+        
+        d11 = -Xu - Xuu * abs(x(4)) - Xuuu*(x(4)^2);
+        d22 = -Yv - Yvv*abs(x(5)) - Yvvv*(x(5)^2);
+        d23 = d22;
+        d32 = -Nvv*abs(x(5)) - Nrv *abs(x(6));
+        d33 = -Nr - Nrr*abs(x(6)) - Nrrr*(x(6)^2);
+        
+        
+        % System dynamics.
+        R = [cos(x(3))    -sin(x(3))    0;...
+             sin(x(3))    cos(x(3))     0;...
+                0           0       1];    
+        M = [m11   m12     m13;...
+             m21   m22     m23;...
+             m31   m32     m33];
+        C = [0    0   c13;...
+             0    0   c23;...
+             c31 c32    0];
+    %     D = [d11     0        0;...
+    %          0      d22     d23;...
+    %          0      d32     50*d33];
+    % 
+    %      M = eye(3)*1000;
+         D = diag([200, 200, 1000]);
+    %      C = zeros(3);
+        
+    %     Tau = pickthree(tau); %failed experiement.
+        nu_dot = M\(tau -(C+D)*x(4:6)); 
+        nu = x(4:6) + h*nu_dot; % This could almost certainly use a better integrator method.
+        eta_dot = R*nu;
+        
+        xdot = [eta_dot; nu_dot];
+        
+    %     Funker bra:
+    %     Kp = diag([8*10^-1, 8*10^-1]);
+    %     Ku = 6*10^2;
+    %     Kv = 8*10^2;
+        
+        % Objective function.
+        Kp = diag([8*10^-1, 8*10^-1]); % Tuning parameter for positional reference deviation.
+        Ku = 6.7*10^2; % Tuning parameter for surge reference deviation.
+        Kv = 7.2*10^2;
+    %     Kv = 0;
+    %     Kr = 3*10^2; % Tuning parameter for yaw rate reference deviation.
+    %     Kt = 10^2;
+        R2 = [cos(x(3))    -sin(x(3));...
+              sin(x(3))    cos(x(3))];
+        Error = R2'*(x(1:2) - xref(1:2));
+        Kfy = 1 * 10^-5;
+    
+        %Test for heading
+        K_phi = 6*10^-5;
+    
+        %L = Kp * norm(P - xref)^2 + Ku  * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
+        %L = (P - xref)'* Kp * (P - xref) + Ku * (u_0'*u_0 - uref(1)'*uref(1))^2;
+        %L = (P - xref)'* Kp * (P - xref) + Ku * (u(1) - uref(1))^2 + Kr * (u(2) - uref(2))^2;
+        L = Error'* Kp * Error + Ku * (x(4)-xref(4))^2 + Kv * (x(5)-xref(5))^2 + Kfy * tau(2)^2 + K_phi * (ssa(x(3)-xref(3)))^2;% + Kr * (x(6) - xref(6))^2 + Kt * (tau'*tau) + Ku * (x(4) - xref(4))^2;
+        
+        % Continous time dynamics.
+        f = Function('f', {x, tau, xref}, {xdot, L});
+        
+        % Discrete time dynamics.
+        M = 4; %RK4 steps per interval
+        DT = T/N/M;
+        f = Function('f', {x, tau, xref}, {xdot, L});
+        X0 = MX.sym('X0',6);
+        Tau = MX.sym('Tau',3);
+        Xd = MX.sym('Xd',6);
+        X = X0;
+        Q = 0;
+        for j=1:M
+            [k1, k1_q] = f(X, Tau, Xd);
+            [k2, k2_q] = f(X + DT/2 * k1, Tau, Xd);
+            [k3, k3_q] = f(X + DT/2 * k2, Tau, Xd);
+            [k4, k4_q] = f(X + DT * k3, Tau, Xd);
+            X=X+DT/6*(k1 +2*k2 +2*k3 +k4);
+            Q = Q + DT/6*(k1_q + 2*k2_q + 2*k3_q + k4_q);
+        end
+        
+        F = Function('F', {X0, Tau, Xd}, {X, Q}, {'x0', 'tau', 'Xd'}, {'xf', 'qf'});
+    end
+        
+\end{lstlisting}
+
+\begin{lstlisting}
+    function [flag, dCPA, tCPA] = COLREGs_assessment(vessel,tracks, cflag)
+    %% THIS FUNCTION EVALUATES ONE TARGET SHIP ONLY. TO EVALUATE MORE THE FUNCTION MUST BE CALLED FOR EACH TARGET SHIP IN YOUR SITUATION.
+    % a13 = 112.5; % Overtaking tolerance
+    % a14 = rad2deg(pi/8); % head-on tolerance
+    % a15 = rad2deg(pi/8); % crossing aspect limit
+    
+    %% Calculate dCPA and tCPA, check if COLREGs assessment is needed:
+    % [dCPA, tCPA] = ClosestApproach(vessel.eta(1:2), tracks.eta(1:2), vessel.eta_dot(1:2), tracks.eta_dot(1:2));
+    [dCPAlist, tCPAlist,pos_OS_list, pos_TS_list] = getCPAlist(vessel,tracks);
+    
+    %Keep the lowest dCPA found, this is the only dCPA we're interested in
+    %If there should ever be multiple equally low dCPAs we are in a unsupported
+    %special case that needs more development.
+    dCPA = min(dCPAlist);
+    dCPAminlist = find(dCPAlist == dCPA);
+    tCPA = tCPAlist(dCPAminlist(1));
+    pos_OS = pos_OS_list(1:3,dCPAminlist);
+    pos_TS = pos_TS_list(1:3,dCPAminlist);
+    
+    [TSdCPAlist, TStCPAlist, ts_pos_TS_list, ts_pos_OS_list] = getCPAlist(tracks,vessel);
+    TSdCPA = min(TSdCPAlist);
+    TSdCPAminlist = find(TSdCPAlist == TSdCPA);
+    
+    %HACKJOB
+    %This is a failsafe to prevent MATLAB from throwing an error and halting
+    %the program should any of the Target Ships in the simulation be at their
+    %final destination.
+    if(~isempty(TStCPAlist))
+        TStCPA = TStCPAlist(TSdCPAminlist(1));
+        tspos_OS = ts_pos_OS_list(1:3,TSdCPAminlist);
+        tspos_TS = ts_pos_TS_list(1:3,TSdCPAminlist);
+    else
+        TStCPA = 0;
+        tspos_OS = [0 0 0]';
+        tspos_TS = [100 100]';
+    end
+    %END of HACKJOB
+    
+    if TSdCPA < dCPA
+        dCPA = TSdCPA;
+        tCPA = TStCPA;
+        pos_OS = tspos_OS;
+        pos_TS = tspos_TS;
+    end
+    
+    %Nå vet vi hva dCPA og tCPA er, kan nå sammenligne med en eller annen
+    %kvantitet for å se om det er høvelig å sette COLREGs flag på TS.
+    %HVIS vi ønsker å sette COLREGs flag må vi også vite hvor OS og TS er i
+    %forhold til hverandre, og hvilke kurs begge har når vi starter på banen
+    %som tar oss til denne dCPAen.
+    OSareal = vessel.size(1)*vessel.size(2);
+    TSareal = tracks.size(1)*tracks.size(2);
+    
+    dCPAgrense = (OSareal + TSareal + max(OSareal,TSareal)) / 2; % En eller annen funksjon av størrelser
+    %Hvis problemet blir unfeasible kan det hende vi blir nødt til å senke
+    %denne grensen, men det er en funksjon for en annen dag.
+    
+    tCPAgrense = 3 * dCPAgrense;
+    
+    
+    
+    %% Conduct COLREGs assessment
+    if (dCPA < dCPAgrense) && (tCPA < tCPAgrense) && cflag == 0
+        % Angles between OS and TS
+        phi_1 = rad2deg(pi/8);
+    %     phi_1 = rad2deg(pi/15);
+        phi_2 = 112.5;
+        
+        b0 = rad2deg(wrapTo2Pi(atan2((pos_TS(2)-pos_OS(2)),(pos_TS(1)-pos_OS(1))) - wrapToPi(pos_OS(3)))); % Relative from OS to TS
+    
+        b0_180 = rad2deg(wrapToPi(deg2rad(b0)));
+        
+        a0 = rad2deg(ssa(atan2(pos_OS(2)-pos_TS(2),pos_OS(1)-pos_TS(1)) - pos_TS(3))); % Relative from TS to OS
+        
+        % dist = sqrt((tracks.eta(2) - vessel.eta(2))^2 + (tracks.eta(1) - vessel.eta(1))^2);
+        %a0_360 = rad2deg(wrapTo2Pi(deg2rad(a0)));
+        % 
+        % 
+        % phi_TS = atan2((vessel.eta(2)-tracks.eta(2)), (vessel.eta(1) - tracks.eta(1)));
+        % psi_TSR = tracks.eta(3) - vessel.eta(3) - phi_TS;
+        % 
+        % phi_TS = wrapTo2Pi(phi_TS);
+        % psi_TSR = wrapTo2Pi(psi_TSR);
+        
+        % 1 = HO
+        % 2 = GW
+        % 3 = SO
+        % 4 = OT
+        % 5 = SF
+        if cflag == 0 %%
+            if abs(b0_180) < phi_1 % TS is direcly ahead of OS
+                if abs(a0) < phi_1 % TS is facing OS
+                    flag = 1;
+                elseif a0 > phi_1 && a0 < phi_2 % TS is facing towards OS's starboard
+                    flag = 3;
+                elseif a0 < (-phi_1) && a0 > (-phi_2) % TS is facing towards OS's port
+                    flag = 2;
+                else                            % TS is facing away from OS
+                    flag = 4; 
+                end
+            elseif b0 > phi_1 && b0 < phi_2 %TS is ahead on OS's starboard
+                if abs(a0) < phi_1
+                    flag = 2;   
+                elseif a0 > phi_1 && a0 < phi_2
+                    flag = 5;
+                elseif a0 < (-phi_1) && a0 > (-phi_2)
+                    flag = 2;
+                else
+                    flag = 4;
+                end
+            elseif b0_180 < -phi_1 && b0_180 > -phi_2 %TS is ahead on OS's port side
+                if abs(a0) < phi_1
+                    flag = 3;   
+                elseif a0 > phi_1 && a0 < phi_2
+                    flag = 3;
+                elseif a0 < (-phi_1) && a0 > (-phi_2)
+                    flag = 5;
+                else
+                    flag = 4;
+                end
+            else
+                if abs(a0) < phi_1
+                    flag = 3;   
+                elseif a0 > phi_1 && a0 < phi_2
+                    flag = 3;
+                elseif a0 < (-phi_1) && a0 > (-phi_2)
+                    flag = 3;
+                else
+                    flag = 5;
+                end    
+            end
+        else % hackjob, needs more work to clear situations properly.
+        flag = cflag;
+        end
+            
+        
+        %% Woerner method
+        % if b0 > 112.5 && b0 < 247.5 && abs(a0) < a13
+    %     flag = 'SO';
+    % elseif a0_360 > 112.5 && a0_360 < 247.5 && abs(b0_180) < a13,
+    %     flag = 'GW';
+    % elseif abs(b0_180) < a14 && abs(a0) < a14
+    %     flag = 'HO';
+    % elseif b0 > 0 && b0 < 112.5 && a0 > -112.5 && a0 < a15
+    %     flag = 'GW';
+    % elseif a0_360 > 0 && a0_360 < 112.5 && b0_180 < -112.5 && b0_180 < a15
+    %     flag = 'SO';
+    %     
+    % else
+    %     flag = 'SO';
+    else
+        flag = cflag;
+    end
+    
+    if dCPA > (dCPAgrense+30)
+        flag = 0;
+    end
+    
+    
+    end
+
+\end{lstlisting}

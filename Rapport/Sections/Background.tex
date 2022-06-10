@@ -78,8 +78,8 @@ til $\bm{\tau}$. Det stemmer vel at det er BODY?). The rotation matrix \textbf{R
 vessel's heading, and is definied as:
 \begin{equation}
     \textbf{R}(\psi) = \begin{bmatrix}
-                        cos\psi &   -sin\psi & 0\\[-5pt]
-                        sin\psi & cos\psi    & 0\\[-5pt]
+                        cos\psi &   -sin\psi & 0\\
+                        sin\psi & cos\psi    & 0\\
                         0       &   0        & 1
                         \end{bmatrix}
 \end{equation}
@@ -129,24 +129,24 @@ important. The result are matrices in the following form:
 
 \begin{equation}
     \textbf{M} = \begin{bmatrix}
-                m11 &   m12 &   m13\\[-5pt]
-                m12 &   m22 &   m23\\[-5pt]
+                m11 &   m12 &   m13\\
+                m12 &   m22 &   m23\\
                 m31 &   m32 &   m33
                  \end{bmatrix}
 \end{equation}
 
 \begin{equation}
     \textbf{C}(\bm{\nu}) =  \begin{bmatrix}
-        0             &     0       &   c13(\bm{\nu})\\[-5pt]
-        0             &     0       &   c23(\bm{\nu})\\[-5pt]
+        0             &     0       &   c13(\bm{\nu})\\
+        0             &     0       &   c23(\bm{\nu})\\
         c31(\bm{\nu}) &c32(\bm{\nu})&   0
                             \end{bmatrix}    
 \end{equation}
 
 \begin{equation}
     \textbf{D}(\bm{\nu}) =  \begin{bmatrix}
-        d11(\bm{\nu}) &     0       &   0\\[-5pt]
-        0             &d22(\bm{\nu})&d23(\bm{\nu})\\[-5pt]
+        d11(\bm{\nu}) &     0       &   0\\
+        0             &d22(\bm{\nu})&d23(\bm{\nu})\\
         0             &d32(\bm{\nu})&d33(\bm{\nu})
                             \end{bmatrix}       
 \end{equation}
@@ -158,8 +158,8 @@ the end result from the trajectory planner turns out to be infeasible, but that'
 
 \begin{equation}
     \textbf{D}(\bm{\nu}) = \begin{bmatrix}
-                            d11 &   0   &   0\\[-5pt]
-                            0   &   d22 &   0\\[-5pt]
+                            d11 &   0   &   0\\
+                            0   &   d22 &   0\\
                             0   &   0   &   d33
                             \end{bmatrix}
 \end{equation}
@@ -243,10 +243,10 @@ As explained in (\cite{lekkas2013line}); given the \gls{OS}'s position (x,y), th
 and WP\textsubscript{k+1} (x\textsubscript{k+1}, y\textsubscript{k+1}) are:
 \begin{equation}\label{EQ: cross and along track error} %% Along track and Cross Track error
     \begin{bmatrix}
-        x_e \\[-5pt]
+        x_e \\
          ye
     \end{bmatrix} = \textbf{R}^T(\gamma_p) \begin{bmatrix}
-                                            x - x_k \\[-5pt]
+                                            x - x_k \\
                                             y - y_k
                                             \end{bmatrix}
 \end{equation}
@@ -255,7 +255,7 @@ or the 'angle' of the straight line path in relation to the inetrial frame if th
 decomposition. The rotation matrix \textbf{R} is given by:
 \begin{equation} %% Rotation matrix R(gamma)
     \textbf{R}(\gamma_p) = \begin{bmatrix}
-                            cos(\gamma_p) & -sin(\gamma_p) \\[-5pt]
+                            cos(\gamma_p) & -sin(\gamma_p) \\
                             sin(\gamma_p) & cos(\gamma_p)
                             \end{bmatrix}
 \end{equation}
@@ -442,10 +442,10 @@ with h being a selected discretized time step size. With $\textbf{F}$ it is now 
 The shooting constraints are then formed as:
 \begin{equation}
     \textbf{g}(\bm{\omega}) = \begin{bmatrix}
-                            \overline{\bm{\theta}}_0 - \bm{\theta}_0 \\[-5pt]
-                            \textbf{F}(\bm{\theta}_{0}, \bm{\tau}_0) - \bm{\theta}_1 \\[-5pt]
-                            \textbf{F}(\bm{\theta}_{1}, \bm{\tau}_1) - \bm{\theta}_2 \\[-5pt]
-                            \vdots \\[-5pt]
+                            \overline{\bm{\theta}}_0 - \bm{\theta}_0 \\
+                            \textbf{F}(\bm{\theta}_{0}, \bm{\tau}_0) - \bm{\theta}_1 \\
+                            \textbf{F}(\bm{\theta}_{1}, \bm{\tau}_1) - \bm{\theta}_2 \\
+                            \vdots \\
                             \textbf{F}(\bm{\theta}_{N_{p-1}}, \bm{\tau}_{N_{p-1}}) - \bm{\theta}_{N_{p}}
                              \end{bmatrix}
 \end{equation}
