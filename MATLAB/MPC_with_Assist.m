@@ -104,17 +104,22 @@ import casadi.*
     
     % Initialize position and reference trajectory.
     initial_pos = vessel.eta;
-    if wrapTo2Pi(initial_pos(3)) < pi/6
-%         initial_pos(3) = wrapTo2Pi(initial_pos(3)); % THIS NEEDS MORE WORK
-        if ~isempty(previous_w_opt) && ssa(initial_pos(3)-previous_w_opt(3)) > pi
-            if initial_pos(3) > previous_w_opt(3)
-                initial_pos(3) = wrapTo2Pi(initial_pos(3));
-            end
-        elseif ~isempty(previous_w_opt)
-            initial_pos(3) = wrapTo2Pi(initial_pos(3));
-        end
-    end
     initial_vel = vessel.nu;
+    % I have no idea what this is supposed to accomplish, I don't think the
+    % second If sentence will ever occur since ssa() in rads can't return an angle
+    % greater than pi.
+
+%     if wrapTo2Pi(initial_pos(3)) < pi/6
+% %         initial_pos(3) = wrapTo2Pi(initial_pos(3)); % THIS NEEDS MORE WORK
+%         if ~isempty(previous_w_opt) && ssa(initial_pos(3)-previous_w_opt(3)) > pi
+%             if initial_pos(3) > previous_w_opt(3)
+%                 initial_pos(3) = wrapTo2Pi(initial_pos(3));
+%             end
+%         elseif ~isempty(previous_w_opt)
+%             initial_pos(3) = wrapTo2Pi(initial_pos(3));
+%         end
+%     end
+
 
     % reference LOS for OS and TS
     [reference_trajectory_los, ~] = reference_trajectory_from_dynamic_los_guidance(vessel, parameters, h, N, feasibility);
@@ -190,7 +195,7 @@ g_counter = 7;
                    atan2(reference_trajectory_los(4,k+1),reference_trajectory_los(3,k+1))) / h];
         
         surge_ref = sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2);
-        nu_ref = [surge_ref;0;eta_dot_ref(3)]; %Burde være vessel.speed som referanse.
+        nu_ref = [surge_ref;0;eta_dot_ref(3)];
 %         nu_ref = [sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2); 0; eta_dot_ref(3)];
 %         nu_ref = vessel.eta_dot_ref;
         
@@ -209,7 +214,7 @@ g_counter = 7;
         end
 
         
-        %% Test greier
+        %% Heading control
         if k > 0
             eta_ref(3) = previous_eta_ref(3) + ssa(eta_ref(3) - previous_eta_ref(3));
             previous_eta_ref = eta_ref; 
@@ -408,16 +413,16 @@ g_counter = 7;
 %     options = struct;
     options.ipopt.max_iter = 400;
     options.ipopt.print_level = 0;
-    options.ipopt.nlp_scaling_method = 'none';
-    options.ipopt.dual_inf_tol = 5;
-    options.ipopt.tol = 5e-3;
-    options.ipopt.constr_viol_tol = 1e-1;
+%     options.ipopt.nlp_scaling_method = 'none';
+%     options.ipopt.dual_inf_tol = 5;
+%     options.ipopt.tol = 5e-3;
+%     options.ipopt.constr_viol_tol = 1e-1;
 %     options.ipopt.hessian_approximation = 'limited-memory';
-    options.ipopt.compl_inf_tol = 1e-1;
-    options.ipopt.acceptable_tol = 1e-2;
-    options.ipopt.constr_viol_tol = 0.01;
-    options.ipopt.acceptable_dual_inf_tol = 1e10;
-    options.ipopt.acceptable_compl_inf_tol = 0.01;
+%     options.ipopt.compl_inf_tol = 1e-1;
+%     options.ipopt.acceptable_tol = 1e-2;
+%     options.ipopt.constr_viol_tol = 0.01;
+%     options.ipopt.acceptable_dual_inf_tol = 1e10;
+%     options.ipopt.acceptable_compl_inf_tol = 0.01;
 %     options.ipopt.acceptable_obj_change_tol = 1e20;
 %     options.ipopt.diverging_iterates_tol = 1e20;
 

@@ -126,7 +126,7 @@ the rest of the algorithm. Anything from new and improved situational awareness 
 COLREGs compliance ideas slot right into the setup. Of course these mentioned systems could just as well exist outside of the
 trajectory planning algorithm, but for this thesis it's designed as an all-in-one package.
 
-In the current version of the trajectory planning algorithm there are four major and five minor tasks to get through
+In the current version of the trajectory planning algorithm there are four major and four minor tasks to get through
 in the setup. First the major tasks:
 \begin{itemize}
     \item Conduct COLREGs assessment.
@@ -134,12 +134,12 @@ in the setup. First the major tasks:
     \item Run CasADi initialization.
     \item Generate reference trajectories for \gls{OS} and \gls{Ts}s
 \end{itemize}
-and the 5 minor tasks:
+and the four minor tasks:
 \begin{itemize}
     \item Declare and initialize persistent variables.
     \item Initialize dynamic obstacles, and simplify tracks if needed.
     \item Conduct feasibility check on the previous optimal trajectory if it exists.
-    \item Sanitize initial position to make sure there are no problems with the heading.
+    % \item Sanitize initial position to make sure there are no problems with the heading.
     \item fetch static obstacles, this is only a task because of how the MATLAB simulator is set up.
 \end{itemize}
 
@@ -498,8 +498,7 @@ for the algorithm disturbances such as wind, waves and currents would knock the 
 surge, the optimal way to move is in the direction of the goal after all. However one of the quirks of using numerical optimization 
 to guide a vehicle is that the solver has no idea what a boat or a heading is. If the reference trajectory experiences a discontinous
 jump in course by leaving the bounds of $[0, 2\pi]$ and wrapping around the algorithm might have the great idea to turn the long way around.
-A miniscule cost associated with turning the wrong way, in addition to heavily sanitizing the heading reference to not experience discontinous jumps
-were needed to avoid problems.
+A miniscule cost associated with turning the wrong way was experimented with to mitigate that possibility.
 
 The last step in the CasADi setup is to discretize the continuous time dynamics by using a \gls{RK4} method:
 \begin{lstlisting}
@@ -554,6 +553,8 @@ If the distance between two points is greater than some set limit then the traje
 ramifications later. In this thesis the limit for feasibility is a very generous five meters, a lot more than the Milliampere ferry's max speed of
 two meters per second can move, but obviously this limit must be tuned to fit the vessel it's controlling.
 
+(TODO: Jeg kan ta med kodesnutt for hver eneste 'task', da vil leser etter hvert få sett alle de viktigste punktene fra algoritmen.)
+
 \subsubsection*{Reference from LOS}
 % \begin{itemize}
 %     \item I didn't write this \:)
@@ -583,59 +584,306 @@ method is to consider runtime, it would be ill-adviced to use an algorithm that 
 % \end{itemize}
 
 With the setup out of the way it's time to construct and solve the \gls{NLP}. This part of the algorithm
-mostly consists of piecing together CasADi framework and calculating constraints.
+mostly consists of piecing together CasADi's framework and calculating constraints. Consturction of the decision variable vector $\bm{\omega}$ and the constraint function
+vector $\textbf{g}(\bm{\omega})$ is done piecewise in the following way:
+\begin{algorithm}[h]
+    \caption{Construction of CasADi sym vectors and their bounds} \label{ALG: general CasADi sym}
+    \begin{algorithmic}
+        \State Xk $\gets$ MX.sym(['X\_'num2str(k)] , n) \Comment{where n is the amount of elements in Xk}
+        \State $\bm{\omega}$ $\gets$ [$\bm{\omega}$ , \{Xk\}]
+        \State $\bm{\omega}_{lb}$ $\gets$ [Xk(1)\textsubscript{lb}, ..., Xk(n)\textsubscript{lb}]
+        \State $\bm{\omega}_{ub}$ $\gets$ [Xk(1)\textsubscript{ub}, ..., Xk(n)\textsubscript{ub}]
+        \State $\bm{\omega}_0$ $\gets$ [Xk(1)\textsubscript{ref}, ..., Xk(n)\textsubscript{ref}] \Comment{Only applicable for the decision variables}
+    \end{algorithmic}
+\end{algorithm}
 
-\subsubsection{NLP initialization}
+using the general algorithm, the shooting gap constraints look like this as an example:
+\begin{lstlisting}
+    g = [g {Xk_end - Xk}];
+    lbg(g_counter:g_counter+5) = [0; 0; 0; 0; 0; 0];
+    ubg(g_counter:g_counter+5) = [0; 0; 0; 0; 0; 0];
+    g_counter = g_counter + 6;
+\end{lstlisting}
+where Xk\_end is the end of the previous integration step and Xk are the newest decision variables, this will be discussed soon.
+Here, the length of the upper and lower bounds are pre-allocated to make the \gls{NLP} slighly more computationally efficient,
+it adds up over the course of a long simulation. MATLAB will complain about memory allocation for g, 
+but testing showed that it was faster to do it this way than pre-allocating a list. 
+(TODO: skulle ønske jeg tok vare på tallene jeg hadde for dette...)
+
+
+% \subsubsection{NLP initialization}
 % \begin{itemize}
 %     \item Initial conditions and end of interval coditions, we need the end of one control interval and the beginning of the next to match.
 %     \item Tror dette delkapittelet er litt unødvendig
 % \end{itemize}
 
-\subsubsection{Integration step}
+\subsubsection*{Integration step}
 % \begin{itemize}
 %     \item Getting the correct reference
 %     \item make sure all the indexes are correct!
 %     \item put the references in w0, speeds up runtime significantly.
 % \end{itemize}
+To integrate one control interval forward first create three new decision variables for forces using the general form
+shown in algorithm [\ref{ALG: general CasADi sym}]. The upper and lower bounds for these decision variables are the max force and torque
+the engine can output. The appropriate velocity and position references are then extracted from the reference trajectory. In the case
+for this algorithm the reference trajectory calculates velocities in NED, so they will have to be transformed to BODY in order to be useful.
+The position reference is straight forward, but the heading reference needs a bit of work to make sure things don't get messy.
 
-\subsubsection{Dynamic Obstacles constraints}
+To begin with the reference trajectory does not output heading, but it can easily be found by considering the velocity references, which are in NED.
+the direction of the velocity in NED is the desired course. We allow ourselves to use this course as heading reference, even though as discussed in the theory;
+that's not an ideal situation.
+
+For the first loop of the \gls{NLP} construction it's important to make sure the heading reference is the same signed angle as the initial position heading.
+This is done by checking the difference between heading\_ref - initial\_heading versus wrapTo2Pi(heading\_ref) - initial heading. whichever resulting angle is the smallest
+is the version of the heading reference we want to keep. For every k after 0 The heading reference is kept in the correct sign with the following code:
+\begin{lstlisting}
+    eta_ref(3) = previous_eta_ref(3)...
+                 + ssa(eta_ref(3) - previous_eta_ref(3));
+    previous_eta_ref = eta_ref; 
+\end{lstlisting}
+where ssa() is the shortest signed angle of the difference, and previous\_eta\_ref(3) is the heading reference from the previous control interval.
+
+With the references gathered the discretized time dynamics are used to integrate one control interval forward, with the end states of the integration
+saved to use as shooting constraints, and the cost saved in an integrator variable. New decision variables are then made for the next control interval and
+new shooting gap constraints are made to ensure consistency between the intervals.
+
+In the end it looks something like this:
+\begin{lstlisting}
+    Tauk = MX.sym(['Tau_' num2str(k)], 3);
+        w = [w {Tauk}];
+        lbw(7+k*9:9+k*9)= [-800;  -800;   -800];
+        ubw(7+k*9:9+k*9) = [800;   800;    800];
+        w0(7+k*9:9+k*9) = [0; 0; 0];
+        
+        % fetch reference values
+        eta_dot_ref = [reference_trajectory_los(3:4,k+1);...
+                  (atan2(reference_trajectory_los(4,k+2),reference_trajectory_los(3,k+2)) - ...
+                   atan2(reference_trajectory_los(4,k+1),reference_trajectory_los(3,k+1))) / h];
+        
+        surge_ref = sqrt(eta_dot_ref(1)^2 + eta_dot_ref(2)^2);
+        nu_ref = [surge_ref;0;eta_dot_ref(3)];     
+        eta_ref = [reference_trajectory_los(1:2,k+1); ...
+                    atan2(eta_dot_ref(2),eta_dot_ref(1))]; 
+
+        % We want the reference to start close to initial position.
+        if k == 0
+            unwrap_diff = abs(eta_ref(3) - initial_pos(3));
+            wrap_diff = abs(wrapTo2Pi(eta_ref(3)) - initial_pos(3));
+
+            if unwrap_diff > wrap_diff % check if distance between ref 
+                            % and init_pos is greater when unwrapped
+                eta_ref(3) = wrapTo2Pi(eta_ref(3));
+            end
+            previous_eta_ref = eta_ref;
+        end
+        
+        %% Heading control
+        if k > 0
+            eta_ref(3) = previous_eta_ref(3) + ssa(eta_ref(3) - previous_eta_ref(3));
+            previous_eta_ref = eta_ref; 
+        end            
+
+        xref_i = [eta_ref; nu_ref];
+        
+        % Integrate until the end of the interval.
+        Fk = F('x0', Xk, 'tau', Tauk, 'Xd', xref_i);
+        Xk_end = Fk.xf;
+        J = J + Fk.qf;
+        
+        % New NLP variable for state at the end of interval.
+        Xk = MX.sym(['X_' num2str(k+1)], 6);
+        w = [w {Xk}];
+        lbw(10+k*9:15+k*9) = [-inf; -inf; -inf; -2.3; -2.3; -pi/4];
+        ubw(10+k*9:15+k*9) = [inf; inf; inf; 2.3; 2.3; pi/4];
+        w0(10+k*9:15+k*9) = [xref_i(1); xref_i(2); xref_i(3); xref_i(4); xref_i(5); xref_i(6)];
+        
+        % Add constraints.
+        g = [g {Xk_end - Xk}];
+        lbg(g_counter:g_counter+5) = [0; 0; 0; 0; 0; 0];
+        ubg(g_counter:g_counter+5) = [0; 0; 0; 0; 0; 0];
+        g_counter = g_counter + 6;
+\end{lstlisting}
+
+\subsubsection*{Dynamic Obstacles constraints}
 % \begin{itemize}
 %     \item When to place constraints
 %     \item Where to place them
 %     \item How to place them
 % \end{itemize}
+The new control interval now needs constraints to ensure a collision free trajectory, starting with the dynamic constraints.
+First check if there are any constraints, if there are none the whole step can simply be skipped. Similarly we want to skip
+this step if it's the first time the algorithm is run, the reason why discussed later. (TODO: HUSK DETTE)
 
-\subsubsection{Static Obstacles constraints}
+Next, iterate through all the \gls{Ts}s in the tracks struct and check their assigned COLREGs flags.
+Each COLREGs situation should have their own constraint locations, however the exact optimality of placement
+will depend on situation complexity, available space, velocities of the ships involved, and other factors. In
+this thesis the placement is simplified greatly by having just pattern for each situation.
+
+The general implementation for placing a constraint is the following function:
+\begin{algorithm}[h]
+    \caption{General function for placing dynamic constraint origin point}
+    \label{ALG: dynamic constraint origin}
+    \begin{algorithmic}
+        \State Offsetangle $\gets$ atan2(TS.traj(4,k+1) , TS.traj(3,k+1)) + offset
+        \State Offsetdir $\gets$ [ cos(Offsetangle) , sin(Offsetangle) ]
+        \State o\textsubscript{dc} $\gets$ TS.traj(1:2 , k+1) + Offsetdist * Offsetdir
+    \end{algorithmic}
+\end{algorithm}
+ \newline
+where offset is the angle offset from the \gls{Ts}'s heading, and the Offsetdist is the distance from the center of the
+\gls{Ts} to the placement of the constraint origin point. The origin point is placed in $\textbf{g}(\bm{\omega})$
+as shown in \eqref{EQ: dynamic constraint in g} while the square of the desired radius of the constraint is placed in
+$\textbf{g}(\bm{\omega})_{lb}$.
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.66\textwidth]{Images/StaticObs_Naive.pdf}
+    \caption{First approach to placing static obstacle constraints, accurate but lead to overload of constraints and poor computational performance.}     \label{FIG: Static Obs Naive approach 1}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering 
+    \includegraphics[width=0.66\textwidth]{Images/StaticObs_Naive2.pdf}
+    \caption{Second approach to placing static obstacle constraints, avoiding the constraint overload at the cost of greatly reducing available space.}     \label{FIG: Static Obs Naive approach 2}
+\end{figure}
+
+\subsubsection*{Static Obstacles constraints}
 % \begin{itemize}
 %     \item Explain static\_obstacles\_check and the theory for convex-free set
 %     \item explain why circles, such as the ones used for dynamic obstacles are insufficient.
 %     \item this is sort of similar to finding a cross track error, if that helps to explain what is going on.
 % \end{itemize}
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{Images/StaticObs_Naive.pdf}
-    \caption{TODO: SKRIV OG REFERER. Naiv approach 1}     \label{FIG: Static Obs Naive approach 1}
-\end{figure}
+% \begin{itemize}
+%     \item The first solution for this was to iterate through every polygon in the static obstacle matrix, interpolating
+%     every edge to create a saturation of points that would be used as the center for circular constraints, akin to the dynamic
+%     obstacles. This was a terrible idea because it meant simulations with lots of static obstacles ended up having hundreds of thounsands
+%     of constraints, which made the \gls{NLP} impossible to solve.
+%     \item The second solution was to increase the size of the circular constraints significantly so that less were needed. This worked
+%     for a while during initial testing and experiments, but eventually proved to obstruct far too much usable space. This was especially
+%     noticeable in tighter corridors of water such as a canal or near a pier. Constraints could also end up blocking the waters
+%     on the other side of a static obstacle, potentially making it impossible to traverse around oblong static obstacles.
+%     \item Explain the trajectory selection, why do we do this? - because the static obstacle function
+%     iterates through the selected trajectory to run the scanline intersection algorithm, placing constraints in proximity
+%     to the selected trajectory.
+%     \item The scanline - polygon intersection function is part of MATLAB's mapping toolbox, creating your own custom intersection
+%     check would be really difficult. Polyxpoly outputs the x, y, and edge index for each intersection it finds, some logic is
+%     needed to cull duplicates.
+%     \item After finding all the intersection points some terrible 2am spaghtti was written to extract only the intersection point
+%     and it's corresponding angle, which could have all been done with a lookup table if I were smarter.
+%     \item with the intersection point and angle of line the constraint function \eqref{EQ: Static ye}
+% \end{itemize}
 
-\begin{figure}[ht]
-    \centering 
-    \includegraphics[width=\textwidth]{Images/StaticObs_Naive2.pdf}
-    \caption{TODO: SKRIV OG REFERER. Naiv approach 2}     \label{FIG: Static Obs Naive approach 2}
-\end{figure}
+Properly incorporating static obstacles into the algorithm proved to be a bit of a hassle. The first solution, seen in 
+Figure (\ref{FIG: Static Obs Naive approach 1}), was to iterate through every polygon in the static obstacle matrix, interpolating
+every edge to create a saturation of points that would be used as the center for circular constraints, akin to the dynamic
+obstacles. This was a terrible idea because it meant simulations with lots of static obstacles ended up having hundreds of thounsands
+of constraints, which made the \gls{NLP} impossible to solve. 
+The second solution, Seen in Figure (\ref{FIG: Static Obs Naive approach 2}), was to increase the size of the circular constraints
+significantly so that less were needed. This worked for a while during initial testing and experiments, 
+but eventually proved to obstruct far too much usable space. This was especially
+noticeable in tighter corridors of water such as a canal or near a pier. Constraints could also end up blocking the waters
+on the other side of a static obstacle, potentially making it impossible to traverse around oblong static obstacles.
+Eventually the idea of the scan lines discussed in Chapter (\ref{CHAP: static_obs}) came about. At first the scan lines
+were going to be used to place circular constraints, but it didn't take long to realize that reusing the logic of cross track
+error from LOS guidance would be a much better idea. The current implementation for static obstacles are seen in 
+Figure (\ref{FIG: Static Obs Lines}) and are computationally very efficient whilst still being very effective at stopping the
+\gls{OS} from colliding with walls. 
 
-\begin{figure}[ht]
+\begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{Images/StaticObs_lines.pdf}
-    \caption{TODO: SKRIV OG REFERER. Convex free set}     \label{FIG: Static Obs Lines}
+    \caption{Current approach to placing static obstacle constraints, 
+    ditching the circular constraints in favor of straight lines based on proximity. 
+    Combines the best of both prior versions.}     \label{FIG: Static Obs Lines}
 \end{figure} 
 
-\subsubsection{Solver}
+
+The algorithm for creating the intersection points and finding the appropriate angle for the constraint line is a bit involved.
+Since every control interval needs it's own set of constraints we need to iterate forward in time through decision variables
+that don't exist yet. The solution is to instead use the previous optimal trajectory if it exits, or the reference trajectory if we must.
+This will create a slight distortion in where the static obstacles end up being placed, but it the distortion is less prominent
+the closer we are to the current position of the \gls{OS}, so it's not that big of a deal as the problem corrects itself when it draws near. (TODO: denne distortionen er ikke forklart noe særlig.
+det kommer jo av forskjell mellom forrige optimale bane og ny optimal bane kan føre til at statiske hindringer som burde eksistere ikke gjør det eller motsatt.)
+
+while iterating through the selected trajectory the scanlines are fairly easy to construct, but conducting the intersection check is actually very complicated. Luckily
+there exists a MATLAB function for just this purpose, polyxpoly, which comes as part of the MATLAB mapping toolbox. Polyxpoly outputs the x, y, 
+and an index for which polygon edge were part of the intersection. It does this for every intersection it find, when we run the check using all the scanlines
+and all the static obstacle polygons at the same time this can lead to some duplicate hits. In a similar vein it is possible for a scanline to completely pass through
+an obstacle polygon, in which case it would intersect twice, with the second intersection being on the backside of the obstacle. Both the backside intersection and
+duplicate intersections are undesirable, the output from polyxpoly can be "sanitized" with the following code snip:
+\begin{lstlisting}
+    [xi, yi, ii] = polyxpoly(x,y,xbox,ybox);
+    % Keep first hit:
+    A = [xi, yi, ii];
+    [~,uidx] = unique(A(:,3),'stable');
+    A_without_dup = A(uidx,:);
+    xi = A_without_dup(:,1);
+    yi = A_without_dup(:,2);
+    ii = A_without_dup(:,3:4);
+\end{lstlisting}
+The static obstacle constraint parameters can then be collected by combining the xi and yi vectors into a single matrix, keeping in mind that the output
+has the x and y axis opposite from what we have gotten used to by now. The angle of the constraint can then be calculated using some spaghetti code that should
+have instead been a lookup table if the author were a bit smarter. The implementation for calculating the angle $\gamma_p$ (here called pi\_p) ended up being:
+\begin{lstlisting}
+    static_obs_constraints = zeros(3,length(xi));
+    for i = 1:length(xi)
+        intersectionpoint = [yi(i); xi(i)];
+        %horrible 2am spaghetti:
+        line = pos - intersectionpoint; % The vector that takes us from intersection point current position
+        transposedline = [-line(2);line(1)]; % Get Orthogonal of said vector.
+        tangent = intersectionpoint + transposedline; % create point along orthogonal vector
+        
+        pi_p = atan2(tangent(2) - intersectionpoint(2), tangent(1) - intersectionpoint(1));
+        static_obs_constraints(:,i) = [intersectionpoint(1); intersectionpoint(2); pi_p];
+    end 
+\end{lstlisting}
+where pos is the position of the OS. Instead of all this the angle between the intersection point and OS should indicate which scanline resulted
+in said intersection, each scanline can only have one orthogonal vector and they can be pre-calculated and put in a list. you then only have to grap the correct index
+from the list to get your angle pi\_p. The constraint function placed in $\textbf{g}(\bm{\omega})$ is Equation \eqref{EQ: Static ye}, with the lower
+bound value for g deciding how close the \gls{OS} is allowed the line. In this thesis that lower bound is hardcoded to be 5 meters, but just as with dynamic obstacles
+this value should really be some function of the complexity of the situation.
+
+
+
+\subsubsection*{Solver}
 % \begin{itemize}
 %     \item Options, there are many options.
 %     \item things to try / were tried for optimizing runtime.
 %     \item CasADi really does all the hard work.
 % \end{itemize}
+After the construction of the \gls{NLP} is finished a solver instance is created with CasADi, selecting \gls{IPOPT}
+as the desired solver. Additionally the solver instance is able to take in a few options for changing tolerances
+and tweaking other aspects of the solver. There are three options which are very useful for the algorithm. 
+The first is options.ipopt.max\_iter, which lets us set a hardcap on how many iterations the \gls{IPOPT} solver is 
+allwed to use. Great for reducing runtime. The second option is the options.ipopt.print\_level, which controls 
+how much information is printed to the command window, this has no actual effect solver, 
+but printing to command window takes time. lowering the print level is great for running simulations faster.
+
+In the final version of the algorithm I've set options.ipopt.max\_iter to 200 for the first time 
+the algorithm runs, and 400 for the rest. The reason is that the \gls{IPOPT} solver generally gets very close
+to a solution in just a few iterations, but then takes a really long time to get all the way to the finish line.
+For the first iteration there are no obstacles enabled, if the solver can't get to the optimal solution in 200 iterations
+then it's not gonna get to one in 2000 either. With obstacles enabled 400 iterations seems like a nice compromise between
+wanting a fast solution, and giving the solver enough tries to get reasonably close to an optimum. 
+
+After setting the options and creating the solver instance, the very last task left before solving is to
+substitute the initial guess $\bm{\omega}_0$ with the previous optimal trajectory if was deemed feasible
+by the feasibility check. Having an initial guess that is close to a optimal solution makes the \gls{NLP}
+a lot easier to solve. This is also why the initial guess sym is filled with the reference values while
+constructing the NLP, it's a lot better to have some initial guess than to guess 0 for everything (\cite{gros2017Lecture}).
+Because the amount of control intervals will vary between calls some logic is implemented to make sure the new
+$\bm{\omega}_0$ is of the same size. Either by grafting on some of the reference values or by trimming the end, depending on
+if it's too long or short.
+
+The solver instance is then executed and timed, as long as it took less than 30 seconds to solve we save the result for next time
+otherwise next iteration will have to rely on the reference as a initial guess.
+
+
+%  The author wont pretend to know what's the best settings here, recommended
+% to leave everything on default except for options.ipopt.max\_iter. 
+
+
 
 % \subsection{Alternative Ideas and Lessons}
 % Burde kanskje heller gå under discussion, og igjen i future work.

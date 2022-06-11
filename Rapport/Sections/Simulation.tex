@@ -2857,6 +2857,8 @@ Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicu
     just placing constraints that lead to 'immitating' COLREGs compliance.
     \item I wanted to test the algorithm agasint itself, by having all vessels in a situation be controlled by it's own instance.
     However the logic rewrite needed to conduct this test proved to be a bit too much
+    \item Performance is actually quite poor when \gls{Ts} cooperate in ways that were not predicted, because
+    that can 'drag' the optimal trajectory along with it.
 \end{itemize}
 
 \subsection{Improvements over Previous Version}

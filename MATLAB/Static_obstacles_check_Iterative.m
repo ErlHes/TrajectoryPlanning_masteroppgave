@@ -30,7 +30,7 @@ function static_obs_constraints = Static_obstacles_check_Iterative(obsmatrix, tr
     
     %Generate intersection scan lines
     for j = -pi:pi/6:pi
-            ang = j;
+            ang = j; % should probably include heading
             dir = [cos(ang);sin(ang)];
             %% RADIUS OF SCAN HERE
             dist = 50;

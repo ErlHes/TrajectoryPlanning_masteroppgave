@@ -518,7 +518,7 @@ about obstacles in the near vicinity of the \gls{OS} is readily available and no
 The task at hand can then be separated out into two pieces: Static obstacle avoidance and \gls{COLREGs} compliance. 
 
 
-\subsubsection*{Static Obstacles}
+\subsubsection*{Static Obstacles} \label{CHAP: static_obs}
 A static obstacle is any object or hindernace in the water that does not move on a timescale comparable to the one of the controlled
 vessel, such as skerries or a pier. The static obstacle $\mathcal{O}_{s_{i}}$ is presumed to be in the form of a polygon with n corners parameterized
 in NED so that:
@@ -543,7 +543,7 @@ point between a scan lines and the line between any two columns in $\mathcal{O}_
 $\mathbf{o}_{sc} = (o_n \ , \ o_e)$ in NED.\newline
 The constraint function is the cross track error between the position of the vessel and a line orthogonal to the scan line which crosses
 the point $\mathbf{o}_{sc}$, calculated like in \eqref{EQ: cross and along track error}:
-\begin{eqnarray}
+\begin{eqnarray} \label{EQ: Static ye}
     \mathbf{o}_{sc_{ye}} = -\sin(\gamma_p)*(N-o_n) + \cos(\gamma_p)*(E-o_e)
 \end{eqnarray}
 where (N, E) are the north and east position of the \gls{OS}, and $\gamma_p$ is the angle of the orthogonal line w.r.t NED.
@@ -668,7 +668,7 @@ and position of the \gls{Ts} at that instance $\psi_{TS_{k}}$, $(N_{TS_{k}}, E_{
 \end{equation}
 where H is the desired distance from the center of the \gls{Ts} to the constraint origin, and $\phi_c$ is the desired relative
 bearing from the \gls{Ts} to the constraint origin. The constraints are added to $\textbf{g}(\omega)$ the following way:
-\begin{equation}
+\begin{equation} \label{EQ: dynamic constraint in g}
     \textbf{g}(\omega) = \begin{bmatrix}
         \vdots \\
         ||\textbf{X}_k - \mathbf{o_{dc}}||\\
