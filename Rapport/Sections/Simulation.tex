@@ -6,15 +6,13 @@
 %    \item ALTERNATIVT: Et kapittel for simulator, et kapittel for fullskalatest, Diskusjon som eget kapittel etter begge som samler og diskuterer all resultatene.
 %\end{itemize}
 
-\iffalse
-\begin{itemize}
-    \item noen større scenarioer, noen enkle situasjoner. For å vise hvordan algoritmen oppfører seg i forskjellige situasjoner med varierende kompleksitet.
-    \item Delkapittel for hver "stor" scenario, et delkapittel for alle 'enkle' situasjoner.
-    \item Viktig å analysere både bra, dårlig, og uvented oppførsel.
-    \item annen viktig sak som må diskuteres er hvor 'inconsistent' oppførselen er, små endringer i scenario innstillinger gir store utslag på oppførselen vår.
-    \item Se på forskjell i oppførsel mellom når vi har 'prediksjon' av target ships og når vi bare antar fast kurs og hastighet.
-\end{itemize}
-\fi
+% \begin{itemize}
+%     \item noen større scenarioer, noen enkle situasjoner. For å vise hvordan algoritmen oppfører seg i forskjellige situasjoner med varierende kompleksitet.
+%     \item Delkapittel for hver "stor" scenario, et delkapittel for alle 'enkle' situasjoner.
+%     \item Viktig å analysere både bra, dårlig, og uvented oppførsel.
+%     \item annen viktig sak som må diskuteres er hvor 'inconsistent' oppførselen er, små endringer i scenario innstillinger gir store utslag på oppførselen vår.
+%     \item Se på forskjell i oppførsel mellom når vi har 'prediksjon' av target ships og når vi bare antar fast kurs og hastighet.
+% \end{itemize}
 
 To test the capabilities of the trjectory planning algorithm it is useful to conduct simulations of various scenarios.
 With a simulator it is possible to cover a wide assortment of scenarios in a timely fashion, this helps explore the full
@@ -29,40 +27,39 @@ All the simulations are conducted under the assumption that the \gls{OS} has per
 disturbances are also largely ignored, the simulation features no current or wind induced sideslip, crab angle is also not considered.
 
 \subsection{Scenario Overview}
-\iffalse
-Flere ting å teste:
-Scenario der det er en statisk hindring midt i referanse banen.
-Scenario der vi mer tydelig blir 'dyttet' inn mot statisk hindring av annen båt.
-Scenario der det er overlap mellom forskjellige COLREGs situasjoner
-Scenario med flere båter i samme COLREGs situasion, kan kombineres med scenario over.
-Skjaergård MÅ inkludere en bane gjennom masse små skjær, ikke fordi det er vanlig men fordi det må testes.
-If I was a good student I would have tested for multiple speeds, variable constraints based on speed.
-Currently scenarios are ran with a 'one size fits all' glove, very bad.
 
-Imagene we predict that a TS will cross from our port (SO situation), and that we must barely ajust our course to port side to
-not hit the constraint. the TS then slows down and doesn't cross as fast as we predicted, what now? Will this drag us along as the
-constraint circles move?
+% Flere ting å teste:
+% Scenario der det er en statisk hindring midt i referanse banen.
+% Scenario der vi mer tydelig blir 'dyttet' inn mot statisk hindring av annen båt.
+% Scenario der det er overlap mellom forskjellige COLREGs situasjoner
+% Scenario med flere båter i samme COLREGs situasion, kan kombineres med scenario over.
+% Skjaergård MÅ inkludere en bane gjennom masse små skjær, ikke fordi det er vanlig men fordi det må testes.
+% If I was a good student I would have tested for multiple speeds, variable constraints based on speed.
+% Currently scenarios are ran with a 'one size fits all' glove, very bad.
 
-\begin{itemize}
-    \item Havn
-    \subitem crossings, head-on, trangt med statiske hindringer, full blockade av veien vi skal ta.
-    \subitem kan variere stat posisjoner for å se endra flere forskjellige COLREGs situasjoner.
-    \item 'Trondheimsfjord'
-    \subitem Større åpent hav, mange båter på kryss og tvers.
-    \subitem viser at båter som vi vet vi ikke kommer i nærheten av ikke påvirker oppførselen vår.
-    \subitem viser at vi kan tracke en referanse veldig godt.
-    \item 'Skjærgård'
-    \subitem Litt i samme stil som 'Trondheimsfjord', men flere små statiske hindringer.
-    \subitem viser fint hvordan små statiske hindringer fortsatt blir 'oppdaget'.
-    \subitem stor distanse $\rightarrow$ lang tidshorisont og hvordan det påvirker oppførselen vår.
-    \item 'usynlig sving'
-    \subitem Traffikert område hvor 'all' trafikken følger en spesifikk sving.
-    \item enkle situasjoner:
-    \subitem Head-on, Give way, Stand on i 'åpent' hav med bare et target ship.
-    \subitem med og uten sving inkludert, for prediksjons sammenligning.
-\end{itemize}
+% Imagene we predict that a TS will cross from our port (SO situation), and that we must barely ajust our course to port side to
+% not hit the constraint. the TS then slows down and doesn't cross as fast as we predicted, what now? Will this drag us along as the
+% constraint circles move?
 
-\fi
+% \begin{itemize}
+%     \item Havn
+%     \subitem crossings, head-on, trangt med statiske hindringer, full blockade av veien vi skal ta.
+%     \subitem kan variere stat posisjoner for å se endra flere forskjellige COLREGs situasjoner.
+%     \item 'Trondheimsfjord'
+%     \subitem Større åpent hav, mange båter på kryss og tvers.
+%     \subitem viser at båter som vi vet vi ikke kommer i nærheten av ikke påvirker oppførselen vår.
+%     \subitem viser at vi kan tracke en referanse veldig godt.
+%     \item 'Skjærgård'
+%     \subitem Litt i samme stil som 'Trondheimsfjord', men flere små statiske hindringer.
+%     \subitem viser fint hvordan små statiske hindringer fortsatt blir 'oppdaget'.
+%     \subitem stor distanse $\rightarrow$ lang tidshorisont og hvordan det påvirker oppførselen vår.
+%     \item 'usynlig sving'
+%     \subitem Traffikert område hvor 'all' trafikken følger en spesifikk sving.
+%     \item enkle situasjoner:
+%     \subitem Head-on, Give way, Stand on i 'åpent' hav med bare et target ship.
+%     \subitem med og uten sving inkludert, for prediksjons sammenligning.
+% \end{itemize}
+
 
 The scnearios used for this thesis are constructed to test both trajectory planning and collision avoidance capabilities through
 a combination of both trivial and complex situations. The scenarios are also designed so that behaviour differences between
@@ -116,15 +113,22 @@ current iteration of the algorithm they are nonetheless important to showcase an
 
 
 \subsection{Results}
-\begin{itemize}
-    \item 'Dårlig' resultat er fortsatt resultat
-    \item Computational efficiency is also a topic
-    \item First a brief discussion about each scenario result individually, taking a look at both the simple and full prediction level results.
-    \item Then a closer examination of specific behaviours, problems, and observations that are not neccessary situation specific.
-    \item Then a qualitative disucssion on the results as a whole, are theese the exected result? why or why not. etc.
-    \item The scale is not uniform across all simulations, sometimes the boats are scaled up to make the figures easier to read.
-    \item The results are accompanied by MALTAB figures, as well as a youtube video that compiles all the results into a video which sampled the simulations every second.
-\end{itemize}
+% \begin{itemize}
+%     \item 'Dårlig' resultat er fortsatt resultat
+%     \item Computational efficiency is also a topic
+%     \item First a brief discussion about each scenario result individually, taking a look at both the simple and full prediction level results.
+%     \item Then a closer examination of specific behaviours, problems, and observations that are not neccessary situation specific.
+%     \item Then a qualitative disucssion on the results as a whole, are theese the exected result? why or why not. etc.
+%     \item The scale is not uniform across all simulations, sometimes the boats are scaled up to make the figures easier to read.
+%     \item The results are accompanied by MALTAB figures, as well as a youtube video that compiles all the results into a video which sampled the simulations every second.
+% \end{itemize}
+Following this chapter there will be a lot of very similar looking figures, the author would like to apologize for getting a bit lost in the sauce. 
+Each scenario will be briefly looked at on it's own, pointing out obervations or discrepancies from what one would expect. If a scenario did not show
+any significant difference between prediction levels the figures for the simple prediction were not included, the accompanying shows
+every scenario in full, both with simple and full prediction. Afterwards some typical issues, quirks and problems will be looked at before a general
+discussion caps off the chapter. One important thing to note is that the ships are not plotted to scale, their sizes are greatly exaggerated so that they're
+visible.
+
 
 
 \begin{figure}[ht!] % SIMPLE HEAD ON
@@ -180,6 +184,7 @@ current iteration of the algorithm they are nonetheless important to showcase an
     \end{subfigure}
     \hfill
     \caption{Simple Head on situation. Result independent of prediction level.}
+    \label{FIG: Simple HO}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
 %     \begin{subfigure}[b]{0.49\textwidth}
@@ -332,6 +337,7 @@ current iteration of the algorithm they are nonetheless important to showcase an
     \end{subfigure}
     \hfill
     \caption{Simple Give Way situation. Result independent of prediction level.}
+    \label{FIG: simple GW}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
 %     \begin{subfigure}[b]{0.49\textwidth}
@@ -484,6 +490,7 @@ current iteration of the algorithm they are nonetheless important to showcase an
     \end{subfigure}
     \hfill
     \caption{Simple stand on situation. Here shown with full prediction, \gls{OS} correctly stands on.}
+    \label{FIG: simple SO full pred}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
 %     \begin{subfigure}[b]{0.49\textwidth}
@@ -567,6 +574,7 @@ current iteration of the algorithm they are nonetheless important to showcase an
     \end{subfigure}
     \hfill
     \caption{Simple stand on situation. Here shown with simple prediction, the \gls{OS} can be observed to yield when it shouldn't.}
+    \label{FIG: Simple SO simple pred}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
 %     \begin{subfigure}[b]{0.49\textwidth}
@@ -599,37 +607,49 @@ current iteration of the algorithm they are nonetheless important to showcase an
 
 
 \subsubsection{Simple Head On}
-\begin{itemize}
-    \item Very straight forward result, behaviour is exactly as one would expect given the placement of the constraint.
-    \item No difference between full and simple prediction because target ship holds steady course and velocity.
-    \item This is the behaviour we can expect every time a target ship is met directly head on and there are no other disturbances.
-\end{itemize}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
+% \begin{itemize}
+%     \item Very straight forward result, behaviour is exactly as one would expect given the placement of the constraint.
+%     \item No difference between full and simple prediction because target ship holds steady course and velocity.
+%     \item This is the behaviour we can expect every time a target ship is met directly head on and there are no other disturbances.
+% \end{itemize}
+The simple situations are not really meant to test anything, rather this scenario and the others are used for establishing
+a baseline of capabilities. For example for this scenario specifically it is established that the OS will always attempt to
+pass the head-on vessel on the port side when the conditions are ideal. This results holds for both simple and
+full prediction levels. The result for this scenario is seen in Figure (\ref{FIG: Simple HO})
+
 \subsubsection{Simple Give Way}
-\begin{itemize}
-    \item It would be highly unusual to start using the trajectory planner when alredy this close to a situation
-    \item This is reflected in the strange behaviour where our path is completely blocked when dynamic obstacle constrains are enabled.
-    \item otherwise the behaviour ends up being exactly as expected considering the placements of the constraints.
-\end{itemize}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
+% \begin{itemize}
+%     \item It would be highly unusual to start using the trajectory planner when alredy this close to a situation
+%     \item This is reflected in the strange behaviour where our path is completely blocked when dynamic obstacle constrains are enabled.
+%     \item otherwise the behaviour ends up being exactly as expected considering the placements of the constraints.
+% \end{itemize}
+This scenario shows how the algorithm behaves when giving way to a crossing vessel. It might actually be a bit overzealous with this
+constraint size, but that's something that can be tuned with further experimentations. One important observation to make from this
+simple scenario is when obstacles are enabled on the second iteration of the algorithm, the constraints block the previous optimal
+trajectory and causes it to be infeasible. This is more clearly observed in the video version. When the infeasibility is detected
+the next result is a much shorter path as the speed is reduced, and then finally the full trajectory that gives way is found.
+This very simple simulation highlights one of the potential problems with the algorithm, if it's turned on while the OS is in an active
+COLREGs situation performance might be poor. The results are seen in Figure (\ref{FIG: simple GW})
+
 \subsubsection{Simple Stand On}
-\begin{itemize}
-    \item This scenario assumes that the \gls{Ts} plays nice and attempts to follow the \gls{COLREGs} rules.
-    \item When using simple prediction the optimal path is pushed towads port side behind the \gls{Ts}, and as the \gls{Ts} begins to turn the \gls{OS} is dragged along by the movement of the constraints.
-    \item This is actually quite unrealistic, there is no reason to assume the \gls{Ts} would continue to yield after observing the \gls{OS} change course like this. It's also a bad result for simple prediction because the behaviour can cause confusion\\
-    for other navigator.
-    \item The author realized late that the way prediction is done of the \gls{Ts} is not entirely consistent with the way prediction is handled internally in the algorithm. In the algorithm waypoints are used to predict \gls{Ts}s trajectories, which is not neccessary\\
-    the exact same trajectory as the \gls{Ts} ends up following. 
-    \item In order to get the \gls{Ts} to comply with expected \gls{COLREGs} behaviour a waypoint was placed some meters south of the \gls{OS} position at the would be \gls{tCPA}. This waypoint would obviously not exist in a normal transit situation and so\\
-    this scenario is actually a bit of a cheat in regards to how prediction is argued for in prior chapters.
-    \item The result is still interesting, for this scenario only we can exchange the advanced prediction result with a fully accurate prediction, and the result for simple prediction would hold for the current algorithm in all cases.
-\end{itemize}
+% \begin{itemize}
+%     \item This scenario assumes that the \gls{Ts} plays nice and attempts to follow the \gls{COLREGs} rules.
+%     \item When using simple prediction the optimal path is pushed towads port side behind the \gls{Ts}, and as the \gls{Ts} begins to turn the \gls{OS} is dragged along by the movement of the constraints.
+%     \item This is actually quite unrealistic, there is no reason to assume the \gls{Ts} would continue to yield after observing the \gls{OS} change course like this. It's also a bad result for simple prediction because the behaviour can cause confusion\\
+%     for other navigator.
+%     \item The author realized late that the way prediction is done of the \gls{Ts} is not entirely consistent with the way prediction is handled internally in the algorithm. In the algorithm waypoints are used to predict \gls{Ts}s trajectories, which is not neccessary\\
+%     the exact same trajectory as the \gls{Ts} ends up following. 
+%     \item In order to get the \gls{Ts} to comply with expected \gls{COLREGs} behaviour a waypoint was placed some meters south of the \gls{OS} position at the would be \gls{tCPA}. This waypoint would obviously not exist in a normal transit situation and so\\
+%     this scenario is actually a bit of a cheat in regards to how prediction is argued for in prior chapters.
+%     \item The result is still interesting, for this scenario only we can exchange the advanced prediction result with a fully accurate prediction, and the result for simple prediction would hold for the current algorithm in all cases.
+% \end{itemize}
+This scenario is one of the only two scenarios that assumes a cooperative TS. This is because controlling the TSs to be cooperative
+turned out to be a real time sink, and so it was dropped for all larger simulations. 
+This is also the first simulation where a difference between simple and full
+prediction can be observed, and it's mostly the fault of poor constraint placement, which will be more thoroughly 
+discussed in the discussion chapter (TODO: LINK TIL CHAPTER.). The full prediction result can be seen in
+Figure (\ref{FIG: simple SO full pred}) and shows that the OS does not deviate from it's speed or course, which is exactly the behaviour we would want. 
+The simple prediction version on the other hand, seen in Figure (\ref{FIG: Simple SO simple pred}) turns to cross behind the incoming TS.
 
 \begin{figure}[ht!] % TURN HEAD ON WITH PREDICTION
     % \begin{subfigure}[b]{0.49\textwidth}
@@ -684,6 +704,7 @@ Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicu
     \end{subfigure}
     \hfill
     \caption{Head on situation with a turn, Result for this were the same regardless of prediction level.}
+    \label{FIG: Turn HO}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
 %     \begin{subfigure}[b]{0.49\textwidth}
@@ -836,6 +857,7 @@ Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicu
     \end{subfigure}
     \hfill
     \caption{Give way with a turn, here with full prediction. Observe the \gls{OS} not execting to have to yield until it's almost too late.}
+    \label{FIG: turn GW full pred}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
 %     \begin{subfigure}[b]{0.49\textwidth}
@@ -866,46 +888,61 @@ Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicu
 %     \caption{Turn GIVE WAY With Prediction}
 % \end{figure}
 
-% \begin{figure}[!b] % TURN GIVE WAY ON WITHOUT PREDICTION
-%     \begin{subfigure}[b]{0.49\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig1_time=1}
-%         \subcaption{caption}
-%     \end{subfigure}
-%     \hfill
-%     \begin{subfigure}[b]{0.499\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig999_time=1}
-%         \subcaption{mhm}
-%     \end{subfigure}
-%     \hfill
-%     \\
-%     \begin{subfigure}[b]{0.49\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig1_time=25}
-%         \subcaption{caption}
-%     \end{subfigure}
-%     \hfill
-%     \begin{subfigure}[b]{0.499\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig999_time=25}
-%         \subcaption{mhm}
-%     \end{subfigure}
-%     \hfill
-%     \\
-%     \begin{subfigure}[b]{0.49\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig1_time=50}
-%         \subcaption{caption}
-%     \end{subfigure}
-%     \hfill
-%     \begin{subfigure}[b]{0.499\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig999_time=50}
-%         \subcaption{mhm}
-%     \end{subfigure}
-%     \hfill
-% \end{figure}%
+\begin{figure}[ht!] % TURN GIVE WAY WITHOUT PREDICTION
+    % \begin{subfigure}[b]{0.49\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_0fig1_time=1}
+    %     \subcaption{caption}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.499\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_0fig999_time=1}
+    %     \subcaption{mhm}
+    % \end{subfigure}
+    % \hfill
+    % \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig1_time=25}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig999_time=25}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig1_time=50}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig999_time=50}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig1_time=75}
+        \subcaption{caption}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.499\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig999_time=75}
+        \subcaption{mhm}
+    \end{subfigure}
+    \hfill
+    \caption{Give way with a turn, here with simple prediction. Observe as the OS gets dragged along by the constraints of the turning TS.}
+    \label{FIG: turn GW simple pred}
+\end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
@@ -988,6 +1025,7 @@ Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicu
     \end{subfigure}
     \hfill
     \caption{Stand on situation with turn. Result independent of prediction level.}
+    \label{FIG: turn SO}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
 %     \begin{subfigure}[b]{0.49\textwidth}
@@ -1086,56 +1124,105 @@ Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicu
 %     \hfill
 %     \caption{Turn Stand On WithOUT Prediction}
 % \end{figure}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
+
 
 
 \subsubsection{Turn Head On}
-\begin{itemize}
-    \item THIS SCENARIO SHOULD BE MIRRORED HORIZONTALLY TO INCREASE THE CHANCES OF AN OBSERVABLE DIFFERENCE BETWEEN PREDICTIONS.
-    \item otherwise business as usual, turns aren't predicted quite right.
-\end{itemize}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
+% \begin{itemize}
+%     \item business as usual, an easy situation to maneuver through.
+% \end{itemize}
+Very similar result to the straight path head on situation, which is not entirely unexpected. One aspect of this scenario that
+has become very obvious with hindsight is that the incoming TS should have approached from north west instead of north east. That way
+any a poorly calculated optimal trajectory would have been dragged towards the wrong side for the crossing. Instead as the situation is set
+up the trajectory will always be pushed towards crossing on the correct side. (TODO: kanskje forklar dette bedre?).
+The results for this scenario are seen in Figure (\ref{FIG: Turn HO})
+
 \subsubsection{Turn Give Way}
-\begin{itemize}
-    \item Here we finally observe a big differene between full and simple prediction.
-    \item due to how the situation plays out the \gls{OS} is dragged along by the constraints of the \gls{Ts}.
-    \item being dragged by constraints is not unique to this situation, and is one of the problems that can occur
-    with this method of collision avoidance.
-\end{itemize}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
+% \begin{itemize}
+%     \item Here we finally observe a big differene between full and simple prediction.
+%     \item due to how the situation plays out the \gls{OS} is dragged along by the constraints of the \gls{Ts}.
+%     \item being dragged by constraints is not unique to this situation, and is one of the problems that can occur
+%     with this method of collision avoidance.
+% \end{itemize}
+This scenario finally shows a huge difference in behaviour between the prediction levels. With full prediction the OS
+anticipates the incoming TS's intent to cross. Though the prediction is not perfect and the OS actually gets caught inside the
+constraints for one iteration. The result with full prediction is seen in Figure (\ref{FIG: turn GW full pred}), and aside from
+getting caught and pushed out by the constraints the behaviour is pretty good.
+With simple prediction on the other hand, as seen in Figure (\ref{FIG: turn GW simple pred}), the optimal trajectory gets caught by the
+incoming crossing TS's constraints and dragged along some 100 meters off-course.
+
 \subsubsection{Turn Stand On}
-\begin{itemize}
-    \item Absolutely nothing happens here. move on.
-\end{itemize}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
+The results for this scenario was not affected by prediction level, in fact nothing at all happens in this scenario. which is the desired result,
+but it's not very interesting to read or write about. The results are seen in (\ref{FIG: turn SO})
 
 
 \subsubsection{Canals}
-\begin{itemize}
-    \item blocked path
-    \item feasibility check
-    \item forskjell mellom prediction metoder
-    % \item not entirely clear to me which behaviour is the most 'COLREGs compliant'
-    \item When the path is blocked it takes a very very very long time to solve the NLP, users beware.
-    \item Get to see static obstacles in effect.
-\end{itemize}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
+% \begin{itemize}
+%     \item blocked path
+%     \item feasibility check
+%     \item forskjell mellom prediction metoder
+%     % \item not entirely clear to me which behaviour is the most 'COLREGs compliant'
+%     \item When the path is blocked it takes a very very very long time to solve the NLP, users beware.
+%     \item Get to see static obstacles in effect.
+% \end{itemize}
+% \begin{itemize}
+%     \item This is one of the more involved scenarios, it includes: 
+%     \subitem A bottlenecked that gets blocked by incoming dynamic constraints.
+%     \subitem Tight corridors in general to see how the algorithm handles a lot of static obstacles.
+%     \subitem A TS which turns in a manner that is obvious to a navigator, but not to a computer.
+%     \item This scenario was the one that forced the introduction of the feasibility check, prior versions of the algorithm would end up having the optimal trajectory get stuck
+%     inside the static obstacles.
+%     \item One important observation here is that the NLP takes very little time to solve when the situation is feasible, after the bottleneck clears, but takes a very long time
+%     when the problem is infeasible, which would lead to poor reactive performance in a real life scenario.
+%     \item while there are differences in how the algorithm behaves based on predction level, the final trajectory for both appears to be very identical, a neat detail in the author's opinion.
+% \end{itemize}
+This was the first scenario designed to be a bit more complicated than just an open ocean encounter. In this scenario there are
+walls blocking the available space, as well as a bottleneck that gets blocked by the constraints of the incoming TSs. The TS approaching from the
+north also turns in a way that would be obvious to a navigator, but not easily understood by a simple prediction algorithm. The static obstacles
+present in this scenario proved to be a bit of a challenge, and it was this scenario that prompted the creation of the feasibility check, as well as
+a desire for a better static obstacles implementation. With circular constraints this scenario was a nightmare to run due to the exceedingly long
+time to calculate an optimal trajectory. After the new line constraints for static obstacles was introduced the problem of getting the optimal trajectory
+stuck inside static obstacles was observed, leading to the feasibility check. What used to happen is that when the bottleneck
+was blocked by the dynamic obstacles, the code for finding static obstacles would not catch many of the walls that are behind the bottleneck, leading to
+an optimal trajectory that would sometimes pass through the walls. The next iteration, when the static obstacles algorithm did catch the walls; half
+the optimal trajectory points would be pushed out of the static obstacle, while the other half would be pushed deeper in. An unrecoverable situation without
+the feasibility check to forcefully get rid of bad optimal trajectories as initial guesses. (TODO: dette kan gå i den generelle diskusjonen).
 
+\subsubsection{Trondheimsfjord}
+% \begin{itemize}
+%     \item COLREGs stress test
+%     \item Full prediction behaves much 'calmer', which is better in the author's opinion.
+%     \item Full prediction is also much more computationally efficient, for reasons that will be discussed later.
+% \end{itemize}
+% \begin{itemize}
+%     \item This is a COLREGs assessment stress test, and a navigational nightmare. The scenario features a lot of uncooperative TSs.
+%     \item One observation that was first made in this scenario is that when the reference paths are long there is a risk of a TS "moving on top of" the reference path
+%     for a very long duration, this puts a lot of constraints on top of the previous optimal trajectory which makes it useless as an initial guess, and actually makes the
+%     performance of the algorithm way worse due to how a lot of the initial guess variables are inside active constraints.
+%     \item In this scenario the behaviour of the OS is a lot better with full prediction, the runtime is also significantly faster, though the author didn't write down numbers (sad trombone).
+% \end{itemize}
+
+
+\subsubsection{Helløya}
+% \begin{itemize}
+%     \item Both simple and full prediction actually navigate the 'invisible' turn quite well
+%     % \item even in the reverse direction it's not really a problem, though simple prediction cuts the turn, which could be considered bad.
+%     \item when being overtaken the full prediction exhibits much better behaviour.
+%     % \item This is one of the scenarios where the scale is very exaggerated.
+% \end{itemize}
+\begin{itemize}
+    \item Jeg tror detter resultatet kan kuttes, Helløya reverse viser alt det samme, plus mer.
+\end{itemize}
+
+\subsubsection{Helløya Reversed}
+\begin{itemize}
+    \item A very important scenario, lead to the discovery of the WrapTo2Pi error that had been lurking for months.
+    \item otherwise both prediction levels are able to handle the 'invisible' turn quite well. We see that the simple prediction level
+    version cuts the curner, while the full prediction takes the more proper outer turn.
+    \item Both prediction levels are easily able to handle a straight head-on situation.
+    \item When being overtaken we once agian observe how performance deteriorates when a \gls{Ts} ends up "on top of"
+    many of the previous optimal trajectory points.
+\end{itemize}
 
 
 \begin{figure}[!ht] %Canals simulation, shown with and without constraints
@@ -1235,10 +1322,7 @@ Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicu
 %     \caption{Canals simulation. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory}
 % \end{figure}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
+
 
 \begin{figure}[!ht] %Canals simulation without prediction, shown with and without constraints
     \begin{subfigure}[b]{0.49\textwidth}
@@ -1336,30 +1420,12 @@ Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicu
 %     \hfill
 %     \caption{TODO: skriv. Havn1 w\_opt without prediction}
 % \end{figure}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
-
 
 % Scenario der det er en statisk hindring midt i referanse banen.
 % Scenario der vi mer tydelig blir 'dyttet' inn mot statisk hindring av annen båt.
 % Scenario der det er overlap mellom forskjellige COLREGs situasjoner
 % Scenario med flere båter i samme COLREGs situasion, kan kombineres med scenario over.
 % Skjaergård MÅ inkludere en bane gjennom masse små skjær, ikke fordi det er vanlig men fordi det må testes.
-
-\subsubsection{Trondheimsfjord}
-\begin{itemize}
-    \item COLREGs stress test
-    \item Full prediction behaves much 'calmer', which is better in the author's opinion.
-    \item Full prediction is also much more computationally efficient, for reasons that will be discussed later.
-\end{itemize}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
-
-
 
 \begin{figure}[!ht] %TRONDHEIMFJORD, WITH PREDICTION
     \begin{subfigure}[b]{0.49\textwidth}
@@ -1486,12 +1552,6 @@ Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicu
     \label{FIG: Fjord with prediction}
 \end{figure}
 
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
-
 \begin{figure}[!ht] %TRONDHEIMFJORD, WITHOUT PREDICTION
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
@@ -1614,25 +1674,6 @@ Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicu
     \caption{Fjord situation. Here shown with simple prediction. Observe the \gls{OS} behaves much more erratically compared to Figure \ref{FIG: Fjord with prediction}.}
 \end{figure}
 
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
-
-
-\subsubsection{Helløya}
-\begin{itemize}
-    \item Both simple and full prediction actually navigate the 'invisible' turn quite well
-    \item even in the reverse direction it's not really a problem, though simple prediction cuts the turn, which could be considered bad.
-    \item when being overtaken the full prediction exhibits much better behaviour.
-    \item This is one of the scenarios where the scale is very exaggerated.
-\end{itemize}
-(TODO: Skriv og figurer)
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
 
 \clearpage
 \begin{figure}[!ht] %HELLOYA NORMAL, WITH PREDICTION
@@ -1782,13 +1823,6 @@ Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicu
     \caption{Helloya Situation. Here, \gls{OS} behaves to expectations independently of prediction level.}
 \end{figure}
 
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
-
-
 % \begin{figure}[bh!] %HELLOYA NORMAL, WITHOUT PREDICTION
 %     % \begin{subfigure}[b]{0.49\textwidth}
 %     %     \centering
@@ -1936,11 +1970,6 @@ Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicu
 %     \caption{Helloya Situation. Here with simple prediction. \gls{OS} behaves to expectations.}
 % \end{figure}
 
-\subsubsection{Helløya Reversed}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
 \clearpage
 \begin{figure}[!ht] %HELLOYA REVERSE, WITH PREDICTION
     % \begin{subfigure}[b]{0.49\textwidth}
@@ -2089,11 +2118,6 @@ Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicu
     % \hfill
     \caption{Helloya situation in reverse. Here with full prediction, \gls{OS} behaves to expectations.}
 \end{figure}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
 
 \clearpage
 \begin{figure}[!ht] %HELLOYA REVERSE, WITHOUT PREDICTION
@@ -2244,32 +2268,53 @@ Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicu
     \caption{Helloya situation in reverse. Here with simple prediction, \gls{OS} behaves slightly erratically}
 \end{figure}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
+
 
 \subsubsection{Skjærgård with Traffic}
+% \begin{itemize}
+%     \iffalse
+%     \item Har lyst å endre denne.
+%     \item Skjaergård bør inkludere en bane gjennom masse små skjær, ikke fordi det er vanlig men fordi det må testes.
+%     \item kan gjerne gjøres kortere, det er allerede bevist at path following fungerer.... dette har jeg skrevet et annet sted også.
+%     \item Kanskje ta med et skjær som står midt i referansebanen.
+%     \fi
+%     \item Both prediction levels successfully navigate this scenario
+%     \item with simple prediction the algorithm has an absolute nightmare trying to get past the third \gls{Ts}, this sim took hours to run.
+%     \item an interesting problem with 'islands' is that the optimal trajectory could get stuck inside one.
+%     \item Tried experimenting with placing bigger and bigger islands on top of the reference path, did not go too well.
+% \end{itemize}
 \begin{itemize}
-    \iffalse
-    \item Har lyst å endre denne.
-    \item Skjaergård bør inkludere en bane gjennom masse små skjær, ikke fordi det er vanlig men fordi det må testes.
-    \item kan gjerne gjøres kortere, det er allerede bevist at path following fungerer.... dette har jeg skrevet et annet sted også.
-    \item Kanskje ta med et skjær som står midt i referansebanen.
-    \fi
-    \item Both prediction levels successfully navigate this scenario
-    \item with simple prediction the algorithm has an absolute nightmare trying to get past the third \gls{Ts}, this sim took hours to run.
-    \item an interesting problem with 'islands' is that the optimal trajectory could get stuck inside one.
-    \item Tried experimenting with placing bigger and bigger islands on top of the reference path, did not go too well.
+    \item The last scenario to be created, one of the more complex ones as well. The scenario combines both a difficult COLREGs encounter and tight spaces
+    due to all the skerries. The full prediction level is able to cruise through this scenario quite well.
+    \item The simple prediction level also appears to cruise though, however it has an absolute nightmare of a time calculating the optimal trajectory
+    for passing by the third \gls{Ts}, this is more easily seen in the accompanying video.
+    \item This scenario led to a logic change for keeping the previous optimal trajectory as initial guess, what would sometimes happen before the change was
+    that the optimal trajectory would get stuck inside one of the islands, amusing for sure, but terrible for performance.
+    \item There were also experiments with placing bugger islands dead center on the reference path, but that experiment wasn't given enough
+    time to yield good results, and was ultimately scrapped. Ultimately the algorithm doesn't work all too well if the reference path or reference trajectory
+    passes through an obstacle. it is able to adjust to small mistakes where the reference strafes close by an obstacle, but it can't find it's way if too much of
+    the reference ends up in illegal positions.
+    \item Of course, this isn't entirely unexpected, if the planner was able to deftly dodge all sorts of islands in the middle of the reference path it wouldn't need waypoints at all.
 \end{itemize}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
+
+\subsubsection{skjærgård without Traffic}
+\begin{itemize}
+    \item Good path tracking.
+    \item Ths scenario helped debugg the wrapTo2Pi problem more efficiently.
+    \item Also a good scenario for testing if the algorithm is able to dodge island if the reference path gets too close.
+    \item computationally not too difficult either, algorithm exhibit reasonable execution times.
+\end{itemize}
+
+\subsubsection{Miscellaneous}
+\begin{itemize}
+    \item Bad Prediction, what happens when the target ship does not follow the predicted path
+    \item Blocked Path, a closer look at what happens when the path we intend to take is fully blocked.
+    \item Wrong turn, observe that the optimal trajectory is often to turn the wrong direction slightly when changing course.
+    \item WrapTo2Pi problems, how to explain to an algorithm how course works.
+    \item 'Dragged' along by Target Ships. When does it happen.
+    \item When overtaking or being overtaken the constraints can really mess with the \gls{IPOPT} solver.
+    \item the optimal solution could get trapped inside static obstacles with the way the constraints are active 'both ways'. please provide picture.
+\end{itemize}
 
 \clearpage
 \begin{figure}[!ht] %SKJÆRGÅRD WITH TRAFFIC WITH PREDICTION
@@ -2517,22 +2562,6 @@ Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicu
     \caption{Skjærgård with traffic situation. Here with simple prediction.}
 \end{figure}
 
-\subsubsection{skjærgård without Traffic}
-\begin{itemize}
-    \item Good path tracking.
-    \item this is where I discovered a heading reference problem.
-    \item able to dodge islands that are in the way.
-    \item computationally not too difficult either, algorithm exhibit reasonable execution times.
-\end{itemize}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
-
 \clearpage
 \begin{figure}[!ht] %SKJÆRGÅRD WITHOUT TRAFFIC
     \begin{subfigure}[b]{0.49\textwidth}
@@ -2695,16 +2724,7 @@ Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicu
 %     \caption{SKJÆRGÅRD WITH TRAFFIC. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory.}
 % \end{figure}
 
-\subsubsection{Miscellaneous}
-\begin{itemize}
-    \item Bad Prediction, what happens when the target ship does not follow the predicted path
-    \item Blocked Path, a closer look at what happens when the path we intend to take is fully blocked.
-    \item Wrong turn, observe that the optimal trajectory is often to turn the wrong direction slightly when changing course.
-    \item WrapTo2Pi problems, how to explain to an algorithm how course works.
-    \item 'Dragged' along by Target Ships. When does it happen.
-    \item When overtaking or being overtaken the constraints can really mess with the \gls{IPOPT} solver.
-    \item the optimal solution could get trapped inside static obstacles with the way the constraints are active 'both ways'. please provide picture.
-\end{itemize}
+
 
 \clearpage
 \begin{figure}[!ht] %TODO: Skriv om bad prediction
@@ -2763,14 +2783,6 @@ Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicu
     \hfill
     \caption{How optimal path is calculated with lower speed when infeasibility is detected.}
 \end{figure}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
 
 \clearpage
 \begin{figure}[!ht] %% WRAPTO2PI PROBLEMS
@@ -2795,14 +2807,7 @@ Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicu
     \caption{Stuck inside a static obstacle.}
     % \label{FIG: wopt stuck in static obstacle}
 \end{figure}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis posuere sapien, sed facilisis odio iaculis quis. 
-Proin nulla lorem, viverra id nunc et, placerat tempor magna. Praesent dapibus, orci nec suscipit viverra, nibh felis feugiat sapien, 
-vitae eleifend nunc massa ut ante. Aliquam placerat non mauris non blandit. Nulla viverra metus vel sem dictum, ornare egestas felis convallis. 
-Proin non purus et orci lacinia ullamcorper. Mauris varius mollis sem sed vehicula. Ut metus ex, fringilla at nisi sit amet, aliquet fringilla justo.
+
 \clearpage
 \begin{figure}[!ht] %% WRONG TURN
     \centering

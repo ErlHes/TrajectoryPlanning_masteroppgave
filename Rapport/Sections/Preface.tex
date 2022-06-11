@@ -1,23 +1,43 @@
 \newpage
-\begin{centering}
+
 \section*{Preface}
 \addcontentsline{toc}{section}{Preface}
-Things to declare:\hfill\\
-MATLAB simulator files provided by Emil Thyri\\
-Guidance and general assistance: Morten Breivik, Emil Thyri\\
-ENC charts for scenario inspiration: Olex AS\\
-Casadi's Constrained Multiple Shooting example from example pack lay the foundation of the algorithm.\\
-\hfill\\
-Software used:\\
-MATLAB, Inkscape, Draw.io.\\
-\hfill\\
-Other tools:\\
-CasADi. IPOPT. MATLAB Mapping toolbox
+% Things to declare:\hfill\\
+% MATLAB simulator files provided by Emil Thyri\\
+% Guidance and general assistance: Morten Breivik, Emil Thyri\\
+% ENC charts for scenario inspiration: Olex AS\\
+% Casadi's Constrained Multiple Shooting example from example pack lay the foundation of the algorithm.\\
+% \hfill\\
+% Software used:\\
+% MATLAB, Inkscape, Draw.io.\\
+% \hfill\\
+% Other tools:\\
+% CasADi. IPOPT. MATLAB Mapping toolbox
+
+This thesis was written as part of my M.Sc. degree in Industrial Cybernetics
+at the Department of Engineering Cybernetics, Norwegian Unitversity of Science
+and Technology (NTNU). The thesis is a continuation of my specialization project.
+I would like to thank my supervisors Morten Breivik and Emil Thryi, without whom I would have
+never been able to fully understand and transform the subject matter into something worth writing about.\newline
+Pivoting out of electrical engineering into the world of autonomous vessels has not been easy, for
+the specialization project I took it as an absolute win to simply understand what I was doing. In this 
+thesis I was able to build upon that specialization and really experiment with the functionalities of the developed
+algorithm.\newline
+During the semester my supervisors have helped me with hour long bi-weekly follow up meetings, answered
+all of my emails, and supplied me with research material and great sources. In the meetings we discussed
+not only progress, but concepts and pracitcal ideas for improving my work.\newline
+An extra thanks is extended to Emil Thyri for supplying me with a MATLAB simulator to use for testing the algorithm.
+The Algorithm was developed in MATLAB v2022b, using a framework by CasADi (v3.5.5) (\cite{andersson2019casadi}) and an IPOPT (\cite{wachter2006implementation}) solver. The algorithm
+also uses the MATLAB mapping toolbox as well as MSS toolbox (\cite{MSStoolbox}). CasADi's example pack includes an example on 
+direct multiple shooting which was used as a skeleton during development. Figures for the thesis were drawn
+using Inkscape and Draw.io. Lastly I would like to thank Olex AS for letting me use their software to store AIS data
+over the course of a few days to get a look at the ocean traffic along the Norwegian coast. This was used as inspiration
+for the creation of simulated testing scenarios.
 
 
-\end{centering}
 \begin{center}
-    Erlend Hestvik, 20.12.2021
+    Erlend Hestvik\\
+    11.06.2022
 \end{center}
 
 \afterpage{\blankpage}

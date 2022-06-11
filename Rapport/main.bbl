@@ -220,6 +220,42 @@
       \field{title}{Handbook of marine craft hydrodynamics and motion control}
       \field{year}{2011}
     \endentry
+    \entry{MSStoolbox}{misc}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=8eca0c434dd587f3eff346c053ba5948}{%
+           family={Fossen},
+           familyi={F\bibinitperiod},
+           given={Thor\bibnamedelima I},
+           giveni={T\bibinitperiod\bibinitdelim I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=141942966052c2a6ec5ad7b93d999d84}{%
+           family={Perez},
+           familyi={P\bibinitperiod},
+           given={Tristan},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{10a2de56b294a711e8ffb5d3c3b29c7c}
+      \strng{fullhash}{10a2de56b294a711e8ffb5d3c3b29c7c}
+      \strng{bibnamehash}{10a2de56b294a711e8ffb5d3c3b29c7c}
+      \strng{authorbibnamehash}{10a2de56b294a711e8ffb5d3c3b29c7c}
+      \strng{authornamehash}{10a2de56b294a711e8ffb5d3c3b29c7c}
+      \strng{authorfullhash}{10a2de56b294a711e8ffb5d3c3b29c7c}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Marine Systems Simulator (MSS)}
+      \field{year}{2004}
+      \verb{urlraw}
+      \verb https://github.com/cybergalactic/MSS
+      \endverb
+      \verb{url}
+      \verb https://github.com/cybergalactic/MSS
+      \endverb
+    \endentry
     \entry{gros2017Lecture}{misc}{}
       \name{author}{1}{}{%
         {{un=0,uniquepart=base,hash=ee05ef84f077166368da1d79a7dee18f}{%

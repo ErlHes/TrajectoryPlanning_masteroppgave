@@ -148,7 +148,7 @@ In MATLAB, persistent variables are stored in memory when a script has terminate
 time the script runs. This can be used to create rudimentary state machines, or to check the outcome of the previous iteration for anomalies.
 Persistent variables are declared without an initialization, and the method for initializing them without overwriting every time is shown in Algorithm [\ref{ALG: PERSISTENT}].
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
     \caption{Function: Initalize persistent variable} \label{ALG: PERSISTENT}
     \begin{algorithmic}
         \State \textbf{persistent} Var
@@ -200,7 +200,7 @@ was developed with full prediction level as the standard. If it's desired to ste
 
 % \end{lstlisting}
 % (TODO: Bedre med algorithm eller MATLAB script insert?)
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
     \caption{Function: Simplify \gls{Ts} prediction} \label{ALG: Simplify Tracks}
     \begin{algorithmic}
         \For{$i = 1:$size(tracks,2)}
@@ -586,7 +586,7 @@ method is to consider runtime, it would be ill-adviced to use an algorithm that 
 With the setup out of the way it's time to construct and solve the \gls{NLP}. This part of the algorithm
 mostly consists of piecing together CasADi's framework and calculating constraints. Consturction of the decision variable vector $\bm{\omega}$ and the constraint function
 vector $\textbf{g}(\bm{\omega})$ is done piecewise in the following way:
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
     \caption{Construction of CasADi sym vectors and their bounds} \label{ALG: general CasADi sym}
     \begin{algorithmic}
         \State Xk $\gets$ MX.sym(['X\_'num2str(k)] , n) \Comment{where n is the amount of elements in Xk}
@@ -720,7 +720,7 @@ will depend on situation complexity, available space, velocities of the ships in
 this thesis the placement is simplified greatly by having just pattern for each situation.
 
 The general implementation for placing a constraint is the following function:
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
     \caption{General function for placing dynamic constraint origin point}
     \label{ALG: dynamic constraint origin}
     \begin{algorithmic}
