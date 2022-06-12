@@ -420,7 +420,7 @@ and \textbf{K}\textsubscript{$\bm{\tau}$} are still tuning parameters on control
 \end{subequations}
 where $\bm{\omega}_{lb}$ and $\bm{\omega}_{ub}$ are the lower and upper bounds on the permitted values for $\bm{\omega}$, this is meant to limit the decision variables to 
 physically feasible values when solving the NLP. \textbf{g}($\bm{\omega}$) is a vector of constraint functions that are similarly bound
-by an lower and upper bounds, where the bounds define if any given function in \textbf{g} is an equality or inequality constraint. Due to the way direct multiple shooting
+by an lower and upper bounds, where the bounds define if the function in \textbf{g} is an equality or inequality constraint. Due to the way direct multiple shooting
 defines the decision variables the programmed solver that solves the \gls{NLP} is free to place the states and velocities anywhere within the constraints. It is therefor
 important to implement equality constraints that force the ending of one control interval and the beginning of the next to line up. This is called closing the shooting gaps, 
 an illustration of what shooting gaps are can be seen in Figure \ref{FIG: Shooting Gaps}. These equality constraints are called shooting constraints and to create them begin

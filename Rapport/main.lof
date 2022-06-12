@@ -59,17 +59,17 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {28}{\ignorespaces Skjærgård with traffic situation. Here with full prediction.\relax }}{60}{figure.caption.68}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {29}{\ignorespaces Skjærgård with traffic situation. Here with full prediction.\relax }}{62}{figure.caption.70}%
+\contentsline {figure}{\numberline {29}{\ignorespaces Skjærgård with traffic situation. Here with simple prediction.\relax }}{62}{figure.caption.70}%
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {30}{\ignorespaces Skjærgård without traffic simulation. Result independent of prediction level due to no \gls {Ts}s.\relax }}{63}{figure.caption.71}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {31}{\ignorespaces This is what can happen when the prediction does not match the actual trajectory of \gls {Ts}s.\relax }}{65}{figure.caption.72}%
+\contentsline {figure}{\numberline {31}{\ignorespaces This is what can happen when the prediction does not match the actual trajectory of \gls {Ts}s.\relax }}{66}{figure.caption.72}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {32}{\ignorespaces How optimal path is calculated with lower speed when infeasibility is detected.\relax }}{66}{figure.caption.73}%
+\contentsline {figure}{\numberline {32}{\ignorespaces How optimal path is calculated with lower speed when infeasibility is detected.\relax }}{67}{figure.caption.73}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {33}{\ignorespaces Without proper course reference, this sometimes happens.\relax }}{67}{figure.caption.74}%
+\contentsline {figure}{\numberline {33}{\ignorespaces Without proper course reference, this sometimes happens.\relax }}{68}{figure.caption.74}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {34}{\ignorespaces Stuck inside a static obstacle.\relax }}{68}{figure.caption.75}%
+\contentsline {figure}{\numberline {34}{\ignorespaces Stuck inside a static obstacle.\relax }}{69}{figure.caption.75}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {35}{\ignorespaces A quirk of numerical optimization, sometimes turning to the wrong side leads to a 'smoother' curve.\relax }}{69}{figure.caption.76}%
+\contentsline {figure}{\numberline {35}{\ignorespaces A quirk of numerical optimization, sometimes turning to the wrong side leads to a 'smoother' curve.\relax }}{70}{figure.caption.76}%
 \contentsfinish 

@@ -2,7 +2,7 @@
 % This scripts runs the miltiAgent simulator
 
 %%
-Autosavetime = [45, 75, 110, 155, 190, 225];
+Autosavetime = [25, 50, 100, 150, 175, 201];
 
 %%
 time = 0;
