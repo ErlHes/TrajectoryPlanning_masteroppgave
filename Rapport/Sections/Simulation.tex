@@ -21,10 +21,10 @@ functional prototype of an autonomous ferry that could be used to conduct real l
 on this thesis the ferry was out of commission due to a thruster failure.
 The MATLAB simulator emlpoyed for this thesis was developed by Emil Thyri and is used with permission. In this chapter the results
 are presented with figures to show the developemnt of the scenario over time, in addition to these figures there exists a youtube video compiling
-all the results in video format, the video can be found as an attachment to the thesis, or by following this link: (TODO: sett in link).
+all the results in video format, the video can be found as an attachment to the thesis, or by following this link: https://www.youtube.com/watch?v=522OtL2MRGo.
 
 All the simulations are conducted under the assumption that the \gls{OS} has perfect vision for spotting and tracking dynamic obstacles.
-disturbances are also largely ignored, the simulation features no current or wind induced sideslip, crab angle is also not considered.
+Disturbances are also largely ignored, the simulation features no current or wind induced sideslip, crab angle is also not considered.
 
 \subsection{Scenario Overview}
 
@@ -122,65 +122,77 @@ current iteration of the algorithm they are nonetheless important to showcase an
 %     \item The scale is not uniform across all simulations, sometimes the boats are scaled up to make the figures easier to read.
 %     \item The results are accompanied by MALTAB figures, as well as a youtube video that compiles all the results into a video which sampled the simulations every second.
 % \end{itemize}
-Following this chapter there will be a lot of very similar looking figures, the author would like to apologize for getting a bit lost in the sauce. 
+Following this chapter there will be a lot of very similar looking figures. The left figure will always feature the already travelled trajectories, %the author would like to apologize for getting a bit lost in the sauce. 
+as well as the active static obstacles immediately around the OS and the first ten dynamic constraint circles. The figure on the right features
+the projected optimal trajectory, the reference path and trajectory, and active dynamic obstacle constraint origin points. Both
+figures feature velocity vectors on all vessels, and for both figures the sizes of the vessels are exaggerated so that they're visibile.
 Each scenario will be briefly looked at on it's own, pointing out obervations or discrepancies from what one would expect. If a scenario did not show
 any significant difference between prediction levels the figures for the simple prediction were not included, the accompanying shows
 every scenario in full, both with simple and full prediction. Afterwards some typical issues, quirks and problems will be looked at before a general
-discussion caps off the chapter. One important thing to note is that the ships are not plotted to scale, their sizes are greatly exaggerated so that they're
-visible.
+discussion caps off the chapter.
 
+While the figures are pretty to look at, it is highly recommended to watch the video results to see the full picture.
 
+One thing to disclose before jumping in: Over the course of the thesis these simulations were ran many times, and while the results are always consistent
+for consecutive reruns, the simulation seem to be very sensitive to daily cosmic radiation. The simulations could be run one day, then something unrelated in the
+MATLAB files were changed, and then the results would be different the next day. This is important because the plots had to be remade a few times for the
+thesis, but not for the youtube video. There are some discrepencies between the two versions, but the overall results are still the same.
 
+\vfill
+rest of page intentioanlly left empty for formating
+\vfill 
+
+\clearpage
 \begin{figure}[ht!] % SIMPLE HEAD ON
     % \begin{subfigure}[b]{0.49\textwidth}
     %     \centering
     %     \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_0fig1_time=0}
-    %     \subcaption{caption}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
     % \begin{subfigure}[b]{0.499\textwidth}
     %     \centering
     %     \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_0fig999_time=0}
-    %     \subcaption{mhm}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
     % \\
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_0fig1_time=1}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.499\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_0fig999_time=1}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \\
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_0fig1_time=25}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.499\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_0fig999_time=25}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \\
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_0fig1_time=50}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.499\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_0fig999_time=50}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \caption{Simple Head on situation. Result independent of prediction level.}
@@ -190,26 +202,26 @@ visible.
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_0fig1_time=50}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_0fig999_time=50}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_0fig1_time=75}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_0fig999_time=75}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \caption{Simple Head on With Prediction}
@@ -219,39 +231,39 @@ visible.
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_1fig1_time=0}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_1fig999_time=0}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_1fig1_time=1}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_1fig999_time=1}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_1fig1_time=25}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_1fig999_time=25}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 % \end{figure}%
@@ -259,26 +271,26 @@ visible.
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_1fig1_time=50}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_1fig999_time=50}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_1fig1_time=75}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_HO/_Simple_1fig999_time=75}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \caption{Simple Head on Without Prediction}
@@ -288,52 +300,52 @@ visible.
     % \begin{subfigure}[b]{0.49\textwidth}
     %     \centering
     %     \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_0fig1_time=0}
-    %     \subcaption{caption}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
     % \begin{subfigure}[b]{0.499\textwidth}
     %     \centering
     %     \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_0fig999_time=0}
-    %     \subcaption{mhm}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
     % \\
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_0fig1_time=1}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.499\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_0fig999_time=1}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \\
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_0fig1_time=25}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.499\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_0fig999_time=25}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \\
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_0fig1_time=50}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.499\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_0fig999_time=50}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \caption{Simple Give Way situation. Result independent of prediction level.}
@@ -343,26 +355,26 @@ visible.
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_0fig1_time=50}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_0fig999_time=50}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_0fig1_time=75}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_0fig999_time=75}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \caption{Simple Give Way With Prediction}
@@ -372,39 +384,39 @@ visible.
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_1fig1_time=0}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_1fig999_time=0}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_1fig1_time=1}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_1fig999_time=1}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_1fig1_time=25}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_1fig999_time=25}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 % \end{figure}%
@@ -412,26 +424,26 @@ visible.
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_1fig1_time=50}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_1fig999_time=50}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_1fig1_time=75}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_1fig999_time=75}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \caption{Simple Give Way Without Prediction}
@@ -441,52 +453,52 @@ visible.
     % \begin{subfigure}[b]{0.49\textwidth}
     %     \centering
     %     \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_0fig1_time=0}
-    %     \subcaption{caption}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
     % \begin{subfigure}[b]{0.499\textwidth}
     %     \centering
     %     \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_0fig999_time=0}
-    %     \subcaption{mhm}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
     % \\
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_0fig1_time=1}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.499\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_0fig999_time=1}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \\
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_0fig1_time=25}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.499\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_0fig999_time=25}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \\
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_0fig1_time=50}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.499\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_0fig999_time=50}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \caption{Simple stand on situation. Here shown with full prediction, \gls{OS} correctly stands on.}
@@ -496,26 +508,26 @@ visible.
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_0fig1_time=50}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_0fig999_time=50}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_0fig1_time=75}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_0fig999_time=75}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \caption{Simple Stand On With Prediction}
@@ -525,52 +537,52 @@ visible.
     % \begin{subfigure}[b]{0.49\textwidth}
     %     \centering
     %     \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_1fig1_time=0}
-    %     \subcaption{caption}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
     % \begin{subfigure}[b]{0.499\textwidth}
     %     \centering
     %     \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_1fig999_time=0}
-    %     \subcaption{mhm}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
     % \\
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_1fig1_time=1}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.499\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_1fig999_time=1}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \\
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_1fig1_time=25}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.499\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_1fig999_time=25}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \\
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_1fig1_time=50}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.499\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_1fig999_time=50}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \caption{Simple stand on situation. Here shown with simple prediction, the \gls{OS} can be observed to yield when it shouldn't.}
@@ -580,32 +592,32 @@ visible.
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_1fig1_time=50}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_1fig999_time=50}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_1fig1_time=75}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/enkel_SO/_Simple_1fig999_time=75}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \caption{Simple Stand On Without Prediction}
 % \end{figure}
 
-
+\clearpage
 \subsubsection{Simple Head On}
 % \begin{itemize}
 %     \item Very straight forward result, behaviour is exactly as one would expect given the placement of the constraint.
@@ -615,7 +627,7 @@ visible.
 The simple situations are not really meant to test anything, rather this scenario and the others are used for establishing
 a baseline of capabilities. For example for this scenario specifically it is established that the OS will always attempt to
 pass the head-on vessel on the port side when the conditions are ideal. This results holds for both simple and
-full prediction levels. The result for this scenario is seen in Figure (\ref{FIG: Simple HO})
+full prediction levels. The result for this scenario is seen in Figure \ref{FIG: Simple HO}
 
 \subsubsection{Simple Give Way}
 % \begin{itemize}
@@ -629,7 +641,7 @@ simple scenario is when obstacles are enabled on the second iteration of the alg
 trajectory and causes it to be infeasible. This is more clearly observed in the video version. When the infeasibility is detected
 the next result is a much shorter path as the speed is reduced, and then finally the full trajectory that gives way is found.
 This very simple simulation highlights one of the potential problems with the algorithm, if it's turned on while the OS is in an active
-COLREGs situation performance might be poor. The results are seen in Figure (\ref{FIG: simple GW})
+COLREGs situation performance might be poor. The results are seen in Figure \ref{FIG: simple GW}
 
 \subsubsection{Simple Stand On}
 % \begin{itemize}
@@ -647,60 +659,61 @@ This scenario is one of the only two scenarios that assumes a cooperative TS. Th
 turned out to be a real time sink, and so it was dropped for all larger simulations. 
 This is also the first simulation where a difference between simple and full
 prediction can be observed, and it's mostly the fault of poor constraint placement, which will be more thoroughly 
-discussed in the discussion chapter (TODO: LINK TIL CHAPTER.). The full prediction result can be seen in
-Figure (\ref{FIG: simple SO full pred}) and shows that the OS does not deviate from it's speed or course, which is exactly the behaviour we would want. 
-The simple prediction version on the other hand, seen in Figure (\ref{FIG: Simple SO simple pred}) turns to cross behind the incoming TS.
+discussed in Chapter \ref{CHAP: discussion}. The full prediction result can be seen in
+Figure \ref{FIG: simple SO full pred} and shows that the OS does not deviate from it's speed or course, which is exactly the behaviour we would want. 
+The simple prediction version on the other hand, seen in Figure \ref{FIG: Simple SO simple pred} turns to cross behind the incoming TS.
 
+\clearpage
 \begin{figure}[ht!] % TURN HEAD ON WITH PREDICTION
     % \begin{subfigure}[b]{0.49\textwidth}
     %     \centering
     %     \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_0fig1_time=1}
-    %     \subcaption{caption}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
     % \begin{subfigure}[b]{0.499\textwidth}
     %     \centering
     %     \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_0fig999_time=1}
-    %     \subcaption{mhm}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
     % \\
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_0fig1_time=25}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_0fig999_time=25}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \\
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_0fig1_time=50}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_0fig999_time=50}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \\
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_0fig1_time=75}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_0fig999_time=75}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \caption{Head on situation with a turn, Result for this were the same regardless of prediction level.}
@@ -710,26 +723,26 @@ The simple prediction version on the other hand, seen in Figure (\ref{FIG: Simpl
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_0fig1_time=75}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_0fig999_time=75}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_0fig1_time=101}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_0fig999_time=101}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \caption{Turn Head On With Prediction}
@@ -739,39 +752,39 @@ The simple prediction version on the other hand, seen in Figure (\ref{FIG: Simpl
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_1fig1_time=1}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_1fig999_time=1}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_1fig1_time=25}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_1fig999_time=25}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_1fig1_time=50}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_1fig999_time=50}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 % \end{figure}%
@@ -779,26 +792,26 @@ The simple prediction version on the other hand, seen in Figure (\ref{FIG: Simpl
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_1fig1_time=75}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_1fig999_time=75}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_1fig1_time=101}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_HO/_Simple_1fig999_time=101}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \caption{Turn Head On WithOUT Prediction}
@@ -808,52 +821,52 @@ The simple prediction version on the other hand, seen in Figure (\ref{FIG: Simpl
     % \begin{subfigure}[b]{0.49\textwidth}
     %     \centering
     %     \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_0fig1_time=1}
-    %     \subcaption{caption}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
     % \begin{subfigure}[b]{0.499\textwidth}
     %     \centering
     %     \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_0fig999_time=1}
-    %     \subcaption{mhm}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
     % \\
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_0fig1_time=25}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_0fig999_time=25}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \\
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_0fig1_time=50}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_0fig999_time=50}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \\
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_0fig1_time=75}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_0fig999_time=75}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \caption{Give way with a turn, here with full prediction. Observe the \gls{OS} not execting to have to yield until it's almost too late.}
@@ -863,26 +876,26 @@ The simple prediction version on the other hand, seen in Figure (\ref{FIG: Simpl
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_0fig1_time=75}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_0fig999_time=75}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_0fig1_time=101}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_0fig999_time=101}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \caption{Turn GIVE WAY With Prediction}
@@ -892,52 +905,52 @@ The simple prediction version on the other hand, seen in Figure (\ref{FIG: Simpl
     % \begin{subfigure}[b]{0.49\textwidth}
     %     \centering
     %     \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_0fig1_time=1}
-    %     \subcaption{caption}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
     % \begin{subfigure}[b]{0.499\textwidth}
     %     \centering
     %     \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_0fig999_time=1}
-    %     \subcaption{mhm}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
     % \\
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig1_time=25}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig999_time=25}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \\
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig1_time=50}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig999_time=50}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \\
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig1_time=75}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig999_time=75}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \caption{Give way with a turn, here with simple prediction. Observe as the OS gets dragged along by the constraints of the turning TS.}
@@ -947,26 +960,26 @@ The simple prediction version on the other hand, seen in Figure (\ref{FIG: Simpl
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig1_time=75}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig999_time=75}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig1_time=101}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_GW/_Simple_1fig999_time=101}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \caption{Turn GIVE WAY WithOUT Prediction}
@@ -976,52 +989,52 @@ The simple prediction version on the other hand, seen in Figure (\ref{FIG: Simpl
     % \begin{subfigure}[b]{0.49\textwidth}
     %     \centering
     %     \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_0fig1_time=1}
-    %     \subcaption{caption}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
     % \begin{subfigure}[b]{0.499\textwidth}
     %     \centering
     %     \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_0fig999_time=1}
-    %     \subcaption{mhm}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
     % \\
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_0fig1_time=25}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_0fig999_time=25}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \\
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_0fig1_time=50}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_0fig999_time=50}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \\
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_0fig1_time=75}
-        \subcaption{caption}
+        \subcaption{}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_0fig999_time=75}
-        \subcaption{mhm}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \caption{Stand on situation with turn. Result independent of prediction level.}
@@ -1031,26 +1044,26 @@ The simple prediction version on the other hand, seen in Figure (\ref{FIG: Simpl
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_0fig1_time=75}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_0fig999_time=75}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_0fig1_time=101}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_0fig999_time=101}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \caption{Turn Stand On With Prediction}
@@ -1060,39 +1073,39 @@ The simple prediction version on the other hand, seen in Figure (\ref{FIG: Simpl
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_1fig1_time=1}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_1fig999_time=1}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_1fig1_time=25}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_1fig999_time=25}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_1fig1_time=50}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_1fig999_time=50}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 % \end{figure}%
@@ -1100,33 +1113,32 @@ The simple prediction version on the other hand, seen in Figure (\ref{FIG: Simpl
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_1fig1_time=75}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_1fig999_time=75}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_1fig1_time=101}
-%         \subcaption{caption}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
 %         \includegraphics[width=\textwidth]{Images/Figures/sving_SO/_Simple_1fig999_time=101}
-%         \subcaption{mhm}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \caption{Turn Stand On WithOUT Prediction}
 % \end{figure}
 
-
-
+\clearpage
 \subsubsection{Turn Head On}
 % \begin{itemize}
 %     \item business as usual, an easy situation to maneuver through.
@@ -1135,7 +1147,7 @@ Very similar result to the straight path head on situation, which is not entirel
 has become very obvious with hindsight is that the incoming TS should have approached from north west instead of north east. That way
 any a poorly calculated optimal trajectory would have been dragged towards the wrong side for the crossing. Instead as the situation is set
 up the trajectory will always be pushed towards crossing on the correct side. (TODO: kanskje forklar dette bedre?).
-The results for this scenario are seen in Figure (\ref{FIG: Turn HO})
+The results for this scenario are seen in Figure \ref{FIG: Turn HO}
 
 \subsubsection{Turn Give Way}
 % \begin{itemize}
@@ -1146,16 +1158,1032 @@ The results for this scenario are seen in Figure (\ref{FIG: Turn HO})
 % \end{itemize}
 This scenario finally shows a huge difference in behaviour between the prediction levels. With full prediction the OS
 anticipates the incoming TS's intent to cross. Though the prediction is not perfect and the OS actually gets caught inside the
-constraints for one iteration. The result with full prediction is seen in Figure (\ref{FIG: turn GW full pred}), and aside from
+constraints for one iteration. The result with full prediction is seen in Figure \ref{FIG: turn GW full pred}, and aside from
 getting caught and pushed out by the constraints the behaviour is pretty good.
-With simple prediction on the other hand, as seen in Figure (\ref{FIG: turn GW simple pred}), the optimal trajectory gets caught by the
+With simple prediction on the other hand, as seen in Figure \ref{FIG: turn GW simple pred}, the optimal trajectory gets caught by the
 incoming crossing TS's constraints and dragged along some 100 meters off-course.
 
 \subsubsection{Turn Stand On}
-The results for this scenario was not affected by prediction level, in fact nothing at all happens in this scenario. which is the desired result,
-but it's not very interesting to read or write about. The results are seen in (\ref{FIG: turn SO})
+The results for this scenario was not affected by prediction level, in fact nothing at all happens in this scenario. Which is exactly the desired result,
+but it's not very interesting to read or write about. The results are seen in Figure \ref{FIG: turn SO}.
+
+\clearpage
+\begin{figure}[!ht] %Canals simulation, shown with and without constraints
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig1_time=1}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig999_time=1}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig1_time=25}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig999_time=25}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig1_time=50}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig999_time=50}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \phantomcaption
+    \label{FIG: Canals With Pred}
+\end{figure}%
+\begin{figure}[ht]\ContinuedFloat
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig1_time=75}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig999_time=75}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig1_time=101}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig999_time=101}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\ 
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig1_time=126}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig999_time=126}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \caption{Canals situation. Here shown with full prediction.}
+
+\end{figure}
+% \begin{figure}[ht]\ContinuedFloat
+%     \begin{subfigure}[b]{0.49\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig1_time=126}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.499\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig999_time=126}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \caption{Canals simulation. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory}
+% \end{figure}
 
 
+\begin{figure}[!ht] %Canals simulation without prediction, shown with and without constraints
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig1_time=1}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig999_time=1}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig1_time=25}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig999_time=25}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig1_time=50}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig999_time=50}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \phantomcaption
+    \label{FIG: Canals Without Pred}
+\end{figure}%
+\begin{figure}[ht]\ContinuedFloat
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig1_time=75}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig999_time=75}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig1_time=101}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig999_time=101}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\ 
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig1_time=126}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig999_time=126}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \caption{Canals situation. Here shown with simple prediction.}
+
+\end{figure}
+% \begin{figure}[ht]\ContinuedFloat
+%     \begin{subfigure}[b]{0.49\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig1_time=126}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.499\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig999_time=126}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \caption{TODO: skriv. Havn1 w\_opt without prediction}
+% \end{figure}
+
+
+\begin{figure}[!ht] %TRONDHEIMFJORD, WITH PREDICTION
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_0fig1_time=100}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_0fig999_time=100}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_0fig1_time=150}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_0fig999_time=150}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_0fig1_time=255}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_0fig999_time=255}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \phantomcaption
+    \label{FIG: Fjord with prediction}
+\end{figure}%
+\begin{figure}[ht!]\ContinuedFloat
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_0fig1_time=275}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_0fig999_time=275}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_0fig1_time=315}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_0fig999_time=315}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\ 
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_0fig1_time=350}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_0fig999_time=350}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \caption{Fjord situation. Here shown with full prediction. Observe the \gls{OS} handles the stress test pretty well.}
+
+\end{figure}
+
+
+% \begin{figure}[ht!]\ContinuedFloat
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig1_time=301}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig999_time=301}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \\
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig1_time=325}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig999_time=325}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \\
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig1_time=350}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig999_time=350}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \caption{Fjord situation. Here shown with full prediction. Observe the \gls{OS} handles the stress test pretty well.}
+%     \label{FIG: Fjord with prediction}
+% \end{figure}
+
+\begin{figure}[!ht] %TRONDHEIMFJORD, WITHOUT PREDICTION
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_1fig1_time=100}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_1fig999_time=100}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_1fig1_time=150}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_1fig999_time=150}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_1fig1_time=255}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_1fig999_time=255}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \phantomcaption
+    \label{FIG: Fjord without pred}
+\end{figure}%
+\begin{figure}[ht!]\ContinuedFloat
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_1fig1_time=275}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_1fig999_time=275}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_1fig1_time=315}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_1fig999_time=315}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\ 
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_1fig1_time=350}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Trheimfjord/_Simple_1fig999_time=350}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \caption{Fjord situation. Here shown with simple prediction. Observe the \gls{OS} behaves much more erratically compared to the full prediction level.}
+
+\end{figure}
+
+
+\begin{figure}[!ht] %HELLOYA NORMAL, WITH PREDICTION
+    % \begin{subfigure}[b]{0.49\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig1_time=1}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.499\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig999_time=1}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \\
+    % \begin{subfigure}[b]{0.49\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig1_time=25}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.499\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig999_time=25}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya/_Simple_0fig1_time=125}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya/_Simple_0fig999_time=125}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\\begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya/_Simple_0fig1_time=175}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya/_Simple_0fig999_time=175}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\ 
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya/_Simple_0fig1_time=230}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya/_Simple_0fig999_time=230}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \caption{Helloya Situation. Here, \gls{OS} behaves to expectations independently of prediction level.}
+    \label{FIG: Helloya normal}
+\end{figure}%
+% \begin{figure}[ht]\ContinuedFloat
+    % \begin{subfigure}[b]{0.49\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig1_time=101}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.499\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig999_time=101}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \\
+    % \begin{subfigure}[b]{0.49\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig1_time=126}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.499\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig999_time=126}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \\ 
+    % \begin{subfigure}[b]{0.49\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig1_time=151}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.499\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig999_time=151}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+% \end{figure}
+% \begin{figure}[ht]\ContinuedFloat
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig1_time=176}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig999_time=176}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \\
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig1_time=201}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig999_time=201}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \\
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig1_time=226}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig999_time=226}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \caption{Helloya Situation. Here, \gls{OS} behaves to expectations independently of prediction level.}
+% \end{figure}
+
+% \begin{figure}[bh!] %HELLOYA NORMAL, WITHOUT PREDICTION
+%     % \begin{subfigure}[b]{0.49\textwidth}
+%     %     \centering
+%     %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=1}
+%     %     \subcaption{}
+%     % \end{subfigure}
+%     % \hfill
+%     % \begin{subfigure}[b]{0.499\textwidth}
+%     %     \centering
+%     %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=1}
+%     %     \subcaption{}
+%     % \end{subfigure}
+%     % \hfill
+%     % \\
+%     % \begin{subfigure}[b]{0.49\textwidth}
+%     %     \centering
+%     %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=25}
+%     %     \subcaption{}
+%     % \end{subfigure}
+%     % \hfill
+%     % \begin{subfigure}[b]{0.499\textwidth}
+%     %     \centering
+%     %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=25}
+%     %     \subcaption{}
+%     % \end{subfigure}
+%     % \hfill
+%     % \\
+%     \begin{subfigure}[b]{0.49\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=75}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.499\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=75}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \\\begin{subfigure}[b]{0.49\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=126}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.499\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=126}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \\ 
+%     \begin{subfigure}[b]{0.49\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=151}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.499\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=151}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+% \end{figure}%
+% \begin{figure}[ht]\ContinuedFloat
+    % \begin{subfigure}[b]{0.49\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=101}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.499\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=101}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \\
+    % \begin{subfigure}[b]{0.49\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=126}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.499\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=126}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \\ 
+    % \begin{subfigure}[b]{0.49\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=151}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.499\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=151}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+% \end{figure}
+% \begin{figure}[ht]\ContinuedFloat
+%     \begin{subfigure}[b]{0.49\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=176}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.499\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=176}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \\
+%     \begin{subfigure}[b]{0.49\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=201}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.499\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=201}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \\
+%     \begin{subfigure}[b]{0.49\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=226}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.499\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=226}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \caption{Helloya Situation. Here with simple prediction. \gls{OS} behaves to expectations.}
+% \end{figure}
+
+
+\begin{figure}[!ht] %HELLOYA REVERSE, WITH PREDICTION
+    % \begin{subfigure}[b]{0.49\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig1_time=1}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.499\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig999_time=1}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig1_time=45}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig999_time=45}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig1_time=75}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig999_time=75}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig1_time=110}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig999_time=110}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \phantomcaption
+    \label{FIG: Helloya rev full prediction}
+\end{figure}%
+% \begin{figure}[ht]\ContinuedFloat
+    % \begin{subfigure}[b]{0.49\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig1_time=101}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.499\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig999_time=101}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \\
+    % \begin{subfigure}[b]{0.49\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig1_time=126}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.499\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig999_time=126}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \\ 
+    % \begin{subfigure}[b]{0.49\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig1_time=151}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.499\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig999_time=151}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+% \end{figure}
+\begin{figure}[ht]\ContinuedFloat
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig1_time=155}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig999_time=155}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig1_time=190}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig999_time=190}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig1_time=225}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig999_time=225}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    % \\
+    % \begin{subfigure}[b]{0.49\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig1_time=251}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.499\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig999_time=251}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    \caption{Helloya situation in reverse. Here with full prediction, \gls{OS} behaves to expectations.}
+
+\end{figure}
+
+
+\begin{figure}[!ht] %HELLOYA REVERSE, WITHOUT PREDICTION
+    % \begin{subfigure}[b]{0.49\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=1}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.499\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=1}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=25}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=25}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=75}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=75}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=101}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=101}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+\end{figure}%
+% \begin{figure}[ht]\ContinuedFloat
+    % \begin{subfigure}[b]{0.49\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=101}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.499\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=101}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \\
+    % \begin{subfigure}[b]{0.49\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=126}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.499\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=126}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \\ 
+    % \begin{subfigure}[b]{0.49\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=151}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.499\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=151}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+% \end{figure}
+\begin{figure}[ht]\ContinuedFloat
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=151}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=151}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=201}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=201}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=226}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=226}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    % \\
+    % \begin{subfigure}[b]{0.49\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=251}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.499\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=251}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    \caption{Helloya situation in reverse. Here with simple prediction, \gls{OS} behaves slightly erratically}
+    \label{FIG: Helloya rev Simple pred}
+\end{figure}
+
+\clearpage
 \subsubsection{Canals}
 % \begin{itemize}
 %     \item blocked path
@@ -1176,17 +2204,23 @@ but it's not very interesting to read or write about. The results are seen in (\
 %     when the problem is infeasible, which would lead to poor reactive performance in a real life scenario.
 %     \item while there are differences in how the algorithm behaves based on predction level, the final trajectory for both appears to be very identical, a neat detail in the author's opinion.
 % \end{itemize}
+Results are seen with full prediction in Figure \ref{FIG: Canals With Pred}, and with simple prediction in Figure \ref{FIG: Canals Without Pred}.
 This was the first scenario designed to be a bit more complicated than just an open ocean encounter. In this scenario there are
 walls blocking the available space, as well as a bottleneck that gets blocked by the constraints of the incoming TSs. The TS approaching from the
-north also turns in a way that would be obvious to a navigator, but not easily understood by a simple prediction algorithm. The static obstacles
-present in this scenario proved to be a bit of a challenge, and it was this scenario that prompted the creation of the feasibility check, as well as
-a desire for a better static obstacles implementation. With circular constraints this scenario was a nightmare to run due to the exceedingly long
-time to calculate an optimal trajectory. After the new line constraints for static obstacles was introduced the problem of getting the optimal trajectory
-stuck inside static obstacles was observed, leading to the feasibility check. What used to happen is that when the bottleneck
-was blocked by the dynamic obstacles, the code for finding static obstacles would not catch many of the walls that are behind the bottleneck, leading to
-an optimal trajectory that would sometimes pass through the walls. The next iteration, when the static obstacles algorithm did catch the walls; half
-the optimal trajectory points would be pushed out of the static obstacle, while the other half would be pushed deeper in. An unrecoverable situation without
-the feasibility check to forcefully get rid of bad optimal trajectories as initial guesses. (TODO: dette kan gå i den generelle diskusjonen).
+north also turns in a way that would be obvious to a navigator, but not easily understood by a simple prediction algorithm.
+
+The immediate difference between the prediction levels is that full prediction forsees the bottleneck closing and slams the breaks.
+Leading to a jittery trajectory as the algorithm goes through the following process:\newline
+1.) First the algorithm is able to find a feasible and optimal solution when obstacles are disabled.\newline
+2.) Then the obstacles are enabled which break the continuity of the previous optimal trajectory, making the newest optimal trajectory infeasible.\newline
+3.) The speed is then reduced and the algorithm is able to find an optimal solution because the bottleneck is not blocked for long.\newline
+4.) Because the previous trajectory was feasible the speed is set back to the nominal value, the bottleneck is once again blocked leading to an infeasible path.\newline
+Repeating step 3 and 4 until an opening between all the constraints finally shows itself. Every time the \gls{NLP} is infeasible the result used in the MPC
+might not have consistent heading or speed with the previous control interval, which is why the result looks so jittery.
+
+The simple prediction version on the other hand, presuming that one of the northernmost TS will simply phase through the wall, proceeds withtout a care.
+As the \gls{OS} gets closer to the bottleneck, so too do the constraints about to block the way. This is why the optimal trajecotry bulges upwards, luckily the gap is not
+closed for long, and the OS is able pass without having to go through the same song and dance as the full prediction version.
 
 \subsubsection{Trondheimsfjord}
 % \begin{itemize}
@@ -1202,6 +2236,16 @@ the feasibility check to forcefully get rid of bad optimal trajectories as initi
 %     \item In this scenario the behaviour of the OS is a lot better with full prediction, the runtime is also significantly faster, though the author didn't write down numbers (sad trombone).
 % \end{itemize}
 
+This scenario was designed as a COLREGs assessment stress test. The result for full prediction is seen in Figure \ref{FIG: Fjord with prediction}, and
+with simple prediction in Figure \ref{FIG: Fjord without pred}. This scenario is full of uncooperative TSs, and the simple prediction level
+algorithm is unable to cope. With all the overlapping crossing TS turning onto the path of the OS, as well as a TS overtaking from behind the algorithm
+is not able to find a consistent trajectory, jumping between different optimal solutions over the course of the simulation.
+The full prediction results on the other hand are pretty good with the OS being able to make it through the crucible with
+very few adjustments to the course, passing the oncoming TS pack on the correct side as well.
+
+While runtime optimization isn't the focus of this thesis, it should be noted that the full prediction level simulation was significantly
+faster to run, mostly due to the \gls{NLP} being solved much faster when the constraints don't move around as much.
+
 
 \subsubsection{Helløya}
 % \begin{itemize}
@@ -1210,1066 +2254,529 @@ the feasibility check to forcefully get rid of bad optimal trajectories as initi
 %     \item when being overtaken the full prediction exhibits much better behaviour.
 %     % \item This is one of the scenarios where the scale is very exaggerated.
 % \end{itemize}
-\begin{itemize}
-    \item Jeg tror detter resultatet kan kuttes, Helløya reverse viser alt det samme, plus mer.
-\end{itemize}
+% \begin{itemize}
+%     \item Jeg tror detter resultatet kan kuttes, Helløya reverse viser alt det samme, plus mer.
+% \end{itemize}
+The results for this scenario are seen in Figure \ref{FIG: Helloya normal} and are similar enough for both prediction levels that only
+full prediction is shown. Considering the simple scenarios it should be no surprise that the OS is able to pass by the first TS on the correct side.
+The inbisible turn is also handled really well by both prediction levels. The boring results here lead to the idea that it's probably the direction
+of the turn that makes it so that there is no difference between the prediction levels, so a reverse of the scenario was created.
 
 \subsubsection{Helløya Reversed}
-\begin{itemize}
-    \item A very important scenario, lead to the discovery of the WrapTo2Pi error that had been lurking for months.
-    \item otherwise both prediction levels are able to handle the 'invisible' turn quite well. We see that the simple prediction level
-    version cuts the curner, while the full prediction takes the more proper outer turn.
-    \item Both prediction levels are easily able to handle a straight head-on situation.
-    \item When being overtaken we once agian observe how performance deteriorates when a \gls{Ts} ends up "on top of"
-    many of the previous optimal trajectory points.
-\end{itemize}
+% \begin{itemize}
+%     \item A very important scenario, lead to the discovery of the WrapTo2Pi error that had been lurking for months.
+%     \item otherwise both prediction levels are able to handle the 'invisible' turn quite well. We see that the simple prediction level
+%     version cuts the curner, while the full prediction takes the more proper outer turn.
+%     \item Both prediction levels are easily able to handle a straight head-on situation.
+%     \item When being overtaken we once agian observe how performance deteriorates when a \gls{Ts} ends up "on top of"
+%     many of the previous optimal trajectory points.
+% \end{itemize}
 
-
-\begin{figure}[!ht] %Canals simulation, shown with and without constraints
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig1_time=0}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig999_time=0}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig1_time=1}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig999_time=1}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig1_time=25}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig999_time=25}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-\end{figure}%
-\begin{figure}[ht]\ContinuedFloat
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig1_time=50}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig999_time=50}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig1_time=75}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig999_time=75}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\ 
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig1_time=101}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig999_time=101}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \caption{Canals situation. Here shown with full prediction.}
-\end{figure}
-% \begin{figure}[ht]\ContinuedFloat
-%     \begin{subfigure}[b]{0.49\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig1_time=126}
-%         \subcaption{caption}
-%     \end{subfigure}
-%     \hfill
-%     \begin{subfigure}[b]{0.499\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_0fig999_time=126}
-%         \subcaption{mhm}
-%     \end{subfigure}
-%     \hfill
-%     \caption{Canals simulation. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory}
-% \end{figure}
-
-
-
-\begin{figure}[!ht] %Canals simulation without prediction, shown with and without constraints
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig1_time=0}
-        \caption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig999_time=0}
-        \caption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig1_time=1}
-        \caption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig999_time=1}
-        \caption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig1_time=25}
-        \caption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig999_time=25}
-        \caption{mhm}
-    \end{subfigure}
-    \hfill
-\end{figure}%
-\begin{figure}[ht]\ContinuedFloat
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig1_time=50}
-        \subcaption{dsadada}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig999_time=50}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig1_time=75}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig999_time=75}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig1_time=101}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig999_time=101}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \caption{Canals situation. Here shown with simple prediction.}
-\end{figure}
-% \begin{figure}[ht]\ContinuedFloat
-%     \begin{subfigure}[b]{0.49\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig1_time=126}
-%         \subcaption{caption}
-%     \end{subfigure}
-%     \hfill
-%     \begin{subfigure}[b]{0.499\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/Havn1/_Simple_1fig999_time=126}
-%         \subcaption{mhm}
-%     \end{subfigure}
-%     \hfill
-%     \caption{TODO: skriv. Havn1 w\_opt without prediction}
-% \end{figure}
-
-% Scenario der det er en statisk hindring midt i referanse banen.
-% Scenario der vi mer tydelig blir 'dyttet' inn mot statisk hindring av annen båt.
-% Scenario der det er overlap mellom forskjellige COLREGs situasjoner
-% Scenario med flere båter i samme COLREGs situasion, kan kombineres med scenario over.
-% Skjaergård MÅ inkludere en bane gjennom masse små skjær, ikke fordi det er vanlig men fordi det må testes.
-
-\begin{figure}[!ht] %TRONDHEIMFJORD, WITH PREDICTION
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig1_time=101}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig999_time=101}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig1_time=126}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig999_time=126}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig1_time=151}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig999_time=151}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \phantomcaption
-\end{figure}%
-\begin{figure}[ht!]\ContinuedFloat
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig1_time=226}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig999_time=226}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig1_time=251}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig999_time=251}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\ 
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig1_time=276}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig999_time=276}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \phantomcaption
-\end{figure}
-\begin{figure}[ht!]\ContinuedFloat
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig1_time=301}
-        \subcaption{t = 301s.}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig999_time=301}
-        \subcaption{t = 301s.}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig1_time=325}
-        \subcaption{t = 325s.}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig999_time=325}
-        \subcaption{t = 325s.}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig1_time=350}
-        \subcaption{t = 350s.}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_0fig999_time=350}
-        \subcaption{t = 350s.}
-    \end{subfigure}
-    \hfill
-    \caption{Fjord situation. Here shown with full prediction. Observe the \gls{OS} handles the stress test pretty well.}
-    \label{FIG: Fjord with prediction}
-\end{figure}
-
-\begin{figure}[!ht] %TRONDHEIMFJORD, WITHOUT PREDICTION
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_1fig1_time=101}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_1fig999_time=101}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_1fig1_time=126}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_1fig999_time=126}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_1fig1_time=151}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_1fig999_time=151}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-\end{figure}%
-\begin{figure}[ht!]\ContinuedFloat
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_1fig1_time=226}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_1fig999_time=226}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_1fig1_time=251}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_1fig999_time=251}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\ 
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_1fig1_time=276}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_1fig999_time=276}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-\end{figure}
-\begin{figure}[ht!]\ContinuedFloat
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_1fig1_time=301}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_1fig999_time=301}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_1fig1_time=325}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_1fig999_time=325}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_1fig1_time=350}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Trheimfjord/_Simple_1fig999_time=350}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \caption{Fjord situation. Here shown with simple prediction. Observe the \gls{OS} behaves much more erratically compared to Figure \ref{FIG: Fjord with prediction}.}
-\end{figure}
+The only scenario that features the OS heading southwards, which lead to a very interesting discovery that has since been patched out: The algorithm could for the longest
+time not handle turning from some angles to another, the heading reference would pick the wrong turn direction, and so the resulting trajectory would take a loop. 
+This was discussed in Chapter \ref{CHAP: integration step} and will be discussed a bit more in the miscellaneous results. 
+Back to Helloya in reverse, the results for full prediction are in Figure \ref{FIG: Helloya rev full prediction}, 
+and simple in Figure \ref{FIG: Helloya rev Simple pred}. This time the 'invisible' turn is handled differently depending on prediction level, with
+the simple prediction trajectory being pushed towards cutting the corner on the inside.
 
 
 \clearpage
-\begin{figure}[!ht] %HELLOYA NORMAL, WITH PREDICTION
-    % \begin{subfigure}[b]{0.49\textwidth}
+\begin{figure}[!ht] %SKJÆRGÅRD WITH TRAFFIC WITH PREDICTION
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=25}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=25}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=50}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=50}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    % \begin{subfigure}[b]{0.494\textwidth}
     %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig1_time=1}
-    %     \subcaption{caption}
+    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=75}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
-    % \begin{subfigure}[b]{0.499\textwidth}
+    % \begin{subfigure}[b]{0.494\textwidth}
     %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig999_time=1}
-    %     \subcaption{mhm}
+    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=75}
+    %     \subcaption{}
     % \end{subfigure}
-    % \hfill
-    % \\
-    % \begin{subfigure}[b]{0.49\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig1_time=25}
-    %     \subcaption{caption}
-    % \end{subfigure}
-    % \hfill
-    % \begin{subfigure}[b]{0.499\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig999_time=25}
-    %     \subcaption{mhm}
-    % \end{subfigure}
-    % \hfill
-    % \\
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig1_time=75}
-        \subcaption{caption}
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=101}
+        \subcaption{}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig999_time=75}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\\begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig1_time=126}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig999_time=126}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\ 
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig1_time=151}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig999_time=151}
-        \subcaption{mhm}
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=101}
+        \subcaption{}
     \end{subfigure}
     \hfill
 \end{figure}%
+\begin{figure}[ht]\ContinuedFloat
+    % \begin{subfigure}[b]{0.494\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=101}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.494\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=101}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \\
+    % \begin{subfigure}[b]{0.494\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=126}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.494\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=126}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=151}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=151}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=176}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=176}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=201}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=201}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \caption{Skjærgård with traffic situation. Here with full prediction.}
+\end{figure}
 % \begin{figure}[ht]\ContinuedFloat
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=176}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=176}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \\
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=201}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=201}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \\
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=301}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=301}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \caption{Skjærgård with traffic situation. Here with full prediction.}
+% \end{figure}
+
+
+\begin{figure}[!ht] %SKJÆRGÅRD WITH TRAFFIC WITH PREDICTION
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig1_time=25}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig999_time=25}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig1_time=50}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig999_time=50}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    % \begin{subfigure}[b]{0.494\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=75}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.494\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=75}
+    %     \subcaption{}
+    % \end{subfigure}
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig1_time=101}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig999_time=101}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+\end{figure}%
+\begin{figure}[ht]\ContinuedFloat
+    % \begin{subfigure}[b]{0.494\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=101}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.494\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=101}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \\
+    % \begin{subfigure}[b]{0.494\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=126}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    % \begin{subfigure}[b]{0.494\textwidth}
+    %     \centering
+    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=126}
+    %     \subcaption{}
+    % \end{subfigure}
+    % \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig1_time=151}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig999_time=151}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig1_time=176}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig999_time=176}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig1_time=201}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig999_time=201}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \caption{Skjærgård with traffic situation. Here with full prediction.}
+\end{figure}
+% \begin{figure}[ht]\ContinuedFloat
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=176}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=176}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \\
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=201}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=201}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \\
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=301}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.494\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=301}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \caption{Skjærgård with traffic situation. Here with full prediction.}
+% \end{figure}
+
+
+\begin{figure}[!ht] %SKJÆRGÅRD WITHOUT TRAFFIC
     % \begin{subfigure}[b]{0.49\textwidth}
     %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig1_time=101}
-    %     \subcaption{caption}
+    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_0fig1_time=1}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
     % \begin{subfigure}[b]{0.499\textwidth}
     %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig999_time=101}
-    %     \subcaption{mhm}
+    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_0fig999_time=1}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
     % \\
     % \begin{subfigure}[b]{0.49\textwidth}
     %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig1_time=126}
-    %     \subcaption{caption}
+    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=50}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
     % \begin{subfigure}[b]{0.499\textwidth}
     %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig999_time=126}
-    %     \subcaption{mhm}
+    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=50}
+    %     \subcaption{}
     % \end{subfigure}
     % \hfill
-    % \\ 
-    % \begin{subfigure}[b]{0.49\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig1_time=151}
-    %     \subcaption{caption}
-    % \end{subfigure}
-    % \hfill
-    % \begin{subfigure}[b]{0.499\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig999_time=151}
-    %     \subcaption{mhm}
-    % \end{subfigure}
-    % \hfill
-% \end{figure}
-\begin{figure}[ht]\ContinuedFloat
-    \begin{subfigure}[b]{0.49\textwidth}
+    % \\
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig1_time=176}
-        \subcaption{caption}
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_0fig1_time=101}
+        \subcaption{}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig999_time=176}
-        \subcaption{mhm}
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_0fig999_time=101}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \\
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig1_time=201}
-        \subcaption{caption}
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_0fig1_time=251}
+        \subcaption{}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig999_time=201}
-        \subcaption{mhm}
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_0fig999_time=251}
+        \subcaption{}
     \end{subfigure}
     \hfill
     \\
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig1_time=226}
-        \subcaption{caption}
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_0fig1_time=400}
+        \subcaption{}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
+    \begin{subfigure}[b]{0.494\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_0fig999_time=226}
-        \subcaption{mhm}
+        \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_0fig999_time=400}
+        \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Helloya Situation. Here, \gls{OS} behaves to expectations independently of prediction level.}
-\end{figure}
-
-% \begin{figure}[bh!] %HELLOYA NORMAL, WITHOUT PREDICTION
+    \caption{Skjærgård without traffic simulation. Result independent of prediction level due to no \gls{Ts}s.}
+\end{figure}%
+% \begin{figure}[ht]\ContinuedFloat
 %     % \begin{subfigure}[b]{0.49\textwidth}
 %     %     \centering
-%     %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=1}
-%     %     \subcaption{caption}
+%     %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=151}
+%     %     \subcaption{}
 %     % \end{subfigure}
 %     % \hfill
 %     % \begin{subfigure}[b]{0.499\textwidth}
 %     %     \centering
-%     %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=1}
-%     %     \subcaption{mhm}
-%     % \end{subfigure}
-%     % \hfill
-%     % \\
-%     % \begin{subfigure}[b]{0.49\textwidth}
-%     %     \centering
-%     %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=25}
-%     %     \subcaption{caption}
-%     % \end{subfigure}
-%     % \hfill
-%     % \begin{subfigure}[b]{0.499\textwidth}
-%     %     \centering
-%     %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=25}
-%     %     \subcaption{mhm}
+%     %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=151}
+%     %     \subcaption{}
 %     % \end{subfigure}
 %     % \hfill
 %     % \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=75}
-%         \subcaption{caption}
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=201}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=75}
-%         \subcaption{mhm}
-%     \end{subfigure}
-%     \hfill
-%     \\\begin{subfigure}[b]{0.49\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=126}
-%         \subcaption{caption}
-%     \end{subfigure}
-%     \hfill
-%     \begin{subfigure}[b]{0.499\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=126}
-%         \subcaption{mhm}
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=201}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\ 
+%     % \begin{subfigure}[b]{0.49\textwidth}
+%     %     \centering
+%     %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=251}
+%     %     \subcaption{}
+%     % \end{subfigure}
+%     % \hfill
+%     % \begin{subfigure}[b]{0.499\textwidth}
+%     %     \centering
+%     %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=251}
+%     %     \subcaption{}
+%     % \end{subfigure}
+%     % \hfill
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=151}
-%         \subcaption{caption}
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=301}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=151}
-%         \subcaption{mhm}
-%     \end{subfigure}
-%     \hfill
-% \end{figure}%
-% \begin{figure}[ht]\ContinuedFloat
-    % \begin{subfigure}[b]{0.49\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=101}
-    %     \subcaption{caption}
-    % \end{subfigure}
-    % \hfill
-    % \begin{subfigure}[b]{0.499\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=101}
-    %     \subcaption{mhm}
-    % \end{subfigure}
-    % \hfill
-    % \\
-    % \begin{subfigure}[b]{0.49\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=126}
-    %     \subcaption{caption}
-    % \end{subfigure}
-    % \hfill
-    % \begin{subfigure}[b]{0.499\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=126}
-    %     \subcaption{mhm}
-    % \end{subfigure}
-    % \hfill
-    % \\ 
-    % \begin{subfigure}[b]{0.49\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=151}
-    %     \subcaption{caption}
-    % \end{subfigure}
-    % \hfill
-    % \begin{subfigure}[b]{0.499\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=151}
-    %     \subcaption{mhm}
-    % \end{subfigure}
-    % \hfill
-% \end{figure}
-% \begin{figure}[ht]\ContinuedFloat
-%     \begin{subfigure}[b]{0.49\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=176}
-%         \subcaption{caption}
-%     \end{subfigure}
-%     \hfill
-%     \begin{subfigure}[b]{0.499\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=176}
-%         \subcaption{mhm}
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=301}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=201}
-%         \subcaption{caption}
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=400}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=201}
-%         \subcaption{mhm}
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=400}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \caption{Skjærgård without traffic simulation. Result independent of prediction level due to no \gls{Ts}s.}
+% \end{figure}
+% \begin{figure}[ht]\ContinuedFloat
+%     % \begin{subfigure}[b]{0.49\textwidth}
+%     %     \centering
+%     %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=301}
+%     %     \subcaption{}
+%     % \end{subfigure}
+%     % \hfill
+%     % \begin{subfigure}[b]{0.499\textwidth}
+%     %     \centering
+%     %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=301}
+%     %     \subcaption{}
+%     % \end{subfigure}
+%     % \hfill
+%     % \\
+%     \begin{subfigure}[b]{0.49\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=350}
+%         \subcaption{}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.499\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=350}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \\
 %     \begin{subfigure}[b]{0.49\textwidth}
 %         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig1_time=226}
-%         \subcaption{caption}
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=400}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.499\textwidth}
 %         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/Helloya/_Simple_1fig999_time=226}
-%         \subcaption{mhm}
+%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=400}
+%         \subcaption{}
 %     \end{subfigure}
 %     \hfill
-%     \caption{Helloya Situation. Here with simple prediction. \gls{OS} behaves to expectations.}
+%     \caption{SKJÆRGÅRD WITH TRAFFIC. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory.}
 % \end{figure}
 
 \clearpage
-\begin{figure}[!ht] %HELLOYA REVERSE, WITH PREDICTION
-    % \begin{subfigure}[b]{0.49\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig1_time=1}
-    %     \subcaption{caption}
-    % \end{subfigure}
-    % \hfill
-    % \begin{subfigure}[b]{0.499\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig999_time=1}
-    %     \subcaption{mhm}
-    % \end{subfigure}
-    % \hfill
-    % \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig1_time=25}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig999_time=25}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig1_time=75}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig999_time=75}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig1_time=101}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig999_time=101}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-\end{figure}%
-% \begin{figure}[ht]\ContinuedFloat
-    % \begin{subfigure}[b]{0.49\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig1_time=101}
-    %     \subcaption{caption}
-    % \end{subfigure}
-    % \hfill
-    % \begin{subfigure}[b]{0.499\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig999_time=101}
-    %     \subcaption{mhm}
-    % \end{subfigure}
-    % \hfill
-    % \\
-    % \begin{subfigure}[b]{0.49\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig1_time=126}
-    %     \subcaption{caption}
-    % \end{subfigure}
-    % \hfill
-    % \begin{subfigure}[b]{0.499\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig999_time=126}
-    %     \subcaption{mhm}
-    % \end{subfigure}
-    % \hfill
-    % \\ 
-    % \begin{subfigure}[b]{0.49\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig1_time=151}
-    %     \subcaption{caption}
-    % \end{subfigure}
-    % \hfill
-    % \begin{subfigure}[b]{0.499\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig999_time=151}
-    %     \subcaption{mhm}
-    % \end{subfigure}
-    % \hfill
-% \end{figure}
-\begin{figure}[ht]\ContinuedFloat
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig1_time=151}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig999_time=151}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig1_time=201}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig999_time=201}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig1_time=226}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig999_time=226}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    % \\
-    % \begin{subfigure}[b]{0.49\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig1_time=251}
-    %     \subcaption{caption}
-    % \end{subfigure}
-    % \hfill
-    % \begin{subfigure}[b]{0.499\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_0fig999_time=251}
-    %     \subcaption{mhm}
-    % \end{subfigure}
-    % \hfill
-    \caption{Helloya situation in reverse. Here with full prediction, \gls{OS} behaves to expectations.}
-\end{figure}
-
-\clearpage
-\begin{figure}[!ht] %HELLOYA REVERSE, WITHOUT PREDICTION
-    % \begin{subfigure}[b]{0.49\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=1}
-    %     \subcaption{caption}
-    % \end{subfigure}
-    % \hfill
-    % \begin{subfigure}[b]{0.499\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=1}
-    %     \subcaption{mhm}
-    % \end{subfigure}
-    % \hfill
-    % \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=25}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=25}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=75}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=75}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=101}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=101}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-\end{figure}%
-% \begin{figure}[ht]\ContinuedFloat
-    % \begin{subfigure}[b]{0.49\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=101}
-    %     \subcaption{caption}
-    % \end{subfigure}
-    % \hfill
-    % \begin{subfigure}[b]{0.499\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=101}
-    %     \subcaption{mhm}
-    % \end{subfigure}
-    % \hfill
-    % \\
-    % \begin{subfigure}[b]{0.49\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=126}
-    %     \subcaption{caption}
-    % \end{subfigure}
-    % \hfill
-    % \begin{subfigure}[b]{0.499\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=126}
-    %     \subcaption{mhm}
-    % \end{subfigure}
-    % \hfill
-    % \\ 
-    % \begin{subfigure}[b]{0.49\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=151}
-    %     \subcaption{caption}
-    % \end{subfigure}
-    % \hfill
-    % \begin{subfigure}[b]{0.499\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=151}
-    %     \subcaption{mhm}
-    % \end{subfigure}
-    % \hfill
-% \end{figure}
-\begin{figure}[ht]\ContinuedFloat
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=151}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=151}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=201}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=201}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=226}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=226}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    % \\
-    % \begin{subfigure}[b]{0.49\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig1_time=251}
-    %     \subcaption{caption}
-    % \end{subfigure}
-    % \hfill
-    % \begin{subfigure}[b]{0.499\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/Helloya_Rev/_Simple_1fig999_time=251}
-    %     \subcaption{mhm}
-    % \end{subfigure}
-    % \hfill
-    \caption{Helloya situation in reverse. Here with simple prediction, \gls{OS} behaves slightly erratically}
-\end{figure}
-
-
-
 \subsubsection{Skjærgård with Traffic}
 % \begin{itemize}
 %     \iffalse
@@ -2315,415 +2822,6 @@ the feasibility check to forcefully get rid of bad optimal trajectories as initi
     \item When overtaking or being overtaken the constraints can really mess with the \gls{IPOPT} solver.
     \item the optimal solution could get trapped inside static obstacles with the way the constraints are active 'both ways'. please provide picture.
 \end{itemize}
-
-\clearpage
-\begin{figure}[!ht] %SKJÆRGÅRD WITH TRAFFIC WITH PREDICTION
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=25}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=25}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=50}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=50}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=75}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=75}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-\end{figure}%
-\begin{figure}[ht]\ContinuedFloat
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=101}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=101}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=126}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=126}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\ 
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=151}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=151}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-\end{figure}
-\begin{figure}[ht]\ContinuedFloat
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=176}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=176}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=201}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=201}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig1_time=301}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_0fig999_time=301}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \caption{Skjærgård with traffic situation. Here with full prediction.}
-\end{figure}
-
-\clearpage
-\begin{figure}[!ht] %SKJÆRGÅRD WITH TRAFFIC WITHOUT PREDICTION
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig1_time=25}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig999_time=25}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig1_time=50}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig999_time=50}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig1_time=75}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig999_time=75}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-\end{figure}%
-\begin{figure}[ht]\ContinuedFloat
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig1_time=101}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig999_time=101}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig1_time=126}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig999_time=126}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\ 
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig1_time=151}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig999_time=151}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-\end{figure}
-\begin{figure}[ht]\ContinuedFloat
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig1_time=176}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig999_time=176}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig1_time=201}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig999_time=201}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig1_time=301}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_m_trafikk_NEW/_Simple_1fig999_time=301}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \caption{Skjærgård with traffic situation. Here with simple prediction.}
-\end{figure}
-
-\clearpage
-\begin{figure}[!ht] %SKJÆRGÅRD WITHOUT TRAFFIC
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=1}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=1}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    % \begin{subfigure}[b]{0.49\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=50}
-    %     \subcaption{caption}
-    % \end{subfigure}
-    % \hfill
-    % \begin{subfigure}[b]{0.499\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=50}
-    %     \subcaption{mhm}
-    % \end{subfigure}
-    % \hfill
-    % \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=101}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=101}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=151}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=151}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-\end{figure}%
-\begin{figure}[ht]\ContinuedFloat
-    % \begin{subfigure}[b]{0.49\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=151}
-    %     \subcaption{caption}
-    % \end{subfigure}
-    % \hfill
-    % \begin{subfigure}[b]{0.499\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=151}
-    %     \subcaption{mhm}
-    % \end{subfigure}
-    % \hfill
-    % \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=201}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=201}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\ 
-    % \begin{subfigure}[b]{0.49\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=251}
-    %     \subcaption{caption}
-    % \end{subfigure}
-    % \hfill
-    % \begin{subfigure}[b]{0.499\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=251}
-    %     \subcaption{mhm}
-    % \end{subfigure}
-    % \hfill
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=301}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=301}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=400}
-        \subcaption{caption}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.499\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=400}
-        \subcaption{mhm}
-    \end{subfigure}
-    \hfill
-    \caption{Skjærgård without traffic simulation. Result independent of prediction level due to no \gls{Ts}s.}
-\end{figure}
-% \begin{figure}[ht]\ContinuedFloat
-%     % \begin{subfigure}[b]{0.49\textwidth}
-%     %     \centering
-%     %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=301}
-%     %     \subcaption{caption}
-%     % \end{subfigure}
-%     % \hfill
-%     % \begin{subfigure}[b]{0.499\textwidth}
-%     %     \centering
-%     %     \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=301}
-%     %     \subcaption{mhm}
-%     % \end{subfigure}
-%     % \hfill
-%     % \\
-%     \begin{subfigure}[b]{0.49\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=350}
-%         \subcaption{caption}
-%     \end{subfigure}
-%     \hfill
-%     \begin{subfigure}[b]{0.499\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=350}
-%         \subcaption{mhm}
-%     \end{subfigure}
-%     \hfill
-%     \\
-%     \begin{subfigure}[b]{0.49\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig1_time=400}
-%         \subcaption{caption}
-%     \end{subfigure}
-%     \hfill
-%     \begin{subfigure}[b]{0.499\textwidth}
-%         \centering
-%         \includegraphics[width=\textwidth]{Images/Figures/skjergard_u_trafikk/_Simple_1fig999_time=400}
-%         \subcaption{mhm}
-%     \end{subfigure}
-%     \hfill
-%     \caption{SKJÆRGÅRD WITH TRAFFIC. On the left shown with current active dynamic and static constraints. On the right seen with projected future trajectory.}
-% \end{figure}
-
 
 
 \clearpage
@@ -2841,7 +2939,8 @@ the feasibility check to forcefully get rid of bad optimal trajectories as initi
 %    \item Skriv om hvordan det gikk.
 %\end{itemize}
 
-\subsection{Discussion}
+\clearpage
+\subsection{Discussion}\label{CHAP: discussion}
 \begin{itemize}
     \item Hvorfor er viktigere en hva
     \item ikke overanalyser resultat, ikke dra ville konklusjoner.
@@ -2865,6 +2964,23 @@ the feasibility check to forcefully get rid of bad optimal trajectories as initi
     \item Performance is actually quite poor when \gls{Ts} cooperate in ways that were not predicted, because
     that can 'drag' the optimal trajectory along with it.
 \end{itemize}
+
+The static obstacles present in the Canals scenario. proved to be a bit of a challenge, and it was this scenario that prompted the creation of the feasibility check, as well as
+a desire for a better static obstacles implementation. With circular static obstacle constraints this scenario was a nightmare to run due to the exceedingly long
+time to calculate an optimal trajectory. After the new line constraints were introduced a new problem of getting the optimal trajectory
+stuck inside static obstacles was observed, leading to the feasibility check. What used to happen is that when the bottleneck
+was blocked by the dynamic obstacles, the code for finding static obstacles would not catch many of the walls that are behind the bottleneck, leading to
+an optimal trajectory that would sometimes pass through the walls. The next iteration, when the static obstacles algorithm did catch the walls; half
+the optimal trajectory points would be pushed out of the static obstacle, while the other half would be pushed deeper in. An unrecoverable situation without
+the feasibility check to forcefully get rid of bad optimal trajectories as initial guesses.\newline
+Canals also inspired another feature of the algorithm, running the first iteration without any active obstacles. The rationale for this is that
+ideally the \gls{ASV} or autonav running this algorithm would never be turned when a collision is imminent. By not having any active obstacles for the first
+iteration the algorithm is able to find an optimal trajectory a lot faster than normal. This means quickly getting a good initial guess for the next
+iteration when obstacles are turned on.
+
+Constraint placement is just plain bad sometimes...
+
+being overtaken is very bad...
 
 \subsection{Improvements over Previous Version}
 \begin{itemize}

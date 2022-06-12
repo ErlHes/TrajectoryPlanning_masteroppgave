@@ -12,7 +12,7 @@ The goal of the chapter is is to give the reader enough intuition of the applied
 so that it should be easy to quickly navigate and read about specific topics.
 
 
-\subsection{Vessel Modelling} \label{CHAP: Vessel Modelling}
+\subsection{Vessel modelling } \label{CHAP: Vessel Modelling}
 % --------- Genereal thoughts --------------------------
 % Jeg tenker det er best å skrive om modellering i sammenheng med hvordan trajectory planning problemet blir satt opp i MATLAB med CasADi.
 % \begin{itemize}
@@ -65,7 +65,7 @@ thruster dynamics and no external disturbances such as wind or currents. The dyn
 where $\bm{\eta}$ is the pose of the vessel parameterized in the tangetnal plane \gls{NED}, $\bm{\nu}$ are
 the velocities of the vessel, parameterized in the BODY frame of the vessel. And $\bm{\tau}$ are forces and torque applied to the
 system. The \gls{NED} frame can be said to be inertial for short distance control objectives, and in this frame 
-he x-axis points towards true north, the y-axis points east and the z-axis points down towards the center of the planet.
+the x-axis points towards true north, the y-axis points east and the z-axis points down towards the center of the planet.
 Thus; $\bm{\eta} = [x\ , \ y \ , \ \psi]^T \in \mathbb{R}^{3}$ are the vessel's North, East and Heading values, 
 which are the three \gls{DOF} of the system. The velocities $\bm{\nu} = [u\ , \ v \ , \ r]^T \in \mathbb{R}^{3}$ are the
 surge, sway, and yaw rate of the vessel. In the BODY frame there are no fixed rules for where the axis are pointing, but the common convention for modelling
@@ -73,8 +73,7 @@ vehicles is that the x-axis points along the lognitudal axis of the vessel, the 
 and the z-axis points along the vertical axis. This is also seen in Figure \ref{FIG: Ship DOF}.
 The anchor point for the BODY frame is arbitrary but always fixed to the vessel and moves with it. 
 The forces and toruqe $\bm{\tau} = [F_{X}\ , \ F_{Y} \ , \ F_{N}]^T \in \mathbb{R}^{3}$ are the forces acting along
-the logitudal axis, lateral axis, and torque about the vertical axis of the vessel's BODY frame. (TODO: vent hæ? ble plutselig usikker på rammedefinisjonen
-til $\bm{\tau}$. Det stemmer vel at det er BODY?). The rotation matrix \textbf{R}($\psi$) rotates the BODY velocities into \gls{NED} movement about the
+the logitudal axis, lateral axis, and torque about the vertical axis of the vessel's BODY frame. The rotation matrix \textbf{R}($\psi$) rotates the BODY velocities into \gls{NED} movement about the
 vessel's heading, and is definied as:
 \begin{equation}
     \textbf{R}(\psi) = \begin{bmatrix}
@@ -216,10 +215,13 @@ input sequence is the act of trajectory planning.
 
 There are many methods for trajectory planning. Some are conceptually simple and fast to compute, but lack robustness and situational adaptability.
 Other method can be incredibly complex and and computationally expensive, but in return incredibly robust to disturbances and adaptable to
-any situation. An example of a simple trajectory planner would be a \gls{LOS} guidance law while something extremely advanced would be training a deep
-neural network. For an overview: in this thesis a \gls{LOS} guidance law will be applied to generate a reference trajectory, the reference is then used as part of a
-formulation of an \gls{OCP} with a cost to penalize deviation from the reference in addition to other factors. The \gls{OCP} is then discretized
-as a \gls{NLP} problem using a method called direct multiple shooting, finally the \gls{NLP} is solved with an \gls{IPOPT} solver.
+any situation. An example of a simple trajectory planner would be a \gls{LOS} guidance law while something extremely advanced would be training a machine
+learing algorithm. For an overview: in this thesis a \gls{LOS} guidance law will be applied to generate a reference trajectory, the reference is then used as part of a
+formulation of an \gls{OCP} with a cost to penalize deviation from the reference in addition to other factors.
+The \gls{OCP} is then discretized as a \gls{NLP} problem using a method called direct multiple shooting,
+finally the \gls{NLP} is solved with an \gls{IPOPT} solver.
+One of the big advantages of \gls{OCP} is that it allows formulating constraints directly on the states, 
+which is a big deal when it comes to collosion avoidance.
 
 \subsubsection*{Line of Sight Guidance} \label{CHAP: LOS GUIDANCE} % TODO: FÅ INN FIGUR.
 % \begin{itemize}
@@ -250,7 +252,7 @@ and WP\textsubscript{k+1} (x\textsubscript{k+1}, y\textsubscript{k+1}) are:
                                             y - y_k
                                             \end{bmatrix}
 \end{equation}
-where R is the rotation matrix from the inetiral frame to the straight line's frame. $\gamma_p$ is the horizontal path-tangental angle,
+where R is the rotation matrix from the inetiral frame to the straight line's frame. Here, $\gamma_p$ is the horizontal path-tangental angle,
 or the 'angle' of the straight line path in relation to the inetrial frame if that makes more sense, see Figure \ref{FIG: LOS_decomp} for a visual
 decomposition. The rotation matrix \textbf{R} is given by:
 \begin{equation} %% Rotation matrix R(gamma)
@@ -280,7 +282,7 @@ and it's integral when calculating desired heading. The equation for $\dot{y}_{i
     \dot{y}_{int} = y_e
 \end{equation}
 \begin{equation}
-    \psi_d = \gamma_p - \arctan(K_{p}y_e + K_{i}\dot{y}_{int})
+    \psi_d = \gamma_p - \arctan(K_{p}y_e + K_{i} y_{int})
 \end{equation}
 where K\textsubscript{p} and K\textsubscript{i} are gain parameters proportional to the lookahead distance, typically $K_p = (1/\varDelta)$, $K_i = Kp*\kappa$
 with $\kappa > 0$ being some design variable.
@@ -325,7 +327,9 @@ fuel waste, minimizing distance to goal, and there are many more. The general ex
 %     \item However a better generalized formulation was made in \cite{breivik2017mpc}, it's basically the same but expressed in a way that will be easier to use later.
 %     \item The cost function is 
 % \end{itemize}
-Where $f(x)$ is some continuous function, $c_i$ are constraint functions on the system which $f(x)$ exists in, and $\mathcal{E}$ and $\mathcal{I}$ are indices
+Where $f(x)$
+is the objective function where the optimization objectives are encoded.
+The functions $c_i$ are constraint on the system which $f(x)$ exists in, and $\mathcal{E}$ and $\mathcal{I}$ are indices
 pertaining to if the constraint $c_i$ is an equality or inequality constraint. In the context of this thesis the thing to minimize is some nebulous cost function
 associated with path following, and the constraints are the physical model of the system that guarantees feasibility as well as safety constraints to avoid collisions.
 The cost function is then some function of the vessel's state, reference trajectory, and control input. The two constraints are the system dynamics from \eqref{EQ: Vessel Dynamics}
@@ -354,7 +358,7 @@ akin to a weighted least squares: (TODO: Eh, grei formulering?)
     L(\bm{\theta}(t), \bm{\theta}_{ref}(t), \bm{\tau}(t)) = (\bm{\theta}(t) - \bm{\theta}_{ref}(t))^T \textbf{Q} (\bm{\theta}(t) - \bm{\theta}_{ref}(t)) + \textbf{K}_\tau \bm{\tau}^2
 \end{equation}
 Where the diagonal of the \textbf{Q} matrix are the weight coefficients of deviating from the reference
-and \textbf{K}\textsubscript{$\tau$} denote the associated cost of applying force in the three \gls{DOF}.
+and \textbf{K}\textsubscript{$\tau$} is another weighting matrix for applied forces and torques.
 
 Solving the \gls{OCP} can be done using a multitude of methods, \cite{breivik2017mpc} suggest discretizing 
 the \gls{OCP} into a \gls{NLP} using a method called direct multiple shooting.
@@ -397,10 +401,10 @@ The \gls{NLP} is then a reformulation of \eqref{EQ :OCP description} where L is 
     \Phi(\bm{\omega}, \bm{\omega}_{ref_{1:N_p}}) = 
     \sum_{k=0}^{N_{p}-1} ((\bm{\theta}_{k+1} - \bm{\theta}_{ref_{k+1}})^T Q (\bm{\theta}_{k+1} - \bm{\theta}_{ref_{k+1}}) + K_{\bm{\tau}} \bm{\tau_k}^2)
 \end{equation}
-where $\bm{\omega} = [\bm{\theta}_0^T \ , \ \bm{\tau}_0^T \ , \ ... \ , \ \bm{\theta}_{N_{p-1}}^T \ , \ \bm{\tau}_{N_{p-1}}^T \ , \ \bm{\theta}_{N_{p}}^T]^T \in \mathbb{R}^{9N_{p}+6}$
-(TODO: Er det rett at det skal være $N_{p-1}$ i subscript og ikke $NP-1$?).
+where $\bm{\omega} = [\bm{\theta}_0^T \ , \ \bm{\tau}_0^T \ , \ ... \ , \ \bm{\theta}_{N_{p}-1}^T \ , \ \bm{\tau}_{N_{p}-1}^T \ , \ \bm{\theta}_{N_{p}}^T]^T \in \mathbb{R}^{9N_{p}+6}$
+% (TODO: Er det rett at det skal være $N_{p-1}$ i subscript og ikke $NP-1$?).
 is a vector containing $9N_p + 6$ decision variables. % and $\bm{\theta}$ is the same as it was in \ref{EQ :OCP description}.
-Because $\bm{\tau}_k$ does not have an accociated reference in this thesis; it is separated out as it's own part of the function.
+Because $\bm{\tau}_k$ is the control input; it is separated out as it's own part of the function. % Because $\bm{\tau}_k$ does not have an accociated reference in this thesis; it is separated out as it's own part of the function.
 Here, \textbf{Q} is still a sparse 6x6 matrix where the diagonal contain the tuning parameters,
 and \textbf{K}\textsubscript{$\bm{\tau}$} are still tuning parameters on control input. The complete NLP will end up in the form of:
 \begin{subequations}
@@ -414,11 +418,11 @@ and \textbf{K}\textsubscript{$\bm{\tau}$} are still tuning parameters on control
                             \quad & \textbf{g}(\bm{\omega})_{lb} \leq \textbf{g}(\bm{\omega}) \leq \textbf{g}(\bm{\omega})_{ub}
     \end{align}
 \end{subequations}
-where $\bm{\omega}_{lb}$ and $\bm{\omega}_{ub}$ are the lower and upper bounds on the permitted values for $\bm{\omega}$, this is meant to reduce the space searched when
-solving the NLP, as well as limit the decision variables to physically feasible values. \textbf{g}($\bm{\omega}$) is a vector of constraint functions that are similarly bound
+where $\bm{\omega}_{lb}$ and $\bm{\omega}_{ub}$ are the lower and upper bounds on the permitted values for $\bm{\omega}$, this is meant to limit the decision variables to 
+physically feasible values when solving the NLP. \textbf{g}($\bm{\omega}$) is a vector of constraint functions that are similarly bound
 by an lower and upper bounds, where the bounds define if any given function in \textbf{g} is an equality or inequality constraint. Due to the way direct multiple shooting
 defines the decision variables the programmed solver that solves the \gls{NLP} is free to place the states and velocities anywhere within the constraints. It is therefor
-important to implement equality constraints that force the ending of one control interval and the beginning of the next to line up. this is called closing the shooting gaps, 
+important to implement equality constraints that force the ending of one control interval and the beginning of the next to line up. This is called closing the shooting gaps, 
 an illustration of what shooting gaps are can be seen in Figure \ref{FIG: Shooting Gaps}. These equality constraints are called shooting constraints and to create them begin
 by defining an integrator function $\textbf{F}(\bm{\theta}_{k}, \bm{\tau}_k)$ using any technique, in this thesis the following \gls{RK4} method will be used:
 
@@ -453,7 +457,7 @@ Setting the lower and upper bounds for \textbf{g} equals to zero enforces the eq
 is to formulate constraints to ensure a collision free trajectory. Similarly to the shooting constraints the obstacle constraints are also placed in \textbf{g}, their
 formulation is discussed in Chapter \ref{CHAP: COLAV}
 
-The theory behind constructing an \gls{NLP} in a way that a machine can understand and solve it is a topic for a whole new thesis. In this thesis CasADi, (\cite{andersson2019casadi}), is used
+The theory behind constructing an \gls{NLP} in a way that a machine can understand and solve it is a topic for a whole new thesis. In this thesis, CasADi (\cite{andersson2019casadi}), is used
 as a framework for constructing the NLP, the NLP is solved with an \gls{IPOPT} solver, (\cite{wachter2006implementation}), that comes included with CasADi. A practical
 explanation of constructing and solving the NLP is the topic of Chapter \ref{CHAP: Method}.
 
@@ -462,13 +466,13 @@ With the system dynamics modelled, and a control law formulated as an \gls{NLP} 
 selecting a discretized time step size, h, deciding how many control intervals to predict foward in time, and then solving the NLP from any initial condition
 (which will still be discussed in Chapter \ref{CHAP: Method}). Because the \gls{IPOPT} solver
 solves for all control intervals simultaneously, its output contains the optimal trajectory as decided by the selected cost function. It also contains optimal
-velocities and control inputs needed to achieve the desired state, as described by the system dynamics. However it is unrealistic to assume that the
+velocities and control inputs needed to achieve the desired state, as described by the system dynamics. However, it is unrealistic to assume that the
 modelled dynamics are able to perfectly represent reality, blindly following the optimal trajectory is therefor a fool's errand. This is where the
 control technique \gls{MPC} comes into play. \gls{MPC} is a method in which the system is simulated from the present until the end of the control
 period. The first control inputs from the solution are saved and applied to the system for it's next control interval, the rest of the solution is then
 discarded and new measurements of the state of the system are taken. Using the new measurements as the new intial conditions, the process starts over;
 Simulate until the end of control period, apply first control input to next control interval, discard rest of solution, redo measurements, repeat.
-This introduces feedback to the system, which allows it to react and adjust to unexpected disturbances, this greatly increases the robustness of the automated system.
+This introduces feedback to the system, which allows it to react and adjust to unmodelled disturbances, this greatly increases the robustness of the automated system.
 (\cite{qin1997overview}) (TODO: usikker på den her, den er delvis relevant for det som er skrevet.)
 
 % (TODO: REWRITE THIS, SOME PARTS MAKE LITTLE SENSE)\\
@@ -519,55 +523,11 @@ The task at hand can then be separated out into two pieces: Static obstacle avoi
 
 
 \subsubsection*{Static Obstacles} \label{CHAP: static_obs}
-A static obstacle is any object or hindernace in the water that does not move on a timescale comparable to the one of the controlled
-vessel, such as skerries or a pier. The static obstacle $\mathcal{O}_{s_{i}}$ is presumed to be in the form of a polygon with n corners parameterized
-in NED so that:
-\begin{equation}
-    \mathcal{O}_{s_{i}} = \begin{bmatrix}
-                              N_1 & E_1 \\
-                              N_2 & E_2 \\
-                            \vdots & \vdots\\
-                              N_n & E_n
-                            \end{bmatrix}^T
-\end{equation}
-where the point $(N_1 \ , \ E_1)$ is the first point of the polygon defining the obstacle, and the following points are sequential in either a clockwise
-or counter-clockwise direction. With N obstacles that can be put together on the form:
-\begin{equation}
-    \mathcal{O}_s = [\mathcal{O}_{s_{1}} \ , \ \textbf{NaN} \ , \ \mathcal{O}_{s_{2}} \ , \ ... \ , \ \textbf{NaN} \ , \ \mathcal{O}_N] \in \mathbb{R}^{2 \times c}
-\end{equation}
-where $\textbf{NaN} = [NaN \ , \ NaN]^T$ is inserted between each obstacle to separate them, and c is some function of N and n to get the correct column dimension.
-(TODO: wow dette var dårlig beskrevet, alternativ formulering: the column dimension c is dependant on the amount and shape of the obstacles.). 
-When the obstacles are gathered in this form, consrtaints can be generated the followig way:\newline
-Consider a fan of scan lines radiating from the \gls{OS} with fixed length and angle. The intersection
-point between a scan lines and the line between any two columns in $\mathcal{O}_s$ forms the basis of the constraint 
-$\mathbf{o}_{sc} = (o_n \ , \ o_e)$ in NED.\newline
-The constraint function is the cross track error between the position of the vessel and a line orthogonal to the scan line which crosses
-the point $\mathbf{o}_{sc}$, calculated like in \eqref{EQ: cross and along track error}:
-\begin{eqnarray} \label{EQ: Static ye}
-    \mathbf{o}_{sc_{ye}} = -\sin(\gamma_p)*(N-o_n) + \cos(\gamma_p)*(E-o_e)
-\end{eqnarray}
-where (N, E) are the north and east position of the \gls{OS}, and $\gamma_p$ is the angle of the orthogonal line w.r.t NED.
-See Figure \ref{FIG: static_obs_ex} for a visualization of the geometry.
-The scan lines are generated at each discretized step of the reference trajectory, and every found intersection between a 
-line the static obstacles has it's own associated cross track error that is added to the function $\textbf{g}(\omega)$:
-\begin{equation}
-    \textbf{g}(\omega) = \begin{bmatrix}
-        \vdots \\
-        \mathbf{o}_{sc_{ye}} \\
-        \vdots
-    \end{bmatrix}
-\end{equation}
-with the lower bounds of $\textbf{g}(\omega)$ defining the allowed distance beteen the vessel and the constraint lines, while the upper bounds
-should be infinite. This creates a convex free set bound by the static obstacles near the \gls{OS}. 
-(TODO: kutt den siste setningen hvis jeg ikke kommer på mer å skrive.)
-
-\begin{figure}[bh!]
-    \centering
-    \includegraphics[width=0.7\textwidth]{Images/StaticObs_example.pdf}
-    \caption{Geometry for straight line constraints used to handle static obstacles.}
-    \label{FIG: static_obs_ex}
-\end{figure}
-
+(TODO: kan muligens droppe hele dette delkapittelet)
+A static obstacle is any object or hindernace in the water that does not move on a timescale comparable to the one of the \gls{OS}, such as skerries or a pier. 
+Static obstacles are tricky, the way to handle them will depend a lot on how information about obstacles are
+gathered and stored. This aspect of the trajectory planning algorithm is therefor reserved for Chapter \ref{Chap: Method Static Obs}
+which is about this thesis's implementations specifically.
 
 \subsubsection*{COLREGs Compliance}
 The \gls{COLREGs} (\cite{WikisourceCOLREGS}) are a set of rules developed with the purpose of preventing collisions between two or more vessels at sea.
@@ -609,7 +569,7 @@ cannot be avoided by the action of the give-way vessel alone, she shall take suc
 
 These rules are not easily explained to a layperson, and even less easily to a computer algorithm. To formulate the constraints that will
 enforce \gls{COLREGs} compliance it is sensible to start by considering rule 7; is there any risk of collision between the \gls{OS}
-and any other vessel? A common risk assessment tool is to calculate the \gls{dCPA} and \gls{tCPA} between two vessels as shown by (\cite{Kufoalor2018}) and Figure (\ref{FIG: ship CPA}):
+and any other vessel? A common risk assessment tool is to calculate the \gls{dCPA} and \gls{tCPA} between two vessels as shown by \cite{Kufoalor2018} and Figure \ref{FIG: ship CPA}:
 \begin{subequations}    \label{eq:tCPAdCPA}
     \begin{equation}
         t_{AB}^{CPA} = 
@@ -649,13 +609,13 @@ and more intuitive to follow. This method first considers the relative bearing f
 where $(N_{TS}, E_{TS})$ and $(N, E)$ are the positions of the \gls{Ts} and \gls{OS} respectively, and $\chi$ is the course of the \gls{OS}.
 With the \gls{OS} as a centerpiece, 4 sectors can be defined by angles offset from the \gls{OS}'s course, where
 the relative bearing $\phi$ deciding which sector the \gls{Ts} is in. Similarly the relative bearing from the \gls{Ts} to the \gls{OS} can be
-used to determine \gls{COLREGs} situation. See Figure (\ref{FIG: COLREGs Classification}) for a visualization.
+used to determine \gls{COLREGs} situation. See Figure \ref{FIG: COLREGs Classification} for a visualization.
 
 
 With \gls{COLREGs} situation classified the last step is to determine the constraints so that the \gls{OS} behaves compliant with the rules.
 One method, which was written about in the author's fordypningsproject is to add circular regions as consrtaints tied to the position and heading
 of the \gls{Ts} in which the \gls{OS} is in an active situation with. An example of what a singular constraint placed like this would look like
-can be seen in Figure (\ref{FIG: Dynamic Constraint Example}). To achieve this the trajectory of the \gls{Ts} must be discretized with the same
+can be seen in Figure \ref{FIG: Dynamic Constraint Example}. To achieve this the trajectory of the \gls{Ts} must be discretized with the same
 time step size as the \gls{OS}. At each control interval in the \gls{NLP}, using the known values for the heading 
 and position of the \gls{Ts} at that instance $\psi_{TS_{k}}$, $(N_{TS_{k}}, E_{TS_{k}})$, calculate an appropriate constraint origin:
 \begin{equation}
@@ -802,7 +762,7 @@ and outputs a probabilistic heat map of the future trajectory of \gls{Ts}s.
 (TODO: BRIDGE THIS GAP.)\newline
 In a similar sense, (\cite{zhang2021collision}) notes in their survey how massive AIS data can be used for global route optimization by
 creating set waypoints based on the information extracted from massive AIS data.
-This AIS data can easily be compiled by storing the positional data of AIS transpoders over a period of time, as see in Figure (\ref{FIG: AIS lanes}), which
+This AIS data can easily be compiled by storing the positional data of AIS transpoders over a period of time, as see in Figure \ref{FIG: AIS lanes}, which
 is the result of saving data for about three days.
 
 

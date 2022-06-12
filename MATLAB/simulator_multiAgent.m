@@ -105,9 +105,9 @@ end
 % simulation = 'sving_GW';
 % simulation = 'sving_SO';
 % simulation = 'Havn1';
-simulation = 'skjergard_u_trafikk';
+% simulation = 'skjergard_u_trafikk';
 % simulation = 'Helloya';
-% simulation = 'Helloya_Rev';
+simulation = 'Helloya_Rev';
 % simulation = 'skjergard_m_trafikk_NEW';
 % simulation = 'Trheimfjord';
 % Tweak theese
@@ -144,9 +144,9 @@ set_global_map_data(static_obs);
 
 %% Set other global settings
 % settings.simple = 1;
-settings.simple = 0;
+settings.simple = 1;
 settings.big = 0;
-settings.scale = 1;
+settings.scale = 1.4;
 
 %%
 
@@ -171,11 +171,3 @@ end
 vizualization_counter = visualization_interval;
 %% Run Simulations
 run(strcat(home_dir,'/run_simulation.m'));
-
-
-%% Data Saving
-sim_output = struct;
-sim_output.agent_data = agent_data;
-sim_output.time = 0:settings.dt:time-settings.dt;
-sim_output.settings = settings;
-save(strcat(home_dir,'simulations/', simulation, '/sim_output.mat'), 'sim_output');

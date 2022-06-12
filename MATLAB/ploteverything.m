@@ -306,11 +306,11 @@ persistent OS_traj_handle
     if bigsim == 1
         scale = (newaxis(2)-newaxis(1))/760*0.8;
     end
-    legend_size = [305,legend_size_H]*scale;
+    legend_size = [370,legend_size_H]*scale;
     legend_position = settings.legend_position;
 
     if bigsim == 1
-        legend_position = [(yaxis(2)-125);(xaxis(2)-350)];  
+        legend_position = [(yaxis(2)-390);(xaxis(2)-300)]; 
     end
 
     legend_item_height_offset = 15;
@@ -319,7 +319,7 @@ persistent OS_traj_handle
     vessel.eta(1:2) = legend_position + [legend_size(2)-legend_item_height_offset*scale; scale*25];
     vessel.eta(3,1) = -pi/2;
     handle_OS_legend = plot_os_from_struct(vessel, 'b', 4.0*scale);
-    thandle_OS = text(vessel.eta(2)+scale*25, vessel.eta(1), 'Own ship', 'fontsize',13);
+    thandle_OS = text(vessel.eta(2)+scale*25, vessel.eta(1), 'Own ship', 'fontsize',21);
     graph_handles(HC1) = handle_whitesquare;
     HC1 = HC1 + 1;
     graph_handles(HC1) = handle_OS_legend;
@@ -332,7 +332,7 @@ persistent OS_traj_handle
         vessel.eta(1:2) = legend_position + [legend_size(2)-legend_item_height_offset*scale; scale*25];
         vessel.eta(3,1) = -pi/2;
         handle_ = plot_ts_from_struct(vessel, 'r' ,4.0*scale);
-        thandle = text(vessel.eta(2)+scale*25, vessel.eta(1), 'Target ships', 'fontsize',13);
+        thandle = text(vessel.eta(2)+scale*25, vessel.eta(1), 'Target ships', 'fontsize',21);
         graph_handles(HC1) = handle_;
         HC1 = HC1 + 1;
         graph_handles(HC1) = thandle;
@@ -347,7 +347,7 @@ persistent OS_traj_handle
     line_end   = legend_position + [legend_size(2)-legend_item_height_offset*scale; scale*40];
     line = [line_start,line_mid1,line_mid2,line_end];
     handle_ = plot(line(2,:), line(1,:),'b--', 'linewidth',2);
-    thandle = text(line_end(2)+10*scale, line_start(1), 'Own ship trajectory', 'fontsize',13);
+    thandle = text(line_end(2)+10*scale, line_start(1), 'Own ship trajectory', 'fontsize',21);
     graph_handles(HC1) = handle_;
     HC1 = HC1 + 1;
     graph_handles(HC1) = thandle;
@@ -361,7 +361,7 @@ persistent OS_traj_handle
         line_end   = legend_position + [legend_size(2)-legend_item_height_offset*scale; scale*40];
         line = [line_start,line_mid1,line_mid2,line_end];
         handle_ = plot(line(2,:), line(1,:),'r--', 'linewidth',2);
-        thandle = text(line_end(2)+10*scale, line_start(1), 'Target ship trajectory', 'fontsize',13);
+        thandle = text(line_end(2)+10*scale, line_start(1), 'Target ship trajectory', 'fontsize',21);
         graph_handles(HC1) = handle_;
         HC1 = HC1 + 1;
         graph_handles(HC1) = thandle;
@@ -372,7 +372,7 @@ persistent OS_traj_handle
     if ~isempty(static_obs_collection)
         position = legend_position + [legend_size(2)-legend_item_height_offset*scale; scale*25];
         handle_ = legend_filled_square(position, 30*scale, get_rgb('land'));
-        thandle = text(position(2) + scale*25, position(1), 'Static obstacles', 'fontsize',13);
+        thandle = text(position(2) + scale*25, position(1), 'Static obstacles', 'fontsize',21);
         graph_handles(HC1) = handle_;
         HC1 = HC1 + 1;
         graph_handles(HC1) = thandle;
@@ -382,7 +382,7 @@ persistent OS_traj_handle
     if ~isempty(static_obs_collection) && ~isempty(previous_linex)
         position = legend_position + [legend_size(2)-legend_item_height_offset*scale; scale*25];
         handle_ =  legend_filled_rectangle(position, 30*scale, static_obs_color);
-        thandle = text(position(2) + scale*25, position(1), 'Static obstacles constraint', 'fontsize',13);
+        thandle = text(position(2) + scale*25, position(1), 'Static obstacles constraint', 'fontsize',21);
         graph_handles(HC1) = handle_;
         HC1 = HC1 + 1;
         graph_handles(HC1) = thandle;
@@ -396,7 +396,7 @@ persistent OS_traj_handle
         xunit = 7*scale * cos(th) + position(2);
         yunit = 7*scale  * sin(th) + position(1);
         handle_ = plot(xunit,yunit,'r');
-        thandle = text(position(2)+scale*25, position(1), 'Dynamic obstacles constraint (first 10)', 'fontsize',13);
+        thandle = text(position(2)+scale*25, position(1), 'Dynamic obstacles constraint', 'fontsize',21);
         graph_handles(HC1) = handle_;
         HC1 = HC1 + 1;
         graph_handles(HC1) = thandle;
@@ -404,9 +404,10 @@ persistent OS_traj_handle
 
 
     hold off;
+    set(gca,'color',sea, 'FontSize',16);
     xlabel('East [m]','FontSize',23);
     ylabel('North [m]','FontSize',23);
-    set(gca,'color',sea);
+%     set(gcf,'color','w', 'position',[3442 779 1438 1174]);
 %     % Make legend vector:
 %     leg_vekt = [handle_OS];
 %     
@@ -486,11 +487,11 @@ persistent OS_traj_handle
 
 
     %% CUSTOM LEGEND FOR W_OPT PLOT
-    legend_size = [250,legend_size_H]*scale;
+    legend_size = [330,legend_size_H]*scale;
     legend_position = settings.legend_position;
 
     if bigsim == 1
-        legend_position = [(yaxis(2)-125);(xaxis(2)-350)];  
+        legend_position = [(yaxis(2)-390);(xaxis(2)-300)];  
     end
 
     legend_item_height_offset = 15;
@@ -505,7 +506,7 @@ persistent OS_traj_handle
     line_end   = legend_position + [legend_size(2)-legend_item_height_offset*scale; scale*40];
     line = [line_start,line_mid1,line_mid2,line_end];
     handle_ = plot(line(2,:), line(1,:),'color',w_opt_color,'LineStyle','none', 'MarkerSize',5,'Marker','o','MarkerFaceColor',w_opt_color);
-    thandle_ = text(line_end(2)+10*scale, line_start(1), 'Optimal trajectory', 'fontsize',13);
+    thandle_ = text(line_end(2)+10*scale, line_start(1), 'Optimal trajectory', 'fontsize',21);
     graph_handles2(HC2) = handle_;
     HC2 = HC2 + 1;
     graph_handles2(HC2) = thandle_;
@@ -516,7 +517,7 @@ persistent OS_traj_handle
     line_end = line_end + line_delta;
     line = [line_start, line_end]; 
     handle_ = plot(line(2,:), line(1,:),'color',path_color,'LineStyle','-', 'linewidth',2,'Marker','none');
-    thandle_ = text(line_end(2)+10*scale, line_start(1), 'Reference path ', 'fontsize',13);
+    thandle_ = text(line_end(2)+10*scale, line_start(1), 'Reference path ', 'fontsize',21);
     graph_handles2(HC2) = handle_;
     HC2 = HC2 + 1;
     graph_handles2(HC2) = thandle_;
@@ -529,7 +530,7 @@ persistent OS_traj_handle
     line_end   = legend_position + [legend_size(2)-legend_item_height_offset*scale; scale*40];
     line = [line_start,line_mid1,line_mid2,line_end];
     handle_ = plot(line(2,:), line(1,:),'color',ref_color,'LineStyle','--', 'linewidth',2);
-    thandle_ = text(line_end(2)+10*scale, line_start(1), 'Reference trajectory', 'fontsize',13);
+    thandle_ = text(line_end(2)+10*scale, line_start(1), 'Reference trajectory', 'fontsize',21);
     graph_handles2(HC2) = handle_;
     HC2 = HC2 + 1;
     graph_handles2(HC2) = thandle_;
@@ -539,7 +540,7 @@ persistent OS_traj_handle
     vessel.eta(1:2) = legend_position + [legend_size(2)-legend_item_height_offset*scale; scale*25];
     vessel.eta(3,1) = -pi/2;
     handle_OS_legend = plot_os_from_struct(vessel, 'b', 4.0*scale);
-    thandle_OS = text(vessel.eta(2)+scale*25, vessel.eta(1), 'Own ship', 'fontsize',13);
+    thandle_OS = text(vessel.eta(2)+scale*25, vessel.eta(1), 'Own ship', 'fontsize',21);
     graph_handles2(HC2) = handle_whitesquare;
     HC2 = HC2 + 1;
     graph_handles2(HC2) = handle_OS_legend;
@@ -552,7 +553,7 @@ persistent OS_traj_handle
         vessel.eta(1:2) = legend_position + [legend_size(2)-legend_item_height_offset*scale; scale*25];
         vessel.eta(3,1) = -pi/2;
         handle_ = plot_ts_from_struct(vessel, 'r' ,4.0*scale);
-        thandle = text(vessel.eta(2)+scale*25, vessel.eta(1), 'Target ships', 'fontsize',13);
+        thandle = text(vessel.eta(2)+scale*25, vessel.eta(1), 'Target ships', 'fontsize',21);
         graph_handles2(HC2) = handle_;
         HC2 = HC2 + 1;
         graph_handles2(HC2) = thandle;
@@ -563,7 +564,7 @@ persistent OS_traj_handle
     if ~isempty(static_obs_collection)
         position = legend_position + [legend_size(2)-legend_item_height_offset*scale; scale*25];
         handle_ = legend_filled_square(position, 30*scale, get_rgb('land'));
-        thandle = text(position(2) + scale*25, position(1), 'Static obstacles', 'fontsize',13);
+        thandle = text(position(2) + scale*25, position(1), 'Static obstacles', 'fontsize',21);
         graph_handles2(HC2) = handle_;
         HC2 = HC2 + 1;
         graph_handles2(HC2) = thandle;
@@ -578,7 +579,7 @@ persistent OS_traj_handle
         line_end   = legend_position + [legend_size(2)-legend_item_height_offset*scale; scale*40];
         line = [line_start,line_mid1,line_mid2,line_end];
         handle_ = plot(line(2,:), line(1,:),'rx', 'linewidth',1);
-        thandle = text(line_end(2)+10*scale, line_start(1), 'Dynamic constraint origin', 'fontsize',13);
+        thandle = text(line_end(2)+10*scale, line_start(1), 'Dynamic constraint origin', 'fontsize',21);
         graph_handles2(HC2) = handle_;
         HC2 = HC2 + 1;
         graph_handles2(HC2) = thandle;
@@ -586,9 +587,10 @@ persistent OS_traj_handle
     
     hold off;
 %     title('Projected future trajectory');
+    set(gca,'color',sea, 'FontSize',16);
     xlabel('East [m]','FontSize',23);
     ylabel('North [m]','FontSize',23);
-    set(gca,'color',sea);
+%     set(gcf,'color','w', 'position',[3442 779 1438 1174]);
 
     plots = [];
     counter = counter + 1;

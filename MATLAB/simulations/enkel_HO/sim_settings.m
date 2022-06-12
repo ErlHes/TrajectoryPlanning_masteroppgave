@@ -6,5 +6,5 @@ settings.axis = [0,100,0, 100];
 
 settings.block = 1;
 
-settings.legend_position = [70,70]';
+settings.legend_position = [80,0]';
 settings.legend_size = [170,80]';

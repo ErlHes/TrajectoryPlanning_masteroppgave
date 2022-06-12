@@ -2,6 +2,9 @@
 % This scripts runs the miltiAgent simulator
 
 %%
+Autosavetime = [45, 75, 110, 155, 190, 225];
+
+%%
 time = 0;
 iteration = 1;
 bigsim = settings.big;
@@ -14,7 +17,7 @@ tic;
 
 
 fig_filename = simulation;
-    figure_filepos = strcat('C:\Users\erlen\Documents\GitHub\TrajectoryPlanning_masteroppgave\Rapport\Images\Figures\',simulation,'/');
+    figure_filepos = strcat('C:\Users\erlen\Documents\GitHub\TrajectoryPlanning_masteroppgave\Rapport\Images\NewFigures\',simulation,'/');
 
 if(parameters.system.make_video)
     clear('F')
@@ -83,15 +86,7 @@ while time < settings.t_sim
         
        
         if(vizualization_counter==0 && visualization)
-
-            if bigsim == 1
-                xaxis = [agents(end).eta(2) - 200, agents(end).eta(2) + 200];
-                yaxis = [agents(end).eta(1) - 200, agents(end).eta(1) + 200];
-                newaxis = [xaxis, yaxis];
-                axis(newaxis); % FOR BIG SIMS
-            end
-
-
+        
             figure(1)
             hold on;
             if bigsim 
@@ -99,9 +94,9 @@ while time < settings.t_sim
             else
                 text_handle = text(20,20,strcat('t =  ', num2str(time),'s'), 'fontsize',22);
             end
-
             graph_handles = [graph_handles;text_handle];
             hold off;
+
             figure(999)
             hold on;
             if bigsim 
@@ -111,12 +106,6 @@ while time < settings.t_sim
             end
             graph_handles = [graph_handles;text_handle];
             hold off;
-
-            if mod(time-0.1,25) < 1
-%                 dummy = 'thick';
-%             saveas(999,strcat(figure_filepos,simplicity,'fig999_','time=',num2str(time-0.1)),'fig');
-%             saveas(1,strcat(figure_filepos,simplicity,'fig1_','time=',num2str(time-0.1)),'fig');
-            end
 
             if(j==size(agents,2))
 %                 figure(600);
@@ -144,6 +133,33 @@ while time < settings.t_sim
             end
         end
    end
+
+    if bigsim == 1
+                xaxis = [agents(end).eta(2) - 200, agents(end).eta(2) + 200];
+                yaxis = [agents(end).eta(1) - 200, agents(end).eta(1) + 200];
+                newaxis = [xaxis, yaxis];
+                axis(newaxis); % FOR BIG SIMS
+    end
+
+    
+    %             if mod(time-0.1,25) < 1
+    if ismembertol(time,Autosavetime,0.0001)
+        % dummy = 'thick';
+        figure(999);
+        set(999,'InvertHardCopy', 'off','color','w', 'position',[3442 779 1438 1174]);
+        exportgraphics(gcf,strcat(figure_filepos,simplicity,'fig999_','time=',num2str(time),'.pdf'),'ContentType','vector')
+    
+        figure(1)
+        set(1, 'InvertHardCopy', 'off','color','w', 'position',[3442 779 1438 1174]);
+        exportgraphics(gcf,strcat(figure_filepos,simplicity,'fig1_','time=',num2str(time),'.pdf'),'ContentType','vector')
+
+
+%         saveas(999,strcat(figure_filepos,simplicity,'fig999_','time=',num2str(time)),'epsc');
+%         saveas(1,strcat(figure_filepos,simplicity,'fig1_','time=',num2str(time)),'epsc');
+    end
+
+
+
     agent_data(iteration,:) = agents;
     
     time = time + settings.dt;

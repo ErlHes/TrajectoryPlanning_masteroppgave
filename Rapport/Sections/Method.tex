@@ -617,7 +617,7 @@ but testing showed that it was faster to do it this way than pre-allocating a li
 %     \item Tror dette delkapittelet er litt unødvendig
 % \end{itemize}
 
-\subsubsection*{Integration step}
+\subsubsection*{Integration step} \label{CHAP: integration step}
 % \begin{itemize}
 %     \item Getting the correct reference
 %     \item make sure all the indexes are correct!
@@ -714,6 +714,12 @@ The new control interval now needs constraints to ensure a collision free trajec
 First check if there are any constraints, if there are none the whole step can simply be skipped. Similarly we want to skip
 this step if it's the first time the algorithm is run, the reason why discussed later. (TODO: HUSK DETTE)
 
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.66\textwidth]{Images/StaticObs_Naive.pdf}
+    \caption{First approach to placing static obstacle constraints, accurate but lead to overload of constraints and poor computational performance.}     \label{FIG: Static Obs Naive approach 1}
+\end{figure}
+
 Next, iterate through all the \gls{Ts}s in the tracks struct and check their assigned COLREGs flags.
 Each COLREGs situation should have their own constraint locations, however the exact optimality of placement
 will depend on situation complexity, available space, velocities of the ships involved, and other factors. In
@@ -735,11 +741,6 @@ where offset is the angle offset from the \gls{Ts}'s heading, and the Offsetdist
 as shown in \eqref{EQ: dynamic constraint in g} while the square of the desired radius of the constraint is placed in
 $\textbf{g}(\bm{\omega})_{lb}$.
 
-\begin{figure}[ht!]
-    \centering
-    \includegraphics[width=0.66\textwidth]{Images/StaticObs_Naive.pdf}
-    \caption{First approach to placing static obstacle constraints, accurate but lead to overload of constraints and poor computational performance.}     \label{FIG: Static Obs Naive approach 1}
-\end{figure}
 
 \begin{figure}[ht!]
     \centering 
@@ -747,7 +748,7 @@ $\textbf{g}(\bm{\omega})_{lb}$.
     \caption{Second approach to placing static obstacle constraints, avoiding the constraint overload at the cost of greatly reducing available space.}     \label{FIG: Static Obs Naive approach 2}
 \end{figure}
 
-\subsubsection*{Static Obstacles constraints}
+\subsubsection*{Static Obstacles constraints} \label{Chap: Method Static Obs}
 % \begin{itemize}
 %     \item Explain static\_obstacles\_check and the theory for convex-free set
 %     \item explain why circles, such as the ones used for dynamic obstacles are insufficient.
@@ -774,23 +775,77 @@ $\textbf{g}(\bm{\omega})_{lb}$.
 %     \item with the intersection point and angle of line the constraint function \eqref{EQ: Static ye}
 % \end{itemize}
 
+%% LIMT INN FRA BACKGROUND; BAK INN I TEKSTEN
+A singular static obstacle $\mathcal{O}_{s_{i}}$ is presumed to be in the form of a polygon with n corners parameterized
+in NED so that:
+\begin{equation}
+    \mathcal{O}_{s_{i}} = \begin{bmatrix}
+                              N_1 & E_1 \\
+                              N_2 & E_2 \\
+                            \vdots & \vdots\\
+                              N_n & E_n
+                            \end{bmatrix}^T
+\end{equation}
+where the point $(N_1 \ , \ E_1)$ is the first point of the polygon defining the obstacle, and the following points are sequential in either a clockwise
+or counter-clockwise direction. With N obstacles that can be put together on the form:
+\begin{equation}
+    \mathcal{O}_s = [\mathcal{O}_{s_{1}} \ , \ \textbf{NaN} \ , \ \mathcal{O}_{s_{2}} \ , \ ... \ , \ \textbf{NaN} \ , \ \mathcal{O}_N] \in \mathbb{R}^{2 \times c}
+\end{equation}
+where $\textbf{NaN} = [NaN \ , \ NaN]^T$ is inserted between each obstacle to separate them, 
+and the column dimension c is dependant on the amount and shape of the obstacles.
+%%
+
 Properly incorporating static obstacles into the algorithm proved to be a bit of a hassle. The first solution, seen in 
-Figure (\ref{FIG: Static Obs Naive approach 1}), was to iterate through every polygon in the static obstacle matrix, interpolating
+Figure \ref{FIG: Static Obs Naive approach 1}, was to iterate through every polygon in the static obstacle matrix, interpolating
 every edge to create a saturation of points that would be used as the center for circular constraints, akin to the dynamic
 obstacles. This was a terrible idea because it meant simulations with lots of static obstacles ended up having hundreds of thounsands
 of constraints, which made the \gls{NLP} impossible to solve. 
-The second solution, Seen in Figure (\ref{FIG: Static Obs Naive approach 2}), was to increase the size of the circular constraints
+The second solution, seen in Figure \ref{FIG: Static Obs Naive approach 2}, was to increase the size of the circular constraints
 significantly so that less were needed. This worked for a while during initial testing and experiments, 
 but eventually proved to obstruct far too much usable space. This was especially
 noticeable in tighter corridors of water such as a canal or near a pier. Constraints could also end up blocking the waters
 on the other side of a static obstacle, potentially making it impossible to traverse around oblong static obstacles.
-Eventually the idea of the scan lines discussed in Chapter (\ref{CHAP: static_obs}) came about. At first the scan lines
+Eventually the idea of the scan lines came about. At first the scan lines
 were going to be used to place circular constraints, but it didn't take long to realize that reusing the logic of cross track
-error from LOS guidance would be a much better idea. The current implementation for static obstacles are seen in 
-Figure (\ref{FIG: Static Obs Lines}) and are computationally very efficient whilst still being very effective at stopping the
-\gls{OS} from colliding with walls. 
+error from LOS guidance would be a much better idea. 
 
-\begin{figure}[ht!]
+% When the obstacles are gathered in this form, consrtaints can be generated the followig way:\newline
+In the final version of the algorith, static obstacle constraints can be generated the following way:\newline
+Consider a fan of scan lines radiating from the \gls{OS} with fixed length and angle. The intersection
+point between a scan lines and the line between any two columns in $\mathcal{O}_s$ forms the basis of the constraint 
+$\mathbf{o}_{sc} = (o_n \ , \ o_e)$ in NED.\newline
+The constraint function is the cross track error between the position of the vessel and a line orthogonal to the scan line which crosses
+the point $\mathbf{o}_{sc}$, calculated like in \eqref{EQ: cross and along track error}:
+\begin{eqnarray} \label{EQ: Static ye}
+    \mathbf{o}_{sc_{ye}} = -\sin(\gamma_p)*(N-o_n) + \cos(\gamma_p)*(E-o_e)
+\end{eqnarray}
+where (N, E) are the north and east position of the \gls{OS}, and $\gamma_p$ is the angle of the orthogonal line w.r.t NED.
+See Figure \ref{FIG: static_obs_ex} for a visualization of the geometry.
+The scan lines are generated at each discretized step of the reference trajectory, and every found intersection between a 
+line the static obstacles has it's own associated cross track error that is added to the function $\textbf{g}(\omega)$:
+\begin{equation}
+    \textbf{g}(\omega) = \begin{bmatrix}
+        \vdots \\
+        \mathbf{o}_{sc_{ye}} \\
+        \vdots
+    \end{bmatrix}
+\end{equation}
+with the lower bounds of $\textbf{g}(\omega)$ defining the allowed distance beteen the vessel and the constraint lines, while the upper bounds
+should be infinite. This creates a convex free set bound by the static obstacles around the reference trajectory. 
+(TODO: kutt den siste setningen hvis jeg ikke kommer på mer å skrive.)
+
+\begin{figure}[th!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Images/StaticObs_example.pdf}
+    \caption{Geometry for straight line constraints used to handle static obstacles.}
+    \label{FIG: static_obs_ex}
+\end{figure}
+
+% The current implementation for static obstacles are seen in 
+% \ref{FIG: Static Obs Lines} and are computationally very efficient whilst still being very effective at stopping the
+% \gls{OS} from colliding with walls. 
+
+\begin{figure}[hb!]
     \centering
     \includegraphics[width=\textwidth]{Images/StaticObs_lines.pdf}
     \caption{Current approach to placing static obstacle constraints, 
@@ -806,7 +861,7 @@ This will create a slight distortion in where the static obstacles end up being 
 the closer we are to the current position of the \gls{OS}, so it's not that big of a deal as the problem corrects itself when it draws near. (TODO: denne distortionen er ikke forklart noe særlig.
 det kommer jo av forskjell mellom forrige optimale bane og ny optimal bane kan føre til at statiske hindringer som burde eksistere ikke gjør det eller motsatt.)
 
-while iterating through the selected trajectory the scanlines are fairly easy to construct, but conducting the intersection check is actually very complicated. Luckily
+While iterating through the selected trajectory the scanlines are fairly easy to construct, but conducting the intersection check is actually very complicated. Luckily
 there exists a MATLAB function for just this purpose, polyxpoly, which comes as part of the MATLAB mapping toolbox. Polyxpoly outputs the x, y, 
 and an index for which polygon edge were part of the intersection. It does this for every intersection it find, when we run the check using all the scanlines
 and all the static obstacle polygons at the same time this can lead to some duplicate hits. In a similar vein it is possible for a scanline to completely pass through
