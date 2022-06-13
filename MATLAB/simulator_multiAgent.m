@@ -105,7 +105,7 @@ end
 % simulation = 'sving_GW';
 % simulation = 'sving_SO';
 % simulation = 'Havn1';
-simulation = 'skjergard_u_trafikk';
+% simulation = 'skjergard_u_trafikk';
 % simulation = 'Helloya';
 % simulation = 'Helloya_Rev';
 % simulation = 'skjergard_m_trafikk_NEW';
@@ -119,7 +119,7 @@ simulation = 'skjergard_u_trafikk';
 % simulation = 'Race';
 
 %% Other debugging
-% simulation = 'WrongTurn';
+simulation = 'WrongTurn';
 
 %% Gather simulation parameters
 

@@ -218,6 +218,7 @@ g_counter = 7;
         if k > 0
             eta_ref(3) = previous_eta_ref(3) + ssa(eta_ref(3) - previous_eta_ref(3));
             previous_eta_ref = eta_ref; 
+
 %             unwrap_diff = abs(eta_ref(3) - previous_eta_ref(3));
 %             wrap_diff = abs(wrapTo2Pi(eta_ref(3)) - previous_eta_ref(3));
 % 

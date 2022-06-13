@@ -80,7 +80,8 @@ steady course and fixed speed. The agents then cross in manners as described by 
 \subsubsection*{Turning COLREGs Situations}
 Similar to the simple \gls{COLREGs} situations these scenarios all feature two agents who enter a fully open space. The difference
 is as the name implies that these scenarios feature a turn by the \gls{Ts}. Shortly after both agents are in motion the \gls{Ts}
-will alter its course, changing the COLREGs situation from one apparent situation to another.
+will alter its course, changing the COLREGs situation from one apparent situation to another. These scenarios were made to see if
+a difference between prediction level can be eked out in open water conditions. 
 
 \subsubsection*{Canals}
 This scenario features a set of canals that form a T-junction as well as a choke point on one of the junction points that restricts
@@ -104,7 +105,7 @@ Skjærgård is a Norwegian term for a section of ocean where there are many smal
 This scenario puts a lot of stress on the trajectory planner which has to deal with both moving dynamic obstacles and the static obstacles that are sometimes blocking the reference path.
 
 \subsubsection*{Skjærgård Without Traffic}
-A simpler version of the previous scenario, this time with no traffic but with more skerries near the reference path.
+A simpler archipelago scenario, this scenario was designed to stress test the algorithm's capacity for handling static obstacles.
 
 \subsubsection*{Miscellaneous}
 These scenarios are not meant to simulate any specific situation, rather these are meant to showcase quirks, features, and bugs
@@ -195,7 +196,7 @@ Rest of page intentionally left empty for formatting
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Simple Head-on situation. Result independent of prediction level.}
+    \caption{Simple Head-on. Result independent of prediction level.}
     \label{FIG: Simple HO}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
@@ -348,7 +349,7 @@ Rest of page intentionally left empty for formatting
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Simple Give-way situation. Result independent of prediction level.}
+    \caption{Simple Give-way. Result independent of prediction level.}
     \label{FIG: simple GW}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
@@ -501,7 +502,7 @@ Rest of page intentionally left empty for formatting
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Simple Stand-on situation. Here shown with full prediction, \gls{OS} correctly stands on.}
+    \caption{Simple Stand-on. Here shown with full prediction, \gls{OS} correctly stands on.}
     \label{FIG: simple SO full pred}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
@@ -585,7 +586,7 @@ Rest of page intentionally left empty for formatting
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Simple Stand-on situation. Here shown with simple prediction, the \gls{OS} can be observed to yield when it shouldn't.}
+    \caption{Simple Stand-on. Here shown with simple prediction, the \gls{OS} can be observed to yield when it shouldn't.}
     \label{FIG: Simple SO simple pred}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
@@ -627,7 +628,7 @@ Rest of page intentionally left empty for formatting
 The simple situations are not really meant to test anything, rather this scenario and the others are used for establishing
 a baseline of capabilities. For example for this scenario specifically it is established that the OS will always attempt to
 pass the head-on vessel on the port side when the conditions are ideal. This result holds for both simple and
-full prediction levels. The result for this scenario is seen in Figure \ref{FIG: Simple HO}
+full prediction levels. The result for this scenario is seen in Figure \ref{FIG: Simple HO}.
 
 \subsubsection{Simple Give-Way}
 % \begin{itemize}
@@ -641,7 +642,7 @@ simple scenario is when obstacles are enabled on the second iteration of the alg
 trajectory and causes it to be infeasible. This is more clearly observed in the video version. When the infeasibility is detected
 the next result is a much shorter path as the speed is reduced, and then finally the full trajectory that gives way is found.
 This very simple simulation highlights one of the potential problems with the algorithm, if it's turned on while the OS is in an active
-COLREGs situation performance might be poor. The results are seen in Figure \ref{FIG: simple GW}
+COLREGs situation performance might be poor. The results are seen in Figure \ref{FIG: simple GW}.
 
 \subsubsection{Simple Stand-On}
 % \begin{itemize}
@@ -716,7 +717,7 @@ The simple prediction version on the other hand, seen in Figure \ref{FIG: Simple
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Head-on situation with a turn, Result for this were the same regardless of prediction level.}
+    \caption{Head-on with a turn. Result for this were the same regardless of prediction level.}
     \label{FIG: Turn HO}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
@@ -869,7 +870,7 @@ The simple prediction version on the other hand, seen in Figure \ref{FIG: Simple
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Give-way with a turn, here with full prediction. Observe the \gls{OS} not execting to have to yield until it's almost too late.}
+    \caption{Give-way with a turn, here with full prediction. Observe the \gls{OS} not expecting to have to yield until it's almost too late.}
     \label{FIG: turn GW full pred}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
@@ -1037,7 +1038,7 @@ The simple prediction version on the other hand, seen in Figure \ref{FIG: Simple
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Stand-on situation with turn. Result independent of prediction level.}
+    \caption{Stand-on with turn. Result independent of prediction level.}
     \label{FIG: turn SO}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
@@ -1147,7 +1148,7 @@ Very similar result to the straight path head-on situation, which is not entirel
 has become very obvious with hindsight is that the incoming TS should have approached from northwest instead of northeast. That way
 any a poorly calculated optimal trajectory would have been dragged towards the wrong side for the crossing. Instead, as the situation is set
 up the trajectory will always be pushed towards crossing on the correct side. (TODO: kanskje forklar dette bedre?).
-The results for this scenario are seen in Figure \ref{FIG: Turn HO}
+The results for this scenario are seen in Figure \ref{FIG: Turn HO}.
 
 \subsubsection{Turn Give-Way}
 % \begin{itemize}
@@ -1249,8 +1250,7 @@ but it's not very interesting to read or write about. The results are seen in Fi
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Canals situation. Here shown with full prediction.}
-
+    \caption{Canals. Here shown with full prediction.}
 \end{figure}
 % \begin{figure}[ht]\ContinuedFloat
 %     \begin{subfigure}[b]{0.49\textwidth}
@@ -1350,7 +1350,7 @@ but it's not very interesting to read or write about. The results are seen in Fi
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Canals situation. Here shown with simple prediction.}
+    \caption{Canals. Here shown with simple prediction.}
 
 \end{figure}
 % \begin{figure}[ht]\ContinuedFloat
@@ -1451,7 +1451,7 @@ but it's not very interesting to read or write about. The results are seen in Fi
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Fjord situation. Here shown with full prediction. Observe the \gls{OS} handles the stress test pretty well.}
+    \caption{Fjord. Here shown with full prediction. Observe the \gls{OS} handles the stress test pretty well.}
 
 \end{figure}
 
@@ -1580,7 +1580,7 @@ but it's not very interesting to read or write about. The results are seen in Fi
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Fjord situation. Here shown with simple prediction. Observe the \gls{OS} behaves much more erratically compared to the full prediction level.}
+    \caption{Fjord. Here shown with simple prediction. Observe the \gls{OS} behaves much more erratically compared to the full prediction level.}
 
 \end{figure}
 
@@ -1649,7 +1649,7 @@ but it's not very interesting to read or write about. The results are seen in Fi
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Helloya Situation. Here, \gls{OS} behaves to expectations independently of prediction level.}
+    \caption{Helløya. Here, the \gls{OS} behaves to expectations independently of prediction level.}
     \label{FIG: Helloya normal}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
@@ -2029,7 +2029,7 @@ but it's not very interesting to read or write about. The results are seen in Fi
     %     \subcaption{}
     % \end{subfigure}
     % \hfill
-    \caption{Helloya situation in reverse. Here with full prediction, \gls{OS} behaves to expectations.}
+    \caption{Helløya in reverse. Here with full prediction, the \gls{OS} behaves to expectations.}
 
 \end{figure}
 
@@ -2050,39 +2050,39 @@ but it's not very interesting to read or write about. The results are seen in Fi
     % \\
     \begin{subfigure}[b]{0.494\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig1_time=45}
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_1fig1_time=45}
         \subcaption{}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.494\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig999_time=45}
-        \subcaption{}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.494\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig1_time=75}
-        \subcaption{}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.494\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig999_time=75}
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_1fig999_time=45}
         \subcaption{}
     \end{subfigure}
     \hfill
     \\
     \begin{subfigure}[b]{0.494\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig1_time=110}
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_1fig1_time=75}
         \subcaption{}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.494\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig999_time=110}
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_1fig999_time=75}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_1fig1_time=110}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_1fig999_time=110}
         \subcaption{}
     \end{subfigure}
     \hfill
@@ -2132,39 +2132,39 @@ but it's not very interesting to read or write about. The results are seen in Fi
 \begin{figure}[ht]\ContinuedFloat
     \begin{subfigure}[b]{0.494\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig1_time=155}
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_1fig1_time=155}
         \subcaption{}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.494\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig999_time=155}
-        \subcaption{}
-    \end{subfigure}
-    \hfill
-    \\
-    \begin{subfigure}[b]{0.494\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig1_time=190}
-        \subcaption{}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.494\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig999_time=190}
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_1fig999_time=155}
         \subcaption{}
     \end{subfigure}
     \hfill
     \\
     \begin{subfigure}[b]{0.494\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig1_time=225}
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_1fig1_time=190}
         \subcaption{}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.494\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_0fig999_time=225}
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_1fig999_time=190}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \\
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_1fig1_time=225}
+        \subcaption{}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.494\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/NewFigures/Helloya_Rev/_Simple_1fig999_time=225}
         \subcaption{}
     \end{subfigure}
     \hfill
@@ -2181,8 +2181,7 @@ but it's not very interesting to read or write about. The results are seen in Fi
     %     \subcaption{}
     % \end{subfigure}
     % \hfill
-    \caption{Helloya situation in reverse. Here with simple prediction, \gls{OS} behaves slightly erratically}
-
+    \caption{Helløya in reverse. Here with simple prediction, the \gls{OS} behaves slightly erratically.}
 \end{figure}
 
 
@@ -2227,7 +2226,7 @@ The simple prediction version on the other hand, presuming that one of the north
 As the \gls{OS} gets closer to the bottleneck, so too does the constraints about to block the way. This is why the optimal trajectory bulges upwards, luckily the gap is not
 closed for long, and the OS is able to pass without having to go through the same song and dance as the full prediction version.
 
-\subsubsection{Trondheimsfjord}
+\subsubsection{Fjord}
 % \begin{itemize}
 %     \item COLREGs stress test
 %     \item Full prediction behaves much 'calmer', which is better in the author's opinion.
@@ -2241,7 +2240,7 @@ closed for long, and the OS is able to pass without having to go through the sam
 %     \item In this scenario the behaviour of the OS is a lot better with full prediction, the runtime is also significantly faster, though the author didn't write down numbers (sad trombone).
 % \end{itemize}
 
-This scenario was designed as a COLREGs assessment stress test. The result for full prediction is seen in Figure \ref{FIG: Fjord with prediction}, and
+The result for full prediction is seen in Figure \ref{FIG: Fjord with prediction}, and
 with simple prediction in Figure \ref{FIG: Fjord without pred}. This scenario is full of uncooperative TSs, and the simple prediction level
 algorithm is unable to cope. With all the overlapping crossing TS turning onto the path of the OS, as well as a TS overtaking from behind the algorithm
 is not able to find a consistent trajectory, jumping between different optimal solutions over the course of the simulation.
@@ -2408,7 +2407,7 @@ constraints for the overtaking TS ends up being placed on top of the initial gue
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Skjærgård with traffic situation. Here with full prediction.}
+    \caption{Skjærgård with traffic. Here with full prediction.}
 \end{figure}
 % \begin{figure}[ht]\ContinuedFloat
 %     \begin{subfigure}[b]{0.494\textwidth}
@@ -2570,7 +2569,7 @@ constraints for the overtaking TS ends up being placed on top of the initial gue
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Skjærgård with traffic situation. Here with simple prediction.}
+    \caption{Skjærgård with traffic. Here with simple prediction.}
 \end{figure}
 % \begin{figure}[ht]\ContinuedFloat
 %     \begin{subfigure}[b]{0.494\textwidth}
@@ -2822,7 +2821,7 @@ constraints for the overtaking TS ends up being placed on top of the initial gue
 
 This was the final scenario created and is one of the more complex ones. This scenario combines sporadic static obstacles with different COLREGs situations, the third
 TS in particular ended up being a lot of trouble for the simple prediction level algorithm. The results for full prediction are seen in Figure \ref{FIG: Skjaergard with traffic and full pred},
-and the simple in Figure \ref{FIG: Skjaergard with traffic and simple pred}. This scenario was very easy with the full prediction level, by anticipating the incoming TS's turn the path
+and the simple in Figure \ref{FIG: Skjaergard with traffic and simple pred}. This scenario was very easy with the full prediction level, when anticipating the incoming TS's turn, the path
 remains unblocked by constraints and the crossing happens without a hitch. With a simple prediction level on the other hand, the algorithm has an absolute nightmare trying to find a way through,
 getting stuck in a loop of infeasible results that aren't easily captured in a single frame but very obvious in the video results. When the incoming TS finally starts to turn the algorithm
 is able to find an opening and get past.
@@ -2855,7 +2854,7 @@ Over the course of this thesis, these simulations have been run countless times.
 then quickly patched out or fixed by the aforementioned cosmic radiation. However, I had the foresight to save some of the more
 interesting ones, which will now be discussed a bit on their own before moving on to the general discussion.
 
-\textbf{Bad prediction:}\newline
+\textbf{Bad Prediction:}\newline
 This is a very important result to highlight, but not one that is shown in any of the scenarios presented. If the prediction is wrong
 about where the TS is going, it can be awful for the algorithm. The same of course goes for malicious actors or TSs who are
 non COLREGs complaint. All three can lead to the OS getting caught inside active dynamic constraints, which the IPOPT solver
@@ -2873,7 +2872,7 @@ as one side of the trajectory ends up on the far side of the blockading obstacle
 after the speed reference was lowered drastically, observe how the beginning of the optimal trajectory wiggles a bit as it isn't 
 actually possible to slow down as fast as the reference demands. These are seen in Figure \ref{FIG: blocked path}.
 
-\textbf{"Wrap To 2 PI" problem:}\newline
+\textbf{"Wrap To 2 PI" Problem:}\newline
 Finally, a closer look at the nebulous wrap2topi problem that has been mentioned a couple of times. This is a special simulation
 to show the consistency of the problem, the first plot in Figure \ref{FIG: WrapTo2Pi misc} shows the heading reference and
 "optimal" values for each control interval k. The second plot shows the projected optimal trajectory.
@@ -2885,7 +2884,7 @@ suppression of any sway. When only surge is allowed the heading has to be pointi
 the reference trajectory, it shouldn't matter if it's out of phase by $2n\pi$ radians. The core of this problem was never discovered, but
 a fix was luckily not too complicated to implement. The fix was discussed when constructing the \gls{NLP} in Chapter \ref{CHAP: integration step}.
 
-\textbf{Trajectory stuck:}\newline
+\textbf{Trajectory Stuck:}\newline
 This quirk is mostly amusing, but can be a killer if left unpatched. In Figure \ref{FIG: wopt stuck in static obstacle} you can
 see the projected optimal trajectory nicely tucked inside a small island, where it is stuck and can not get out. The problem that caused
 this is two-fold. The first issue is that the algorithm is unable to settle on a consistent trajectory, which means that the static obs
@@ -2896,7 +2895,7 @@ to find a good consistent optimal solution it might eventually jump inside a sta
 problem turned out to be rather simple luckily, I just needed to check for feasibility before substituting in the previous
 optimal path as initial guess.
 
-\textbf{Leaning into turns:}\newline
+\textbf{Leaning into Turns:}\newline
 This problem is simply a quirk of numerical optimization and my cost function. If you look at Figure \ref{FIG: OCP leaning into turns.}
 you will see that the OS turns ever so slightly the wrong way before executing the Give-way maneuver. This is actually a very big deal with
 respects to COLREGs, and therefor a highly undesired behavior. Sadly the root of the problem is not easy to fix, by "leaning" the wrong way
@@ -2909,14 +2908,14 @@ in a real life scenario dampening and inertia would (hopefully) suppress this is
 \clearpage
 \begin{figure}[!ht] %TODO: Skriv om bad prediction
     \centering
-    \begin{subfigure}[b]{0.95\textwidth}
+    \begin{subfigure}[b]{0.80\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/BadPrediction_Caught_in_constraints.pdf}
         \subcaption{When prediction goes wrong, the \gls{OS} can get caught by moving constraints. (Old style figure).}
     \end{subfigure}
     \hfill 
     \\
-    \begin{subfigure}[b]{0.95\textwidth}
+    \begin{subfigure}[b]{0.80\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/BadPrediction_w_opt.pdf}
         \subcaption{When caught inside an active constraint, the solver is unable to find a feasible solution. (Old style figure).}
@@ -2969,17 +2968,18 @@ in a real life scenario dampening and inertia would (hopefully) suppress this is
 \clearpage
 \begin{figure}[!ht] %% WRAPTO2PI PROBLEMS
     \centering
-    \begin{subfigure}{0.90\textwidth}
+    \begin{subfigure}{0.80\textwidth}
         \includegraphics[width=\textwidth]{Images/Figures/Extra_Stuff/WrapTo2Pi_problem_Ref}
-        \caption{ref}
+        \caption{Here we see the heading reference and optimal values, at about k = 50, and again around 200 we can see that the heading reference experiences a discontinous jump as it wraps
+        from $\pi$ to $-\pi$.}
     \end{subfigure}
     \hfill
     \\
-    \begin{subfigure}{0.90\textwidth}
-        \includegraphics[width=\textwidth]{Images/Figures/Extra_Stuff/WrapTo2Pi_problem_Wopt}
-        \caption{wopt}
+    \begin{subfigure}{0.80\textwidth}
+        \includegraphics[width=\textwidth]{Images/NewFigures/Extra_Stuff/WrapTo2Pi_problem_Wopt}
+        \caption{When the heading reference experiences a discontinuity the optimal trajectory becomes weird.}
     \end{subfigure}
-    \caption{Without proper course reference, this sometimes happens.}
+    \caption{Without proper course reference, this would sometimes happens.}
     \label{FIG: WrapTo2Pi misc}
 \end{figure}
 
@@ -2987,21 +2987,21 @@ in a real life scenario dampening and inertia would (hopefully) suppress this is
 \begin{figure}[!ht] %% WOPT STUCK IN STATIC OBS
     \centering
     \includegraphics[width=\textwidth]{Images/Figures/Extra_Stuff/w_optstuck}
-    \caption{Stuck inside a static obstacle.}
+    \caption{Here we see the optimal trajectory getting caught inside a static obstacle and getting stuck.}
     \label{FIG: wopt stuck in static obstacle}
 \end{figure}
 
 \clearpage
 \begin{figure}[!ht] %% WRONG TURN
     \centering
-    \begin{subfigure}{0.85\textwidth}
+    \begin{subfigure}{0.80\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/Extra_Stuff/Wrongturn_Pos}
         \caption{By zooming in it is observed that the \gls{OS} turns slightly to port side.}
     \end{subfigure}
     \hfill
     \\
-    \begin{subfigure}{0.85\textwidth}
+    \begin{subfigure}{0.80\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/Extra_Stuff/WrongTurn_Wopt}
         \caption{Meanwhile the optimal trajectory clearly is clearly a turn to starboard.}
@@ -3121,7 +3121,7 @@ It is able to adjust to small mistakes where the reference strafes close by an o
 Of course, this isn't entirely unexpected, if the planner was able to deftly dodge all sorts of islands in the middle of the reference path it wouldn't need waypoints at all.
 
 
-\subsection{Improvements over Previous Version}
+\subsection{Improvements over Previous Version} (TODO: REF TIL FORDYPNIGNSPROSJEKT.)
 % \begin{itemize}
 %     \item Definite improvements in terms of computational efficiency. This greatly increases the likelyhood of finding an optimal solution 
 %     \item Because of the better efficiency the algorithm is also able to handle more control intervals, This means it is better at handling both greater time horizon and shorter control interval steps.

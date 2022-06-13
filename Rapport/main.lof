@@ -3,73 +3,73 @@
 \babel@toc {norsk}{}\relax 
 \babel@toc {british}{}\relax 
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {1}{\ignorespaces A ship's 6 degrees of freedom, from (\cite {fossen2011handbook}).\relax }}{4}{figure.caption.8}%
+\contentsline {figure}{\numberline {1}{\ignorespaces A ship's 6 degrees of freedom, from (\cite {fossen2011handbook}).\relax }}{4}{figure.caption.9}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {2}{\ignorespaces Line of sight guidance geometry for straight lines, here with zero sideslip. Image courtesy of (\cite {lekkas2013line}).\relax }}{7}{figure.caption.10}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Line of sight guidance geometry for straight lines, here with zero sideslip. Image courtesy of (\cite {lekkas2013line}).\relax }}{7}{figure.caption.11}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {3}{\ignorespaces A physically feasible trajectory is formed by "pinching" the shooting gaps close. Reproduction from (\cite {gros2017Lecture}).\relax }}{9}{figure.caption.13}%
+\contentsline {figure}{\numberline {3}{\ignorespaces A physically feasible trajectory is formed by "pinching" the shooting gaps close. Reproduction from (\cite {gros2017Lecture}).\relax }}{9}{figure.caption.14}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {4}{\ignorespaces Visualizing dCPA and tCPA.\relax }}{11}{figure.caption.17}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Visualizing dCPA and tCPA.\relax }}{11}{figure.caption.18}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {5}{\ignorespaces COLREGs classification; with OS in the center we can place the TS in one of four regions. Similarly, the relative bearing from TS to OS can be assigned regions with region 1 pointed directly at the OS and the rest following in a clockwise rotation. Courtesy of (\cite {Thyri2021b}).\relax }}{12}{figure.caption.18}%
+\contentsline {figure}{\numberline {5}{\ignorespaces COLREGs classification; with OS in the center we can place the TS in one of four regions. Similarly, the relative bearing from TS to OS can be assigned regions with region 1 pointed directly at the OS and the rest following in a clockwise rotation. Courtesy of (\cite {Thyri2021b}).\relax }}{12}{figure.caption.19}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {6}{\ignorespaces Example of a single placed constraint based on the position, heading, and COLREGs classification. Depicted would be a suggested placement for a Give-way situation.\relax }}{14}{figure.caption.19}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Example of a single placed constraint based on the position, heading, and COLREGs classification. Depicted would be a suggested placement for a Give-way situation.\relax }}{14}{figure.caption.20}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {7}{\ignorespaces Photo of a typical ENC, here we can see the lines formed by saving AIS positional data over time. Image courtesy of Olex AS.\relax }}{14}{figure.caption.20}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Photo of a typical ENC, here we can see the lines formed by saving AIS positional data over time. Image courtesy of Olex AS.\relax }}{14}{figure.caption.21}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {8}{\ignorespaces A simplified overview of the developed algorithm.\relax }}{16}{figure.caption.21}%
+\contentsline {figure}{\numberline {8}{\ignorespaces A simplified overview of the developed algorithm.\relax }}{16}{figure.caption.22}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {9}{\ignorespaces First approach to placing static obstacle constraints, accurate but lead to overload of constraints and poor computational performance.\relax }}{26}{figure.caption.32}%
+\contentsline {figure}{\numberline {9}{\ignorespaces First approach to placing static obstacle constraints, accurate but leads to overload of constraints and poor computational performance.\relax }}{26}{figure.caption.33}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {10}{\ignorespaces Second approach to placing static obstacle constraints, avoiding the constraint overload at the cost of greatly reducing available space.\relax }}{26}{figure.caption.33}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Second approach to placing static obstacle constraints, avoiding the constraint overload at the cost of greatly reducing available space.\relax }}{26}{figure.caption.34}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {11}{\ignorespaces Geometry for straight line constraints used to handle static obstacles.\relax }}{28}{figure.caption.35}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Geometry for straight line constraints used to handle static obstacles.\relax }}{28}{figure.caption.36}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {12}{\ignorespaces Current approach to placing static obstacle constraints, ditching the circular constraints in favor of straight lines based on proximity. Combines the best of both prior versions.\relax }}{28}{figure.caption.36}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Current approach to placing static obstacle constraints, ditching the circular constraints in favor of straight lines based on proximity. Combines the best of both prior versions.\relax }}{28}{figure.caption.37}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {13}{\ignorespaces Simple Head-on situation. Result independent of prediction level.\relax }}{34}{figure.caption.46}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Simple Head-on. Result independent of prediction level.\relax }}{34}{figure.caption.47}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {14}{\ignorespaces Simple Give-way situation. Result independent of prediction level.\relax }}{35}{figure.caption.47}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Simple Give-way. Result independent of prediction level.\relax }}{35}{figure.caption.48}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {15}{\ignorespaces Simple Stand-on situation. Here shown with full prediction, \gls {OS} correctly stands on.\relax }}{36}{figure.caption.48}%
+\contentsline {figure}{\numberline {15}{\ignorespaces Simple Stand-on. Here shown with full prediction, \gls {OS} correctly stands on.\relax }}{36}{figure.caption.49}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {16}{\ignorespaces Simple Stand-on situation. Here shown with simple prediction, the \gls {OS} can be observed to yield when it shouldn't.\relax }}{37}{figure.caption.49}%
+\contentsline {figure}{\numberline {16}{\ignorespaces Simple Stand-on. Here shown with simple prediction, the \gls {OS} can be observed to yield when it shouldn't.\relax }}{37}{figure.caption.50}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {17}{\ignorespaces Head-on situation with a turn, Result for this were the same regardless of prediction level.\relax }}{39}{figure.caption.50}%
+\contentsline {figure}{\numberline {17}{\ignorespaces Head-on with a turn. Result for this were the same regardless of prediction level.\relax }}{39}{figure.caption.51}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {18}{\ignorespaces Give-way with a turn, here with full prediction. Observe the \gls {OS} not execting to have to yield until it's almost too late.\relax }}{40}{figure.caption.51}%
+\contentsline {figure}{\numberline {18}{\ignorespaces Give-way with a turn, here with full prediction. Observe the \gls {OS} not expecting to have to yield until it's almost too late.\relax }}{40}{figure.caption.52}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {19}{\ignorespaces Give-way with a turn, here with simple prediction. Observe as the OS gets dragged along by the constraints of the turning TS.\relax }}{41}{figure.caption.52}%
+\contentsline {figure}{\numberline {19}{\ignorespaces Give-way with a turn, here with simple prediction. Observe as the OS gets dragged along by the constraints of the turning TS.\relax }}{41}{figure.caption.53}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {20}{\ignorespaces Stand-on situation with turn. Result independent of prediction level.\relax }}{42}{figure.caption.53}%
+\contentsline {figure}{\numberline {20}{\ignorespaces Stand-on with turn. Result independent of prediction level.\relax }}{42}{figure.caption.54}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {21}{\ignorespaces Canals situation. Here shown with full prediction.\relax }}{45}{figure.caption.55}%
+\contentsline {figure}{\numberline {21}{\ignorespaces Canals. Here shown with full prediction.\relax }}{45}{figure.caption.56}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {22}{\ignorespaces Canals situation. Here shown with simple prediction.\relax }}{47}{figure.caption.57}%
+\contentsline {figure}{\numberline {22}{\ignorespaces Canals. Here shown with simple prediction.\relax }}{47}{figure.caption.58}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {23}{\ignorespaces Fjord situation. Here shown with full prediction. Observe the \gls {OS} handles the stress test pretty well.\relax }}{49}{figure.caption.59}%
+\contentsline {figure}{\numberline {23}{\ignorespaces Fjord. Here shown with full prediction. Observe the \gls {OS} handles the stress test pretty well.\relax }}{49}{figure.caption.60}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {24}{\ignorespaces Fjord situation. Here shown with simple prediction. Observe the \gls {OS} behaves much more erratically compared to the full prediction level.\relax }}{51}{figure.caption.61}%
+\contentsline {figure}{\numberline {24}{\ignorespaces Fjord. Here shown with simple prediction. Observe the \gls {OS} behaves much more erratically compared to the full prediction level.\relax }}{51}{figure.caption.62}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {25}{\ignorespaces Helloya Situation. Here, \gls {OS} behaves to expectations independently of prediction level.\relax }}{52}{figure.caption.62}%
+\contentsline {figure}{\numberline {25}{\ignorespaces Helløya. Here, the \gls {OS} behaves to expectations independently of prediction level.\relax }}{52}{figure.caption.63}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {26}{\ignorespaces Helloya situation in reverse. Here with full prediction, \gls {OS} behaves to expectations.\relax }}{54}{figure.caption.64}%
+\contentsline {figure}{\numberline {26}{\ignorespaces Helløya in reverse. Here with full prediction, the \gls {OS} behaves to expectations.\relax }}{54}{figure.caption.65}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {27}{\ignorespaces Helloya situation in reverse. Here with simple prediction, \gls {OS} behaves slightly erratically\relax }}{56}{figure.caption.66}%
+\contentsline {figure}{\numberline {27}{\ignorespaces Helløya in reverse. Here with simple prediction, the \gls {OS} behaves slightly erratically.\relax }}{56}{figure.caption.67}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {28}{\ignorespaces Skjærgård with traffic situation. Here with full prediction.\relax }}{60}{figure.caption.68}%
+\contentsline {figure}{\numberline {28}{\ignorespaces Skjærgård with traffic. Here with full prediction.\relax }}{60}{figure.caption.69}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {29}{\ignorespaces Skjærgård with traffic situation. Here with simple prediction.\relax }}{62}{figure.caption.70}%
+\contentsline {figure}{\numberline {29}{\ignorespaces Skjærgård with traffic. Here with simple prediction.\relax }}{62}{figure.caption.71}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {30}{\ignorespaces Skjærgård without traffic simulation. Result independent of prediction level due to no \gls {Ts}s.\relax }}{63}{figure.caption.71}%
+\contentsline {figure}{\numberline {30}{\ignorespaces Skjærgård without traffic simulation. Result independent of prediction level due to no \gls {Ts}s.\relax }}{63}{figure.caption.72}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {31}{\ignorespaces This is what can happen when the prediction does not match the actual trajectory of \gls {Ts}s.\relax }}{66}{figure.caption.72}%
+\contentsline {figure}{\numberline {31}{\ignorespaces This is what can happen when the prediction does not match the actual trajectory of \gls {Ts}s.\relax }}{66}{figure.caption.73}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {32}{\ignorespaces How optimal path is calculated with lower speed when infeasibility is detected.\relax }}{67}{figure.caption.73}%
+\contentsline {figure}{\numberline {32}{\ignorespaces How optimal path is calculated with lower speed when infeasibility is detected.\relax }}{67}{figure.caption.74}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {33}{\ignorespaces Without proper course reference, this sometimes happens.\relax }}{68}{figure.caption.74}%
+\contentsline {figure}{\numberline {33}{\ignorespaces Without proper course reference, this would sometimes happens.\relax }}{68}{figure.caption.75}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {34}{\ignorespaces Stuck inside a static obstacle.\relax }}{69}{figure.caption.75}%
+\contentsline {figure}{\numberline {34}{\ignorespaces Here we see the optimal trajectory getting caught inside a static obstacle and getting stuck.\relax }}{69}{figure.caption.76}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {35}{\ignorespaces A quirk of numerical optimization, sometimes turning to the wrong side leads to a 'smoother' curve.\relax }}{70}{figure.caption.76}%
+\contentsline {figure}{\numberline {35}{\ignorespaces A quirk of numerical optimization, sometimes turning to the wrong side leads to a 'smoother' curve.\relax }}{70}{figure.caption.77}%
 \contentsfinish 

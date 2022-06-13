@@ -11,7 +11,9 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{List of Figures}{ix}{section*.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{Acronyms}{xii}{section*.6}%
+\contentsline {section}{List of Tables}{xii}{section*.6}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Acronyms}{xiii}{section*.7}%
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {1}Introduction}{1}{section.1}%
 \defcounter {refsection}{0}\relax 
@@ -63,7 +65,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {4.2.7}Canals}{57}{subsubsection.4.2.7}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.8}Trondheimsfjord}{57}{subsubsection.4.2.8}%
+\contentsline {subsubsection}{\numberline {4.2.8}Fjord}{57}{subsubsection.4.2.8}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {4.2.9}Helløya}{57}{subsubsection.4.2.9}%
 \defcounter {refsection}{0}\relax 
@@ -81,7 +83,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {5}Conclusion and Future Work}{74}{section.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{References}{76}{section*.79}%
+\contentsline {section}{References}{76}{section*.80}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{Appendix}{78}{section*.80}%
+\contentsline {section}{Appendix}{78}{section*.81}%
 \contentsfinish 

@@ -369,7 +369,7 @@ reach goal is:
 \begin{equation}
     T_{goal} = \frac{D_{goal}}{\sqrt{u^2 + v^2}}
 \end{equation}
-where $u$ and $v$ are the surge and sway speed of the \gls{OS}. It's not necessary for this check to be 100\% accurate, it is expected that the \gls{OS} will deviate from the
+where $u$ and $v$ are the surge and sway speeds of the \gls{OS}. It's not necessary for this check to be 100\% accurate, it is expected that the \gls{OS} will deviate from the
 path due to physical constraints and obstacles anyway. To prevent accidentally dividing by zero the surge speed is capped at a lower bound value of $0.001m/s$.
 \begin{lstlisting}
 if vessel.nu(1) < 0.001
@@ -412,21 +412,9 @@ sentence condition is hard-coded to return false, due to the aforementioned poor
 %     \item the final function F that CasADi needs.
 %     \item Noe av disse greiene blir dekt av Background, forhåpentligvis.
 % \end{itemize}
-The CasADi setup is where the vessel model and dynamics from (\ref{CHAP: Vessel Modelling}) are implemented, as well as the cost function and \gls{RK4}
-method from (\ref{CHAP: NLP}). As the chapter title suggests, everything is implemented using CasADi's framework. The pose and velocity vectors
-are combined as one SX.sym vector, while the forces and torque is their own vector. A vector for the references is also created.
-\begin{lstlisting}
-    % System matrices.
-    x = SX.sym('x',6); % x = [N, E, psi, u, v, r]'
-    tau = SX.sym('tau',3); % tau = [Fx, Fy, Fn]';
-    xref = SX.sym('xref',6); % xref = [Nref, Eref, Psi_ref, Surge_ref, sway_ref, r_ref]'
-\end{lstlisting}
-
-% (TODO: Kan skrive inn matrisene på nytt så leser slipper å klikke tilbake til kapittel 2 for å huske hvordan de så ut.)
-The vessel mass matrix $\textbf{M}$, \eqref{EQ: Mass}, is created with the following parameter values:
 \begin{table}[ht!]
     \begin{center}
-        \caption{Estimated model parameters for Milliampere (\cite{pedersen2019optimization})}
+        \caption{Estimated model parameters for Milliampere (\cite{pedersen2019optimization}).}
         \label{TAB: Model parameter values}
         \begin{tabular}{c|c|c}
             \hline
@@ -444,6 +432,20 @@ The vessel mass matrix $\textbf{M}$, \eqref{EQ: Mass}, is created with the follo
         \end{tabular}
     \end{center}
 \end{table}
+
+The CasADi setup is where the vessel model and dynamics from (\ref{CHAP: Vessel Modelling}) are implemented, as well as the cost function and \gls{RK4}
+method from (\ref{CHAP: NLP}). As the chapter title suggests, everything is implemented using CasADi's framework. The pose and velocity vectors
+are combined as one SX.sym vector, while the forces and torque is their own vector. A vector for the references is also created.
+\begin{lstlisting}
+    % System matrices.
+    x = SX.sym('x',6); % x = [N, E, psi, u, v, r]'
+    tau = SX.sym('tau',3); % tau = [Fx, Fy, Fn]';
+    xref = SX.sym('xref',6); % xref = [Nref, Eref, Psi_ref, Surge_ref, sway_ref, r_ref]'
+\end{lstlisting}
+
+% (TODO: Kan skrive inn matrisene på nytt så leser slipper å klikke tilbake til kapittel 2 for å huske hvordan de så ut.)
+The vessel mass matrix $\textbf{M}$, \eqref{EQ: Mass}, is created with the following parameter values:
+
 while the values for $\textbf{C}$ are $c13 = -m22*x(5)$, $c23 = m11*x(4)$, $c31 = -c13$, $c32 = -c23$. The dampening matrix $\textbf{D}$ was originally
 implemented the way (\cite{pedersen2019optimization}) explains, however turned out to be very computationally expensive for the \gls{IPOPT} solver.
 For the sake of brevity, and because full scale tests using the Milliampere ferry fell through due to maintenance, the simplified diagonal matrix \eqref{EQ: Dampening_Simple}
@@ -460,7 +462,7 @@ The differential equation for $\bm{\nu}$ is then:
 \begin{equation}
     \dot{\bm{\nu}} = \textbf{M}\backslash(\bm{\tau} - (\textbf{C}+\textbf{D})*x(4:6))
 \end{equation}
-$\bm{\nu}$ can then be integrated forward one step-length with simple Euler integration:
+which can then be used to integrate $\bm{\nu}$ forward one step-length with simple Euler integration:
 \begin{equation}
     \bm{\nu} = x(4:6) + h\dot{\bm{\nu}}
 \end{equation}
@@ -473,7 +475,7 @@ The equation for $\dot{\bm{\eta}}$ is the same as \eqref{EQ: eta_dot}, with $\ps
     \end{bmatrix} \bm{\nu}
 \end{equation}
 
-With everything set up the cost function L can be created and defined as a CasADi function as so:
+With everything set up, the cost function L can be created and defined as a CasADi function as so:
 \begin{lstlisting}
     %% Cost function and weights.
     Kp = diag([8*10^-1, 8*10^-1]); % Tuning parameter for positional reference deviation.
@@ -708,22 +710,27 @@ In the end it looks something like this:
         g_counter = g_counter + 6;
 \end{lstlisting}
 
-\subsubsection*{Dynamic Obstacles constraints}
+\subsubsection*{Dynamic Obstacles Constraints}
 % \begin{itemize}
 %     \item When to place constraints
 %     \item Where to place them
 %     \item How to place them
 % \end{itemize}
-The new control interval now needs constraints to ensure a collision free trajectory, starting with the dynamic constraints.
-First check if there are any constraints, if there are none the whole step can simply be skipped. Similarly, we want to skip
-this step if it's the first time the algorithm is run, the reason why discussed later. (TODO: HUSK DETTE)
-
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=0.66\textwidth]{Images/StaticObs_Naive.pdf}
-    \caption{First approach to placing static obstacle constraints, accurate but lead to overload of constraints and poor computational performance.}     \label{FIG: Static Obs Naive approach 1}
+    \caption{First approach to placing static obstacle constraints, accurate but leads to overload of constraints and poor computational performance.}     \label{FIG: Static Obs Naive approach 1}
+\end{figure}
+\begin{figure}[ht!]
+    \centering 
+    \includegraphics[width=0.66\textwidth]{Images/StaticObs_Naive2.pdf}
+    \caption{Second approach to placing static obstacle constraints, avoiding the constraint overload at the cost of greatly reducing available space.}     \label{FIG: Static Obs Naive approach 2}
 \end{figure}
 
+
+The new control interval now needs constraints to ensure a collision free trajectory, starting with the dynamic constraints.
+First check if there are any constraints, if there are none the whole step can simply be skipped. Similarly, we want to skip
+this step if it's the first time the algorithm is run, the reason why discussed later. (TODO: HUSK DETTE)
 Next, iterate through all the \gls{Ts}s in the tracks struct and check their assigned COLREGs flags.
 Each COLREGs situation should have their own constraint locations, however the optimal placement
 will depend on situation complexity, available space, velocities of the ships involved, and other factors. In
@@ -746,13 +753,10 @@ as shown in \eqref{EQ: dynamic constraint in g} while the square of the desired 
 $\textbf{g}(\bm{\omega})_{lb}$.
 
 
-\begin{figure}[ht!]
-    \centering 
-    \includegraphics[width=0.66\textwidth]{Images/StaticObs_Naive2.pdf}
-    \caption{Second approach to placing static obstacle constraints, avoiding the constraint overload at the cost of greatly reducing available space.}     \label{FIG: Static Obs Naive approach 2}
-\end{figure}
 
-\subsubsection*{Static Obstacles constraints} \label{Chap: Method Static Obs}
+\subsubsection*{Static Obstacles Constraints} \label{Chap: Method Static Obs}
+
+
 % \begin{itemize}
 %     \item Explain static\_obstacles\_check and the theory for convex-free set
 %     \item explain why circles, such as the ones used for dynamic obstacles are insufficient.
