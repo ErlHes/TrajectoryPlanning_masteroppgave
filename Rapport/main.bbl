@@ -402,6 +402,33 @@
       \verb https://en.wikisource.org/wiki/International_Regulations_for_Preventing_Collisions_at_Sea
       \endverb
     \endentry
+    \entry{KongsbergYara}{misc}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=6f3807e479b449aa03d063b912c43820}{%
+           family={Kongsberg{\bibnamedelimb }Maritime},
+           familyi={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{6f3807e479b449aa03d063b912c43820}
+      \strng{fullhash}{6f3807e479b449aa03d063b912c43820}
+      \strng{bibnamehash}{6f3807e479b449aa03d063b912c43820}
+      \strng{authorbibnamehash}{6f3807e479b449aa03d063b912c43820}
+      \strng{authornamehash}{6f3807e479b449aa03d063b912c43820}
+      \strng{authorfullhash}{6f3807e479b449aa03d063b912c43820}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Autonomous ship project, key facts about YARA Birkeland}
+      \field{year}{2022}
+      \verb{urlraw}
+      \verb https://www.kongsberg.com/maritime/support/themes/autonomous-ship-project-key-facts-about-yara-birkeland/
+      \endverb
+      \verb{url}
+      \verb https://www.kongsberg.com/maritime/support/themes/autonomous-ship-project-key-facts-about-yara-birkeland/
+      \endverb
+    \endentry
     \entry{Kufoalor2018}{inproceedings}{}
       \name{author}{3}{}{%
         {{un=0,uniquepart=base,hash=dcb1032d995329bd08637a499a2a9414}{%
@@ -958,6 +985,33 @@
       \field{year}{1999}
       \field{pages}{7}
       \range{pages}{1}
+    \endentry
+    \entry{Zeabuz}{misc}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=967e02a870241cf309eb96c82347cc63}{%
+           family={Zeabuz},
+           familyi={Z\bibinitperiod}}}%
+      }
+      \strng{namehash}{967e02a870241cf309eb96c82347cc63}
+      \strng{fullhash}{967e02a870241cf309eb96c82347cc63}
+      \strng{bibnamehash}{967e02a870241cf309eb96c82347cc63}
+      \strng{authorbibnamehash}{967e02a870241cf309eb96c82347cc63}
+      \strng{authornamehash}{967e02a870241cf309eb96c82347cc63}
+      \strng{authorfullhash}{967e02a870241cf309eb96c82347cc63}
+      \field{sortinit}{Z}
+      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Urban autonomous ferry}
+      \field{year}{2022}
+      \verb{urlraw}
+      \verb https://www.zeabuz.com/
+      \endverb
+      \verb{url}
+      \verb https://www.zeabuz.com/
+      \endverb
     \endentry
     \entry{zhang2021collision}{article}{}
       \name{author}{5}{}{%

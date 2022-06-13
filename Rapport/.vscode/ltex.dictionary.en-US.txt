@@ -32,3 +32,5 @@ path-tangental
 optimality
 Kongsberg
 Kongsberg
+COLREGs-aware
+COLREGs-awareness

@@ -27,16 +27,31 @@ for us. The journey towards a true post-scarcity society involves autonomous mac
 up this development. Not only do I think automation could significantly improve the living and working conditions for everyone, I find
 the concepts used when developing these automatas to be fascinating.
 
-Autonomous surface vessels have mostly been in development outside the public eye, but there have been some great progress made in recent years. 
-Multiple actors are currently developing both autonomous ferries and container ships. This is a very underappreciated development, especially
+Autonomous surface vessels have mostly been in development outside the public eye, but there has been some great progress made in recent years. 
+Multiple actors are currently developing both autonomous ferries and container ships, like Yara Birkeland seen in Figure \ref{FIG: Yara} 
+or Zeabuz in Figure. 
+This is a very underappreciated development, especially
 in a coastal nation such as Norway where so much of our industry happens offshore.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/Yara.png}
+    \caption{Yara Birkeland, Kongsberg Maritime's autonomous container ship project (\cite{KongsbergYara}). Image courtesy of Yara International ASA.}
+    \label{FIG: Yara}
+\end{figure}
 
 This Master thesis is a continuation of my specialization project, (\cite{Hestvik2021}), in which I learned a lot about the complications
 of designing a trajectory planning algorithm, numerical optimal control, and using the CasADi framework. After the specialization project
-ended in December 2021, I couldn't leave the trajectory planning algorithm be in the state it was, there was still so much more to try and learn.
+ended in December 2021, I couldn't leave the trajectory planning algorithm to be in the state it was, there was still so much more to try and learn.
 
 The learning potential from this thesis is very high, and very relevant for the type of career I would like to get into.
 I remember when learning about linear system theory I thought to myself "I'm never gonna need this MPC stuff". Funny how that worked out.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/Zeabuz.png}
+    \caption{Render of the Zeabuz autonomous urban ferry, currently in development. Image courtesy of \cite{Zeabuz}}
+\end{figure}
 
 \subsection{Previous Work}
 % \begin{itemize}
@@ -50,8 +65,8 @@ I remember when learning about linear system theory I thought to myself "I'm nev
 %     \item item I *need* to use \gls{COLREGs} at least once so that the formating looks nice later.
 % \end{itemize}
 
-There have been many reviews and surveys on the state of the art within \gls{ASV}, trajectory planning, and collision avoidance, and other
-related topics. (\cite{vagale2021path}) reviews existing guidance and path planning algorithms, comparing multiple aspects and highlighting
+There has been many reviews and surveys on the state of the art within \gls{ASV} trajectory planning and collision avoidance, and other
+related topics. In their review, (\cite{vagale2021path}) examines existing guidance and path planning algorithms, comparing multiple aspects and highlighting
 recent advances and vessel autonomy levels. The review focuses mostly on path planning algorithms for surface vessels.
 
 In another review (\cite{huang2020ship}) provides a comprehensive overview of collision avoidance, breaking down the basic processes
@@ -69,48 +84,51 @@ instead focusing on the benefits of social trajectory planning to reduce the amo
 
 For longer distance path planning, (\cite{vestad2019automatic}) develops an automatic route planner which is able to quickly
 determine an optimal path between two points taking into account ship dimensions, weather forecast and mission goals. The
-path planner is able to produce fesible paths which are more efficient than traditional manual planning methods.
+path planner is able to produce feasible paths which are more efficient than traditional manual planning methods.
 
-For a comprehensive look at different trajectory planning methods, (\cite{loe2008collision}) introduces many different
-approaches and simulates their performance against each other in a wide variety of scenarios. Testing both collision avoidance capabilties and
+For a comprehensive look at different trajectory planning methods, (\cite{loe2008collision}) introduces many
+approaches and simulates their performance against each other in a wide variety of scenarios. Testing both collision avoidance capabilities and
 trajectory planning.
 
 \subsection{Problem Description}
-The problem that are addressed in this thesis is the trajectory planning for an \gls{ASV} operating in calm waters
-where the motions are confined by static obstacles such as land or skerries. The trajectory is to be collision
-free at all times, and the behavior of the \gls{ASV} should comply with the COLREGs rules. The Trajectory is expected
-to bring the \gls{ASV} from its current position to its end destination, but is not expected to be able to conduct
-any type of docking, additionally the reference path between the \gls{ASV} current position and goal is predefined.
+The problem that is addressed in this thesis is the trajectory planning for an \gls{ASV} operating in calm waters,
+where the available maneuvering space is confined by static obstacles such as land and by dynamic obstacles such as other vessels.
+The planned trajectory will continuously be replanned to adapt to changes in the situation and maintain COLREGs compliance.
+The Trajectory is expected to bring the \gls{ASV} from its current position to its end destination without collisions, but is not expected to be able to conduct
+any type of docking. Additionally, the reference path between the \gls{ASV} current position and goal is predefined.
 The system is to be able to operate under the assumption that has perfect information
 about other vessels in the vicinity so that performance between linear interpolation of Target Ship trajectories
 and full prediction of Target Ship trajectories can be tested.
 The following objectives are proposed for this thesis:
 \begin{itemize}
-    \item Develop an MPC based trajectory planning algorithm using real vessel dynamics.
-    \item Implement collision avoidance systems for both static and dynamic obstacles.
+    \item Develop an MPC-based trajectory planning algorithm using sufficiently real vessel dynamics.
+    \item Implement collision avoidance algorithms for both static and dynamic obstacles.
     \item Create functionality to ensure the vessel can not get stuck on terrain.
     \item Create test scenarios to examine the performance of the algorithm.
-    \item Compare results when using linear interpolation of Target Ship trajectories and when using perfect information.
+    \item Compare results when using linear interpolation of Target Ship trajectories and when using perfect information in the planner.
 \end{itemize}
 
 
 \subsection{Contributions}
+This thesis provides the following contributions to the field of \gls{ASV}:
 \begin{itemize}
-    \item An MPC based path following trajectory planner that is COLREGs aware and able to avoid static obstacles.
+    \item An MPC based trajectory planner that is COLREGs-aware and able to avoid static obstacles.
     \item An evaluation of the fitness of numerical optimization as trajectory planning backbone.
-    \item Documented simulations experimenting with the difference 'Prediction Levels' make.
-    \item Documented problems that numerical optimization based trajectory planner algorithms might encounter.
+    \item Designed and simulated testing scenarios for evaluating the developed algorithm.
+    \item Documented simulations experimenting with two different levels of \gls{Ts} trajectory prediction capabilities. Where one prediction level
+    gives the algorithm perfect information about the \gls{Ts}, while the other only provides a linearly interpolated trajectory based on the \gls{Ts} current pose.
+    \item Documented problems that numerical optimization-based trajectory planner algorithms might encounter.
     \item Proposed mitigation methods for aforementioned problems.
 \end{itemize}
 
 \subsection{Outline}
-The thesis is laid out in five parts, the introduction you just read was chapter 1. The rest of the chapters are as follows:
+The thesis is laid out in five parts, the introduction you just read was Chapter 1. The rest of the chapters are as follows:
 \begin{itemize}
     \item Chapter 2 presents the full theoretical background needed to understand the development of the trajectory planning algorithm.
     \item Chapter 3 is a step-by-step walkthrough of the algorithm development.
     \item Chapter 4 compiles the results and analyzes some of the more interesting observations. The chapter is capped off with a greater
-    discussion about the behavior of the algorithm, and it's shortcomings.
-    \item Chapter 5 summarizes the findings and suggest a handful of avenues for future work that could improve the developed algorithm.
+    discussion about the behavior of the algorithm and it's shortcomings.
+    \item Chapter 5 summarizes the findings and suggests a handful of avenues for future work that could improve the developed algorithm.
 \end{itemize}
 
 

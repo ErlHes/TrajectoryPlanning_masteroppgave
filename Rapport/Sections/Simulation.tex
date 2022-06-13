@@ -101,11 +101,11 @@ Brønnøysund's will elect to take a wider path on the outside of the local arch
 turn that is invisible at a glance, but very obvious to any experienced navigator. The simulation is conducted with the \gls{OS} arriving
 from both the north and south direction with both full and simple prediction enabled. 
 
-\subsubsection*{Skjærgård With Traffic}
+\subsubsection*{Skjærgård with Traffic}
 Skjærgård is a Norwegian term for a section of ocean where there are many small islands and skerries, while the term translates to archipelago a skjærgård is generally small in scale.
 This scenario puts a lot of stress on the trajectory planner which has to deal with both moving dynamic obstacles and the static obstacles that are sometimes blocking the reference path.
 
-\subsubsection*{Skjærgård Without Traffic}
+\subsubsection*{Skjærgård without Traffic}
 A simpler archipelago scenario, this scenario was designed to stress test the algorithm's capacity for handling static obstacles.
 
 \subsubsection*{Miscellaneous}
@@ -2824,7 +2824,7 @@ getting stuck in a loop of infeasible results that aren't easily captured in a s
 is able to find an opening and get past.
 
 
-\subsubsection{skjærgård without Traffic}
+\subsubsection{Skjærgård without Traffic}
 % \begin{itemize}
 %     \item Good path tracking.
 %     \item Ths scenario helped debugg the wrapTo2Pi problem more efficiently.
@@ -2895,7 +2895,7 @@ optimal path as initial guess.
 \textbf{Leaning into Turns:}\newline
 This problem is simply a quirk of numerical optimization and my cost function. If you look at Figure \ref{FIG: OCP leaning into turns.}
 you will see that the OS turns ever so slightly the wrong way before executing the Give-way maneuver. This is actually a very big deal with
-respects to COLREGs, and therefor a highly undesired behavior. Sadly the root of the problem is not easy to fix, by "leaning" the wrong way
+respect to COLREGs, and therefore a highly undesired behavior. Sadly the root of the problem is not easy to fix, by "leaning" the wrong way
 like this the overall trajectory is closer to the reference and is thus the optimal trajectory. This is because the OS has a pretty
 bad turning radius, taking turns straight on leads to understeering that can take a long time to recover from. The problem could
 be mitigated by having a better cost function, one that would punish flip-flip behavior like this. Luckily it's not that big of a problem; 
@@ -2908,16 +2908,16 @@ in a real life scenario dampening and inertia would (hopefully) suppress this is
     \begin{subfigure}[b]{0.80\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/BadPrediction_Caught_in_constraints.pdf}
-        \subcaption{When prediction goes wrong, the \gls{OS} can get caught by moving constraints. (Old style figure).}
+        \subcaption{When prediction goes wrong, the \gls{OS} can get caught by moving constraints. Old style figure.}
     \end{subfigure}
     \hfill 
     \\
     \begin{subfigure}[b]{0.80\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/BadPrediction_w_opt.pdf}
-        \subcaption{When caught inside an active constraint, the solver is unable to find a feasible solution. (Old style figure).}
+        \subcaption{When caught inside an active constraint, the solver is unable to find a feasible solution. Old style figure.}
     \end{subfigure}
-    \caption{This is what can happen when the prediction does not match the actual trajectory of \gls{Ts}s.}
+    \caption{This is what can happen when the prediction does not match the actual trajectory of the \gls{Ts}s.}
     \label{FIG: Bad prediction}
 \end{figure}
 
@@ -2958,7 +2958,7 @@ in a real life scenario dampening and inertia would (hopefully) suppress this is
         \caption{Speed is reduced, resulting in a shorter optimal trajectory.}
     \end{subfigure}
     \hfill
-    \caption{How optimal path is calculated with lower speed when infeasibility is detected.}
+    \caption{How the optimal path is calculated with lower speed when infeasibility is detected.}
     \label{FIG: blocked path}
 \end{figure}
 
@@ -2967,7 +2967,7 @@ in a real life scenario dampening and inertia would (hopefully) suppress this is
     \centering
     \begin{subfigure}{0.80\textwidth}
         \includegraphics[width=\textwidth]{Images/Figures/Extra_Stuff/WrapTo2Pi_problem_Ref}
-        \caption{Here we see the heading reference and optimal values, at about k = 50, and again around 200 we can see that the heading reference experiences a discontinous jump as it wraps
+        \caption{Here we see the heading reference and optimal values, at about k = 50, and again around 200 we can see that the heading reference experiences a discontinuous jump as it wraps
         from $\pi$ to $-\pi$.}
     \end{subfigure}
     \hfill
@@ -2976,7 +2976,7 @@ in a real life scenario dampening and inertia would (hopefully) suppress this is
         \includegraphics[width=\textwidth]{Images/NewFigures/Extra_Stuff/WrapTo2Pi_problem_Wopt}
         \caption{When the heading reference experiences a discontinuity the optimal trajectory becomes weird.}
     \end{subfigure}
-    \caption{Without proper course reference, this would sometimes happens.}
+    \caption{Without proper course reference, this would sometimes happen.}
     \label{FIG: WrapTo2Pi misc}
 \end{figure}
 
@@ -3001,7 +3001,7 @@ in a real life scenario dampening and inertia would (hopefully) suppress this is
     \begin{subfigure}{0.80\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Figures/Extra_Stuff/WrongTurn_Wopt}
-        \caption{Meanwhile the optimal trajectory clearly is clearly a turn to starboard.}
+        \caption{Meanwhile, the optimal trajectory is clearly a turn to starboard.}
     \end{subfigure}
     \hfill
     \caption{A quirk of numerical optimization, sometimes turning to the wrong side leads to a 'smoother' curve.}

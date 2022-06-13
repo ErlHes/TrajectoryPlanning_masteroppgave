@@ -63,7 +63,7 @@ The algorithm was developed in MATLAB and the whole project repo can be found at
 % (TODO: enten i dette kapittelet eller i discussion må det skrives om tallverdi valg på funksjoner som dcpa grense etc.)
 % (TODO: bør vel også nevne at koden er skrevet i MATLAB? er ikke det mest brukte kodespråket i verden).
 
-\subsection{Data flow} %(TODO: eller Overview?)
+\subsection{Data Flow} %(TODO: eller Overview?)
 % \begin{itemize}
 %     \item Begin by explaining the idea behind how the algorithm should work.
 %     \item This chapter will need diagrams.
@@ -568,7 +568,7 @@ two meters per second can move, but obviously this limit must be tuned to fit th
 %     \item Position reference and speed reference need to be consitent with each other.
 % \end{itemize} 
 The theory behind this chapter was thoroughly discussed in (\ref{CHAP: LOS GUIDANCE}), most of the code for this was also provided by
-Emil Thyri, the MATLAB simulator's developer, as it is a necessary for simulating \gls{Ts}s. Therefor this chapter will be brief. The logic implemented
+Emil Thyri, the MATLAB simulator's developer, as it is a necessity for simulating \gls{Ts}s. Therefor this chapter will be brief. The logic implemented
 is no different from the discussed theory, one modification that was made specifically for this thesis was functionality for reducing the speed
 before creating the reference trajectory. If the feasibility check discussed above deems the previous optimal trajectory to have been infeasible, something
 has possibly gone very wrong in the path ahead. The feasibility check says nothing about what went wrong, so in absence of information the best
@@ -883,8 +883,7 @@ duplicate intersections are undesirable, the output from polyxpoly can be "sanit
     ii = A_without_dup(:,3:4);
 \end{lstlisting}
 The static obstacle constraint parameters can then be collected by combining the xi and yi vectors into a single matrix, keeping in mind that the output
-has the x and y-axis opposite from what we have gotten used to by now. The angle of the constraint can then be calculated using some spaghetti code that should
-have instead been a lookup table if the author were a bit smarter. The implementation for calculating the angle $\gamma_p$ (here called pi\_p) ended up being:
+has the x and y-axis opposite from what we have gotten used to by now. The implementation for calculating the angle $\gamma_p$ (here called pi\_p) is:
 \begin{lstlisting}
     static_obs_constraints = zeros(3,length(xi));
     for i = 1:length(xi)
@@ -898,10 +897,11 @@ have instead been a lookup table if the author were a bit smarter. The implement
         static_obs_constraints(:,i) = [intersectionpoint(1); intersectionpoint(2); pi_p];
     end 
 \end{lstlisting}
-where pos is the position of the OS. Instead of all this the angle between the intersection point and OS should indicate which scan line resulted
-in said intersection, each scan line can only have one orthogonal vector, and they can be pre-calculated and put in a list. You then only have to grab the correct index
-from the list to get your angle pi\_p. The constraint function placed in $\textbf{g}(\bm{\omega})$ is Equation \eqref{EQ: Static ye}, with the lower
-bound value for g deciding how close the \gls{OS} is allowed the line. In this thesis that lower bound is hard-coded to be 5 meters, but just as with dynamic obstacles
+where pos is the position of the OS. But instead of all this you could use the bearing from the \gls{OS} to the intersection point
+to know which scan line resulted in said intersection, each scan line can only have one orthogonal vector, and they can be pre-calculated and put in a list. 
+You then only have to grab the correct index from the list to get your angle pi\_p. The constraint function placed in $\textbf{g}(\bm{\omega})$ 
+is Equation \eqref{EQ: Static ye}, with the lower bound value for g deciding how close the \gls{OS} is allowed the line. 
+In this thesis that lower bound is hard-coded to be 5 meters, but just as with dynamic obstacles
 this value should really be some function of the complexity of the situation.
 
 
