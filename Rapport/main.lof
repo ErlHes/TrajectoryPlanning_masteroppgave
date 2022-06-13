@@ -3,7 +3,7 @@
 \babel@toc {norsk}{}\relax 
 \babel@toc {british}{}\relax 
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {1}{\ignorespaces A ships 6 degrees of Freedom, from (\cite {fossen2011handbook}).\relax }}{4}{figure.caption.8}%
+\contentsline {figure}{\numberline {1}{\ignorespaces A ship's 6 degrees of Freedom, from (\cite {fossen2011handbook}).\relax }}{4}{figure.caption.8}%
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {2}{\ignorespaces Line of sight guidance geometry for straight lines, here with zero sideslip. Image courtesy of (\cite {lekkas2013line})\relax }}{7}{figure.caption.10}%
 \defcounter {refsection}{0}\relax 
@@ -11,7 +11,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {4}{\ignorespaces Visualizing dCPA and tCPA.\relax }}{11}{figure.caption.17}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {5}{\ignorespaces COLREGs classifcation; with OS in the center we can place the TS in one of four regions. Similarly the relative bearing from TS to OS can be assigned regions with region 1 pointed directly at the OS and the rest following in a clockwise rotation. Courtesy of Emil Thyri.\relax }}{13}{figure.caption.18}%
+\contentsline {figure}{\numberline {5}{\ignorespaces COLREGs classification; with OS in the center we can place the TS in one of four regions. Similarly, the relative bearing from TS to OS can be assigned regions with region 1 pointed directly at the OS and the rest following in a clockwise rotation. Courtesy of Emil Thyri.\relax }}{12}{figure.caption.18}%
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {6}{\ignorespaces Example of a single placed constraint based on the position, heading, and COLREGs classification. Depicted would be a suggested placement for a Give way situation.\relax }}{14}{figure.caption.19}%
 \defcounter {refsection}{0}\relax 

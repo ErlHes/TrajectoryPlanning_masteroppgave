@@ -36,28 +36,58 @@ funny how that worked out.
 \end{itemize}
 
 \subsection{Problem Description}
+% The problem that is addressed in this thesis is the trajectory planning for an \gls{ASV} operating in known environments where the motions are confined by
+% a predefined area or path. The trajectory is to be planned in a way that ensures a collision-free transit from the current position to the destination. 
+% The system needs to react to changes in the situation underway, and always deliver a collision-free trajectory. 
+% It is assumed that the predefined area or path is free of any major static object, and the trajectory
+% planning therefore only needs to consider the moving objects in the environment. The
+% trajectory planner further needs to be encapsulated in a complete \gls{COLAV} system that
+% interfaces with the situational awareness systems at one end, and the low-level motion
+% control systems in the other end. The following objectives are proposed for this Master’s
+% thesis
+% \begin{itemize}
+%     \item Develop a complete \gls{COLAV} system for an autonomous passenger ferry, with all
+%     functionality that is needed for autonomous transits.
+%     \item Implement interfaces to the situational awareness modules.
+%     \item Implement interfaces to the trajectory following system.
+%     \item Develop a simulator that can emulate moving objects in the environments.
+%     \item Verify the performance of the \gls{COLAV} system through simulations.
+%     \item Prepare the system for, and perform full-scale testing of the \gls{COLAV} system.
+% \end{itemize}
+The problem that are addressed in this thesis is the trajectory planning for an \gls{ASV} operating in calm waters
+where the motions are confined by static obstacles such as land or skerries. The trajectory is to be collision
+free at all times, and the behavior of the \gls{ASV} should comply with the COLREGs rules. The Trajectory is expected
+to bring the \gls{ASV} from its current position to its end destination, but is not expected to be able to conduct
+any type of docking, additionally the reference path between the \gls{ASV} current position and goal is predefined.
+The system is to be able to operate under the assumption that has perfect information
+about other vessels in the vicinity so that performance between linear interpolation of Target Ship trajectories
+and full prediction of Target Ship trajectories can be tested.
+The following objectives are proposed for this thesis:
 \begin{itemize}
-    \item Many papers on trajectory planning emjoy simple "cpa" prediction.
-    \item Many algorithms end up creating a very 'active' vessel, which is different from how most humans navigate.
-    \item Trajectory planning and collision avoidance in one package
-    \item Would it help if we had the tools to more accurately predict other vessels.
+    \item Develop an MPC based trajectory planning algorithm using real vessel dynamics.
+    \item Implement collision avoidance systems for both static and dynamic obstacles.
+    \item Create functionality to ensure the vessel can not get stuck on terrain.
+    \item Create test scenarios to examine the performance of the algorithm.
+    \item Compare results when using linear interpolation of Target Ship trajectories and when using perfect information.
 \end{itemize}
+
 
 \subsection{Contributions}
 \begin{itemize}
     \item A novel MPC based path following trajectory planner that accounts for both static and dynamic obstacles.
     \item An evaluation of the fitness of numerical optimization as trajectory planning backbone.
-    \item documented simulations experimenting with the difference 'Prediction Level' makes.
-    \item documented problems that numerical optimization based trajectory planner algorithms might encounter.
-    \item propose mitigation methods for aformentioned problems.
+    \item Documented simulations experimenting with the difference 'Prediction Levels' make.
+    \item Documented problems that numerical optimization based trajectory planner algorithms might encounter.
+    \item Proposed mitigation methods for aforementioned problems.
 \end{itemize}
 
 \subsection{Outline}
 \begin{itemize}
-    \item Chapter 2 is background theory.
-    \item Chapter 3 is algorithm development.
-    \item Chapter 4 is simulation results.
-    \item Chapter 5 is conclusion and future work.
+    \item Chapter 2 presents the full theoretical background needed to understand the development of the trajectory planning algorithm.
+    \item Chapter 3 is a step-by-step walkthrough of the algorithm development.
+    \item Chapter 4 compiles the results and analyzes some of the more interesting observations. The chapter is capped off with a greater
+    discussion about the behavior of the algorithm, and it's shortcomings.
+    \item Chapter 5 summarizes the findings and suggest a handful of avenues for future work that could improve the developed algorithm.
 \end{itemize}
 
 

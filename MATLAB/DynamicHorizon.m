@@ -53,4 +53,8 @@ end
 h = 0.5; % statisk for nå.
 N = ceil(finaltime / h);
 
+%% HARDCODING
+% h = 0.5;
+% N = ceil(45 / h);
+
 end

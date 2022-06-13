@@ -43,19 +43,19 @@
 % is implemented as hard constraints in the \gls{NLP}, together an optimal trajectory is formed. 
 
 This chapter presents a step-by-step walkthrough of the developed trajectory planning and collision avoidance algorithm, and explains some of the
-design decisions that were made during development. Additionally the chapter will include som analyzis of problems that arose during development,
-and the implementationts that were made to overcome them. First the general dataflow of the algorithm is presented so that an intuition
+design decisions that were made during development. Additionally, the chapter will include some analysis of problems that arose during development,
+and the implementations that were made to overcome them. First the general data flow of the algorithm is presented so that an intuition
 can be gained as for how the individual parts of the algorithm are connected. Secondly each step of the algorithm is presented in the order of execution
 from top to bottom. Lastly a brief look at how the output from the algorithm is put to use. 
 
 The author wants to stress that while the trajectory planner is presented as a finished product, the algorithm was in active development until 12 days before
-the thesis deadline. The code will have bugs, there will be unreadable spaghetti code, and at times logical errors. The code should have be delivered
-as an attachment/appendix, or it can be found on github at: (TODO: LINK).
+the thesis deadline. The code will have bugs, there will be unreadable spaghetti code, and at times logical errors. The code should have been delivered
+as an attachment/appendix, or it can be found on GitHub at: (TODO: LINK).
 
 (TODO: enten i dette kapittelet eller i discussion må det skrives om tallverdi valg på funksjoner som dcpa grense etc.)
 (TODO: bør vel også nevne at koden er skrevet i MATLAB? er ikke det mest brukte kodespråket i verden).
 
-\subsection{Dataflow} (TODO: eller Overview?)
+\subsection{Data flow} (TODO: eller Overview?)
 % \begin{itemize}
 %     \item Begin by explaining the idea behind how the algorithm should work.
 %     \item This chapter will need diagrams.
@@ -64,11 +64,11 @@ as an attachment/appendix, or it can be found on github at: (TODO: LINK).
 %     \item Serves as a good overview of the whole algorithm.
 % \end{itemize}
 The core of the design is to construct a path following trajectory that is simultaneously able to comply with \gls{COLREGs} and avoid getting stuck
-on terrain or other obstacles. The dataflow of the algorithm is depicted in Figure \ref{FIG: Dataflow chart}, 
+on terrain or other obstacles. The data flow of the algorithm is depicted in Figure \ref{FIG: Dataflow chart}, 
 to avoid clutter the diagram does not include every subfunction and minor detail, it's a
 representative diagram, not a blueprint. On the left we begin with a higher level system, the algorithm
-relies on getting information about it's own vessel and information about other ships, in the diagram called "tracks". Additionally
-static obstacles and miscellaneous other settings for both debugging and behaviour tuning is to be supplied from said higher level system.
+relies on getting information about its own vessel and information about other ships, in the diagram called "tracks". Additionally,
+static obstacles and miscellaneous other settings for both debugging and behavior tuning is to be supplied from said higher level system.
 
 \begin{figure}[ht!]
     \includegraphics[width=\textwidth]{Images/SimpleSystem.pdf}
@@ -77,22 +77,22 @@ static obstacles and miscellaneous other settings for both debugging and behavio
 \end{figure}
 
 The algorithm is designed so that full prediction is the assumed standard prediction level. For testing and debugging purposes the tracks
-structure can be modified to emulate the formfactor of a simple prediction level, in a real implementation the simplification should not be neccessary
+structure can be modified to emulate the form factor of a simple prediction level, in a real implementation the simplification should not be necessary
 as the data in the tracks struct should already be in the correct format for either prediction level.
 The data in the tracks struct is parsed through a \gls{COLREGs} assessment algorithm to determine if any of the \gls{Ts}s need to be considered
-an active dynamic obstacle. If a \gls{Ts} is deemed to be active the \gls{tCPA} and \gls{COLREGs} sitation is determined and kept as a flag. The flag
+an active dynamic obstacle. If a \gls{Ts} is deemed to be active the \gls{tCPA} and \gls{COLREGs} situation is determined and kept as a flag. The flag
 is stored in a persistent variable that the \gls{COLREGs} assessment algorithm checks to avoid overwriting the classification of an active situation.
 
 Next, the information stored in the Vessel struct, the struct dedicated to the \gls{OS}, is used to calculate the desired time horizon for this call's
 \gls{MPC}. Horizon distance and discretization step length are then needed by the CasADi setup function to create the \gls{RK4} method that
-discretizes the vessel dynamics. On the very first call of the algorithm the feasibility check is skipped, because there is no previous trajctory to parse,
+discretizes the vessel dynamics. On the very first call of the algorithm the feasibility check is skipped, because there is no previous trajectory to parse,
 on all subsequent calls of the function the previously calculated optimal trajectory is checked for infeasibility. 
 Feasibility, time horizon and discretization step information is then used to generate a reference trajectory for the \gls{OS}, a trajectory is
 also generated for all the \gls{Ts} in the tracks struct, which are used to place dynamic constraints later.
 
 The last step of the setup is to initialize the NLP using the \gls{OS}'s initial conditions, which creates the first
 six decision variables of $\bm{\omega_0}$ and the first six elements of the constraint function $\textbf{g}(\bm{\omega})$.
-Afterwars the algorithm iterates through all the control intervals, $NP$, from $K = 0:NP-1$, as decided by discretization step length and time horizon, 
+Afterwards, the algorithm iterates through all the control intervals, $NP$, from $K = 0:NP-1$, as decided by discretization step length and time horizon, 
 constructing the NLP piece by piece in the following order:\newline
 (TODO: Denne kan kanskje gjøres om til sånn fin algorithm type)\newline 
 First three new decision variables $\bm{\tau_k}$ are made, the appropriate reference states are extracted from the reference trajectory, making sure
@@ -120,17 +120,17 @@ for the next control interval returned as the output of the algorithm.
 %     \item It's also important to remember that the value of many parameters are just guesswork, many of the subfunctions
 %     would benefit from a more sophesticated design that are tuned based on the situation the vessel finds itself in.
 % \end{itemize}
-The setup is all of the code that is run from when the trajectory planning algorithm is called, up until the construction of the \gls{NLP}.
+The setup is all the code that is run from when the trajectory planning algorithm is called, up until the construction of the \gls{NLP}.
 This is the modular part of the code, where functionality can easily be added or removed without having to refactor
 the rest of the algorithm. Anything from new and improved situational awareness models to reference trajectory creation and
-COLREGs compliance ideas slot right into the setup. Of course these mentioned systems could just as well exist outside of the
+COLREGs compliance ideas slot right into the setup. Of course these mentioned systems could just as well exist outside the
 trajectory planning algorithm, but for this thesis it's designed as an all-in-one package.
 
 In the current version of the trajectory planning algorithm there are four major and four minor tasks to get through
 in the setup. First the major tasks:
 \begin{itemize}
     \item Conduct COLREGs assessment.
-    \item Calcualte dynamic horizon.
+    \item Calculate dynamic horizon.
     \item Run CasADi initialization.
     \item Generate reference trajectories for \gls{OS} and \gls{Ts}s
 \end{itemize}
@@ -140,7 +140,7 @@ and the four minor tasks:
     \item Initialize dynamic obstacles, and simplify tracks if needed.
     \item Conduct feasibility check on the previous optimal trajectory if it exists.
     % \item Sanitize initial position to make sure there are no problems with the heading.
-    \item fetch static obstacles, this is only a task because of how the MATLAB simulator is set up.
+    \item Fetch static obstacles, this is only a task because of how the MATLAB simulator is set up.
 \end{itemize}
 
 \subsubsection*{Persistent Variables} (TODO: vet ikke helt hvorfor jeg går så grundig til verks...)
@@ -149,7 +149,7 @@ time the script runs. This can be used to create rudimentary state machines, or 
 Persistent variables are declared without an initialization, and the method for initializing them without overwriting every time is shown in Algorithm [\ref{ALG: PERSISTENT}].
 
 \begin{algorithm}[ht]
-    \caption{Function: Initalize persistent variable} \label{ALG: PERSISTENT}
+    \caption{Function: Initialize persistent variable} \label{ALG: PERSISTENT}
     \begin{algorithmic}
         \State \textbf{persistent} Var
         \If{isempty(Var)}
@@ -159,17 +159,17 @@ Persistent variables are declared without an initialization, and the method for 
 \end{algorithm}
 
 Because persistent variables persist it is advised to manually clear the script when starting the MATLAB simulator, otherwise
-residual perisstent variables from unrelated scenario files can cause debugging problems. In the algorithm there are seven
+residual persistent variables from unrelated scenario files can cause debugging problems. In the algorithm there are seven
 persistent variables. Two are used to store the optimal trajectory between iterations. One to store the discretized function F, so it doesn't have to be
-remade every time the algorithm runs. one for storing COLREGs flag to act as a state machine. One for storing a variable called firsttime, 
+remade every time the algorithm runs. Another for storing COLREGs flag to act as a state machine. One for storing a variable called "firsttime", 
 used to execute code only the first time the algorithm is called. One that enables or disables obstacles, 
 only left intact as a debugging tool. And the last one to store the previous iterations heading reference, which is used to prevent a
 Wrap-to-2-Pi problem. (TODO: SKriv om hva Wrap-to-2-pi problem er for noe).
 
 The reason there are two persistent variables to store the previous optimal trajectory is poor planning:
 the original optimal trajectory was dumped if it took too long to solve the NLP. 
-But later when I implemented a feasiblity check this would cause issues since feasiblity and time-to-solve for the NLP are not neccessarily linked.
-Saving the previous optimal trajectory twice so that one is use for feasiblity check, while the other is the initial guess substitution candidate,
+But later when I implemented a feasibility check this would cause issues since feasibility and time-to-solve for the NLP are not necessarily linked.
+Saving the previous optimal trajectory twice so that one is use for feasibility check, while the other is the initial guess substitution candidate,
 was a very quick hack solution that worked well enough that it survived until the final version of the code.
 
 
@@ -181,8 +181,8 @@ was a very quick hack solution that worked well enough that it survived until th
 % ship, and the next waypoint is one nautical mile in the direction of the ships heading. Ideally course over ground would be used instead of heading, however
 % in the simulator crab angle and sideslip are not accounted for, therefor heading and course are the same angle.
 % Excess waypoints stored in the TS struct are also truncated and the current waypoint index is forcefully set to 1 to prevent index out of range type errors.
-This part of the setup is only neccessary in simulations, the idea is to prepare the tracks struct so that it can be parsed by the COLREGs assessment algorithm
-regardless of desired prediction level. Since it is much easire to truncate excess waypoints and 'step down' from full prediction to simple, than the other way around, the algorithm
+This part of the setup is only necessary in simulations, the idea is to prepare the tracks struct so that it can be parsed by the COLREGs assessment algorithm
+regardless of desired prediction level. Since it is much easier to truncate excess waypoints and 'step down' from full prediction to simple, than the other way around, the algorithm
 was developed with full prediction level as the standard. If it's desired to step down to a simple prediction level the tracks simply need to be parsed though algorithm [\ref{ALG: Simplify Tracks}].
 
 % \begin{lstlisting}
@@ -267,11 +267,11 @@ was developed with full prediction level as the standard. If it's desired to ste
 %     \end{algorithmic}
 % \end{algorithm}
 
-(TODO: synes dette kapittelet er elendig beskrevet, vet ikke om jeg orker skrive det bedre).
+% (TODO: synes dette kapittelet er elendig beskrevet, vet ikke om jeg orker skrive det bedre).
 
-The COLREGs assessment algorithm solves two problems, the first is figuring out if a \gls{Ts} vessel will be be within close enough proximity that it should be considered
-an active COLREGs situation. The second problem is deciding which COLREGs situation such a encounter might be. For two vessels with constant speed and course this is a rather
-simple task; first apply the equations \eqref{eq:tCPAdCPA}, and then run a COLREGs assessment function such as one laid out by (\cite{Thyri2021b}). However if we want
+The COLREGs assessment algorithm solves two problems, the first is figuring out if a \gls{Ts} vessel will be within close enough proximity that it should be considered
+an active COLREGs situation. The second problem is deciding which COLREGs situation such an encounter might be. For two vessels with constant speed and course this is a rather
+simple task; first apply the equations \eqref{eq:tCPAdCPA}, and then run a COLREGs assessment function such as one laid out by (\cite{Thyri2021b}). However, if we want
 to take advantage of full prediction level a bit more logic is needed to assure full coverage of the intended path. Another functionality needed to ensure COLREGs compliance
 is a state machine that holds onto the designated COLREGs situations, the rules state that once a situation has started it persists until both vessels are clear of each other.
 
@@ -285,13 +285,13 @@ Figure out the pose of the \gls{OS} and \gls{Ts}.\newline
 Run the CPA check from said pose.\newline
 Calculate the time and distance to next \gls{OS} waypoint so that the pose of the \gls{Ts} at that point can be accurately found.
 
-Finding the pose of the \gls{OS} is trivial, the first iteration of the function the pose is just the current positon and course of the vessel, for all
+Finding the pose of the \gls{OS} is trivial, the first iteration of the function the pose is just the current position and course of the vessel, for all
 subsequent waypoints the waypoints themselves are the position and the heading is the direction towards the next waypoint. The last waypoint does not need to be checked
-because at that point the \gls{OS} stops moving. While this is a fantastically simple way of interating forward through the waypoints, the tradeoff is less accuracy of the CPA check
+because at that point the \gls{OS} stops moving. While this is a fantastically simple way of integrating forward through the waypoints, the trade-off is less accuracy of the CPA check
 when turning. 
-Finding the pose of the \gls{Ts} is slightly more involved, since there are no waypoints to lean on the method here is different than for the \gls{OS}.
+Finding the pose of the \gls{Ts} is slightly more involved since there are no waypoints to lean on, the method here is different from for the \gls{OS}.
 To begin we know where the \gls{Ts} is when the check is conducted, time and an assumption of constant velocity is then used to calculate the pose.
-(TODO: hvordan vise dette uten å ta med hele kodesnutten?).
+% (TODO: hvordan vise dette uten å ta med hele kodesnutten?).
 % \begin{lstlisting}
 %     function [pos_TS, vel_TS] = whereisTS(tracks,wptstimer)
 %     pos_TS = tracks.eta(1:2);
@@ -335,7 +335,7 @@ To begin we know where the \gls{Ts} is when the check is conducted, time and an 
 With the pose of both vessels calculated, the next step is to check the CPA, which is the same equation as \eqref{eq:tCPAdCPA}, the values for
 \gls{dCPA} and \gls{tCPA}, as well as the pose of both vessels are stored in vectors for later. The \gls{tCPA} value is also added to a timer which is
 used to track how much time is passing for the \gls{OS} to reach the checked waypoints.
-The full path CPA check is then ran with the vessel inputs flipped, so that the \gls{Ts} waypoints are checked, the lowest values of each CPA list
+The full path CPA check is then run with the vessel inputs flipped, so that the \gls{Ts} waypoints are checked, the lowest values of each CPA list
 are then compared to select which \gls{dCPA} is truly the shortest distance. If both dCPA and tCPA are under some set threshold a COLREGs classification is set.
 (TODO: [...] as described? det er jo referert til tre forskjellige kilder med metoder, tror det skal være greit forstått).
 
@@ -349,7 +349,7 @@ are then compared to select which \gls{dCPA} is truly the shortest distance. If 
 % \end{itemize}
 The purpose of the dynamic horizon is to shorten the amount of control intervals when the \gls{OS} approaches the final destination. The reason for this
 is that having many control intervals stationary at the end position can unbalance the cost function and lead to poor performance for the remainder of the path.
-The dynamic horizon can also be coded so that it's dynamic with respects to COLREGs situations; always having enough control intervals to clear the furthet out
+The dynamic horizon can also be coded so that it's dynamic with respects to COLREGs situations; always having enough control intervals to clear the further out
 COLREGs situation, but less control intervals than the nominal value so the \gls{NLP} can be solved faster, which would lead to a better reactive performance.
 
 The distance between two waypoints $\textrm{WP}_1 = (N_1, E_1)$,  $\textrm{WP}_0 = (N_0, E_0)$  is calculated with by the following equation:
@@ -365,7 +365,7 @@ reach goal is:
 \begin{equation}
     T_{goal} = \frac{D_{goal}}{u}
 \end{equation}
-where $u$ is the surge of the \gls{OS}. It's not neccessary for this check to be 100\% accurate, it is expected that the \gls{OS} will deviate from the
+where $u$ is the surge of the \gls{OS}. It's not necessary for this check to be 100\% accurate, it is expected that the \gls{OS} will deviate from the
 path due to physical constraints and obstacles anyway. To prevent accidentally dividing by zero the surge is capped at a lower bound value of $0.001m/s$.
 \begin{lstlisting}
 if vessel.nu(1) < 0.001
@@ -390,8 +390,8 @@ because the tCPA list was not sanitized to only include active COLREGs situation
     \end{algorithmic}
 \end{algorithm}
  \newline
-where h and maxseconds are cosntants for this thesis, N is the number of control intervals. In the current version of the algorithm only the finaltime under the if
-sentence condition is hardcoded to return false, due to the afformentioned poor implementation.
+where h and maxseconds are constants for this thesis, N is the number of control intervals. In the current version of the algorithm only the finaltime under the if
+sentence condition is hard-coded to return false, due to the aforementioned poor implementation.
 
 
 \subsubsection*{CasADi setup}
@@ -408,9 +408,9 @@ sentence condition is hardcoded to return false, due to the afformentioned poor 
 %     \item the final function F that CasADi needs.
 %     \item Noe av disse greiene blir dekt av Background, forhåpentligvis.
 % \end{itemize}
-The casadi setup is where the vessel model and dynamics from (\ref{CHAP: Vessel Modelling}) are implemented, as well as the cost function and \gls{RK4}
+The CasADi setup is where the vessel model and dynamics from (\ref{CHAP: Vessel Modelling}) are implemented, as well as the cost function and \gls{RK4}
 method from (\ref{CHAP: NLP}). As the chapter title suggests, everything is implemented using CasADi's framework. The pose and velocity vectors
-are combined as one SX.sym vector, while the forces and toruqe is made separately. A vector for the references is also created.
+are combined as one SX.sym vector, while the forces and torque is their own vector. A vector for the references is also created.
 \begin{lstlisting}
     % System matrices.
     x = SX.sym('x',6); % x = [N, E, psi, u, v, r]'
@@ -418,7 +418,7 @@ are combined as one SX.sym vector, while the forces and toruqe is made separatel
     xref = SX.sym('xref',6); % xref = [Nref, Eref, Psi_ref, Surge_ref, sway_ref, r_ref]'
 \end{lstlisting}
 
-(TODO: Kan skrive inn matrisene på nytt så leser slipper å klikke tilbake til kapittel 2 for å huske hvordan de så ut.)
+% (TODO: Kan skrive inn matrisene på nytt så leser slipper å klikke tilbake til kapittel 2 for å huske hvordan de så ut.)
 The vessel mass matrix $\textbf{M}$, \eqref{EQ: Mass}, is created with the following parameter values:
 \begin{table}[ht!]
     \begin{center}
@@ -456,7 +456,7 @@ The differential equation for $\bm{\nu}$ is then:
 \begin{equation}
     \dot{\bm{\nu}} = \textbf{M}\backslash(\bm{\tau} - (\textbf{C}+\textbf{D})*x(4:6))
 \end{equation}
-$\bm{\nu}$ can then be integrated forward one step length with simple euler integration:
+$\bm{\nu}$ can then be integrated forward one step-length with simple Euler integration:
 \begin{equation}
     \bm{\nu} = x(4:6) + h\dot{\bm{\nu}}
 \end{equation}
@@ -469,7 +469,7 @@ The equation for $\dot{\bm{\eta}}$ is the same as \eqref{EQ: eta_dot}, with $\ps
     \end{bmatrix} \bm{\nu}
 \end{equation}
 
-With everything set up the cost function L can be created and defined as a casadi function as so:
+With everything set up the cost function L can be created and defined as a CasADi function as so:
 \begin{lstlisting}
     %% Cost function and weights.
     Kp = diag([8*10^-1, 8*10^-1]); % Tuning parameter for positional reference deviation.
@@ -492,11 +492,11 @@ With everything set up the cost function L can be created and defined as a casad
 \end{lstlisting}
 
 The parameter values on the weights were chosen by trial and error until the trajectory planning algorithm managed
-to track a reference path reasonably well. cost on deviation from heading reference is actually undesirable, in a real use case
+to track a reference path reasonably well. Cost on deviation from heading reference is actually undesirable, in a real use case
 for the algorithm disturbances such as wind, waves and currents would knock the heading about and cause undue increases in cost.
 (TODO: as discussed in the theory...) The correct course should naturally be found when velocities are restricted to only
-surge, the optimal way to move is in the direction of the goal after all. However one of the quirks of using numerical optimization 
-to guide a vehicle is that the solver has no idea what a boat or a heading is. If the reference trajectory experiences a discontinous
+surge, the optimal way to move is in the direction of the goal after all. However, one of the quirks of using numerical optimization 
+to guide a vehicle is that the solver has no idea what a boat or a heading is. If the reference trajectory experiences a discontinuous
 jump in course by leaving the bounds of $[0, 2\pi]$ and wrapping around the algorithm might have the great idea to turn the long way around.
 A miniscule cost associated with turning the wrong way was experimented with to mitigate that possibility.
 
@@ -526,7 +526,7 @@ If you are wondering why the system is initialized with SX.sym but the RK4 metho
 no answer; CasADi's example pack includes an example for direct multiple shooting, that example includes an RK4 method on the form shown above.
 Since my algorithm uses the direct multiple shooting example as a skeleton this RK4 method with MX.sym was carried along until the final version.
 
-Once we have constructed F it can be stored as a presistent variable in MATLAB, then there is no need to rerun CasADi setup potentially saving
+Once we have constructed F it can be stored as a persistent variable in MATLAB, then there is no need to rerun CasADi setup potentially saving
 milliseconds.
 
 %  If the reference turns from a heading due 10\textdegree
@@ -553,7 +553,7 @@ If the distance between two points is greater than some set limit then the traje
 ramifications later. In this thesis the limit for feasibility is a very generous five meters, a lot more than the Milliampere ferry's max speed of
 two meters per second can move, but obviously this limit must be tuned to fit the vessel it's controlling.
 
-(TODO: Jeg kan ta med kodesnutt for hver eneste 'task', da vil leser etter hvert få sett alle de viktigste punktene fra algoritmen.)
+% (TODO: Jeg kan ta med kodesnutt for hver eneste 'task', da vil leser etter hvert få sett alle de viktigste punktene fra algoritmen.)
 
 \subsubsection*{Reference from LOS}
 % \begin{itemize}
@@ -563,15 +563,15 @@ two meters per second can move, but obviously this limit must be tuned to fit th
 %     \item Position reference and speed reference need to be consitent with each other.
 % \end{itemize} 
 The theory behind this chapter was thoroughly discussed in (\ref{CHAP: LOS GUIDANCE}), most of the code for this was also provided by
-Emil thyri, the MATLAB simulator's developer, as it is a neccessary for simulating \gls{Ts}s. Therefor this chapter will be brief. The logic implemented
+Emil Thyri, the MATLAB simulator's developer, as it is a necessary for simulating \gls{Ts}s. Therefor this chapter will be brief. The logic implemented
 is no different from the discussed theory, one modification that was made specifically for this thesis was functionality for reducing the speed
-before creating the reference trajectory. If the feasibility check disucssed above deems the previous optmial trajectory to have been infeasible, something
+before creating the reference trajectory. If the feasibility check discussed above deems the previous optimal trajectory to have been infeasible, something
 has possibly gone very wrong in the path ahead. The feasibility check says nothing about what went wrong, so in absence of information the best
 course of action would be to reduce the vessel's speed until the path ahead clears. 
 
 This reference trajectory does not have to be made using LOS guidance, any guidance law for path or trajectory planning can be applied as long as
 it is easily discretized to the same step length as the trajectory planning algorithm uses. One important criteria for picking a reference trajectory 
-method is to consider runtime, it would be ill-adviced to use an algorithm that takes a very long time to calculate a trajectory.
+method is to consider runtime, it would be ill-advised to use an algorithm that takes a very long time to calculate a trajectory.
 
 \subsection{NLP Construction and Solver} 
 % \begin{itemize}
@@ -584,8 +584,8 @@ method is to consider runtime, it would be ill-adviced to use an algorithm that 
 % \end{itemize}
 
 With the setup out of the way it's time to construct and solve the \gls{NLP}. This part of the algorithm
-mostly consists of piecing together CasADi's framework and calculating constraints. Consturction of the decision variable vector $\bm{\omega}$ and the constraint function
-vector $\textbf{g}(\bm{\omega})$ is done piecewise in the following way:
+mostly consists of piecing together CasADi's framework and calculating constraints. Construction of the decision variable vector $\bm{\omega}$ and the constraint function
+vector $\textbf{g}(\bm{\omega})$ is done piece wise in the following way:
 \begin{algorithm}[ht]
     \caption{Construction of CasADi sym vectors and their bounds} \label{ALG: general CasADi sym}
     \begin{algorithmic}
@@ -597,7 +597,7 @@ vector $\textbf{g}(\bm{\omega})$ is done piecewise in the following way:
     \end{algorithmic}
 \end{algorithm}
 
-using the general algorithm, the shooting gap constraints look like this as an example:
+Using the general algorithm, the shooting gap constraints look like this as an example:
 \begin{lstlisting}
     g = [g {Xk_end - Xk}];
     lbg(g_counter:g_counter+5) = [0; 0; 0; 0; 0; 0];
@@ -605,10 +605,10 @@ using the general algorithm, the shooting gap constraints look like this as an e
     g_counter = g_counter + 6;
 \end{lstlisting}
 where Xk\_end is the end of the previous integration step and Xk are the newest decision variables, this will be discussed soon.
-Here, the length of the upper and lower bounds are pre-allocated to make the \gls{NLP} slighly more computationally efficient,
+Here, the length of the upper and lower bounds are pre-allocated to make the \gls{NLP} slightly more computationally efficient,
 it adds up over the course of a long simulation. MATLAB will complain about memory allocation for g, 
 but testing showed that it was faster to do it this way than pre-allocating a list. 
-(TODO: skulle ønske jeg tok vare på tallene jeg hadde for dette...)
+% (TODO: skulle ønske jeg tok vare på tallene jeg hadde for dette...)
 
 
 % \subsubsection{NLP initialization}
@@ -630,11 +630,11 @@ for this algorithm the reference trajectory calculates velocities in NED, so the
 The position reference is straight forward, but the heading reference needs a bit of work to make sure things don't get messy.
 
 To begin with the reference trajectory does not output heading, but it can easily be found by considering the velocity references, which are in NED.
-the direction of the velocity in NED is the desired course. We allow ourselves to use this course as heading reference, even though as discussed in the theory;
+The direction of the velocity in NED is the desired course. We allow ourselves to use this course as heading reference, even though as discussed in the theory;
 that's not an ideal situation.
 
 For the first loop of the \gls{NLP} construction it's important to make sure the heading reference is the same signed angle as the initial position heading.
-This is done by checking the difference between heading\_ref - initial\_heading versus wrapTo2Pi(heading\_ref) - initial heading. whichever resulting angle is the smallest
+This is done by checking the difference between heading\_ref - initial\_heading versus wrapTo2Pi(heading\_ref) - initial heading. Whichever resulting angle is the smallest
 is the version of the heading reference we want to keep. For every k after 0 The heading reference is kept in the correct sign with the following code:
 \begin{lstlisting}
     eta_ref(3) = previous_eta_ref(3)...
@@ -711,7 +711,7 @@ In the end it looks something like this:
 %     \item How to place them
 % \end{itemize}
 The new control interval now needs constraints to ensure a collision free trajectory, starting with the dynamic constraints.
-First check if there are any constraints, if there are none the whole step can simply be skipped. Similarly we want to skip
+First check if there are any constraints, if there are none the whole step can simply be skipped. Similarly, we want to skip
 this step if it's the first time the algorithm is run, the reason why discussed later. (TODO: HUSK DETTE)
 
 \begin{figure}[ht!]
@@ -721,7 +721,7 @@ this step if it's the first time the algorithm is run, the reason why discussed 
 \end{figure}
 
 Next, iterate through all the \gls{Ts}s in the tracks struct and check their assigned COLREGs flags.
-Each COLREGs situation should have their own constraint locations, however the exact optimality of placement
+Each COLREGs situation should have their own constraint locations, however the optimal placement
 will depend on situation complexity, available space, velocities of the ships involved, and other factors. In
 this thesis the placement is simplified greatly by having just pattern for each situation.
 
@@ -792,13 +792,13 @@ or counter-clockwise direction. With N obstacles that can be put together on the
     \mathcal{O}_s = [\mathcal{O}_{s_{1}} \ , \ \textbf{NaN} \ , \ \mathcal{O}_{s_{2}} \ , \ ... \ , \ \textbf{NaN} \ , \ \mathcal{O}_N] \in \mathbb{R}^{2 \times c}
 \end{equation}
 where $\textbf{NaN} = [NaN \ , \ NaN]^T$ is inserted between each obstacle to separate them, 
-and the column dimension c is dependant on the amount and shape of the obstacles.
+and the column dimension c is dependent on the amount and shape of the obstacles.
 %%
 
 Properly incorporating static obstacles into the algorithm proved to be a bit of a hassle. The first solution, seen in 
 Figure \ref{FIG: Static Obs Naive approach 1}, was to iterate through every polygon in the static obstacle matrix, interpolating
 every edge to create a saturation of points that would be used as the center for circular constraints, akin to the dynamic
-obstacles. This was a terrible idea because it meant simulations with lots of static obstacles ended up having hundreds of thounsands
+obstacles. This was a terrible idea because it meant simulations with lots of static obstacles ended up having hundreds of thousands
 of constraints, which made the \gls{NLP} impossible to solve. 
 The second solution, seen in Figure \ref{FIG: Static Obs Naive approach 2}, was to increase the size of the circular constraints
 significantly so that less were needed. This worked for a while during initial testing and experiments, 
@@ -810,7 +810,7 @@ were going to be used to place circular constraints, but it didn't take long to 
 error from LOS guidance would be a much better idea. 
 
 % When the obstacles are gathered in this form, consrtaints can be generated the followig way:\newline
-In the final version of the algorith, static obstacle constraints can be generated the following way:\newline
+In the final version of the algorithm, static obstacle constraints can be generated the following way:\newline
 Consider a fan of scan lines radiating from the \gls{OS} with fixed length and angle. The intersection
 point between a scan lines and the line between any two columns in $\mathcal{O}_s$ forms the basis of the constraint 
 $\mathbf{o}_{sc} = (o_n \ , \ o_e)$ in NED.\newline
@@ -822,7 +822,7 @@ the point $\mathbf{o}_{sc}$, calculated like in \eqref{EQ: cross and along track
 where (N, E) are the north and east position of the \gls{OS}, and $\gamma_p$ is the angle of the orthogonal line w.r.t NED.
 See Figure \ref{FIG: static_obs_ex} for a visualization of the geometry.
 The scan lines are generated at each discretized step of the reference trajectory, and every found intersection between a 
-line the static obstacles has it's own associated cross track error that is added to the function $\textbf{g}(\omega)$:
+line the static obstacles has its own associated cross track error that is added to the function $\textbf{g}(\omega)$:
 \begin{equation}
     \textbf{g}(\omega) = \begin{bmatrix}
         \vdots \\
@@ -830,7 +830,7 @@ line the static obstacles has it's own associated cross track error that is adde
         \vdots
     \end{bmatrix}
 \end{equation}
-with the lower bounds of $\textbf{g}(\omega)$ defining the allowed distance beteen the vessel and the constraint lines, while the upper bounds
+with the lower bounds of $\textbf{g}(\omega)$ defining the allowed distance between the vessel and the constraint lines, while the upper bounds
 should be infinite. This creates a convex free set bound by the static obstacles around the reference trajectory. 
 (TODO: kutt den siste setningen hvis jeg ikke kommer på mer å skrive.)
 
@@ -855,16 +855,16 @@ should be infinite. This creates a convex free set bound by the static obstacles
 
 
 The algorithm for creating the intersection points and finding the appropriate angle for the constraint line is a bit involved.
-Since every control interval needs it's own set of constraints we need to iterate forward in time through decision variables
+Since every control interval needs its own set of constraints we need to iterate forward in time through decision variables
 that don't exist yet. The solution is to instead use the previous optimal trajectory if it exits, or the reference trajectory if we must.
-This will create a slight distortion in where the static obstacles end up being placed, but it the distortion is less prominent
+This will create a slight distortion in where the static obstacles end up being placed. But, the distortion is less prominent
 the closer we are to the current position of the \gls{OS}, so it's not that big of a deal as the problem corrects itself when it draws near. (TODO: denne distortionen er ikke forklart noe særlig.
 det kommer jo av forskjell mellom forrige optimale bane og ny optimal bane kan føre til at statiske hindringer som burde eksistere ikke gjør det eller motsatt.)
 
-While iterating through the selected trajectory the scanlines are fairly easy to construct, but conducting the intersection check is actually very complicated. Luckily
+While iterating through the selected trajectory the scan lines are fairly easy to construct, but conducting the intersection check is actually very complicated. Luckily
 there exists a MATLAB function for just this purpose, polyxpoly, which comes as part of the MATLAB mapping toolbox. Polyxpoly outputs the x, y, 
-and an index for which polygon edge were part of the intersection. It does this for every intersection it find, when we run the check using all the scanlines
-and all the static obstacle polygons at the same time this can lead to some duplicate hits. In a similar vein it is possible for a scanline to completely pass through
+and an index for which polygon edge were part of the intersection. It does this for every intersection it finds, when we run the check using all the scan lines
+and all the static obstacle polygons at the same time this can lead to some duplicate hits. In a similar vein it is possible for a scan line to completely pass through
 an obstacle polygon, in which case it would intersect twice, with the second intersection being on the backside of the obstacle. Both the backside intersection and
 duplicate intersections are undesirable, the output from polyxpoly can be "sanitized" with the following code snip:
 \begin{lstlisting}
@@ -878,7 +878,7 @@ duplicate intersections are undesirable, the output from polyxpoly can be "sanit
     ii = A_without_dup(:,3:4);
 \end{lstlisting}
 The static obstacle constraint parameters can then be collected by combining the xi and yi vectors into a single matrix, keeping in mind that the output
-has the x and y axis opposite from what we have gotten used to by now. The angle of the constraint can then be calculated using some spaghetti code that should
+has the x and y-axis opposite from what we have gotten used to by now. The angle of the constraint can then be calculated using some spaghetti code that should
 have instead been a lookup table if the author were a bit smarter. The implementation for calculating the angle $\gamma_p$ (here called pi\_p) ended up being:
 \begin{lstlisting}
     static_obs_constraints = zeros(3,length(xi));
@@ -893,10 +893,10 @@ have instead been a lookup table if the author were a bit smarter. The implement
         static_obs_constraints(:,i) = [intersectionpoint(1); intersectionpoint(2); pi_p];
     end 
 \end{lstlisting}
-where pos is the position of the OS. Instead of all this the angle between the intersection point and OS should indicate which scanline resulted
-in said intersection, each scanline can only have one orthogonal vector and they can be pre-calculated and put in a list. you then only have to grap the correct index
+where pos is the position of the OS. Instead of all this the angle between the intersection point and OS should indicate which scan line resulted
+in said intersection, each scan line can only have one orthogonal vector, and they can be pre-calculated and put in a list. You then only have to grab the correct index
 from the list to get your angle pi\_p. The constraint function placed in $\textbf{g}(\bm{\omega})$ is Equation \eqref{EQ: Static ye}, with the lower
-bound value for g deciding how close the \gls{OS} is allowed the line. In this thesis that lower bound is hardcoded to be 5 meters, but just as with dynamic obstacles
+bound value for g deciding how close the \gls{OS} is allowed the line. In this thesis that lower bound is hard-coded to be 5 meters, but just as with dynamic obstacles
 this value should really be some function of the complexity of the situation.
 
 
@@ -908,31 +908,31 @@ this value should really be some function of the complexity of the situation.
 %     \item CasADi really does all the hard work.
 % \end{itemize}
 After the construction of the \gls{NLP} is finished a solver instance is created with CasADi, selecting \gls{IPOPT}
-as the desired solver. Additionally the solver instance is able to take in a few options for changing tolerances
+as the desired solver. Additionally, the solver instance is able to take in a few options for changing tolerances
 and tweaking other aspects of the solver. There are three options which are very useful for the algorithm. 
 The first is options.ipopt.max\_iter, which lets us set a hardcap on how many iterations the \gls{IPOPT} solver is 
-allwed to use. Great for reducing runtime. The second option is the options.ipopt.print\_level, which controls 
+allowed to use. Great for reducing runtime. The second option is the options.ipopt.print\_level, which controls 
 how much information is printed to the command window, this has no actual effect solver, 
-but printing to command window takes time. lowering the print level is great for running simulations faster.
+but printing to command window takes time. Lowering the print level is great for running simulations faster.
 
 In the final version of the algorithm I've set options.ipopt.max\_iter to 200 for the first time 
 the algorithm runs, and 400 for the rest. The reason is that the \gls{IPOPT} solver generally gets very close
 to a solution in just a few iterations, but then takes a really long time to get all the way to the finish line.
 For the first iteration there are no obstacles enabled, if the solver can't get to the optimal solution in 200 iterations
-then it's not gonna get to one in 2000 either. With obstacles enabled 400 iterations seems like a nice compromise between
+then it's not going to get to one in 2000 either. With obstacles enabled 400 iterations seems like a nice compromise between
 wanting a fast solution, and giving the solver enough tries to get reasonably close to an optimum. 
 
 After setting the options and creating the solver instance, the very last task left before solving is to
 substitute the initial guess $\bm{\omega}_0$ with the previous optimal trajectory if was deemed feasible
-by the feasibility check. Having an initial guess that is close to a optimal solution makes the \gls{NLP}
-a lot easier to solve. This is also why the initial guess sym is filled with the reference values while
+by the feasibility check. Having an initial guess that is close to an optimal solution makes the \gls{NLP}
+a lot easier to solve. This is also why the initial guess $\bm{\omega}_0$ is filled with the reference values while
 constructing the NLP, it's a lot better to have some initial guess than to guess 0 for everything (\cite{gros2017Lecture}).
 Because the amount of control intervals will vary between calls some logic is implemented to make sure the new
-$\bm{\omega}_0$ is of the same size. Either by grafting on some of the reference values or by trimming the end, depending on
+$\bm{\omega}_0$ is of the same size. Either by grafting on some reference values or by trimming the end, depending on
 if it's too long or short.
 
 The solver instance is then executed and timed, as long as it took less than 30 seconds to solve we save the result for next time
-otherwise next iteration will have to rely on the reference as a initial guess.
+otherwise next iteration will have to rely on the reference as an initial guess.
 
 
 %  The author wont pretend to know what's the best settings here, recommended

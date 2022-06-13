@@ -11,23 +11,111 @@
 % \end{itemize}
 
 \subsubsection*{Conclusion}
+% \begin{itemize}
+%     \item Summary of results, obviously.
+%     \item Compare with the 'problem description', have I succesfully contributed to anything?
+%     \item Final thoughts on my own work
+% \end{itemize}
+
+
+Using a combination of maneuvering theory and numerical optimal control a trajectory planning and collision avoidance
+algorithm was developed. The algorithm was tested in two different configurations, one with perfect information about
+other vessel's future trajectories, called "full prediction". And the other using linear interpolation to estimate other vessel's future trajectories, called "simple prediction".
+In testing, it was found that having full prediction more often than not led to better COLREGs compliance in a variety of situations, all other factors equal.
+With simple prediction level the developed algorithm would often encounter hitches as the constraints on the optimal control problem would move between iterations,
+this led to poorer performance both in terms of computational efficiency and observable COLREGs compliance.
+
+While the technology for having full prediction does not yet exist, this thesis has shown that achieving better prediction than simple linear interpolation
+would be beneficial even with no other changes made. Research into bettering the technology for intent inferring and trajectory predictions is therefor
+a worthy pursuit.
+
+Formulating the control objective as a NonLinear Programming problem, using Model Predictive Control as a means for guiding the Own Ship has also 
+shown itself to be a viable method for mid-level trajectory planning and collision avoidance. Using the CasADi framework and an IPOPT solver to solve the
+optimal control problem, the algorithm was able to calculate the optimal trajectory for the next 5 minutes of transit in 0.7 to 3 seconds under normal conditions.
+Under strained conditions or if the optimal control problem became infeasible it could take upwards of 90 seconds for the algorithm to arrive at a solution, though
+nominal times under these tougher conditions were usually in the 10-30 second range.
+
+The algorithm is able to navigate congested waters, avoid static obstacles, and slow down in the event of a blockade the Own Ship can't get past.
+The algorithm features COLREGs situation assessment functionality, which is able to correctly identify which of the COLREGs 
+rules apply to the Own Ship when encountering another vessel.
+
+All that said, the algorithm suffers from a fair few shortcomings in terms of missing functionality or hard coded parameter values that only work in a certain type
+of situations. Among the aspects of the algorithm which are not satisfactory are: 
 \begin{itemize}
-    \item Summary of results, obviously.
-    \item Compare with the 'problem description', have I succesfully contributed to anything?
-    \item Final thoughts on my own work
+    \item Inadequate situational awareness for threshold values that dictate safety.
+    \item A static cost function, unable to adjust to COLREGs situations.
+    \item Lack of adaptability when placing dynamic constraints.
+    \item No functionality for culling out of reach or overlapping constraints.
+    \item Hard-coded discretization step length, not possible to shorten for handling complicated situations, or extended when there is nothing happening.
+    \item The dynamic horizon for the MPC could incorporate more variables than it currently does, most importantly it should be shortened in response to
+    having a lot of active COLREGs situations.
 \end{itemize}
 
+
+
+
+\clearpage
 \subsubsection*{Future Work}
+% \begin{itemize}
+%     \item More work needed for optimizing placement of constraint, as well as when constraints need to be active.
+%     \item More work needed for situational awareness adjustion of parameters
+%     \item more work needed to examine scenarios with and without full \gls{Ts} prediction;
+%     more velocities, more variation of vessel sizes, more diverse enviornments.
+%     \item More work related to a variable cost function, a more adaptable cost function could for example yield better COLREGs compliance.
+%     \item More work related to Optimizing runtime of algorithm, tuning the IPOPT tolerances to balance computation speed and desired behaviour.
+%     \item More work related to tuning COLREGs compliance, testing more COLREGs situations and quantifying what constitutes good behaviour.
+%     \item Extracting the Algorithm from the MATLAB simulator it's built into and making a more stand-alone / generic software or algorithm.
+%     \item And more that I will think about as I write.
+%     \item dynamic discretization step length.
+%     \item remove overlapping constraints.
+% \end{itemize}
+
+% Multiple avenues for improvements have already been suggested sporadically in the thesis. The most important ones are:
+% \begin{itemize}
+%     \item Dynamic cost function, being able to adjust the cost parameters in response to either COLREGs rules changing or unmodelled disturbances could
+%     greatly improve the algorithms COLREGs compliance and general performance.
+%     \item Dynamic thresholds for safety limits, this includes:
+%     \subitem the dCPA and tCPA thresholds for making a COLREGs assessment, it should take into account vessel size and speed.
+%     \subitem Lower bounds limit for static obstacles, shrinking the bound in low speed environments or if the optimal control problem is infeasible for too long.
+%     \item Adaptable placement of dynamic constraints, to emulate true COLREGs compliance more logic is needed for the placement of dynamic constraints. The current
+%     implementation of the algorithm does for example not take action early enough when in open waters, which could be solved by placing constraints further away from the Target Ship. But
+%     the implementation needs to be sensitive to complex situations where available space is limited.
+%     \item A reference filter for both the reference trajectory feeding into the trajectory planner, and for the output values from the algorithm, parsing the references
+%     through a reference filter ensures feasibility at all times.
+%     \item More input parameters for the dynamic horizon function, letting more factors such as amount of active COLREGs situations dictate how long the time horizon should be
+%     to ensure that the algorithm is always able to solve the optimal control problem fast enough. This also includes functionality for having a dynamic discretization step length, which
+%     could be shorter when the situation is complex and longer when there is not much going on.
+% \end{itemize}
+Multiple avenues for improvements have already been suggested sporadically in the thesis. The first one being a look at implementing a dynamic cost function.
+The ability to adjust the cost parameters in response to either COLREGs rules changing or unmodelled disturbances could
+greatly improve the algorithms COLREGs compliance and general performance. As the algorithm stands now only constraints influence its COLREGs compliance. This could be improved with a
+cost function which penalizes turning and adjust speed when in Stand On, and encourages deviation from reference trajectory when in Give Way.
+
+The next important area to improve is dynamic thresholds for safety limits, this includes values such as:
 \begin{itemize}
-    \item More work needed for optimizing placement of constraint, as well as when constraints need to be active.
-    \item More work needed for situational awareness adjustion of parameters
-    \item more work needed to examine scenarios with and without full \gls{Ts} prediction;
-    more velocities, more variation of vessel sizes, more diverse enviornments.
-    \item More work related to a variable cost function, a more adaptable cost function could for example yield better COLREGs compliance.
-    \item More work related to Optimizing runtime of algorithm, tuning the IPOPT tolerances to balance computation speed and desired behaviour.
-    \item More work related to tuning COLREGs compliance, testing more COLREGs situations and quantifying what constitutes good behaviour.
-    \item Extracting the Algorithm from the MATLAB simulator it's built into and making a more stand-alone / generic software or algorithm.
-    \item And more that I will think about as I write.
+    \item The Lower bounds limit for static obstacles.
+    \item The dCPA and tCPA thresholds for making a COLREGs assessment.
+    \item The size of circular dynamic constraints.
 \end{itemize}
+The two values for constraints are fairly self-explanatory, a static parameter for minimum distance to an obstacle will inevitably lead to problems. For example in a
+port or a small canal it is okay for the minimum distance to obstacles to be small because the speeds are low. But on the ocean where big industrial ships are encountered
+the minimum distance needs to be much bigger. The values for these thresholds need to take into account available information such as Target Ship's and Own Ship's sizes and velocities.
+As for the tCPA and dCPA thresholds, these are used to determine if a Target Ship should be considered an active situation, making these thresholds dynamic based on situation would improve
+the COLREGs compliance of the algorithm as well as performance as only active situation Target Ships need active constraints.
+
+Another sought after feature would be adaptable placement of dynamic constraints. To emulate true COLREGs compliance, more logic is needed for the placement of dynamic constraints. 
+The current implementation of the algorithm does for example not take action early enough when in open waters, 
+which could be solved by placing constraints further away from the Target Ship. But the implementation needs to be sensitive to complex situations where available space is limited.
+
+Next, more input parameters for the dynamic horizon function. Including more factors such as amount of active COLREGs situations when deciding how long the time horizon should be
+could improve the computational efficiency of the algorithm. When there are many active COLREGs situations the optimal control problem becomes more difficult to solve, shortening
+the time horizon in these situations would ensure the algorithm is more capable at arriving at a solution quickly enough to take action. In a similar vein the discretization step
+length should be dynamic so that the algorithm can have more or less control intervals depending on the complexity of the situation.
+
+Over to some less important work, but still fairy valuable in terms of effort to reward ratio would be having a reference filter on both reference trajectory and output from the algorithm.
+Parsing the references and outputs through a reference filter would help ensure feasibility.
+
+
+
 
 \newpage
