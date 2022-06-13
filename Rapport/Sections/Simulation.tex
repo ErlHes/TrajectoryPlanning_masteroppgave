@@ -1,3 +1,4 @@
+\blankpage
 \section{Simulation Results}
 %\begin{itemize}
 %    \item Simulation Results
@@ -138,10 +139,6 @@ One thing to disclose before jumping in: Over the course of the thesis these sim
 for consecutive reruns, the simulation seem to be very sensitive to daily cosmic radiation. The simulations could be run one day, then something unrelated in the
 MATLAB files were changed, and then the results would be different the next day. This is important because the plots had to be remade a few times for the
 thesis, but not for the YouTube video. There are some discrepancies between the two versions, but the overall results are still the same.
-
-\vfill
-Rest of page intentionally left empty for formatting
-\vfill 
 
 \clearpage
 \begin{figure}[ht!] % SIMPLE HEAD ON
@@ -1147,7 +1144,7 @@ The simple prediction version on the other hand, seen in Figure \ref{FIG: Simple
 Very similar result to the straight path head-on situation, which is not entirely unexpected. One aspect of this scenario that
 has become very obvious with hindsight is that the incoming TS should have approached from northwest instead of northeast. That way
 any a poorly calculated optimal trajectory would have been dragged towards the wrong side for the crossing. Instead, as the situation is set
-up the trajectory will always be pushed towards crossing on the correct side. (TODO: kanskje forklar dette bedre?).
+up the trajectory will always be pushed towards crossing on the correct side.
 The results for this scenario are seen in Figure \ref{FIG: Turn HO}.
 
 \subsubsection{Turn Give-Way}
@@ -2872,7 +2869,7 @@ as one side of the trajectory ends up on the far side of the blockading obstacle
 after the speed reference was lowered drastically, observe how the beginning of the optimal trajectory wiggles a bit as it isn't 
 actually possible to slow down as fast as the reference demands. These are seen in Figure \ref{FIG: blocked path}.
 
-\textbf{"Wrap To 2 PI" Problem:}\newline
+\textbf{"Wrap To 2 PI" Problem:}\label{CHAP: WrapTo2Pi problem}\newline
 Finally, a closer look at the nebulous wrap2topi problem that has been mentioned a couple of times. This is a special simulation
 to show the consistency of the problem, the first plot in Figure \ref{FIG: WrapTo2Pi misc} shows the heading reference and
 "optimal" values for each control interval k. The second plot shows the projected optimal trajectory.
@@ -3121,7 +3118,7 @@ It is able to adjust to small mistakes where the reference strafes close by an o
 Of course, this isn't entirely unexpected, if the planner was able to deftly dodge all sorts of islands in the middle of the reference path it wouldn't need waypoints at all.
 
 
-\subsection{Improvements over Previous Version} (TODO: REF TIL FORDYPNIGNSPROSJEKT.)
+\subsection{Improvements over Previous Version}
 % \begin{itemize}
 %     \item Definite improvements in terms of computational efficiency. This greatly increases the likelyhood of finding an optimal solution 
 %     \item Because of the better efficiency the algorithm is also able to handle more control intervals, This means it is better at handling both greater time horizon and shorter control interval steps.
@@ -3132,7 +3129,7 @@ Of course, this isn't entirely unexpected, if the planner was able to deftly dod
 %     \item Improved COLREGs assessment
 %     \item But does it behave \textit{noticeably} better? Yes.
 % \end{itemize}
-It was mentioned way back in the preface that this thesis is a continuation of the author's specialization project, so let's take a look at some improvements made since then.
+It was mentioned way back in the preface that this thesis is a continuation of the author's specialization project, (\cite{Hestvik2021}), so let's take a look at some improvements made since then.
 
 \textbf{Improvements in computational efficiency.} \newline
 The current version of the trajectory planner is much more efficient due mostly to a much better way of implementing active constraints.

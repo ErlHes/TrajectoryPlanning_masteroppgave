@@ -103,7 +103,7 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>maxitems</bcf:key>
-      <bcf:value>3</bcf:value>
+      <bcf:value>5</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>minalphanames</bcf:key>
@@ -329,7 +329,7 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>maxitems</bcf:key>
-      <bcf:value>3</bcf:value>
+      <bcf:value>5</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>minalphanames</bcf:key>
@@ -2348,45 +2348,47 @@
     <bcf:citekey order="1">andersson2019casadi</bcf:citekey>
     <bcf:citekey order="2">wachter2006implementation</bcf:citekey>
     <bcf:citekey order="3">MSStoolbox</bcf:citekey>
-    <bcf:citekey order="9">loe2007collision</bcf:citekey>
+    <bcf:citekey order="9">Hestvik2021</bcf:citekey>
     <bcf:citekey order="10">vagale2021path</bcf:citekey>
-    <bcf:citekey order="11">zhang2021collision</bcf:citekey>
-    <bcf:citekey order="12">huang2020ship</bcf:citekey>
+    <bcf:citekey order="11">huang2020ship</bcf:citekey>
+    <bcf:citekey order="12">zhang2021collision</bcf:citekey>
     <bcf:citekey order="13">park2020social</bcf:citekey>
     <bcf:citekey order="14">vestad2019automatic</bcf:citekey>
-    <bcf:citekey order="15">fossen2011handbook</bcf:citekey>
+    <bcf:citekey order="15">loe2008collision</bcf:citekey>
     <bcf:citekey order="16">fossen2011handbook</bcf:citekey>
     <bcf:citekey order="17">fossen2011handbook</bcf:citekey>
-    <bcf:citekey order="18">pedersen2019optimization</bcf:citekey>
-    <bcf:citekey order="19">fossen2011handbook</bcf:citekey>
-    <bcf:citekey order="20">lekkas2013line</bcf:citekey>
+    <bcf:citekey order="18">fossen2011handbook</bcf:citekey>
+    <bcf:citekey order="19">pedersen2019optimization</bcf:citekey>
+    <bcf:citekey order="20">fossen2011handbook</bcf:citekey>
     <bcf:citekey order="21">lekkas2013line</bcf:citekey>
     <bcf:citekey order="22">lekkas2013line</bcf:citekey>
-    <bcf:citekey order="23">wright1999numerical</bcf:citekey>
-    <bcf:citekey order="24">breivik2017mpc</bcf:citekey>
+    <bcf:citekey order="23">lekkas2013line</bcf:citekey>
+    <bcf:citekey order="24">wright1999numerical</bcf:citekey>
     <bcf:citekey order="25">breivik2017mpc</bcf:citekey>
-    <bcf:citekey order="26">gros2017Lecture</bcf:citekey>
+    <bcf:citekey order="26">breivik2017mpc</bcf:citekey>
     <bcf:citekey order="27">gros2017Lecture</bcf:citekey>
     <bcf:citekey order="28">gros2017Lecture</bcf:citekey>
-    <bcf:citekey order="29">andersson2019casadi</bcf:citekey>
-    <bcf:citekey order="30">wachter2006implementation</bcf:citekey>
-    <bcf:citekey order="31">qin1997overview</bcf:citekey>
-    <bcf:citekey order="32">WikisourceCOLREGS</bcf:citekey>
-    <bcf:citekey order="33">cockcroft2012manoeuvres</bcf:citekey>
-    <bcf:citekey order="34">Thyri2021b</bcf:citekey>
+    <bcf:citekey order="29">gros2017Lecture</bcf:citekey>
+    <bcf:citekey order="30">andersson2019casadi</bcf:citekey>
+    <bcf:citekey order="31">wachter2006implementation</bcf:citekey>
+    <bcf:citekey order="32">qin1997overview</bcf:citekey>
+    <bcf:citekey order="33">WikisourceCOLREGS</bcf:citekey>
+    <bcf:citekey order="34">cockcroft2012manoeuvres</bcf:citekey>
     <bcf:citekey order="35">Thyri2021b</bcf:citekey>
-    <bcf:citekey order="36">Kufoalor2018</bcf:citekey>
-    <bcf:citekey order="37">woerner2016multi</bcf:citekey>
-    <bcf:citekey order="38">tam2010collision</bcf:citekey>
-    <bcf:citekey order="39">cho2018intent</bcf:citekey>
-    <bcf:citekey order="40">scholler2021trajectory</bcf:citekey>
-    <bcf:citekey order="41">zhang2021collision</bcf:citekey>
-    <bcf:citekey order="42">huang2020ship</bcf:citekey>
-    <bcf:citekey order="43">Thyri2021b</bcf:citekey>
-    <bcf:citekey order="44">pedersen2019optimization</bcf:citekey>
+    <bcf:citekey order="36">Thyri2021b</bcf:citekey>
+    <bcf:citekey order="37">Kufoalor2018</bcf:citekey>
+    <bcf:citekey order="38">woerner2016multi</bcf:citekey>
+    <bcf:citekey order="39">tam2010collision</bcf:citekey>
+    <bcf:citekey order="40">cho2018intent</bcf:citekey>
+    <bcf:citekey order="41">scholler2021trajectory</bcf:citekey>
+    <bcf:citekey order="42">zhang2021collision</bcf:citekey>
+    <bcf:citekey order="43">huang2020ship</bcf:citekey>
+    <bcf:citekey order="44">Thyri2021b</bcf:citekey>
     <bcf:citekey order="45">pedersen2019optimization</bcf:citekey>
     <bcf:citekey order="46">pedersen2019optimization</bcf:citekey>
-    <bcf:citekey order="47">gros2017Lecture</bcf:citekey>
+    <bcf:citekey order="47">pedersen2019optimization</bcf:citekey>
+    <bcf:citekey order="48">gros2017Lecture</bcf:citekey>
+    <bcf:citekey order="49">Hestvik2021</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nyt">

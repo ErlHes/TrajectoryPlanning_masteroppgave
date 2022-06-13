@@ -1,3 +1,4 @@
+\blankpage
 \section{Trajectory Planner}\label{CHAP: Method}
 
 % \begin{itemize}
@@ -97,7 +98,6 @@ The last step of the setup is to initialize the NLP using the \gls{OS}'s initial
 six decision variables of $\bm{\omega_0}$ and the first six elements of the constraint function $\textbf{g}(\bm{\omega})$.
 Afterwards, the algorithm iterates through all the control intervals, $NP$, from $K = 0:NP-1$, as decided by discretization step length and time horizon, 
 constructing the NLP piece by piece in the following order:\newline
-(TODO: Denne kan kanskje gjøres om til sånn fin algorithm type)\newline 
 First three new decision variables $\bm{\tau_k}$ are made, the appropriate reference states are extracted from the reference trajectory, making sure
 that the heading reference doesn't wrap the wrong way about $[0, 2\pi]$. Then the discretized dynamics are used to integrate one control interval
 forward using $\bm{\omega_0}$, $\bm{\tau_k}$, and the reference values. Six new decision variables, $\bm{\omega_k+1}$, and their shooting
@@ -146,7 +146,7 @@ and the four minor tasks:
     \item Fetch static obstacles, this is only a task because of how the MATLAB simulator is set up.
 \end{itemize}
 
-\subsubsection*{Persistent Variables} (TODO: vet ikke helt hvorfor jeg går så grundig til verks...)
+\subsubsection*{Persistent Variables}
 In MATLAB, persistent variables are stored in memory when a script has terminated, and is loaded back as they were the next
 time the script runs. This can be used to create rudimentary state machines, or to check the outcome of the previous iteration for anomalies.
 Persistent variables are declared without an initialization, and the method for initializing them without overwriting every time is shown in Algorithm [\ref{ALG: PERSISTENT}].
@@ -167,7 +167,7 @@ persistent variables. Two are used to store the optimal trajectory between itera
 remade every time the algorithm runs. Another for storing COLREGs flag to act as a state machine. One for storing a variable called "firsttime", 
 used to execute code only the first time the algorithm is called. One that enables or disables obstacles, 
 only left intact as a debugging tool. And the last one to store the previous iterations heading reference, which is used to prevent a
-Wrap-to-2-Pi problem. (TODO: SKriv om hva Wrap-to-2-pi problem er for noe).
+WrapTo2Pi problem. The WrapTo2Pi proplem is discussed later in Chapter \ref{CHAP: WrapTo2Pi problem}
 
 The reason there are two persistent variables to store the previous optimal trajectory is poor planning:
 the original optimal trajectory was dumped if it took too long to solve the NLP. 
@@ -341,7 +341,6 @@ With the pose of both vessels calculated, the next step is to check the CPA, whi
 used to track how much time is passing for the \gls{OS} to reach the checked waypoints.
 The full path CPA check is then run with the vessel inputs flipped, so that the \gls{Ts} waypoints are checked, the lowest values of each CPA list
 are then compared to select which \gls{dCPA} is truly the shortest distance. If both dCPA and tCPA are under some set threshold a COLREGs classification is set.
-(TODO: [...] as described? det er jo referert til tre forskjellige kilder med metoder, tror det skal være greit forstått).
 
 \subsubsection*{Dynamic Horizon}
 % \begin{itemize}
@@ -500,7 +499,7 @@ With everything set up, the cost function L can be created and defined as a CasA
 The parameter values on the weights were chosen by trial and error until the trajectory planning algorithm managed
 to track a reference path reasonably well. Cost on deviation from heading reference is actually undesirable, in a real use case
 for the algorithm disturbances such as wind, waves and currents would knock the heading about and cause undue increases in cost.
-(TODO: as discussed in the theory...) The correct course should naturally be found when velocities are restricted to only
+The correct course should naturally be found when velocities are restricted to only
 surge, the optimal way to move is in the direction of the goal after all. However, one of the quirks of using numerical optimization 
 to guide a vehicle is that the solver has no idea what a boat or a heading is. If the reference trajectory experiences a discontinuous
 jump in course by leaving the bounds of $[0, 2\pi]$ and wrapping around the algorithm might have the great idea to turn the long way around.
@@ -730,7 +729,7 @@ In the end it looks something like this:
 
 The new control interval now needs constraints to ensure a collision free trajectory, starting with the dynamic constraints.
 First check if there are any constraints, if there are none the whole step can simply be skipped. Similarly, we want to skip
-this step if it's the first time the algorithm is run, the reason why discussed later. (TODO: HUSK DETTE)
+this step if it's the first time the algorithm is run, the reason why discussed later.
 Next, iterate through all the \gls{Ts}s in the tracks struct and check their assigned COLREGs flags.
 Each COLREGs situation should have their own constraint locations, however the optimal placement
 will depend on situation complexity, available space, velocities of the ships involved, and other factors. In
@@ -840,7 +839,7 @@ line the static obstacles has its own associated cross track error that is added
 \end{equation}
 with the lower bounds of $\textbf{g}(\omega)$ defining the allowed distance between the vessel and the constraint lines, while the upper bounds
 should be infinite. This creates a convex free set bound by the static obstacles around the reference trajectory. 
-(TODO: kutt den siste setningen hvis jeg ikke kommer på mer å skrive.)
+% (TODO: kutt den siste setningen hvis jeg ikke kommer på mer å skrive.)
 
 \begin{figure}[th!]
     \centering
@@ -866,9 +865,7 @@ The algorithm for creating the intersection points and finding the appropriate a
 Since every control interval needs its own set of constraints we need to iterate forward in time through decision variables
 that don't exist yet. The solution is to instead use the previous optimal trajectory if it exits, or the reference trajectory if we must.
 This will create a slight distortion in where the static obstacles end up being placed. But, the distortion is less prominent
-the closer we are to the current position of the \gls{OS}, so it's not that big of a deal as the problem corrects itself when it draws near. (TODO: denne distortionen er ikke forklart noe særlig.
-det kommer jo av forskjell mellom forrige optimale bane og ny optimal bane kan føre til at statiske hindringer som burde eksistere ikke gjør det eller motsatt.)
-
+the closer we are to the current position of the \gls{OS}, so it's not that big of a deal as the problem corrects itself when it draws near.
 While iterating through the selected trajectory the scan lines are fairly easy to construct, but conducting the intersection check is actually very complicated. Luckily
 there exists a MATLAB function for just this purpose, polyxpoly, which comes as part of the MATLAB mapping toolbox. Polyxpoly outputs the x, y, 
 and an index for which polygon edge were part of the intersection. It does this for every intersection it finds, when we run the check using all the scan lines

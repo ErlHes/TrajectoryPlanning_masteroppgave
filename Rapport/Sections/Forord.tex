@@ -3,7 +3,19 @@
 \begin{abstract}
     \phantomsection
     \addcontentsline{toc}{section}{Sammendrag}
-    Jeg hater virkelig å skrive sammendrag...
+    Et fullt autonomt sjøfartøy må ha både baneplanlegging og kollisjonsungåelse systemer. Egenskapen til å følge et referansespor med tids- og andre
+    effektivitetbegrensninger er helt essensielt for å ha et brukbart autonomt sjøfartøy. Det er heller ikke nok å bare følge en referanse, fartøyet må
+    klare å unngå kollisjoner med andre fartøy som kan være både selvstyrt eller autonome i tillegg til statiske hindringer. Selv om det er et mål
+    å unngå kollisjoner er det endelige målet med kollisjonsungåelse å klare å forholde seg til COLREGs reglene for sjøvett, regler som alle
+    sjøfartøy må forholde seg til. I denne masteroppgaven skal det utvilkes en COLREGs forstående baneplanlegger algoritme som klarer å unngå 
+    både statiske hindringer og andre fartøy. Algoritmen er basert på en kontrollmetode kalt MPC og bruken av numerisk optimalisering til baneplanlegging
+    vil bli undersøkt som en del av oppgaven.
+
+    Algoritmen will bli testet i forskjellige simulerte scenarier konstuert til å teste forskjellige deler av baneplanlegging og kollisjonsungåelse båe
+    i individe- og hybridtester. Et annen punkt som vil bli undersøkt er bruken av en hypotetisk prediksjonsalgoritme som skal klare å forstå hensikten bak
+    andre fartøys manøvere. Hvert scenarie kommer til å bli testet to ganger, den første gangen har den utviklede algoritmen tilgang til perfekt informasjon
+    om andre fartøy, mens den andre gangen må algoritmen selv prøve å forutse banen til andre båter med linære metoder. Denne måten å teste på er ment for
+    å undersøke potensielle fordeler med å utvikle mer avnaserte prediksjonsalgoritmer.
 \end{abstract}
 
 \afterpage{\blankpage}

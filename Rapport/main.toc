@@ -1,89 +1,93 @@
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \babel@toc {british}{}\relax 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{Preface}{i}{section*.1}%
+\contentsline {section}{Preface}{ii}{section*.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{Abstract}{iii}{section*.2}%
+\contentsline {section}{Abstract}{iv}{section*.2}%
 \babel@toc {norsk}{}\relax 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{Sammendrag}{v}{section*.3}%
+\contentsline {section}{Sammendrag}{vi}{section*.3}%
 \babel@toc {british}{}\relax 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{List of Figures}{ix}{section*.5}%
+\contentsline {section}{List of Figures}{x}{section*.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{List of Tables}{xii}{section*.6}%
+\contentsline {section}{List of Tables}{xiv}{section*.6}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{Acronyms}{xiii}{section*.7}%
+\contentsline {section}{Acronyms}{xvi}{section*.7}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {1}Introduction}{1}{section.1}%
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.1}Motivation}{1}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.1}Motivation}{2}{subsection.1.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.2}Previous Work}{1}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.2}Previous Work}{2}{subsection.1.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.3}Problem Description}{1}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.3}Problem Description}{3}{subsection.1.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.4}Contributions}{2}{subsection.1.4}%
+\contentsline {subsection}{\numberline {1.4}Contributions}{3}{subsection.1.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.5}Outline}{2}{subsection.1.5}%
+\contentsline {subsection}{\numberline {1.5}Outline}{3}{subsection.1.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2}Background Theory}{3}{section.2}%
+\contentsline {section}{\numberline {2}Background Theory}{6}{section.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.1}Vessel Modelling}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.1}Vessel Modelling}{6}{subsection.2.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2}Trajectory Planning}{5}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.2}Trajectory Planning}{8}{subsection.2.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.3}Collision Avoidance}{10}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.3}Collision Avoidance}{13}{subsection.2.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.4}Target Ship Prediction}{13}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.4}Target Ship Prediction}{16}{subsection.2.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3}Trajectory Planner}{16}{section.3}%
+\contentsline {section}{\numberline {3}Trajectory Planner}{20}{section.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.1}Data flow}{16}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.1}Data flow}{20}{subsection.3.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.2}Setup}{17}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.2}Setup}{21}{subsection.3.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3}NLP Construction and Solver}{23}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.3}NLP Construction and Solver}{27}{subsection.3.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4}Simulation Results}{31}{section.4}%
+\contentsline {section}{\numberline {4}Simulation Results}{36}{section.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1}Scenario Overview}{31}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.1}Scenario Overview}{36}{subsection.4.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2}Simulation Results}{32}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.2}Simulation Results}{37}{subsection.4.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.1}Simple Head-On}{38}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.1}Simple Head-On}{43}{subsubsection.4.2.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.2}Simple Give-Way}{38}{subsubsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.2}Simple Give-Way}{43}{subsubsection.4.2.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.3}Simple Stand-On}{38}{subsubsection.4.2.3}%
+\contentsline {subsubsection}{\numberline {4.2.3}Simple Stand-On}{43}{subsubsection.4.2.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.4}Turn Head-On}{43}{subsubsection.4.2.4}%
+\contentsline {subsubsection}{\numberline {4.2.4}Turn Head-On}{48}{subsubsection.4.2.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.5}Turn Give-Way}{43}{subsubsection.4.2.5}%
+\contentsline {subsubsection}{\numberline {4.2.5}Turn Give-Way}{48}{subsubsection.4.2.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.6}Turn Stand-On}{43}{subsubsection.4.2.6}%
+\contentsline {subsubsection}{\numberline {4.2.6}Turn Stand-On}{48}{subsubsection.4.2.6}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.7}Canals}{57}{subsubsection.4.2.7}%
+\contentsline {subsubsection}{\numberline {4.2.7}Canals}{62}{subsubsection.4.2.7}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.8}Fjord}{57}{subsubsection.4.2.8}%
+\contentsline {subsubsection}{\numberline {4.2.8}Fjord}{62}{subsubsection.4.2.8}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.9}Helløya}{57}{subsubsection.4.2.9}%
+\contentsline {subsubsection}{\numberline {4.2.9}Helløya}{62}{subsubsection.4.2.9}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.10}Helløya Reversed}{58}{subsubsection.4.2.10}%
+\contentsline {subsubsection}{\numberline {4.2.10}Helløya Reversed}{63}{subsubsection.4.2.10}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.11}Skjærgård with Traffic}{64}{subsubsection.4.2.11}%
+\contentsline {subsubsection}{\numberline {4.2.11}Skjærgård with Traffic}{69}{subsubsection.4.2.11}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.12}skjærgård without Traffic}{64}{subsubsection.4.2.12}%
+\contentsline {subsubsection}{\numberline {4.2.12}skjærgård without Traffic}{69}{subsubsection.4.2.12}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.13}Miscellaneous}{64}{subsubsection.4.2.13}%
+\contentsline {subsubsection}{\numberline {4.2.13}Miscellaneous}{69}{subsubsection.4.2.13}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3}Discussion}{71}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.3}Discussion}{76}{subsection.4.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.4}Improvements over Previous Version}{72}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.4}Improvements over Previous Version}{77}{subsection.4.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5}Conclusion and Future Work}{74}{section.5}%
+\contentsline {section}{\numberline {5}Conclusion and Future Work}{80}{section.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{References}{76}{section*.80}%
+\contentsline {section}{References}{82}{section*.80}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{Appendix}{78}{section*.81}%
+\contentsline {section}{Appendix}{84}{section*.81}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {A}Source code for Algorithm main loop}{84}{appendix.A}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {B}Helper Functions}{94}{appendix.B}%
 \contentsfinish 

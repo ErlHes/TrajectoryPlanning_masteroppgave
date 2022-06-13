@@ -1,7 +1,20 @@
 \newpage
 \begin{abstract}
     \phantomsection
-    I really hate writing abstracts...
+    \begin{itemize}
+    A fully autonomous surface vessel will need both trajectory planning and collision avoidance systems. The ability to track a reference path
+    with temporal or other efficiency constraints is essential for the usefulness of the \gls{ASV}. It is also not enough to simply follow a path
+    optimally, the vessel must be able to evade collisions with other vessels both manned and unmanned as well as avoid static obstacles. While avoiding collisions
+    is one goal, the real goal of collision avoidance is to achieve full \gls{COLREGs} compliance, a set of rules which every vessel on the sea must adhere to.
+    In this thesis, a COLREGs aware trajectory planning algorithm capable of avoiding both static obstacles and other vessels is developed.
+    The algorithm will be based on \gls{MPC} and the viability of numerical optimal control for mid-level trajectory planning will be examined.
+
+    The algorithm will be tested in a variety of simulated scenarios designed to stress different aspects of trajectory planning and collision
+    avoidance both individually and in combined situations. An additional point of examination will be the usage of hypothetical intention inferring methods
+    and prediction of other vessels. Each scenario simulation will be conducted twice; in one version the developed algorithm is allowed near
+    perfect information about the other vessels, while in the other it must linearly interpolate their course. This test will analyze the potential
+    usefulness of improving prediction methods.
+    \end{itemize}
 \end{abstract}
 \addcontentsline{toc}{section}{Abstract}
 \afterpage{\blankpage}

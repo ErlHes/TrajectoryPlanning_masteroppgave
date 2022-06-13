@@ -47,7 +47,7 @@
 \emergencystretch=1em
 \frontmatter
 % Inserting title page
-%\import{./}{title}
+% \import{./sections}{title}
 \import{./sections}{Preface}
 
 % Defining front matter settings (Norsk: innstillinger for forord m.m.)
@@ -61,14 +61,17 @@
 
 \singlespacing
 \tableofcontents
+
 \doublespacing
 
 
 % Inserting list of figures & list of tables
 \newpage
 \listoffigures
+\afterpage{\blankpage}
 \newpage
 \listoftables
+\afterpage{\blankpage}
 \newpage
 \printnoidxglossaries
 

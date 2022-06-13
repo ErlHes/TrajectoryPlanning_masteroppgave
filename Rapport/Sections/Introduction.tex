@@ -1,3 +1,4 @@
+\blankpage
 \section{Introduction}
 % \begin{itemize}
 %     \item something something this thesis is about trajcetory planning
@@ -30,42 +31,51 @@ Autonomous surface vessels have mostly been in development outside the public ey
 Multiple actors are currently developing both autonomous ferries and container ships. This is a very underappreciated development, especially
 in a coastal nation such as Norway where so much of our industry happens offshore.
 
+This Master thesis is a continuation of my specialization project, (\cite{Hestvik2021}), in which I learned a lot about the complications
+of designing a trajectory planning algorithm, numerical optimal control, and using the CasADi framework. After the specialization project
+ended in December 2021, I couldn't leave the trajectory planning algorithm be in the state it was, there was still so much more to try and learn.
 
-
-
+The learning potential from this thesis is very high, and very relevant for the type of career I would like to get into.
 I remember when learning about linear system theory I thought to myself "I'm never gonna need this MPC stuff". Funny how that worked out.
 
 \subsection{Previous Work}
-\begin{itemize}
-    \item cite \cite{loe2007collision} For in-depth look at many different methods.
-    \item cite \cite{vagale2021path} For a review of path planning algorithms.
-    \item cite \cite{zhang2021collision} For another big review on navigation systems for ASV
-    \item cite \cite{huang2020ship} For another review of Collision avoidance.
-    \item cite \cite{park2020social} For an alternative approach to Trajectory planning with similar-ish results.
-    \item cite \cite{vestad2019automatic} for a nice study in route planning and sea lanes.
-    \item Cite someone to prove that Autonomous surface vessels are real? :thinking\_emoji:
-    \item item I *need* to use \gls{COLREGs} at least once so that the formating looks nice later.
-\end{itemize}
+% \begin{itemize}
+%     \item cite \cite{loe2008collision} For in-depth look at many different methods.
+%     \item cite \cite{vagale2021path} For a review of path planning algorithms.
+%     \item cite \cite{zhang2021collision} For another big review on navigation systems for ASV
+%     \item cite \cite{huang2020ship} For another review of Collision avoidance.
+%     \item cite \cite{park2020social} For an alternative approach to Trajectory planning with similar-ish results.
+%     \item cite \cite{vestad2019automatic} for a nice study in route planning and sea lanes.
+%     \item Cite someone to prove that Autonomous surface vessels are real? :thinking\_emoji:
+%     \item item I *need* to use \gls{COLREGs} at least once so that the formating looks nice later.
+% \end{itemize}
+
+There have been many reviews and surveys on the state of the art within \gls{ASV}, trajectory planning, and collision avoidance, and other
+related topics. (\cite{vagale2021path}) reviews existing guidance and path planning algorithms, comparing multiple aspects and highlighting
+recent advances and vessel autonomy levels. The review focuses mostly on path planning algorithms for surface vessels.
+
+In another review (\cite{huang2020ship}) provides a comprehensive overview of collision avoidance, breaking down the basic processes
+for determining the need of an evasive maneuver. The review compares multiple methods and points out strengths and weaknesses of each.
+The also examines the differences in research for manned and unmanned vessels, pointing out what the two groups can learn from each other.
+
+A state of the art survey by (\cite{zhang2021collision}) examines some recent high-profile \gls{ASV}s, their purpose and development status. Later
+the survey looks at different methods for collision avoidance, the tools different methods are utilizing and trend of where collision
+avoidance systems appear to be heading.
+
+For more specific recent development, (\cite{park2020social}) developed a trajectory planning algorithm for an ASV operating in urban canals. The
+authors of this paper aim to emulate human like behavior in what they call social trajectory planning. Where the optimal control formulation
+penalizes deviation of movements from nominal movements by human operated vessels. The developed method has no direct collision avoidance component,
+instead focusing on the benefits of social trajectory planning to reduce the amount of encounters the ASV has during transit.
+
+For longer distance path planning, (\cite{vestad2019automatic}) develops an automatic route planner which is able to quickly
+determine an optimal path between two points taking into account ship dimensions, weather forecast and mission goals. The
+path planner is able to produce fesible paths which are more efficient than traditional manual planning methods.
+
+For a comprehensive look at different trajectory planning methods, (\cite{loe2008collision}) introduces many different
+approaches and simulates their performance against each other in a wide variety of scenarios. Testing both collision avoidance capabilties and
+trajectory planning.
 
 \subsection{Problem Description}
-% The problem that is addressed in this thesis is the trajectory planning for an \gls{ASV} operating in known environments where the motions are confined by
-% a predefined area or path. The trajectory is to be planned in a way that ensures a collision-free transit from the current position to the destination. 
-% The system needs to react to changes in the situation underway, and always deliver a collision-free trajectory. 
-% It is assumed that the predefined area or path is free of any major static object, and the trajectory
-% planning therefore only needs to consider the moving objects in the environment. The
-% trajectory planner further needs to be encapsulated in a complete \gls{COLAV} system that
-% interfaces with the situational awareness systems at one end, and the low-level motion
-% control systems in the other end. The following objectives are proposed for this Master’s
-% thesis
-% \begin{itemize}
-%     \item Develop a complete \gls{COLAV} system for an autonomous passenger ferry, with all
-%     functionality that is needed for autonomous transits.
-%     \item Implement interfaces to the situational awareness modules.
-%     \item Implement interfaces to the trajectory following system.
-%     \item Develop a simulator that can emulate moving objects in the environments.
-%     \item Verify the performance of the \gls{COLAV} system through simulations.
-%     \item Prepare the system for, and perform full-scale testing of the \gls{COLAV} system.
-% \end{itemize}
 The problem that are addressed in this thesis is the trajectory planning for an \gls{ASV} operating in calm waters
 where the motions are confined by static obstacles such as land or skerries. The trajectory is to be collision
 free at all times, and the behavior of the \gls{ASV} should comply with the COLREGs rules. The Trajectory is expected

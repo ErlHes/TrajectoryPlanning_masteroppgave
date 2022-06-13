@@ -1,3 +1,5 @@
+\blankpage
+\section{Helper Functions}
 \begin{lstlisting}
     function F = CasadiSetup(h, N)
     import casadi.*
@@ -136,6 +138,32 @@
         
 \end{lstlisting}
 
+\clearpage
+\begin{lstlisting}
+    function [dCPA, tCPA] = ClosestApproach(pos_OS, pos_TS, vel_OS, vel_TS)
+%Returns the distance at closest point of approach and time until closest
+%point of approach. Assuming both vessels maintain a fixed course and
+%speed.
+vel_AB = vel_OS - vel_TS;
+pos_BA = pos_TS - pos_OS;
+
+tCPA = 0;
+if (norm(vel_AB,2) > 0)
+    tCPA = dot(pos_BA,vel_AB) / norm(vel_AB,2)^2;
+end
+
+dCPAfunc = (pos_OS + tCPA * vel_OS) - (pos_TS + tCPA * vel_TS);
+dCPA = norm(dCPAfunc,2);
+
+if tCPA < 0
+    dCPA = norm(pos_BA,2);
+    tCPA = 0;
+end
+
+end
+\end{lstlisting}
+
+\clearpage
 \begin{lstlisting}
     function [flag, dCPA, tCPA] = COLREGs_assessment(vessel,tracks, cflag)
     %% THIS FUNCTION EVALUATES ONE TARGET SHIP ONLY. TO EVALUATE MORE THE FUNCTION MUST BE CALLED FOR EACH TARGET SHIP IN YOUR SITUATION.
@@ -297,5 +325,321 @@
     
     
     end
+
+\end{lstlisting}
+
+
+\clearpage
+\begin{lstlisting}
+    function [N, h] = DynamicHorizon(vessel, dynamic_obs)
+% Calculate an appropriate number of time steps and step length based on
+% distance to goal and other vessels.
+
+%Distance to goal:
+%dist = sqrt((tracks.eta(2) - vessel.eta(2))^2 + (tracks.eta(1) - vessel.eta(1))^2);
+distancetogoal = 0;
+for i = size(vessel.wp,2):-1:vessel.current_wp+2
+    distbetweenWP = sqrt((vessel.wp(1,i) - vessel.wp(1,i-1))^2 + ((vessel.wp(2,i) - vessel.wp(2,i-1))^2));
+    distancetogoal = distancetogoal + distbetweenWP;
+end
+distancetonextWP = sqrt((vessel.wp(1,vessel.current_wp+1) - vessel.eta(1))^2 + ((vessel.wp(2,vessel.current_wp+1) - vessel.eta(2))^2));
+distancetogoal = distancetogoal + distancetonextWP;
+if vessel.nu(1) < 0.001
+    vessel.nu(1) = 0.001;
+end
+Timetogoal = distancetogoal / vessel.nu(1);
+
+
+%Getting past relevant TS:
+%some function
+%return TimetopassTS
+if(~isempty(dynamic_obs))
+    allTcpas = [dynamic_obs.tcpa];
+    maxtCPA = max(allTcpas) + 20; % Add time, we want to pass the encounter, not just reach it.
+end
+
+%compare time to pass goal and time to pass TS, we want to keep the
+%smallest of theese two
+
+%max time of n minutes:
+maxminutes = 5; 
+maxseconds = maxminutes * 60;
+minminutes = 3;
+minseconds = minminutes * 60;
+
+% WRONG
+% minstetid = max(minseconds, maxtCPA);
+% finaltime = min([Timetogoal, maxseconds, minstetid]);
+
+% CORRECT, but never used
+if (false) % <- TODO: check if any cflags are set.
+    maxtime = min([Timetogoal, maxseconds]);
+    finaltime = min([maxtime, maxtCPA]); 
+else
+    finaltime = min([Timetogoal, maxseconds]);
+end
+% finaltime = min([Timetogoal, maxseconds]);
+
+
+
+
+h = 0.5; % statisk for nå.
+N = ceil(finaltime / h);
+
+%% HARDCODING
+% h = 0.5;
+% N = ceil(45 / h);
+
+end
+\end{lstlisting}
+
+\clearpage
+\begin{lstlisting}
+    function feasibility = feasibility_check(previous_w_opt)
+    north_opt = previous_w_opt(1:9:end);
+    east_opt = previous_w_opt(2:9:end);
+
+    feasibility = 1;
+
+    for i = 1:length(north_opt)-1
+        x1 = east_opt(i);
+        x2 = east_opt(i+1);
+        y1 = north_opt(i);
+        y2 = north_opt(i+1);
+        dist = sqrt((x2-x1)^2 + (y2-y1)^2);
+        if dist > 5
+            feasibility = 0;
+        end
+        %if distance to next point > 5
+            % BIG ERROR, NOT FEASIBLE
+        %else
+            %feasible.
+
+    end
+end 
+\end{lstlisting}
+
+\clearpage
+\begin{lstlisting}
+    function [dCPAlist, tCPAlist, pos_OS_list, pos_TS_list] = getCPAlist(vessel,tracks)
+dCPAlist = [];
+tCPAlist = [];
+pos_TS_list = [];
+pos_OS_list = [];
+wptstimer = 0; % timer used to calculate the position of the other ship at certain wpts.
+
+%%
+
+for i = vessel.current_wp:size(vessel.wp,2)-1
+            % NAIV APPROACH
+% % % % % % % %     %For each OS transit waypoint, check the dCPA and tCPA for each TS trasit
+% % % % % % % %     %waypoint.
+% % % % % % % %     [pos_OS, vel_OS] = VesselReadout(vessel,i);
+% % % % % % % %     for j = tracks.current_wp:size(tracks.wp,2)-1
+% % % % % % % %         [pos_TS, vel_TS] = VesselReadout(tracks,j);
+% % % % % % % %         [dCPA, tCPA] = ClosestApproach(pos_OS, pos_TS, vel_OS, vel_TS);
+% % % % % % % %         dCPAlist(i,j) = dCPA;
+% % % % % % % %         tCPAlist(i,j) = tCPA;
+% % % % % % % %     end
+            % NAIV APPROACH ^
+
+%Fra vessel.eta, hvor lang tid tar det å nå neste wpt?
+%Fra neste wpt, hvor lang tid tar det å nå neste wpt? <- repeat for alle
+%wpts. Anta konstant fart hele veien.
+
+    %Find pose at current OS waypoint
+    [pos_OS, vel_OS] = VesselWPReadout(vessel,i);
+    [pos_TS, vel_TS] = whereisTS(tracks,wptstimer); 
+
+    heading_OS = atan2(vel_OS(2),vel_OS(1));
+    heading_TS = atan2(vel_TS(2),vel_TS(1));
+
+    %Do cpa check
+    [dCPA, tCPA] = ClosestApproach(pos_OS, pos_TS, vel_OS, vel_TS);
+    dCPA = round(dCPA*1000)/1000;
+    tCPA = tCPA + wptstimer; % håper dette blir rett.
+    pos_OS = [pos_OS;heading_OS];
+    pos_TS = [pos_TS;heading_TS];
+    pos_OS_list = [pos_OS_list, pos_OS];
+    pos_TS_list = [pos_TS_list, pos_TS];
+
+
+    %step forward one waypoint.
+    distancetonextWP = sqrt((vessel.wp(1,i+1) - pos_OS(1))^2 + ((vessel.wp(2,i+1) - pos_OS(2))^2));
+    timetonextWP = distancetonextWP / norm(vessel.nu(1:2),2); %Distanse OG time to next wp er redundant, egentlig kunne jeg klart meg med en.
+    wptstimer = wptstimer + timetonextWP;
+    dCPAlist = [dCPAlist, dCPA];
+    tCPAlist = [tCPAlist, tCPA];
+
+  
+end
+end
+\end{lstlisting}
+
+\clearpage
+\begin{lstlisting}
+    function c_orig = place_dyn_constraint(dynamic_obs,k, i, rad_offset, offsetdist)
+    offsetang = atan2(dynamic_obs(i).traj(4,k+1),dynamic_obs(i).traj(3,k+1)) + rad_offset;
+    offsetdir = [cos(offsetang);sin(offsetang)];
+%     offsetdist = 10; % Should ideally be based some function of Involved vessel's speeds
+    offsetvektor = offsetdist*offsetdir;
+    c_orig = dynamic_obs(i).traj(1:2,k+1) + offsetvektor;
+end
+\end{lstlisting}
+
+\clearpage
+\begin{lstlisting}
+    function static_obs_constraints = Static_obstacles_check_Iterative(obsmatrix, trajectory, k)
+%First check if we're using reference LOS trajectory or previous w_opt
+    w_opt = 0;
+    if size(trajectory,1) > 4
+        w_opt = 1;
+    end
+
+    %% Initialize
+%     startpos = trajectory(1:2,2);
+%     heading = vessel.eta(3);
+%     heading = atan2(trajectory(2,2)-vessel.eta(2),trajectory(1,2)-vessel.eta(1));
+    x = [];
+    y = [];
+    %% Polygons
+    xbox = obsmatrix(2,:);
+    ybox = obsmatrix(1,:);
+
+    %Find position
+    if(w_opt)
+        ypos = trajectory(1:9:end);
+        xpos = trajectory(2:9:end);
+        if k < length(xpos)
+            pos = [ypos(k+1);xpos(k+1)];
+        else
+            pos = [ypos(length(ypos));xpos(length(xpos))]; % <- Contingency that should never occur.
+        end
+    else
+        pos = trajectory(1:2,k+1);        
+    end
+    
+    %Generate intersection scan lines
+    for j = -pi:pi/6:pi
+            ang = j; % should probably include heading
+            dir = [cos(ang);sin(ang)];
+            %% RADIUS OF SCAN HERE
+            dist = 50;
+            %%
+            vektor = dist*dir;
+            checkpos = pos + vektor;
+            x = [x, pos(2), checkpos(2), NaN];
+            y = [y, pos(1), checkpos(1), NaN];
+    end
+
+    [xi, yi, ii] = polyxpoly(x,y,xbox,ybox);
+    % Keep first hit:
+    A = [xi, yi, ii];
+    [~,uidx] = unique(A(:,3),'stable');
+    A_without_dup = A(uidx,:);
+    xi = A_without_dup(:,1);
+    yi = A_without_dup(:,2);
+    ii = A_without_dup(:,3:4);
+    
+    %% TEST CODE
+%     testx = [];
+%     testy = [];
+%     mapshow(xbox,ybox,'DisplayType','polygon','LineStyle','none')
+%     mapshow(x,y,'Marker','+')
+%     mapshow(xi,yi,'DisplayType','point','Marker','o')
+%     for i = 1:length(xi)
+%         testpoint = [yi(i);xi(i)];
+%         line = testpoint - pos;
+%         line = [-line(2); line(1)];
+%         point1 = testpoint + line;
+%         point2 = testpoint - line;
+%         testx = [testx, point1(2), point2(2), NaN];
+%         testy = [testy, point1(1), point2(1), NaN];
+%         mapshow(testx,testy,'Marker','x')
+%     end
+%%
+    %% Generate lines:
+    static_obs_constraints = zeros(3,length(xi));
+    for i = 1:length(xi)
+        intersectionpoint = [yi(i); xi(i)];
+        %horrible 2am spaghetti:
+        line = pos - intersectionpoint; % The vector that takes us from intersection point current position
+        transposedline = [-line(2);line(1)]; % Get Orthogonal of said vector.
+        tangent = intersectionpoint + transposedline; % create point along orthogonal vector
+        
+%         pi_p = atan2(tangent(1) - intersectionpoint(1), tangent(2) - intersectionpoint(2)); % THIS COULD BE OPTIMIZED WITH A TABLE, 
+        pi_p = atan2(tangent(2) - intersectionpoint(2), tangent(1) - intersectionpoint(1));
+        % check line ID -> lookup corresponding angle :)
+        static_obs_constraints(:,i) = [intersectionpoint(1); intersectionpoint(2); pi_p];
+        
+%         %% Debug code
+%         testx = [tangent(2), intersectionpoint(2), NaN];
+%         testy = [tangent(1), intersectionpoint(1), NaN];
+%         mapshow(testx, testy)
+    end
+end
+\end{lstlisting}
+
+\clearpage
+\begin{lstlisting}
+    function [pos_OS, vel_OS] = VesselWPReadout(vessel,i)
+%Reads out the position and velocity of the vessel at each waypoint in it's
+%transit. If the index of the wpt we're reading is the same as current wpt
+%we instead read out current position and velocity.
+    pos_OS = vessel.wp(1:2,i);
+    Heading_OS = atan2(vessel.wp(2,i+1)-vessel.wp(2,i),vessel.wp(1,i+1)-vessel.wp(1,i));
+    vel_OS = rotZ(Heading_OS)*vessel.nu;
+    vel_OS = vel_OS(1:2);
+    if i == vessel.current_wp %When we examine the current actie wp; use current location instead.
+        pos_OS = vessel.eta(1:2);
+        vel_OS = vessel.eta_dot(1:2);
+    end
+    
+end
+\end{lstlisting}
+
+\clearpage
+\begin{lstlisting}
+    function [pos_TS, vel_TS] = whereisTS(tracks,wptstimer)
+    pos_TS = tracks.eta(1:2);
+    vel_TS = tracks.eta_dot(1:2);
+    WPlim = size(tracks.wp,2);
+
+    pos = tracks.eta(1:2);
+    distance = wptstimer * norm(tracks.nu(1:2),2);
+    WPindex = tracks.current_wp;
+    if WPindex < WPlim
+        distancetonextWP = sqrt((tracks.wp(1,WPindex+1) - pos(1))^2 + ((tracks.wp(2,WPindex+1) - pos(2))^2));
+    else
+        distancetonextWP = 0;
+    end
+    while distance > 0
+        if distance > distancetonextWP
+            pos = tracks.wp(1:2,WPindex+1);
+            distance = distance - distancetonextWP;
+            WPindex = WPindex + 1;
+            if WPindex < WPlim
+                distancetonextWP = sqrt((tracks.wp(1,WPindex+1) - pos(1))^2 + ((tracks.wp(2,WPindex+1) - pos(2))^2));
+            else
+                distancetonextWP = 0;
+                pos_TS = pos;
+                vel_TS = [0,0]';
+                distance = 0;
+            end
+        else
+            %Beveg oss (distane) langs banen til neste WP
+            %sett distance til null.
+            direction = tracks.wp(:,WPindex+1) - pos;
+            travel = distance / distancetonextWP;
+            pos_TS = pos + travel * direction;
+            vel_TS = rotZ(atan2(direction(2),direction(1))) * tracks.nu;
+            vel_TS = vel_TS(1:2);
+            distance = 0;
+        end
+    end
+end
+
+
+
 
 \end{lstlisting}

@@ -287,6 +287,38 @@
       \verb https://www.youtube.com/watch?v=UqWRcbdwPP8
       \endverb
     \endentry
+    \entry{Hestvik2021}{misc}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=114ac014b1cb53860c68a67345dec804}{%
+           family={Hestvik},
+           familyi={H\bibinitperiod},
+           given={Erlend},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{2}{%
+        {Norwegian University of Science}%
+        {Technology (NTNU)}%
+      }
+      \list{location}{1}{%
+        {Trondheim, Norway}%
+      }
+      \strng{namehash}{114ac014b1cb53860c68a67345dec804}
+      \strng{fullhash}{114ac014b1cb53860c68a67345dec804}
+      \strng{bibnamehash}{114ac014b1cb53860c68a67345dec804}
+      \strng{authorbibnamehash}{114ac014b1cb53860c68a67345dec804}
+      \strng{authornamehash}{114ac014b1cb53860c68a67345dec804}
+      \strng{authorfullhash}{114ac014b1cb53860c68a67345dec804}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{MPC-based trajectory planning and COLREGs-aware collision avoidance}
+      \field{type}{Specialization project report, Norwegian University of Science and Technology (NTNU)}
+      \field{year}{2019}
+    \endentry
     \entry{huang2020ship}{article}{}
       \name{author}{5}{}{%
         {{un=0,uniquepart=base,hash=1388b5adf4871ce6ceae688ac24e8268}{%
@@ -442,39 +474,43 @@
       \field{labeldatesource}{year}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{Advanced in marine robotics}
+      \field{journaltitle}{Advanced in marine robotics, Lambert Academic Publishing}
       \field{title}{Line-of-sight guidance for path following of marine vehicles}
       \field{year}{2013}
       \field{pages}{63\bibrangedash 92}
       \range{pages}{30}
     \endentry
-    \entry{loe2007collision}{article}{}
+    \entry{loe2008collision}{thesis}{}
       \name{author}{1}{}{%
-        {{un=0,uniquepart=base,hash=d8fefaf6e5781db81ec6338de919478b}{%
+        {{un=0,uniquepart=base,hash=f864b125f95a9045629055d475592b17}{%
            family={Loe},
            familyi={L\bibinitperiod},
-           given={{Ø}ivind},
-           giveni={Ø\bibinitperiod},
+           given={A.G\bibnamedelima {Ø}ivind},
+           giveni={A\bibinitperiod\bibinitdelim Ø\bibinitperiod},
            givenun=0}}%
+      }
+      \list{institution}{2}{%
+        {Norwegian University of Science}%
+        {Technology (NTNU)}%
       }
       \list{location}{1}{%
         {Trondheim, Norway}%
       }
-      \strng{namehash}{d8fefaf6e5781db81ec6338de919478b}
-      \strng{fullhash}{d8fefaf6e5781db81ec6338de919478b}
-      \strng{bibnamehash}{d8fefaf6e5781db81ec6338de919478b}
-      \strng{authorbibnamehash}{d8fefaf6e5781db81ec6338de919478b}
-      \strng{authornamehash}{d8fefaf6e5781db81ec6338de919478b}
-      \strng{authorfullhash}{d8fefaf6e5781db81ec6338de919478b}
+      \strng{namehash}{f864b125f95a9045629055d475592b17}
+      \strng{fullhash}{f864b125f95a9045629055d475592b17}
+      \strng{bibnamehash}{f864b125f95a9045629055d475592b17}
+      \strng{authorbibnamehash}{f864b125f95a9045629055d475592b17}
+      \strng{authornamehash}{f864b125f95a9045629055d475592b17}
+      \strng{authorfullhash}{f864b125f95a9045629055d475592b17}
       \field{sortinit}{L}
       \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
       \field{extradatescope}{labelyear}
       \field{labeldatesource}{year}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{Specialization project report. Norwegian University of Science and Technology (NTNU), Trondheim, Norway}
-      \field{title}{Collision avoidance concepts for marine surface craft}
-      \field{year}{2007}
+      \field{title}{Collision avoidance for unmanned surface vehicles}
+      \field{type}{mathesis}
+      \field{year}{2008}
     \endentry
     \entry{park2020social}{article}{}
       \name{author}{5}{}{%
@@ -650,7 +686,7 @@
       \field{labeldatesource}{year}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booksubtitle}{Proceedings of 13th IFAC Conference on Control Applications in Marine Systems, Robotics, and Vehicles Elsevier}
+      \field{booksubtitle}{Proceedings of 13th IFAC Conference on Control Applications in Marine Systems, Robotics, and Vehicles}
       \field{number}{16}
       \field{title}{Trajectory prediction for marine vessels using historical AIS heatmaps and long short-term memory networks}
       \field{volume}{54}
