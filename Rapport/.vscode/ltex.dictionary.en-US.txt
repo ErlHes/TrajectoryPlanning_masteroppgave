@@ -30,3 +30,5 @@ stationkeeping
 coriolis
 path-tangental
 optimality
+Kongsberg
+Kongsberg

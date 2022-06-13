@@ -14,7 +14,7 @@ distancetogoal = distancetogoal + distancetonextWP;
 if vessel.nu(1) < 0.001
     vessel.nu(1) = 0.001;
 end
-Timetogoal = distancetogoal / vessel.nu(1);
+Timetogoal = distancetogoal / sqrt(vessel.nu(1)^2+vessel.nu(2)^2);
 
 
 %Getting past relevant TS:

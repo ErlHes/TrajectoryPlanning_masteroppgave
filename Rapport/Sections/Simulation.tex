@@ -21,7 +21,7 @@ functional prototype of an autonomous ferry that could be used to conduct real l
 on this thesis the ferry was out of commission due to a thruster failure.
 The MATLAB simulator used for this thesis was developed by Emil Thyri and is used with permission. In this chapter the results
 are presented with figures to show the development of the scenario over time, in addition to these figures there exists a YouTube video compiling
-all the results in video format, the video can be found as an attachment to the thesis, or by following this link: https://www.youtube.com/watch?v=522OtL2MRGo.
+all the results in video format, the video can be found as an attachment to the thesis, or by following this link: \url{https://www.youtube.com/watch?v=522OtL2MRGo}.
 
 All the simulations are conducted under the assumption that the \gls{OS} has perfect vision for spotting and tracking dynamic obstacles.
 Disturbances are also largely ignored, the simulation features no current or wind induced sideslip, crab angle is also not considered.
@@ -56,7 +56,7 @@ Disturbances are also largely ignored, the simulation features no current or win
 %     \item 'usynlig sving'
 %     \subitem Traffikert område hvor 'all' trafikken følger en spesifikk sving.
 %     \item enkle situasjoner:
-%     \subitem Head-on, Give way, Stand on i 'åpent' hav med bare et target ship.
+%     \subitem Head-on, Give-way, Stand on i 'åpent' hav med bare et target ship.
 %     \subitem med og uten sving inkludert, for prediksjons sammenligning.
 % \end{itemize}
 
@@ -112,7 +112,7 @@ encountered while developing and testing the algorithm. While some problems show
 current iteration of the algorithm they are nonetheless important to showcase and discuss.
 
 
-\subsection{Results}
+\subsection{Simulation Results}
 % \begin{itemize}
 %     \item 'Dårlig' resultat er fortsatt resultat
 %     \item Computational efficiency is also a topic
@@ -195,7 +195,7 @@ Rest of page intentionally left empty for formatting
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Simple Head on situation. Result independent of prediction level.}
+    \caption{Simple Head-on situation. Result independent of prediction level.}
     \label{FIG: Simple HO}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
@@ -296,7 +296,7 @@ Rest of page intentionally left empty for formatting
 %     \caption{Simple Head on Without Prediction}
 % \end{figure}
 
-\begin{figure}[ht!] % SIMPLE GIVE WAY
+\begin{figure}[ht!] % SIMPLE Give-way
     % \begin{subfigure}[b]{0.49\textwidth}
     %     \centering
     %     \includegraphics[width=\textwidth]{Images/Figures/enkel_GW/_Simple_0fig1_time=0}
@@ -348,7 +348,7 @@ Rest of page intentionally left empty for formatting
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Simple Give Way situation. Result independent of prediction level.}
+    \caption{Simple Give-way situation. Result independent of prediction level.}
     \label{FIG: simple GW}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
@@ -377,7 +377,7 @@ Rest of page intentionally left empty for formatting
 %         \subcaption{}
 %     \end{subfigure}
 %     \hfill
-%     \caption{Simple Give Way With Prediction}
+%     \caption{Simple Give-way With Prediction}
 % \end{figure}
 
 % \begin{figure}[!b] 
@@ -501,7 +501,7 @@ Rest of page intentionally left empty for formatting
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Simple stand on situation. Here shown with full prediction, \gls{OS} correctly stands on.}
+    \caption{Simple Stand-on situation. Here shown with full prediction, \gls{OS} correctly stands on.}
     \label{FIG: simple SO full pred}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
@@ -585,7 +585,7 @@ Rest of page intentionally left empty for formatting
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Simple stand on situation. Here shown with simple prediction, the \gls{OS} can be observed to yield when it shouldn't.}
+    \caption{Simple Stand-on situation. Here shown with simple prediction, the \gls{OS} can be observed to yield when it shouldn't.}
     \label{FIG: Simple SO simple pred}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
@@ -618,7 +618,7 @@ Rest of page intentionally left empty for formatting
 % \end{figure}
 
 \clearpage
-\subsubsection{Simple Head On}
+\subsubsection{Simple Head-On}
 % \begin{itemize}
 %     \item Very straight forward result, behaviour is exactly as one would expect given the placement of the constraint.
 %     \item No difference between full and simple prediction because target ship holds steady course and velocity.
@@ -629,7 +629,7 @@ a baseline of capabilities. For example for this scenario specifically it is est
 pass the head-on vessel on the port side when the conditions are ideal. This result holds for both simple and
 full prediction levels. The result for this scenario is seen in Figure \ref{FIG: Simple HO}
 
-\subsubsection{Simple Give Way}
+\subsubsection{Simple Give-Way}
 % \begin{itemize}
 %     \item It would be highly unusual to start using the trajectory planner when alredy this close to a situation
 %     \item This is reflected in the strange behaviour where our path is completely blocked when dynamic obstacle constrains are enabled.
@@ -643,7 +643,7 @@ the next result is a much shorter path as the speed is reduced, and then finally
 This very simple simulation highlights one of the potential problems with the algorithm, if it's turned on while the OS is in an active
 COLREGs situation performance might be poor. The results are seen in Figure \ref{FIG: simple GW}
 
-\subsubsection{Simple Stand On}
+\subsubsection{Simple Stand-On}
 % \begin{itemize}
 %     \item This scenario assumes that the \gls{Ts} plays nice and attempts to follow the \gls{COLREGs} rules.
 %     \item When using simple prediction the optimal path is pushed towads port side behind the \gls{Ts}, and as the \gls{Ts} begins to turn the \gls{OS} is dragged along by the movement of the constraints.
@@ -716,7 +716,7 @@ The simple prediction version on the other hand, seen in Figure \ref{FIG: Simple
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Head on situation with a turn, Result for this were the same regardless of prediction level.}
+    \caption{Head-on situation with a turn, Result for this were the same regardless of prediction level.}
     \label{FIG: Turn HO}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
@@ -869,7 +869,7 @@ The simple prediction version on the other hand, seen in Figure \ref{FIG: Simple
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Give way with a turn, here with full prediction. Observe the \gls{OS} not execting to have to yield until it's almost too late.}
+    \caption{Give-way with a turn, here with full prediction. Observe the \gls{OS} not execting to have to yield until it's almost too late.}
     \label{FIG: turn GW full pred}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
@@ -953,7 +953,7 @@ The simple prediction version on the other hand, seen in Figure \ref{FIG: Simple
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Give way with a turn, here with simple prediction. Observe as the OS gets dragged along by the constraints of the turning TS.}
+    \caption{Give-way with a turn, here with simple prediction. Observe as the OS gets dragged along by the constraints of the turning TS.}
     \label{FIG: turn GW simple pred}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
@@ -1037,7 +1037,7 @@ The simple prediction version on the other hand, seen in Figure \ref{FIG: Simple
         \subcaption{}
     \end{subfigure}
     \hfill
-    \caption{Stand on situation with turn. Result independent of prediction level.}
+    \caption{Stand-on situation with turn. Result independent of prediction level.}
     \label{FIG: turn SO}
 \end{figure}%
 % \begin{figure}[ht]\ContinuedFloat
@@ -1139,17 +1139,17 @@ The simple prediction version on the other hand, seen in Figure \ref{FIG: Simple
 % \end{figure}
 
 \clearpage
-\subsubsection{Turn Head On}
+\subsubsection{Turn Head-On}
 % \begin{itemize}
 %     \item business as usual, an easy situation to maneuver through.
 % \end{itemize}
-Very similar result to the straight path head on situation, which is not entirely unexpected. One aspect of this scenario that
+Very similar result to the straight path head-on situation, which is not entirely unexpected. One aspect of this scenario that
 has become very obvious with hindsight is that the incoming TS should have approached from northwest instead of northeast. That way
 any a poorly calculated optimal trajectory would have been dragged towards the wrong side for the crossing. Instead, as the situation is set
 up the trajectory will always be pushed towards crossing on the correct side. (TODO: kanskje forklar dette bedre?).
 The results for this scenario are seen in Figure \ref{FIG: Turn HO}
 
-\subsubsection{Turn Give Way}
+\subsubsection{Turn Give-Way}
 % \begin{itemize}
 %     \item Here we finally observe a big differene between full and simple prediction.
 %     \item due to how the situation plays out the \gls{OS} is dragged along by the constraints of the \gls{Ts}.
@@ -1163,7 +1163,7 @@ getting caught and pushed out by the constraints the behavior is pretty good.
 With simple prediction on the other hand, as seen in Figure \ref{FIG: turn GW simple pred}, the optimal trajectory gets caught by the
 incoming crossing TS's constraints and dragged along some 100 meters off-course.
 
-\subsubsection{Turn Stand On}
+\subsubsection{Turn Stand-On}
 The results for this scenario was not affected by prediction level, in fact nothing at all happens in this scenario. Which is exactly the desired result,
 but it's not very interesting to read or write about. The results are seen in Figure \ref{FIG: turn SO}.
 
@@ -2282,7 +2282,7 @@ time not handle turning from some angles to another, the heading reference would
 This was discussed in Chapter \ref{CHAP: integration step} and will be discussed a bit more in the miscellaneous results. 
 Back to Helløya in reverse, the results for full prediction are in Figure \ref{FIG: Helloya rev full prediction}, 
 and simple in Figure \ref{FIG: Helloya rev Simple pred}. This time the 'invisible' turn is handled differently depending on prediction level, with
-the simple prediction trajectory being pushed towards cutting the corner, while the full prediction version ends up crossing in front. Later the head on
+the simple prediction trajectory being pushed towards cutting the corner, while the full prediction version ends up crossing in front. Later the Head-on
 TS is easily avoided by both prediction levels.
 
 Not captured in these figures, but observable in the video version, is the 
@@ -2898,7 +2898,7 @@ optimal path as initial guess.
 
 \textbf{Leaning into turns:}\newline
 This problem is simply a quirk of numerical optimization and my cost function. If you look at Figure \ref{FIG: OCP leaning into turns.}
-you will see that the OS turns ever so slightly the wrong way before executing the give way maneuver. This is actually a very big deal with
+you will see that the OS turns ever so slightly the wrong way before executing the Give-way maneuver. This is actually a very big deal with
 respects to COLREGs, and therefor a highly undesired behavior. Sadly the root of the problem is not easy to fix, by "leaning" the wrong way
 like this the overall trajectory is closer to the reference and is thus the optimal trajectory. This is because the OS has a pretty
 bad turning radius, taking turns straight on leads to understeering that can take a long time to recover from. The problem could
@@ -3043,7 +3043,7 @@ in a real life scenario dampening and inertia would (hopefully) suppress this is
 %     See helloya rev without pred.
 %     \item Standing on in general needs a better way of handling constraints.
 %     \item Perhaps an alternative way of achieving COLREGs compliance would be to asess whether the \gls{OS} is in 'Stand on' or
-%     'Give way' mode, and modifying the cost function as well as dynamically placing constraints based on the situation. instead of
+%     'Give-way' mode, and modifying the cost function as well as dynamically placing constraints based on the situation. instead of
 %     just placing constraints that lead to 'immitating' COLREGs compliance.
 %     \item I wanted to test the algorithm agasint itself, by having all vessels in a situation be controlled by it's own instance.
 %     However the logic rewrite needed to conduct this test proved to be a bit too much
@@ -3073,7 +3073,7 @@ to the crossing.
 
 I believe that true COLREGs compliance with numerical optimal control needs a dynamic cost function and a state machine for monitoring actively applying COLREGs rules.
 Monitoring the compliance of observed TSs is also necessary in order to know if escape maneuvers might be necessary. A dynamic cost function might have weights on turning and speeds 
-in addition to keeping up with a reference and staying fuel efficient. The weights of all of these would change depending on if the OS is in a give way or stand on situation.
+in addition to keeping up with a reference and staying fuel efficient. The weights of all of these would change depending on if the OS is in a Give-way or Stand-on situation.
 Other factors could also affect the dynamic cost function such as shape of available space and number of TS. The algorithm could also use a better velocity reference; LOS guidance
 sort of just barrels through with fixed speed. While speed should be maintained if possible to not confuse other vessels about the OS's intents sometimes it is necessary to slow down, which
 this algorithm doesn't handle very well. A reference filter could also alleviate issue, smoothing out the sudden jump in surge velocity from 2 m/s to 0.5 m/s.

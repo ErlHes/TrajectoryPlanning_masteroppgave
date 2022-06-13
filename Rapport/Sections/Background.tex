@@ -12,7 +12,7 @@ The goal of the chapter is to give the reader enough intuition of the applied th
 so that it should be easy to quickly navigate and read about specific topics.
 
 
-\subsection{Vessel modelling } \label{CHAP: Vessel Modelling}
+\subsection{Vessel Modelling} \label{CHAP: Vessel Modelling}
 % --------- Genereal thoughts --------------------------
 % Jeg tenker det er best å skrive om modellering i sammenheng med hvordan trajectory planning problemet blir satt opp i MATLAB med CasADi.
 % \begin{itemize}
@@ -35,12 +35,12 @@ so that it should be easy to quickly navigate and read about specific topics.
 % % The model applied in this thesis is based on the theory and notation by \cite{fossen2011handbook},
 A mathematical model is a tool for describing physical systems and expressing how they change over time, respond to external forces, and how stable the system might be. Models are very useful when designing control systems as
 they translate the physical into equations that computers can understand. When making a model it is often useful to separate the dynamics of the different parts of the 
-system we are interested in, these are the \gls{DOF} the system has, and is often the directions the system can move, though they can also just be
-nondescript generalized coordinates. Deciding which \gls{DOF} to separate out and model the dynamics of is often what separates models from each other, it is pointless to model
+system we are interested in, these are the \gls{DOF}s the system has, and is often the directions the system can move, though they can also just be
+nondescript generalized coordinates. Deciding which \gls{DOF}s to separate out and model the dynamics of is often what separates models from each other, for it is pointless to model
 an aspect of a system that there is no intent to interact with. For example a ship has six \gls{DOF}, see Figure \ref{FIG: Ship DOF}, for modelling a control system for stationkeeping
 all six are important because stationkeeping involves keeping the whole ship as steady as possible. When modelling for path following on the other hand it is not
-important what the heave, roll, or pitch of our vessel is and so the dynamics of those \gls{DOF} can safely be ignored. 
-The model used to describe our vessel in this thesis is based on the theory and notation by (\cite{fossen2011handbook}), and is a 3\gls{DOF} nonlinear mass-damper system with
+important what the heave, roll, or pitch of our vessel is and so the dynamics of those \gls{DOF}s can safely be ignored. 
+The model used to describe our vessel in this thesis is based on the theory and notation by (\cite{fossen2011handbook}), and is a 3\gls{DOF}s nonlinear mass-damper system with
 thruster dynamics and no external disturbances such as wind or currents. The dynamics of the vessel can be described by the differential equations below:
 
 \begin{equation} \label{EQ: eta_dot}
@@ -62,12 +62,12 @@ thruster dynamics and no external disturbances such as wind or currents. The dyn
 % \textbf{R} is a rotational matrix about the heading ($\psi$) of the vessel and it transform the BODY velocities into
 % NED movement. 
 % The Rotation matrix, as well as pose, velocity, and the thruster vector $\bm{\tau}$ are:
-where $\bm{\eta}$ is the pose of the vessel parameterized in the tangential plane \gls{NED}, $\bm{\nu}$ are
-the velocities of the vessel, parameterized in the BODY frame of the vessel. And $\bm{\tau}$ are forces and torque applied to the
+where $\bm{\eta} \in \mathbb{R}^3$ is the pose of the vessel parameterized in the tangential plane \gls{NED}, $\bm{\nu}\in \mathbb{R}^3$ are
+the velocities of the vessel, parameterized in the BODY frame of the vessel. And $\bm{\tau}\in \mathbb{R}^3$ are forces and torque applied to the
 system. The \gls{NED} frame can be said to be inertial for short distance control objectives, and in this frame 
 the x-axis points towards true north, the y-axis points east, and the z-axis points down towards the center of the planet.
 Thus, $\bm{\eta} = [x\ , \ y \ , \ \psi]^T \in \mathbb{R}^{3}$ are the vessel's North, East and Heading values, 
-which are the three \gls{DOF} of the system. The velocities $\bm{\nu} = [u\ , \ v \ , \ r]^T \in \mathbb{R}^{3}$ are the
+which are the three \gls{DOF}s of the system. The velocities $\bm{\nu} = [u\ , \ v \ , \ r]^T \in \mathbb{R}^{3}$ are the
 surge, sway, and yaw rate of the vessel. In the BODY frame there are no fixed rules for where the axis are pointing, but the common convention for modelling
 vehicles is that the x-axis points along the longitudinal axis of the vessel, the y-axis points along the lateral axis
 and the z-axis points along the vertical axis. This is also seen in Figure \ref{FIG: Ship DOF}.
@@ -87,7 +87,7 @@ vessel's heading, and is defined as:
 \begin{figure}[ht]
     \centering
     \includegraphics[height=0.35\textheight]{Images/SHIPDOF_FOSSEN.png}
-    \caption{A ship's 6 degrees of Freedom, from (\cite{fossen2011handbook}).} %(TODO: TA BEVIST VALG, PUNKTUM ELLER IKKE.)
+    \caption{A ship's 6 degrees of freedom, from (\cite{fossen2011handbook}).} %(TODO: TA BEVIST VALG, PUNKTUM ELLER IKKE.)
     \label{FIG: Ship DOF}
 \end{figure}
 
@@ -117,12 +117,12 @@ vessel's heading, and is defined as:
 %     The matrices then become:
 % \end{itemize}
 
-In \eqref{EQ: Vessel Dynamics} the \textbf{M} matrix is the inertia matrix of the system, which describes how 'heavy' the \gls{DOF} are to nudge, in
+In \eqref{EQ: Vessel Dynamics}, the \textbf{M} matrix is the inertia matrix of the system, which describes how 'heavy' the \gls{DOF}s are to nudge, in
 addition to the vessel's inherent inertia from being massive the vessel must also push water out of the way when it moves, this is what is known as
 hydrodynamic added mass and is linearly added to the inertia matrix. The coriolis matrix \textbf{C} also has to include hydrodynamic added mass,
-however for the purpose of this thesis it is not important to know the parameters for either of these matrices or for the dampening matrix \textbf{D}.
-That is because a trajectory planning algorithm needs to work regardless of vessel parameters, (\cite{pedersen2019optimization}) explains more in-depth
-how system parameters can be found. Continuing on, the dampening matrix is a linear combination of the linear dampening stemming from water
+however for the purpose of this thesis it is not important to know the parameters for either of these matrices or for the damping matrix \textbf{D}.
+That is because a trajectory planning algorithm needs to work regardless of vessel parameters. (\cite{pedersen2019optimization}) explains more in-depth
+how system parameters can be found. Continuing on, the damping matrix is a linear combination of the linear dampening stemming from water
 viscosity and non-linear dampening from cross-flow, once again the parameters themselves are not strictly relevant to this thesis, but intuition is
 important. The result are matrices in the following form:
 
@@ -150,10 +150,12 @@ important. The result are matrices in the following form:
                             \end{bmatrix}       
 \end{equation}
 
-The dampening matrix can be a bit of a computational nightmare and can be simplified to a linear and diagonal matrix without too much
-of a detrimental impact on our simulations. The justification for this simplification is the underlying assumption that the reference output
-from the trajectory planner algorithm will be parsed through a final control module that will account for dampening. The risk is that
-the end result from the trajectory planner turns out to be infeasible, but that's a problem for another thesis.
+The damping matrix can be a bit of a computational nightmare and can be simplified to a linear and diagonal matrix without too much
+of a detrimental impact on our simulations. The justification for this is the fact that the trajectory planning algorithm is higher in
+the control system hierarchy, a lower level motion control system will take care of the real time control and handle the dampening.
+The risk is that the end result from the trajectory planner turns out to be infeasible, but that's a problem for another thesis.
+% The justification for this simplification is the underlying assumption that the reference output
+% from the trajectory planner algorithm will be parsed through a final control module that will account for dampening. 
 
 \begin{equation} \label{EQ: Dampening_Simple}
     \textbf{D}(\bm{\nu}) = \begin{bmatrix}
@@ -165,7 +167,7 @@ the end result from the trajectory planner turns out to be infeasible, but that'
 
 Finally, a word on heading vs course. Throughout this thesis the terms course and heading might be used interchangeably, but the words are strictly not synonymous.
 Heading is equivalent with yaw as both denote a rotation about the vessel's third axis, the difference between the two is that yaw is often a relative term describing
-a change by some degrees from one arbitrary pose to another. Heading is an absolute term and is often based on compass directions, meaning 0\textdegree heading
+a change by some degrees from one arbitrary pose to another. Heading is an absolute term and is often based on compass directions, meaning 0\textdegree heading
 equates to the nose of the vessel pointing towards true north. Neither heading nor yaw is equivalent with course, which is strictly the direction
 of travel relative to true north. In a simplified world void of disturbances heading and course will align during straight line
 travel, but external forces such as wind or currents will cause the two angles to deviate. Likewise, sideslip caused by a non-zero sway velocity when turning will 
@@ -252,7 +254,7 @@ and WP\textsubscript{k+1} (x\textsubscript{k+1}, y\textsubscript{k+1}) are:
                                             y - y_k
                                             \end{bmatrix}
 \end{equation}
-where R is the rotation matrix from the inertial frame to the straight line's frame. Here, $\gamma_p$ is the horizontal path-tangental angle,
+where $\textbf{R}^T(\gamma_p)$ is the rotation matrix from the inertial frame to the straight line's frame. Here, $\gamma_p$ is the horizontal path-tangental angle,
 or the 'angle' of the straight line path in relation to the inertial frame if that makes more sense, see Figure \ref{FIG: LOS_decomp} for a visual
 decomposition. The rotation matrix \textbf{R} is given by:
 \begin{equation} %% Rotation matrix R(gamma)
@@ -275,7 +277,7 @@ and consequently desired course:
 \begin{equation}
     \chi_d = \psi_d + \beta
 \end{equation}
-where $\beta$ is the sideslip of the \gls{OS}. Because real life situations are rarely, if ever, devoid of disturbances that introduce
+where $\beta \in \mathbb{R}$ is the sideslip of the \gls{OS}. Because real life situations are rarely, if ever, devoid of disturbances that introduce
 sideslip and crab angles there is one common improvement that can be made: Integrate the cross track error and use both current cross track error, 
 and it's integral when calculating desired heading. The equation for $\dot{y}_{int}$ and $\psi_d$ then become:
 \begin{equation}
@@ -284,13 +286,13 @@ and it's integral when calculating desired heading. The equation for $\dot{y}_{i
 \begin{equation}
     \psi_d = \gamma_p - \arctan(K_{p}y_e + K_{i} y_{int})
 \end{equation}
-where K\textsubscript{p} and K\textsubscript{i} are gain parameters proportional to the lookahead distance, typically $K_p = (1/\varDelta)$, $K_i = Kp*\kappa$
+where $K_{p} > 0$ and $K_{i} > 0$ are gain parameters proportional to the lookahead distance, typically $K_p = (1/\varDelta)$, $K_i = Kp*\kappa$
 with $\kappa > 0$ being some design variable.
 
 \begin{figure}
     \centering
     \includegraphics[width = 0.7\textwidth]{Images/LOS_decomp.png}
-    \caption{Line of sight guidance geometry for straight lines, here with zero sideslip. Image courtesy of (\cite{lekkas2013line})} % TODO: Used without permission?
+    \caption{Line of sight guidance geometry for straight lines, here with zero sideslip. Image courtesy of (\cite{lekkas2013line}).} % TODO: Used without permission?
     \label{FIG: LOS_decomp}
 \end{figure}
 
@@ -314,9 +316,11 @@ iterations of \gls{LOS} applications is of the form:
 %     \item cite \cite{breivik2017mpc} for a quick look and equation formulation.
 %     \item cite \cite{wright1999numerical} For a comprehensive lesson on optimal control.
 % \end{itemize}
-Numerical optimization is a vast field within mathematics, (\cite{wright1999numerical}) explains it well: There are no universal optimization algorithm. Instead, an algorithm must be tailored to the optimization
-problem. Within the context of trajectory planning there are different parameters to optimize for, some examples are: maintaining steady velocity, suppressing sway, minimizing
-fuel waste, minimizing distance to goal, and there are many more. The general expression for an optimization problem can be written as simple as:
+Numerical optimization is a vast field within mathematics, (\cite{wright1999numerical}) explains it well: 
+There is no universal optimization algorithm. Instead, an algorithm must be tailored to the considered optimization problem. 
+Within the context of trajectory planning, there are different parameters to optimize for, some examples are: 
+maintaining steady velocity, suppressing sway, minimizing fuel waste, minimizing distance to goal, and 
+there are many more. The general expression for an optimization problem can be written as simple as:
 \begin{subequations}
     \begin{align}
     \underset{x\in \textbf{R}^n}{\textrm{Minimize}} \quad & f(x) \\
@@ -328,10 +332,9 @@ fuel waste, minimizing distance to goal, and there are many more. The general ex
 %     \item However a better generalized formulation was made in \cite{breivik2017mpc}, it's basically the same but expressed in a way that will be easier to use later.
 %     \item The cost function is 
 % \end{itemize}
-Where $f(x)$
-is the objective function where the optimization objectives are encoded.
+where $f(x)$ is the objective function where the optimization objectives are encoded.
 The functions $c_i$ are constraint on the system which $f(x)$ exists in, and $\mathcal{E}$ and $\mathcal{I}$ are indices
-pertaining to if the constraint $c_i$ is an equality or inequality constraint. In the context of this thesis the thing to minimize is some nebulous cost function
+pertaining to if the constraint $c_i$ is an equality or inequality constraint. In the context of this thesis, the thing to minimize is some nebulous cost function
 associated with path following, and the constraints are the physical model of the system that guarantees feasibility as well as safety constraints to avoid collisions.
 The cost function is then some function of the vessel's state, reference trajectory, and control input. The two constraints are the system dynamics from \eqref{EQ: Vessel Dynamics}
 and \eqref{EQ: eta_dot}. And then additional constraints for collision safety and initial conditions. A new general \gls{OCP} definition is thus given by the following:
@@ -349,16 +352,16 @@ and \eqref{EQ: eta_dot}. And then additional constraints for collision safety an
                          \quad & \bm{\theta}(t_0) - \overline{\bm{\theta}}_0 = \bm{0}
 \end{align}
 \end{subequations}
-where L is the cost function, $\bm{\theta} = [\bm{\eta}^T \ , \ \bm{\nu}^T]^T$ and $\bm{\tau}$ is still the same as in \eqref{EQ: Vessel Dynamics}. 
-\textbf{J}($\bm{\theta}, \bm{\tau}$) Are the model dynamics \eqref{EQ: eta_dot}, \eqref{EQ: Vessel Dynamics}. $\overline{\bm{\theta}}_0$ are the
+where L is the cost function, $\bm{\theta} = [\bm{\eta}^T \ , \ \bm{\nu}^T]^T$ and $\bm{\tau}$ is still the same as in \eqref{EQ: Vessel Dynamics}, 
+\textbf{J}($\bm{\theta}, \bm{\tau}$) is the model dynamics \eqref{EQ: eta_dot}, \eqref{EQ: Vessel Dynamics}. $\overline{\bm{\theta}}_0$ are the
 given initial conditions of the system.
 The solution to the optimization problem is the series of inputs $\bm{\tau}$ which minimizes the integral of the cost L 
 from t\textsubscript{0} to t\textsubscript{end}. And L has the form of a quadratic function
-akin to a weighted least squares: (TODO: Eh, grei formulering?)
+akin to a weighted least squares: %(TODO: Eh, grei formulering?)
 \begin{equation}
     L(\bm{\theta}(t), \bm{\theta}_{ref}(t), \bm{\tau}(t)) = (\bm{\theta}(t) - \bm{\theta}_{ref}(t))^T \textbf{Q} (\bm{\theta}(t) - \bm{\theta}_{ref}(t)) + \textbf{K}_\tau \bm{\tau}^2
 \end{equation}
-Where the diagonal of the \textbf{Q} matrix are the weight coefficients of deviating from the reference
+where the diagonal of the \textbf{Q} matrix are the weight coefficients of deviating from the reference
 and \textbf{K}\textsubscript{$\tau$} is another weighting matrix for applied forces and torques.
 
 Solving the \gls{OCP} can be done using a multitude of methods, \cite{breivik2017mpc} suggest discretizing 
@@ -395,8 +398,9 @@ the \gls{OCP} into a \gls{NLP} using a method called direct multiple shooting.
 The author would like to note that the technique used in this section, direct multiple shooting, is outside the scope of the author's knowledge.
 Everything the author knows about this technique was learned over the course of the master thesis project, and it's highly recommended reading the full formulation by (\cite{breivik2017mpc})
 which is the formulation that the implementation for this thesis heavily builds upon. Another great resource for direct multiple shooting are the video lectures of (\cite{gros2017Lecture}).
-Also note that functions and definitions from the previous section on \gls{OCP} carry over, for example $\bm{\theta} = [\bm{\eta}^T \ , \ \bm{\nu}^T]^T$ still holds.\newline
-Direct multiple shooting is a \gls{OCP} discretization technique where both the states and control inputs are explicitly defined as decision variables.
+Also note that functions and definitions from the previous section on \gls{OCP} carry over, for example $\bm{\theta} = [\bm{\eta}^T \ , \ \bm{\nu}^T]^T$ still holds.
+
+Direct multiple shooting is an \gls{OCP} discretization technique where both the states and control inputs are explicitly defined as decision variables.
 The \gls{NLP} is then a reformulation of \eqref{EQ :OCP description} where L is redefined as a discretized cost function with $N_p$ control intervals steps:
 \begin{equation} %(TODO: GÅ GJENNOM DETTE)
     \Phi(\bm{\omega}, \bm{\omega}_{ref_{1:N_p}}) = 
@@ -425,7 +429,7 @@ by a lower and upper bounds, where the bounds define if the function in \textbf{
 defines the decision variables the programmed solver that solves the \gls{NLP} is free to place the states and velocities anywhere within the constraints. It is therefor
 important to implement equality constraints that force the ending of one control interval and the beginning of the next to line up. This is called closing the shooting gaps, 
 an illustration of what shooting gaps are can be seen in Figure \ref{FIG: Shooting Gaps}. These equality constraints are called shooting constraints and to create them begin
-by defining an integrator function $\textbf{F}(\bm{\theta}_{k}, \bm{\tau}_k)$ using any technique, in this thesis the following \gls{RK4} method will be used:
+by defining an integrator function $\textbf{F}(\bm{\theta}_{k}, \bm{\tau}_k)$ using any technique. In this thesis, the following \gls{RK4} method will be used:
 
 \begin{figure}
     \includegraphics[width=\textwidth]{Images/MultipleShooting.pdf}
@@ -443,7 +447,7 @@ by defining an integrator function $\textbf{F}(\bm{\theta}_{k}, \bm{\tau}_k)$ us
     \textbf{F}(\bm{\theta}_{k}, \bm{\tau}_k) = \quad & \bm{\theta}_k + \frac{h}{6} (k_1 + 2k_2 + 2k_3 + k_4)
     \end{split}
 \end{equation}
-with h being a selected discretized time step size. With $\textbf{F}$ it is now possible to calculate $\bm{\theta}_{k+1}$ given $\bm{\theta}_k$ and $\bm{\tau}_k$
+with $h>0$ being a selected discretized time step size. With $\textbf{F}$ it is now possible to calculate $\bm{\theta}_{k+1}$ given $\bm{\theta}_k$ and $\bm{\tau}_k$
 The shooting constraints are then formed as:
 \begin{equation}
     \textbf{g}(\bm{\omega}) = \begin{bmatrix}
@@ -456,7 +460,7 @@ The shooting constraints are then formed as:
 \end{equation}
 Setting the lower and upper bounds for \textbf{g} equals to zero enforces the equality constraints and pinches the shooting gaps close. The final missing piece for the trajectory planner
 is to formulate constraints to ensure a collision free trajectory. Similarly to the shooting constraints the obstacle constraints are also placed in \textbf{g}, their
-formulation is discussed in Chapter \ref{CHAP: COLAV}
+formulation is discussed in Chapter \ref{CHAP: COLAV}.
 
 The theory behind constructing an \gls{NLP} in a way that a machine can understand and solve it is a topic for a whole new thesis. In this thesis, CasADi (\cite{andersson2019casadi}), is used
 as a framework for constructing the NLP, the NLP is solved with an \gls{IPOPT} solver, (\cite{wachter2006implementation}), that comes included with CasADi. A practical
@@ -474,7 +478,7 @@ period. The first control inputs from the solution are saved and applied to the 
 discarded and new measurements of the state of the system are taken. Using the new measurements as the new initial conditions, the process starts over;
 Simulate until the end of control period, apply first control input to next control interval, discard rest of solution, redo measurements, repeat.
 This introduces feedback to the system, which allows it to react and adjust to unmodelled disturbances, this greatly increases the robustness of the automated system.
-(\cite{qin1997overview}) (TODO: usikker på den her, den er delvis relevant for det som er skrevet.)
+(\cite{qin1997overview}).% (TODO: usikker på den her, den er delvis relevant for det som er skrevet.)
 
 % (TODO: REWRITE THIS, SOME PARTS MAKE LITTLE SENSE)\\
 % where $\textbf{F}$ is the objective function, $\boldsymbol{\eta}(t)$ is the position and attitude trajectory of the vehicle, $\textbf{u}(t)$
@@ -512,9 +516,9 @@ This introduces feedback to the system, which allows it to react and adjust to u
 %     \item Nr. 1 avoid collisions with static obstacles by any means.
 %     \item Nr. 2 Avoid collisions with dynamic obstacles by achieving COLREGs compliance.
 % \end{itemize}
-\begin{itemize}
-    \item Mangler kanskje et lite avsnitt om state machine for å holde på COLREGs klassifikasjoner frem til situasjonen er klarert.
-\end{itemize}
+% \begin{itemize}
+%     \item Mangler kanskje et lite avsnitt om state machine for å holde på COLREGs klassifikasjoner frem til situasjonen er klarert.
+% \end{itemize}
 Having constructed the means of finding an optimal trajectory, the next task at hand is making sure the trajectory is collision free.
 It would be difficult to claim any sort of optimality without asserting if the trajectory is able to effectively avoid obstacles, collision avoidance is
 therefor just as important a task as the construction of the trajectory planning algorithm. Collision avoidance is an umbrella term for many 
@@ -524,11 +528,13 @@ The task at hand can then be separated out into two pieces: Static obstacle avoi
 
 
 \subsubsection*{Static Obstacles} \label{CHAP: static_obs}
-(TODO: kan muligens droppe hele dette delkapittelet)
+% (TODO: kan muligens droppe hele dette delkapittelet)
 A static obstacle is any object or hindrance in the water that does not move on a timescale comparable to the one of the \gls{OS}, such as skerries or a pier. 
 Static obstacles are tricky, the way to handle them will depend a lot on how information about obstacles are
 gathered and stored. This aspect of the trajectory planning algorithm is therefor reserved for Chapter \ref{Chap: Method Static Obs}
 which is about this thesis's implementations specifically.
+
+
 
 \subsubsection*{COLREGs Compliance}
 The \gls{COLREGs} (\cite{WikisourceCOLREGS}) are a set of rules developed with the purpose of preventing collisions between two or more vessels at sea.
@@ -536,36 +542,49 @@ The rules are sectioned into six parts; A - General, B - Steering and Sailing Ru
 F - Verification of Compliance. In part A it is written "These Rules shall apply to all vessels upon the high seas and in all waters connected therewith 
 navigable by seagoing vessels.", which means any aspiring \gls{ASV} must be able to comply. It is part B that is the most relevant to the work of this thesis,
 as it contains the rules for maneuvering in the vicinity of other vessels. The following is a non-exhaustive list of the rules that are most
-relevant for this thesis, a more comprehensive examination of the rules can be found in (\cite{cockcroft2012manoeuvres}).\newline
+relevant for this thesis, a more comprehensive examination of the rules can be found in (\cite{cockcroft2012manoeuvres}).
+
+\begin{figure}[t!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/shipCPA.pdf}
+    \caption{Visualizing dCPA and tCPA.}
+    \label{FIG: ship CPA}
+\end{figure}
+
 \textbf{Rule 7: Risk of Collision}\newline
 (d)\textit{ In determining if risk of collision exists the following considerations shall be among those taken into account:}\newline
 (d)(i) \textit{such risk shall be deemed to exist if the compass bearing of an approaching vessel does not appreciably change;}\newline
 (d)(ii) \textit{ such risk may sometimes exist even when an appreciable bearing change is evident, particularly when 
-approaching a very large vessel or a tow or when approaching a vessel at close range.}\newline
+approaching a very large vessel or a tow or when approaching a vessel at close range.}
+
 \textbf{Rule 8: Action to avoid collision}\newline
 (a) \textit{Any action taken to avoid collision shall be taken in accordance with the Rules of this Part and shall, 
 if the circumstances of the case admit, be positive, made in ample time and with due regard to the observance of good seamanship.}\newline
 (b) \textit{Any alteration of course and/or speed to avoid collision shall, if the circumstances of the case admit, be large enough to be readily 
-apparent to another vessel observing visually or by radar; a succession of small alterations of course and/or speed should be avoided.}\newline
+apparent to another vessel observing visually or by radar; a succession of small alterations of course and/or speed should be avoided.}
+
 \textbf{Rule 13: Overtaking}\newline
-(b) \textit{A vessel shall be deemed to be overtaking when coming up with another vessel from a direction more than 22.5 degrees abaft her beam.}\newline
+(b) \textit{A vessel shall be deemed to be overtaking when coming up with another vessel from a direction more than 22.5 degrees abaft her beam.}
+
 \textbf{Rule 14: Head-on situation}\newline
 (a) \textit{When two power-driven vessels are meeting on reciprocal or nearly reciprocal courses so as to involve risk of collision each shall alter her 
-course to starboard so that each shall pass on the port side of the other.}\newline
+course to starboard so that each shall pass on the port side of the other.}
+
 \textbf{Rule 15: Crossing situation}\newline
 \textit{When two power-driven vessels are crossing so as to involve risk of collision, the vessel which has the other on her own starboard 
-side shall keep out of the way and shall, if the circumstances of the case admit, avoid crossing ahead of the other vessel.}\newline
+side shall keep out of the way and shall, if the circumstances of the case admit, avoid crossing ahead of the other vessel.}
+
 \textbf{Rule 17: Action by stand-on vessel}\newline
 (a)(i)\textit{Where one of two vessels is to keep out of the way the other shall keep her course and speed.}\newline
 (b)\textit{When, from any cause, the vessel required to keep her course and speed finds herself so close that collision 
 cannot be avoided by the action of the give-way vessel alone, she shall take such action as will best aid to avoid collision.}
 
-
-\begin{figure}[ht!]
+\begin{figure}[t!]
     \centering
-    \includegraphics[width=0.8\textwidth]{Images/shipCPA.pdf}
-    \caption{Visualizing dCPA and tCPA.}
-    \label{FIG: ship CPA}
+    \includegraphics[width=0.8\textwidth]{Images/COLREGs_assess2.png}
+    \caption{COLREGs classification; with OS in the center we can place the TS in one of four regions. Similarly, the relative bearing from TS to OS can be assigned regions with region 1 pointed directly at the OS and the rest following in a clockwise rotation.
+    Courtesy of (\cite{Thyri2021b}).}
+    \label{FIG: COLREGs Classification}
 \end{figure}
 
 These rules are not easily explained to a layperson, and even less easily to a computer algorithm. To formulate the constraints that will
@@ -583,37 +602,32 @@ and any other vessel? A common risk assessment tool is to calculate the \gls{dCP
         d_{AB}^{CPA} = ||(\textbf{P}_A + t_{AB}^{CPA} \textbf{V}_A) - (\textbf{P}_B + t_{AB}^{CPA} \textbf{V}_B)||
     \end{equation}
 \end{subequations}
-where $\textbf{V}_{A|B} = \textbf{V}_A - \textbf{V}_B$ with $\textbf{V}_A$, $\textbf{V}_B$, $\textbf{P}_A$ and $\textbf{P}_B$ being the respective
+where $\textbf{V}_{A|B} = \textbf{V}_A - \textbf{V}_B$ with $\textbf{V}_A \in \mathbb{R}^2$, $\textbf{V}_B \in \mathbb{R}^2$, 
+$\textbf{P}_A \in \mathbb{R}^2$ and $\textbf{P}_B \in \mathbb{R}^2$ being the respective
 velocities and positions of two given vessels A and B parameterized in NED. To determine if the \gls{OS} and a given \gls{Ts} should be
 considered to be in an active situation, the calculated \gls{dCPA} can be compared to some lower threshold limit. If the \gls{dCPA} is below the set threshold
 the next step is to assert which \gls{COLREGs} rule is currently in effect for the \gls{OS}, this is what will be called 'active \gls{COLREGs}
 situation' for the rest of this thesis, and asserting which \gls{COLREGs} is currently in effect will be called 'COLREGs classification'.
 
-\begin{figure}[ht!]
-    \centering
-    \includegraphics[height=0.6\textheight]{Images/COLREGs_assess.png}
-    \caption{COLREGs classification; with OS in the center we can place the TS in one of four regions. Similarly, the relative bearing from TS to OS can be assigned regions with region 1 pointed directly at the OS and the rest following in a clockwise rotation.
-    Courtesy of Emil Thyri.}
-    \label{FIG: COLREGs Classification}
-\end{figure}
 % (Disclaimer: \gls{COLREGs} classification is virtually unchanged from the report delivered as part of the author's fordypningsproject, which is attached
 % as an additional file.)
-(TODO: denne delen av masteroppgaven er veldig lik fordypningsprosjekt...)
+% (TODO: denne delen av masteroppgaven er veldig lik fordypningsprosjekt...)
 There have been multiple studies on \gls{COLREGs} classification, (\cite{woerner2016multi}) lays out an algorithmic approach based on the
 relative bearings between the \gls{OS} and a given \gls{Ts}. In this algorithm numerical values from the \gls{COLREGs} rules are used 
-as the criteria for determining which \gls{COLREGs} situation the \gls{OS} finds itself in. The algorithm yields the expected results,
-but it's a bit opaque and hard to follow. (\cite{tam2010collision}) suggests a similar approach formulated in a more natural language that is easier
+as the criteria for determining which \gls{COLREGs} situation the \gls{OS} finds itself in. 
+
+The algorithm yields the expected results, but it's a bit opaque and hard to follow. 
+(\cite{tam2010collision}) suggests a similar approach formulated in a more natural language that is easier
 and more intuitive to follow. This method first considers the relative bearing from the \gls{Ts} to the \gls{OS}:
 \begin{equation}
     \phi = \textrm{atan2}((E_{TS} - E) , (N_{TS} - N)) - \chi
 \end{equation}
 where $(N_{TS}, E_{TS})$ and $(N, E)$ are the positions of the \gls{Ts} and \gls{OS} respectively, and $\chi$ is the course of the \gls{OS}.
-With the \gls{OS} as a centerpiece, 4 sectors can be defined by angles offset from the \gls{OS}'s course, where
-the relative bearing $\phi$ deciding which sector the \gls{Ts} is in. Similarly, the relative bearing from the \gls{Ts} to the \gls{OS} can be
+With the \gls{OS} as a centerpiece, 4 sectors can be defined by angles offset from the \gls{OS}'s course. The relative bearing $\phi$ 
+deciding which sector the \gls{Ts} is in. Similarly, the relative bearing from the \gls{Ts} to the \gls{OS} can be
 used to determine \gls{COLREGs} situation. See Figure \ref{FIG: COLREGs Classification} for a visualization.
 
-
-With \gls{COLREGs} situation classified the last step is to determine the constraints so that the \gls{OS} behaves compliant with the rules.
+With the \gls{COLREGs} situation classified, the last step is to determine the constraints so that the \gls{OS} behaves compliant with the rules.
 One method, which was written about in the author's Specialization project, is to add circular regions as constraints tied to the position and heading
 of the \gls{Ts} in which the \gls{OS} is in an active situation with. An example of what a singular constraint placed like this would look like
 can be seen in Figure \ref{FIG: Dynamic Constraint Example}. To achieve this the trajectory of the \gls{Ts} must be discretized with the same
@@ -627,7 +641,7 @@ and position of the \gls{Ts} at that instance $\psi_{TS_{k}}$, $(N_{TS_{k}}, E_{
                                         sin(\phi_c)
                                         \end{bmatrix}
 \end{equation}
-where H is the desired distance from the center of the \gls{Ts} to the constraint origin, and $\phi_c$ is the desired relative
+where $H>0$ is the desired distance from the center of the \gls{Ts} to the constraint origin, and $\phi_c$ is the desired relative
 bearing from the \gls{Ts} to the constraint origin. The constraints are added to $\textbf{g}(\omega)$ the following way:
 \begin{equation} \label{EQ: dynamic constraint in g}
     \textbf{g}(\omega) = \begin{bmatrix}
@@ -643,7 +657,7 @@ for $\textbf{g}(\omega)$ denotes the radius of the circle constructed by the con
     \centering
     \includegraphics[width=0.8\textwidth]{Images/Constraint_Example.pdf}
     \caption{Example of a single placed constraint based on the position, heading, and COLREGs classification. Depicted would be a suggested
-    placement for a Give way situation.}
+    placement for a Give-way situation.}
     \label{FIG: Dynamic Constraint Example}
 \end{figure}
 
@@ -672,6 +686,7 @@ for $\textbf{g}(\omega)$ denotes the radius of the circle constructed by the con
 %     \item f.eks agent structs kan bli viktig.
 %     \item Forklar at det er en liten forsjel på hvordan own ship agenten og andre agenter oppdateres, fører til en maksimal 'feil' på 1 meter.
 % \end{itemize}
+
 
 \subsection{Target Ship Prediction}
 % --------- Genereal thoughts --------------------------

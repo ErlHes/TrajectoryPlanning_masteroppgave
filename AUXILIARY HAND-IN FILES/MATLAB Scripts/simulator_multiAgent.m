@@ -105,10 +105,10 @@ end
 % simulation = 'sving_GW';
 % simulation = 'sving_SO';
 % simulation = 'Havn1';
-% simulation = 'skjergard_u_trafikk';
+simulation = 'skjergard_u_trafikk';
 % simulation = 'Helloya';
 % simulation = 'Helloya_Rev';
-simulation = 'skjergard_m_trafikk_NEW';
+% simulation = 'skjergard_m_trafikk_NEW';
 % simulation = 'Trheimfjord';
 % Tweak theese
 
@@ -144,9 +144,9 @@ set_global_map_data(static_obs);
 
 %% Set other global settings
 % settings.simple = 1;
-settings.simple = 1;
+settings.simple = 0;
 settings.big = 0;
-settings.scale = 1.8;
+settings.scale = 1;
 
 %%
 

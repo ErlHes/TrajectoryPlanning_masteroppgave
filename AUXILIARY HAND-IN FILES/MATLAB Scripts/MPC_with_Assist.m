@@ -455,7 +455,7 @@ g_counter = 7;
     
     previous_w_opt = w_opt;
     previous_w_opt_F = w_opt;
-    previous_feasibility = feasibility;
+%     previous_feasibility = feasibility;
     if Solvertime > 30
         previous_w_opt = [];
     end

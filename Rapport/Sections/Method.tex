@@ -42,20 +42,27 @@
 % of the algorithm is that path following is done through numerical optimization of a cost function, whilst collision avoidance and safety
 % is implemented as hard constraints in the \gls{NLP}, together an optimal trajectory is formed. 
 
+\begin{figure}[ht!]
+    \includegraphics[width=\textwidth]{Images/SimpleSystem.pdf}
+    \caption{A simplified overview of the developed algorithm.}
+    \label{FIG: Dataflow chart}
+\end{figure}
+ \newline
 This chapter presents a step-by-step walkthrough of the developed trajectory planning and collision avoidance algorithm, and explains some of the
 design decisions that were made during development. Additionally, the chapter will include some analysis of problems that arose during development,
 and the implementations that were made to overcome them. First the general data flow of the algorithm is presented so that an intuition
 can be gained as for how the individual parts of the algorithm are connected. Secondly each step of the algorithm is presented in the order of execution
 from top to bottom. Lastly a brief look at how the output from the algorithm is put to use. 
 
-The author wants to stress that while the trajectory planner is presented as a finished product, the algorithm was in active development until 12 days before
-the thesis deadline. The code will have bugs, there will be unreadable spaghetti code, and at times logical errors. The code should have been delivered
-as an attachment/appendix, or it can be found on GitHub at: (TODO: LINK).
+% The author wants to stress that while the trajectory planner is presented as a finished product, the algorithm was in active development until 12 days before
+% the thesis deadline. The code will have bugs, there will be unreadable spaghetti code, and at times logical errors. The code should have been delivered
+% as an attachment/appendix, or it can be found on GitHub at: (TODO: LINK).
+The algorithm was developed in MATLAB and the whole project repo can be found at: \url{https://github.com/ErlHes/TrajectoryPlanning_masteroppgave}
 
-(TODO: enten i dette kapittelet eller i discussion må det skrives om tallverdi valg på funksjoner som dcpa grense etc.)
-(TODO: bør vel også nevne at koden er skrevet i MATLAB? er ikke det mest brukte kodespråket i verden).
+% (TODO: enten i dette kapittelet eller i discussion må det skrives om tallverdi valg på funksjoner som dcpa grense etc.)
+% (TODO: bør vel også nevne at koden er skrevet i MATLAB? er ikke det mest brukte kodespråket i verden).
 
-\subsection{Data flow} (TODO: eller Overview?)
+\subsection{Data flow} %(TODO: eller Overview?)
 % \begin{itemize}
 %     \item Begin by explaining the idea behind how the algorithm should work.
 %     \item This chapter will need diagrams.
@@ -70,11 +77,7 @@ representative diagram, not a blueprint. On the left we begin with a higher leve
 relies on getting information about its own vessel and information about other ships, in the diagram called "tracks". Additionally,
 static obstacles and miscellaneous other settings for both debugging and behavior tuning is to be supplied from said higher level system.
 
-\begin{figure}[ht!]
-    \includegraphics[width=\textwidth]{Images/SimpleSystem.pdf}
-    \caption{A simplified overview of the developed algorithm.}
-    \label{FIG: Dataflow chart}
-\end{figure}
+
 
 The algorithm is designed so that full prediction is the assumed standard prediction level. For testing and debugging purposes the tracks
 structure can be modified to emulate the form factor of a simple prediction level, in a real implementation the simplification should not be necessary
@@ -158,7 +161,7 @@ Persistent variables are declared without an initialization, and the method for 
     \end{algorithmic}
 \end{algorithm}
 
-Because persistent variables persist it is advised to manually clear the script when starting the MATLAB simulator, otherwise
+Because persistent variables persist, it is advised to manually clear the script when starting the MATLAB simulator, otherwise
 residual persistent variables from unrelated scenario files can cause debugging problems. In the algorithm there are seven
 persistent variables. Two are used to store the optimal trajectory between iterations. One to store the discretized function F, so it doesn't have to be
 remade every time the algorithm runs. Another for storing COLREGs flag to act as a state machine. One for storing a variable called "firsttime", 
@@ -280,11 +283,12 @@ That way it's possible to know roughly where both vessels should be at the \gls{
 algorithm is therefor split into two parts; the first part is an extended CPA check, the second part is the COLREGs situation assessment. 
 
 A function getCPAlist is created to take two vessel structs as input, one as the assigned \gls{OS}, and the other the \gls{Ts}. The function iterates through all the waypoints
-in the \gls{OS} assigned struct and does three things:\newline
-Figure out the pose of the \gls{OS} and \gls{Ts}.\newline
-Run the CPA check from said pose.\newline
-Calculate the time and distance to next \gls{OS} waypoint so that the pose of the \gls{Ts} at that point can be accurately found.
-
+in the \gls{OS} assigned struct and does three things:
+\begin{itemize}
+    \item Figure out the pose of the \gls{OS} and \gls{Ts}.
+    \item Run the CPA check from said pose.
+    \item Calculate the time and distance to next \gls{OS} waypoint so that the pose of the \gls{Ts} at that point can be accurately found.
+\end{itemize}
 Finding the pose of the \gls{OS} is trivial, the first iteration of the function the pose is just the current position and course of the vessel, for all
 subsequent waypoints the waypoints themselves are the position and the heading is the direction towards the next waypoint. The last waypoint does not need to be checked
 because at that point the \gls{OS} stops moving. While this is a fantastically simple way of integrating forward through the waypoints, the trade-off is less accuracy of the CPA check
@@ -352,7 +356,7 @@ is that having many control intervals stationary at the end position can unbalan
 The dynamic horizon can also be coded so that it's dynamic with respects to COLREGs situations; always having enough control intervals to clear the further out
 COLREGs situation, but less control intervals than the nominal value so the \gls{NLP} can be solved faster, which would lead to a better reactive performance.
 
-The distance between two waypoints $\textrm{WP}_1 = (N_1, E_1)$,  $\textrm{WP}_0 = (N_0, E_0)$  is calculated with by the following equation:
+The distance between two waypoints $\textrm{WP}_1 = (N_1, E_1)$,  $\textrm{WP}_0 = (N_0, E_0)$  is calculated by the following equation:
 \begin{equation} \label{EQ: Distancebetweenpoints}
     D_{1} = \sqrt{(N_1 - N_0)^2 + (E_1 - E_0)^2}
 \end{equation}
@@ -363,10 +367,10 @@ which means the distance to goal is the sum of all distances between waypoints:
 with $\textrm{WP}_0$ being the position of the \gls{OS} and $\textrm{WP}_N$ being the goal. Assuming a near constant velocity the time to
 reach goal is:
 \begin{equation}
-    T_{goal} = \frac{D_{goal}}{u}
+    T_{goal} = \frac{D_{goal}}{\sqrt{u^2 + v^2}}
 \end{equation}
-where $u$ is the surge of the \gls{OS}. It's not necessary for this check to be 100\% accurate, it is expected that the \gls{OS} will deviate from the
-path due to physical constraints and obstacles anyway. To prevent accidentally dividing by zero the surge is capped at a lower bound value of $0.001m/s$.
+where $u$ and $v$ are the surge and sway speed of the \gls{OS}. It's not necessary for this check to be 100\% accurate, it is expected that the \gls{OS} will deviate from the
+path due to physical constraints and obstacles anyway. To prevent accidentally dividing by zero the surge speed is capped at a lower bound value of $0.001m/s$.
 \begin{lstlisting}
 if vessel.nu(1) < 0.001
     vessel.nu(1) = 0.001;

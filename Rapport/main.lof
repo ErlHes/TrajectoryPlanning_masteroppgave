@@ -3,17 +3,17 @@
 \babel@toc {norsk}{}\relax 
 \babel@toc {british}{}\relax 
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {1}{\ignorespaces A ship's 6 degrees of Freedom, from (\cite {fossen2011handbook}).\relax }}{4}{figure.caption.8}%
+\contentsline {figure}{\numberline {1}{\ignorespaces A ship's 6 degrees of freedom, from (\cite {fossen2011handbook}).\relax }}{4}{figure.caption.8}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {2}{\ignorespaces Line of sight guidance geometry for straight lines, here with zero sideslip. Image courtesy of (\cite {lekkas2013line})\relax }}{7}{figure.caption.10}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Line of sight guidance geometry for straight lines, here with zero sideslip. Image courtesy of (\cite {lekkas2013line}).\relax }}{7}{figure.caption.10}%
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {3}{\ignorespaces A physically feasible trajectory is formed by "pinching" the shooting gaps close. Reproduction from (\cite {gros2017Lecture}).\relax }}{9}{figure.caption.13}%
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {4}{\ignorespaces Visualizing dCPA and tCPA.\relax }}{11}{figure.caption.17}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {5}{\ignorespaces COLREGs classification; with OS in the center we can place the TS in one of four regions. Similarly, the relative bearing from TS to OS can be assigned regions with region 1 pointed directly at the OS and the rest following in a clockwise rotation. Courtesy of Emil Thyri.\relax }}{12}{figure.caption.18}%
+\contentsline {figure}{\numberline {5}{\ignorespaces COLREGs classification; with OS in the center we can place the TS in one of four regions. Similarly, the relative bearing from TS to OS can be assigned regions with region 1 pointed directly at the OS and the rest following in a clockwise rotation. Courtesy of (\cite {Thyri2021b}).\relax }}{12}{figure.caption.18}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {6}{\ignorespaces Example of a single placed constraint based on the position, heading, and COLREGs classification. Depicted would be a suggested placement for a Give way situation.\relax }}{14}{figure.caption.19}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Example of a single placed constraint based on the position, heading, and COLREGs classification. Depicted would be a suggested placement for a Give-way situation.\relax }}{14}{figure.caption.19}%
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {7}{\ignorespaces Photo of a typical ENC, here we can see the lines formed by saving AIS positional data over time. Image courtesy of Olex AS.\relax }}{14}{figure.caption.20}%
 \defcounter {refsection}{0}\relax 
@@ -21,27 +21,27 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {9}{\ignorespaces First approach to placing static obstacle constraints, accurate but lead to overload of constraints and poor computational performance.\relax }}{26}{figure.caption.32}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {10}{\ignorespaces Second approach to placing static obstacle constraints, avoiding the constraint overload at the cost of greatly reducing available space.\relax }}{27}{figure.caption.33}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Second approach to placing static obstacle constraints, avoiding the constraint overload at the cost of greatly reducing available space.\relax }}{26}{figure.caption.33}%
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {11}{\ignorespaces Geometry for straight line constraints used to handle static obstacles.\relax }}{28}{figure.caption.35}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {12}{\ignorespaces Current approach to placing static obstacle constraints, ditching the circular constraints in favor of straight lines based on proximity. Combines the best of both prior versions.\relax }}{29}{figure.caption.36}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Current approach to placing static obstacle constraints, ditching the circular constraints in favor of straight lines based on proximity. Combines the best of both prior versions.\relax }}{28}{figure.caption.36}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {13}{\ignorespaces Simple Head on situation. Result independent of prediction level.\relax }}{34}{figure.caption.46}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Simple Head-on situation. Result independent of prediction level.\relax }}{34}{figure.caption.46}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {14}{\ignorespaces Simple Give Way situation. Result independent of prediction level.\relax }}{35}{figure.caption.47}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Simple Give-way situation. Result independent of prediction level.\relax }}{35}{figure.caption.47}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {15}{\ignorespaces Simple stand on situation. Here shown with full prediction, \gls {OS} correctly stands on.\relax }}{36}{figure.caption.48}%
+\contentsline {figure}{\numberline {15}{\ignorespaces Simple Stand-on situation. Here shown with full prediction, \gls {OS} correctly stands on.\relax }}{36}{figure.caption.48}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {16}{\ignorespaces Simple stand on situation. Here shown with simple prediction, the \gls {OS} can be observed to yield when it shouldn't.\relax }}{37}{figure.caption.49}%
+\contentsline {figure}{\numberline {16}{\ignorespaces Simple Stand-on situation. Here shown with simple prediction, the \gls {OS} can be observed to yield when it shouldn't.\relax }}{37}{figure.caption.49}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {17}{\ignorespaces Head on situation with a turn, Result for this were the same regardless of prediction level.\relax }}{39}{figure.caption.50}%
+\contentsline {figure}{\numberline {17}{\ignorespaces Head-on situation with a turn, Result for this were the same regardless of prediction level.\relax }}{39}{figure.caption.50}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {18}{\ignorespaces Give way with a turn, here with full prediction. Observe the \gls {OS} not execting to have to yield until it's almost too late.\relax }}{40}{figure.caption.51}%
+\contentsline {figure}{\numberline {18}{\ignorespaces Give-way with a turn, here with full prediction. Observe the \gls {OS} not execting to have to yield until it's almost too late.\relax }}{40}{figure.caption.51}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {19}{\ignorespaces Give way with a turn, here with simple prediction. Observe as the OS gets dragged along by the constraints of the turning TS.\relax }}{41}{figure.caption.52}%
+\contentsline {figure}{\numberline {19}{\ignorespaces Give-way with a turn, here with simple prediction. Observe as the OS gets dragged along by the constraints of the turning TS.\relax }}{41}{figure.caption.52}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {20}{\ignorespaces Stand on situation with turn. Result independent of prediction level.\relax }}{42}{figure.caption.53}%
+\contentsline {figure}{\numberline {20}{\ignorespaces Stand-on situation with turn. Result independent of prediction level.\relax }}{42}{figure.caption.53}%
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {21}{\ignorespaces Canals situation. Here shown with full prediction.\relax }}{45}{figure.caption.55}%
 \defcounter {refsection}{0}\relax 

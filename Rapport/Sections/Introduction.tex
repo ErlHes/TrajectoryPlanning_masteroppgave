@@ -7,21 +7,33 @@
 % \end{itemize}
 % This chapter ...
 \subsection{Motivation}
-\begin{itemize}
-    \item Worked on the same subject matter for a "fordypningsprosjekt" (finn godt ord).
-    \item Autonomous vehicle control is an important milestone on the journey to a fully autonomous life.
-    \item It's also just fricking cool on a conceptual level.
-    \item Fishing industries and other marine industries are 'behind the curve' and not given as much attention as land based industries.
-    \item A great learning opportunity for practical implementations of theory learned over the past two years.
-    \item All in all a highly relevant project for the career trajectory I want.
-    \item AI is pretty cool too I guess
-    \item wanted to see if there could be a difference if autonomous vessels had more advanced prediction algorithms.
-    \item just make something up.
-    \item Find picture of some autonomous vessel or ferry
-\end{itemize}
+% \begin{itemize}
+%     \item Worked on the same subject matter for a "fordypningsprosjekt" (finn godt ord).
+%     \item Autonomous vehicle control is an important milestone on the journey to a fully autonomous life.
+%     \item It's also just fricking cool on a conceptual level.
+%     \item Fishing industries and other marine industries are 'behind the curve' and not given as much attention as land based industries.
+%     \item A great learning opportunity for practical implementations of theory learned over the past two years.
+%     \item All in all a highly relevant project for the career trajectory I want.
+%     \item AI is pretty cool too I guess
+%     \item wanted to see if there could be a difference if autonomous vessels had more advanced prediction algorithms.
+%     \item just make something up.
+%     \item Find picture of some autonomous vessel or ferry
+% \end{itemize}
 
-I remember when I took the subject TTK4115 - Linear System Theory; I thought to myself "I'm never gonna need this MPC stuff"... 
-funny how that worked out.
+In recent years automation has gotten a lot of media attention; self-driving cars, robots, drones. Everyone seems to be interested in
+the possibilities that automation could afford us. Imagine no commute, no waiting for the delivery driver, robots to do our labor
+for us. The journey towards a true post-scarcity society involves autonomous machines, and I want to participate in the process that speeds
+up this development. Not only do I think automation could significantly improve the living and working conditions for everyone, I find
+the concepts used when developing these automatas to be fascinating.
+
+Autonomous surface vessels have mostly been in development outside the public eye, but there have been some great progress made in recent years. 
+Multiple actors are currently developing both autonomous ferries and container ships. This is a very underappreciated development, especially
+in a coastal nation such as Norway where so much of our industry happens offshore.
+
+
+
+
+I remember when learning about linear system theory I thought to myself "I'm never gonna need this MPC stuff". Funny how that worked out.
 
 \subsection{Previous Work}
 \begin{itemize}
@@ -74,7 +86,7 @@ The following objectives are proposed for this thesis:
 
 \subsection{Contributions}
 \begin{itemize}
-    \item A novel MPC based path following trajectory planner that accounts for both static and dynamic obstacles.
+    \item An MPC based path following trajectory planner that is COLREGs aware and able to avoid static obstacles.
     \item An evaluation of the fitness of numerical optimization as trajectory planning backbone.
     \item Documented simulations experimenting with the difference 'Prediction Levels' make.
     \item Documented problems that numerical optimization based trajectory planner algorithms might encounter.
@@ -82,6 +94,7 @@ The following objectives are proposed for this thesis:
 \end{itemize}
 
 \subsection{Outline}
+The thesis is laid out in five parts, the introduction you just read was chapter 1. The rest of the chapters are as follows:
 \begin{itemize}
     \item Chapter 2 presents the full theoretical background needed to understand the development of the trajectory planning algorithm.
     \item Chapter 3 is a step-by-step walkthrough of the algorithm development.
